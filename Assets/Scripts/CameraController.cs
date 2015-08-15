@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour {
 	
 	public GameObject player;
 	public float camSpeed;
+	// The distance the mouse pointer needs to be from the edge before the screen moves.
 	public float GUISize;
 	
 	private Vector3 offset;
