@@ -18,6 +18,7 @@ public class MainCanvasButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//EscMenu.SetActive (false);
 		hideAll ();
 		ChangeTab (1);
 	}
@@ -80,6 +81,7 @@ public class MainCanvasButton : MonoBehaviour {
 		TutorialMenu.SetActive (false);
 			EscMenu.SetActive(true);
 		} else {
+			ChangeTab(1);
 			TutorialMenu.SetActive(true);
 			EscMenu.SetActive(false);
 		}
@@ -95,6 +97,10 @@ public class MainCanvasButton : MonoBehaviour {
 
 	public void FullGameQuit(){
 		Application.Quit ();
+	}
+
+	public void LoadLevel (string level) {
+		Application.LoadLevel(level);
 	}
 
 }
