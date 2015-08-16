@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pick Up
   - player
+  - Room
   layers:
   - Default
   - TransparentFX
