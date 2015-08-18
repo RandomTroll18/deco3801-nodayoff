@@ -8,20 +8,29 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 
 	public float speed = 10f; // Move speed
-	private Item[] inventory = new Item[10]; // Inventory
 	public Text inventoryText ; // Inventory text
 
-	/*
-	 * Variable keeping track of the earliest available 
-	 * spot in the inventory
-	 */
-	private int availableSpot = 0;
+	// TODO: make another class
+	public GameObject leftCollider;
+	public GameObject rightCollider;
+	public GameObject upCollider;
+	public GameObject downCollider;
+	private MapCollisionDetector leftDetector;
+	private MapCollisionDetector rightDetector;
+	private MapCollisionDetector upDetector;
+	private MapCollisionDetector downDetector;
+
+
+	private Item[] inventory = new Item[10]; // Inventory
+
+
+	private int availableSpot = 0; //earliest available spot in inventory
 
 	/*
 	 * Physics objects
 	 */
 	//private BoxCollider boxCollider; - Might not be needed
-	//private Rigidbody rigidBody;
+	private Rigidbody rigidbody;
 
 	/**
 	 * Do the following to start the player:
@@ -29,24 +38,33 @@ public class Player : MonoBehaviour {
 	 * - Set all valuesin inventory to null
 	 */
 	void Start () {
-		//rigidBody = GetComponent<Rigidbody>();
+		rigidbody = GetComponent<Rigidbody>();
 		initializeInventory();
+
+		leftDetector = leftCollider.GetComponent <MapCollisionDetector> ();
+		rightDetector = rightCollider.GetComponent <MapCollisionDetector> ();
+		upDetector = upCollider.GetComponent <MapCollisionDetector> ();
+		downDetector = downCollider.GetComponent <MapCollisionDetector> ();
 	}
 
-	/**
-	 * Function used to update things per frame
-	 */
 	void Update () {
 		updateInventoryText();
 	}
-	
-	// Update (every frame)
-	void FixedUpdate () {
-		float MoveForward = Input.GetAxis("Vertical") * 10 * Time.deltaTime;
-		float MoveRotate = Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
-		
-		transform.Translate(Vector3.forward * MoveForward);
-		transform.Rotate(Vector3.up * MoveRotate);
+
+	void FixedUpdate() {
+		Vector3? newPos =  null;
+		Vector3 currentPos = transform.position;
+		if (Input.GetKeyDown("w") && !upDetector.isColliding ()) {
+			rigidbody.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z + 1));
+		} else if (Input.GetKeyDown ("s") && !downDetector.isColliding ()) {
+			rigidbody.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z - 1));
+		} else if (Input.GetKeyDown ("a") && !leftDetector.isColliding ()) {
+			rigidbody.MovePosition(new Vector3(currentPos.x - 1, currentPos.y, currentPos.z));
+		} else if (Input.GetKeyDown ("d") && !rightDetector.isColliding ()) {
+			rigidbody.MovePosition(new Vector3(currentPos.x + 1, currentPos.y, currentPos.z));
+		}
+		if (newPos.HasValue)
+			transform.position = newPos.Value;
 	}
 
 	/**
