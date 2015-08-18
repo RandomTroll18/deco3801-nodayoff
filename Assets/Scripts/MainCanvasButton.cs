@@ -11,6 +11,8 @@ public class MainCanvasButton : MonoBehaviour {
 	public GameObject text6;
 	public GameObject TutorialMenu;
 	public GameObject EscMenu;
+	public GameObject SettingMenu;
+	public GameObject PopupPanel;
 	/* public GameObject text7;
 	public GameObject text8;
 	public GameObject testText; */
@@ -41,13 +43,27 @@ public class MainCanvasButton : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Back ();
+		}
+	}
+
+	public void Back(){
+		if (EscMenu.activeInHierarchy){
+			Toggle(EscMenu);
+			PopupPanel.SetActive(true);
+		} else {
 			if (TutorialMenu.activeInHierarchy) {
-				ToggleTutorialMenu();
+				Toggle(TutorialMenu);
+				ChangeTab(1);
+				Toggle(EscMenu);  //Re-open Esc
+			} else if(SettingMenu.activeInHierarchy) {
+				Toggle(SettingMenu);
+				Toggle(EscMenu); //Re-open Esc
 			} else {
-				ToggleEscMenu();
+				Toggle(EscMenu);
+				PopupPanel.SetActive(false);
 			}
 		}
-
 	}
 
 	public void ChangeTab (int tabNumber) {
@@ -76,6 +92,7 @@ public class MainCanvasButton : MonoBehaviour {
 
 	}
 
+	/*
 	public void ToggleTutorialMenu(){
 		if (TutorialMenu.activeInHierarchy) {
 		TutorialMenu.SetActive (false);
@@ -94,6 +111,24 @@ public class MainCanvasButton : MonoBehaviour {
 			EscMenu.SetActive(true);
 		}
 	}
+	 */
+
+	public void Toggle(GameObject target) {
+		if (target != EscMenu) {
+			EscMenu.SetActive(false);
+		}
+
+		if (target.activeInHierarchy) {
+			target.SetActive(false);
+		} else {
+			target.SetActive(true);
+		}
+
+	}
+
+	public void DefaultSettingButton(GameObject target1, GameObject target2, GameObject target3) {
+		
+	}
 
 	public void FullGameQuit(){
 		Application.Quit ();
@@ -102,5 +137,6 @@ public class MainCanvasButton : MonoBehaviour {
 	public void LoadLevel (string level) {
 		Application.LoadLevel(level);
 	}
+	
 
 }

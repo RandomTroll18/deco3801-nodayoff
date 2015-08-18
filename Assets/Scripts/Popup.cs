@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Popup : MonoBehaviour {
 
+	public GameObject MainPanel;
 	public int currentPanel;
 	public GameObject[] panels;
 	//panels = new GameObject[totalPanel];
@@ -24,5 +25,9 @@ public class Popup : MonoBehaviour {
 		if (currentPanel < panels.Length) {
 			panels [currentPanel].SetActive (true);
 		}
+	}
+
+	public void ToggleVisibility(){
+		
 	}
 }
