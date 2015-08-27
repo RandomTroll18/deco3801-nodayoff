@@ -4,20 +4,6 @@ using System.Collections;
 public class PlayerUIScript : MonoBehaviour {
 
 	/**
-	 * Make the inventory interface appear
-	 * 
-	 * Arguments
-	 * - GameObject InventoryInterface - The inventory interface
-	 */
-	public void toggleInventory (GameObject InventoryInterface) {
-		if (InventoryInterface.activeInHierarchy) {
-			InventoryInterface.SetActive(false);
-		} else {
-			InventoryInterface.SetActive(true);
-		}
-	}
-
-	/**
 	 * Enable/Disable panning of the camera
 	 * 
 	 * Arguments

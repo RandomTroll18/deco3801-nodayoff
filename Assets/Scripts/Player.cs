@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 
 	public float speed = 10f; // Move speed
-	public Text inventoryText ; // Inventory text
 
 	// TODO: make another class
 	public GameObject leftCollider;
@@ -48,7 +47,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
-		updateInventoryText();
+
 	}
 
 	void FixedUpdate() {
@@ -88,26 +87,6 @@ public class Player : MonoBehaviour {
 	 */
 	void initializeInventory () {
 		for (int i = 0; i < 10; ++i) this.inventory[i] = null;
-	}
-
-	/**
-	 * Function used to update the inventory text
-	 */
-	public void updateInventoryText () {
-		// Newline character
-		string newline = System.Environment.NewLine;
-
-		// First, start with "Inventory: " 
-		this.inventoryText.text = "Inventory: " + newline + newline;
-
-		if (this.availableSpot == 0) {
-			this.inventoryText.text += "No items in your inventory" + newline;
-			return;
-		}
-		// Second, print out the string of all the inventory items
-		for (int i = 0; i < this.availableSpot; ++i) {
-			this.inventoryText.text += this.inventory[i] + newline;
-		}
 	}
 
 }
