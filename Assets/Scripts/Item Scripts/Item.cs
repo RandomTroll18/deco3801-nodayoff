@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 /**
  * This is an abstract class which should be inherited 
@@ -8,6 +9,7 @@ using System.Collections;
 public abstract class Item : MonoBehaviour {
 
 	public string itemName; // The name of this item
+	public Sprite image; // The icon for this image
 	protected string itemDescription; // The description of this item
 
 	/*

@@ -21,6 +21,12 @@ public class Player : MonoBehaviour {
 
 
 	private Item[] inventory = new Item[10]; // Inventory
+	/* Array containing references to the actual physical items that were picked up */
+	private GameObject[] physicalItems = new GameObject[10];
+	/* Array containing references to inventory UI slots */
+	public GameObject[] inventoryUI = new GameObject[10];
+	/* The default icon for inventory slots */
+	private Sprite defaultIcon = Resources.Load<Sprite>("Background");
 
 
 	private int availableSpot = 0; //earliest available spot in inventory
@@ -73,10 +79,13 @@ public class Player : MonoBehaviour {
 		if (other.gameObject.CompareTag("Item")) {
 			if (availableSpot == 10) return; // No more room
 			// We collided with an item. Pick it up
+			this.physicalItems[availableSpot] = other.gameObject;
 			Item item = other.GetComponent<Item>();
 			Debug.Log("Item just collided with: " + item.itemName);
 			Debug.Log("Item toString: " + other.GetComponent<Item>());
 			this.inventory[availableSpot] = other.GetComponent<Item>();
+			Debug.Log("Item image: " + item.image);
+			this.inventoryUI[availableSpot].GetComponent<Image>().sprite = item.image;
 			other.gameObject.SetActive(false); // Make object disappear
 			availableSpot++; // Increment available spot
 		}
@@ -86,7 +95,10 @@ public class Player : MonoBehaviour {
 	 * Function used to initialize inventory array
 	 */
 	void initializeInventory () {
-		for (int i = 0; i < 10; ++i) this.inventory[i] = null;
+		for (int i = 0; i < 10; ++i) { 
+			this.inventory[i] = null;
+			this.physicalItems[i] = null;
+		}
 	}
 
 }
