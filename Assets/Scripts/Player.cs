@@ -26,7 +26,7 @@ public class Player : MonoBehaviour {
 	/* Array containing references to inventory UI slots */
 	public GameObject[] inventoryUI = new GameObject[10];
 	/* The default icon for inventory slots */
-	private Sprite defaultIcon = Resources.Load<Sprite>("Background");
+	private Sprite defaultIcon;
 
 
 	private int availableSpot = 0; //earliest available spot in inventory
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour {
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
 		initializeInventory();
+		this.defaultIcon = Resources.Load<Sprite>("Background");
 
 		leftDetector = leftCollider.GetComponent <MapCollisionDetector> ();
 		rightDetector = rightCollider.GetComponent <MapCollisionDetector> ();
