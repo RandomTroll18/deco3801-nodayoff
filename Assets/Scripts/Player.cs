@@ -18,15 +18,11 @@ public class Player : MonoBehaviour {
 	private MapCollisionDetector rightDetector;
 	private MapCollisionDetector upDetector;
 	private MapCollisionDetector downDetector;
-
-
+	
 	private Item[] inventory = new Item[10]; // Inventory
-	/* Array containing references to the actual physical items that were picked up */
-	private GameObject[] physicalItems = new GameObject[10];
-	/* Array containing references to inventory UI slots */
-	public GameObject[] inventoryUI = new GameObject[10];
-	/* The default icon for inventory slots */
-	private Sprite defaultIcon;
+	private GameObject[] physicalItems = new GameObject[10]; // Items' Game Objects
+	public GameObject[] inventoryUI = new GameObject[10]; // UI Slots
+	//private Sprite defaultIcon; // Default icon for inventory slots
 
 
 	private int availableSpot = 0; //earliest available spot in inventory
@@ -35,7 +31,7 @@ public class Player : MonoBehaviour {
 	 * Physics objects
 	 */
 	//private BoxCollider boxCollider; - Might not be needed
-	private Rigidbody rigidbody;
+	public Rigidbody rb;
 
 	/**
 	 * Do the following to start the player:
@@ -43,9 +39,9 @@ public class Player : MonoBehaviour {
 	 * - Set all valuesin inventory to null
 	 */
 	void Start () {
-		rigidbody = GetComponent<Rigidbody>();
+		this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
-		this.defaultIcon = Resources.Load<Sprite>("Background");
+		//this.defaultIcon = Resources.Load<Sprite>("Background");
 
 		leftDetector = leftCollider.GetComponent <MapCollisionDetector> ();
 		rightDetector = rightCollider.GetComponent <MapCollisionDetector> ();
@@ -61,13 +57,13 @@ public class Player : MonoBehaviour {
 		Vector3? newPos =  null;
 		Vector3 currentPos = transform.position;
 		if (Input.GetKeyDown("w") && !upDetector.isColliding ()) {
-			rigidbody.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z + 1));
+			rb.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z + 1));
 		} else if (Input.GetKeyDown ("s") && !downDetector.isColliding ()) {
-			rigidbody.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z - 1));
+			rb.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z - 1));
 		} else if (Input.GetKeyDown ("a") && !leftDetector.isColliding ()) {
-			rigidbody.MovePosition(new Vector3(currentPos.x - 1, currentPos.y, currentPos.z));
+			rb.MovePosition(new Vector3(currentPos.x - 1, currentPos.y, currentPos.z));
 		} else if (Input.GetKeyDown ("d") && !rightDetector.isColliding ()) {
-			rigidbody.MovePosition(new Vector3(currentPos.x + 1, currentPos.y, currentPos.z));
+			rb.MovePosition(new Vector3(currentPos.x + 1, currentPos.y, currentPos.z));
 		}
 		if (newPos.HasValue)
 			transform.position = newPos.Value;
@@ -105,6 +101,47 @@ public class Player : MonoBehaviour {
 			this.inventory[i] = null;
 			this.physicalItems[i] = null;
 		}
+	}
+
+	/**
+	 * Function used to drop the given item
+	 * 
+	 * Arguments
+	 * - GameObject contextAwareBox - The context aware box
+	 */
+	public void dropItem (GameObject contextAwareBox) {
+		Item item = 
+				(Item)contextAwareBox
+				.GetComponent<ContextAwareBoxScript>()
+				.getAttachedObject();
+		int itemIndex; // The index of the given item
+		if (item == null) {
+			Debug.Log ("No item attached");
+			return;
+		}
+		itemIndex = getIndex(item);
+		if (itemIndex == -1) {
+			Debug.Log ("Item not found");
+			return;
+		}
+		Debug.Log ("Item: " + item.itemName + " Dropped");
+	}
+
+	/**
+	 * Function that gets the index of the given item
+	 * 
+	 * Arguments
+	 * - Item item - The item being looked for
+	 *
+	 * Returns
+	 * - The index of the item given, if it is inside the array
+	 * - -1 otherwise
+	 */
+	private int getIndex (Item item) {
+		for (int i = 0; i < 10; ++i) {
+			if (this.inventory[i].Equals(item)) return i;
+		}
+		return -1; // Item not found
 	}
 
 }

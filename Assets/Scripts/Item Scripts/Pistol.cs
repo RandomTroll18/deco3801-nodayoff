@@ -36,22 +36,25 @@ public class Pistol : ShortRangeWeapon {
 	 * - A string providing info on this item
 	 */
 	public override string ToString () {
-		string newline = System.Environment.NewLine; // Newline char
-
 		// The string to return. Start with the name
-		string toReturn = "Item Name: " + this.name + newline;
+		string toReturn = "Item Name: " + this.name 
+				+ StringMethodsScript.NEWLINE;
 		
 		// Next, add item description
-		toReturn += "Description: " + this.itemDescription + newline;
+		toReturn += "Description: " + this.itemDescription 
+				+ StringMethodsScript.NEWLINE;
 		
 		// Next, add the amount of damage this weapon does
-		toReturn += "Damage: " + this.damage + newline;
+		toReturn += "Damage: " + this.damage 
+				+ StringMethodsScript.NEWLINE;
 
 		// Next, add the range of this weapon
-		toReturn += "Range: " + this.range + newline;
+		toReturn += "Range: " + this.range 
+				+ StringMethodsScript.NEWLINE;
 
 		// Next, add the number of rounds left and return the final string
-		toReturn += "Rounds Left: " + this.rounds + newline;
+		toReturn += "Rounds Left: " + this.rounds 
+				+ StringMethodsScript.NEWLINE;
 		return toReturn;
 	}
 }

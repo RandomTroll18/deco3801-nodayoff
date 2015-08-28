@@ -19,8 +19,9 @@ public class CameraController : MonoBehaviour {
 	}
 
 	class OpenTile : Tile {
-		public int depth;
-		public Tile parent;
+		/* Commented out for the sake of removing warnings */
+		//public int depth;
+		//public Tile parent;
 	}
 
 	class TileComparer : IComparer<Tile> {

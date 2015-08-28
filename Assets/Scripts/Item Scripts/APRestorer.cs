@@ -32,19 +32,21 @@ public class APRestorer : RecoveryConsumables {
 	 * - A string providing info on this item
 	 */
 	public override string ToString () {
-		string newline = System.Environment.NewLine; // Newline char
 		string valueEffectString = "Value increase: "; // The values to affect stat by
 		string statString = "Stats affected: "; // The stats affected
 		int numberOfEffects = this.statsAffected.Length; // As it says
 
 		// The string to return. Start with the name
-		string toReturn = "Item Name: " + this.name + newline;
+		string toReturn = "Item Name: " + this.name 
+				+ StringMethodsScript.NEWLINE;
 
 		// Next, add item description
-		toReturn += "Description: " + this.itemDescription + newline;
+		toReturn += "Description: " + this.itemDescription 
+				+ StringMethodsScript.NEWLINE;
 
 		// Next, add the amount of this item
-		toReturn += "Amount: " + this.amount + newline;
+		toReturn += "Amount: " + this.amount 
+			+ StringMethodsScript.NEWLINE;
 
 		/*
 		 * Next, add the stats affected along with the value by which 
@@ -53,16 +55,20 @@ public class APRestorer : RecoveryConsumables {
 		 * than one effect, then change the values below accordingly
 		 */
 		for (int i = 0; i < (numberOfEffects - 1); ++i) {
-			valueEffectString += newline + this.valueEffect[i] + ", ";
-			statString += newline
+			valueEffectString += StringMethodsScript.NEWLINE 
+					+ this.valueEffect[i] + ", ";
+			statString += StringMethodsScript.NEWLINE
 					+ EnumsToString.convertStatEnum(this.statsAffected[i])
 					+ ", ";
 		}
-		valueEffectString += newline + this.valueEffect[numberOfEffects - 1] + ".";
-		statString += newline + this.statsAffected[numberOfEffects - 1] + ".";
+		valueEffectString += StringMethodsScript.NEWLINE 
+				+ this.valueEffect[numberOfEffects - 1] + ".";
+		statString += StringMethodsScript.NEWLINE 
+				+ this.statsAffected[numberOfEffects - 1] + ".";
 
 		// Concatenate strings together and return the final string
-		toReturn += statString + newline + valueEffectString + newline;
+		toReturn += statString + StringMethodsScript.NEWLINE 
+			+ valueEffectString + StringMethodsScript.NEWLINE;
 		return toReturn;
 	}
 }

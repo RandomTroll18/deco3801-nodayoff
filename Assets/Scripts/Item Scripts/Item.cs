@@ -35,4 +35,20 @@ public abstract class Item : MonoBehaviour {
 	protected Stat[] statsAffected; 
 	protected double[] valueEffect;
 
+	/**
+	 * Function used to activate the item. 
+	 * Overridable by subclasses
+	 */
+	public virtual void Activate () {
+		Debug.Log ("Item: " + this.itemName + " Activated");
+	}
+
+
+	/**
+	 * Function used to activate this item's turn status effects
+	 * Overridable by subclasses
+	 */
+	public virtual void inflictTurnStatEffect () {
+		Debug.Log ("Turn-based stat effect activated");
+	}
 }

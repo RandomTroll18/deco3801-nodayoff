@@ -7,5 +7,5 @@ using System.Collections;
  */
 public abstract class Armour : Equipment {
 
-	//protected ArmourSlots armourSlot; // The slot used by this armour
+	/* May be obsolete */
 }

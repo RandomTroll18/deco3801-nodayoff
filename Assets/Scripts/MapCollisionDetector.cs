@@ -8,7 +8,7 @@ public class MapCollisionDetector : MonoBehaviour {
 
 	void Start () {
 		GameObject playeObject = GameObject.FindWithTag ("Player");
-		if (player != null) {
+		if (player == null) {
 			player = playeObject.GetComponent <Player>();
 		}
 		if (player == null) {
