@@ -77,8 +77,12 @@ public class Player : MonoBehaviour {
 	 * Function handling collision with a trigger item
 	 */
 	void OnTriggerEnter (Collider other) {
+		InventoryUISlotScript uiSlotScript; // The ui slot script
 		if (other.gameObject.CompareTag("Item")) {
 			if (availableSpot == 10) return; // No more room
+			// Get the ui slot script
+			uiSlotScript = 
+					this.inventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
 			// We collided with an item. Pick it up
 			this.physicalItems[availableSpot] = other.gameObject;
 			Item item = other.GetComponent<Item>();
@@ -87,6 +91,7 @@ public class Player : MonoBehaviour {
 			this.inventory[availableSpot] = other.GetComponent<Item>();
 			Debug.Log("Item image: " + item.image);
 			this.inventoryUI[availableSpot].GetComponent<Image>().sprite = item.image;
+			uiSlotScript.insertItem(item);
 			other.gameObject.SetActive(false); // Make object disappear
 			availableSpot++; // Increment available spot
 		}
