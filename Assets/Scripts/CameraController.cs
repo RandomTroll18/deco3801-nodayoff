@@ -88,14 +88,17 @@ public class CameraController : MonoBehaviour {
 	// The distance the mouse pointer needs to be from the edge before the screen moves.
 	public float GUISize;
 	public LayerMask layerMask;
+	public float speed;
 
 	private Vector3 offset;
 	private HashSet<Tile> blockedTiles = new HashSet<Tile> (new TileEqualityComparer ());
+	private bool moving = false;
+	private LinkedList<Tile> path;
 	
 	void Start () {
 		offset = transform.position - player.transform.position;
 
-		// Initalise set of all blocked tiles
+		// Initalises set of all blocked tiles
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag ("Blocker");
 		foreach (GameObject blocker in blockers) {
 			// TODO: consider the declared size of each tile
@@ -107,9 +110,9 @@ public class CameraController : MonoBehaviour {
 
 		foreach (Tile tile in blockedTiles) {
 			Debug.Log (tile.x + " " + tile.z);
-			GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			Vector3 v = TileMiddle (tile);
-			o.transform.position = v;
+//			GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cube);
+//			Vector3 v = TileMiddle (tile);
+//			o.transform.position = v;
 		}
 	}
 
@@ -133,8 +136,12 @@ public class CameraController : MonoBehaviour {
 			transform.Translate(camSpeed, 0, 0, Space.World);
 
 
-		// Mouse click detection
-		if (Input.GetMouseButtonUp (0)) {
+		// TODO: WASD
+		// Should behave like a mouse click at a fixed offset
+
+
+		// Mouse click detection and path finding
+		if (!moving && Input.GetMouseButtonUp (0)) {
 			Tile goal = null;
 
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -146,38 +153,48 @@ public class CameraController : MonoBehaviour {
 				Debug.Log (goal.x + " " + goal.z);
 			}
 
-			if (goal != null && !blockedTiles.Contains (goal)) {
-				// Finds the shortest path from current tile to goal tile
-				Queue<OpenTile> q = new Queue<OpenTile>();
-				q.Enqueue (new OpenTile (PlayerPosition()));
-				while (q.Count != 0) {
-					OpenTile current = q.Dequeue();
+			OpenTile dest = FindPath (goal);
+			if (dest != null) {
+				moving = true;
+				path = FlipPath (dest);
+			}
 
-					if (current.Equals (goal)) {
-						Debug.Log ("done");
-						// TODO: replace since the shortest path has been found
-						while (current != null) {
-							Debug.Log (current.ToString ());
-							current = current.parent;
-						}
-						break;
-					}
-
-					for (int z = 1; z >= -1; z -= 2) {
-						Tile neighbour = new Tile (current.x + 0, current.z + z);
-						if (!blockedTiles.Contains (neighbour)) {
-							q.Enqueue (new OpenTile (current, neighbour));
-						}
-					}
-					for (int x = 1; x >= -1; x -= 2) {
-						Tile neighbour = new Tile (current.x + x, current.z + 0);
-						if (!blockedTiles.Contains (neighbour)) {
-							q.Enqueue (new OpenTile (current, neighbour));
-						}
-					}
-				}
+			// Just for logging
+			while (dest != null) {
+				Debug.Log (dest.ToString ());
+				dest = dest.parent;
 			}
 		}
+
+		/* Movement. Note that right now this is shifting the transform but we could do it the physics way
+		 * I just find the transform way easier.
+		 */
+		if (moving) {
+			// TODO: let the player cancel their move
+			if (path.Count == 0) {
+				moving = false;
+			} else if (player.transform.position == TileMiddle(path.First.Value)) {
+				path.RemoveFirst ();
+			} else {
+				float step = speed * Time.deltaTime;
+				player.transform.position = Vector3.MoveTowards(
+					player.transform.position, 
+					TileMiddle(path.First.Value), 
+					step
+					);
+				ResetCamera();
+			}
+		}
+	}
+
+	private LinkedList<Tile> FlipPath (OpenTile path) {
+		LinkedList<Tile> res = new LinkedList<Tile> ();
+		while (path != null) {
+			res.AddFirst (new Tile (path.x, path.z));
+			path = path.parent;
+		}
+		res.RemoveFirst (); // Don't need the original position
+		return res;
 	}
 
 	private Tile PlayerPosition() {
@@ -185,6 +202,37 @@ public class CameraController : MonoBehaviour {
 		pos.x = TilePosition (player.transform.position.x);
 		pos.z = TilePosition (player.transform.position.z);
 		return pos;
+	}
+
+	/*
+	 * Finds the shortest path from the player's position to the goal tile.
+	 * Note that this returns the path as a link list and the front of the list
+	 * is the end of the path.
+	 */
+	private OpenTile FindPath (Tile goal) {
+		if (goal != null && !blockedTiles.Contains (goal)) {
+			Queue<OpenTile> q = new Queue<OpenTile> ();
+			q.Enqueue (new OpenTile (PlayerPosition ()));
+			while (q.Count != 0) {
+				OpenTile current = q.Dequeue ();
+				if (current.Equals (goal)) {
+					return current;
+				}
+				for (int z = 1; z >= -1; z -= 2) {
+					Tile neighbour = new Tile (current.x + 0, current.z + z);
+					if (!blockedTiles.Contains (neighbour)) {
+						q.Enqueue (new OpenTile (current, neighbour));
+					}
+				}
+				for (int x = 1; x >= -1; x -= 2) {
+					Tile neighbour = new Tile (current.x + x, current.z + 0);
+					if (!blockedTiles.Contains (neighbour)) {
+						q.Enqueue (new OpenTile (current, neighbour));
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/*
