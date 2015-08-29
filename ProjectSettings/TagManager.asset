@@ -9,6 +9,7 @@ TagManager:
   - Room
   - Item
   - Blocker
+  - Highlighted Tile
   layers:
   - Default
   - TransparentFX

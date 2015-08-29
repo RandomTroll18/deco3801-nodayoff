@@ -840,6 +840,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   speed: 3
+  highlightedTile: {fileID: 155234, guid: d12909909bee2ca4ea5338642e05a209, type: 2}
 --- !u!1001 &1968068622
 Prefab:
   m_ObjectHideFlags: 0

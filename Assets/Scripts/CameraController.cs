@@ -89,6 +89,7 @@ public class CameraController : MonoBehaviour {
 	public float GUISize;
 	public LayerMask layerMask;
 	public float speed;
+	public GameObject highlightedTile;
 
 	private Vector3 offset;
 	private HashSet<Tile> blockedTiles = new HashSet<Tile> (new TileEqualityComparer ());
@@ -155,6 +156,7 @@ public class CameraController : MonoBehaviour {
 
 			OpenTile dest = FindPath (goal);
 			if (dest != null) {
+				// SpawnHighlitedTile (goal); Not really needed just yet
 				moving = true;
 				path = FlipPath (dest);
 			}
@@ -173,6 +175,7 @@ public class CameraController : MonoBehaviour {
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
 				moving = false;
+				Destroy (GameObject.FindGameObjectWithTag ("Highlighted Tile"));
 			} else if (player.transform.position == TileMiddle(path.First.Value)) {
 				path.RemoveFirst ();
 			} else {
@@ -182,9 +185,15 @@ public class CameraController : MonoBehaviour {
 					TileMiddle(path.First.Value), 
 					step
 					);
-				ResetCamera();
+				ResetCamera(); // This is a little dodgy. Locking the camera (i.e. disable camera panning code) will fix this.
 			}
 		}
+	}
+
+	private void SpawnHighlitedTile (Tile pos) {
+		Vector3 tilePos = TileMiddle (pos);
+		Quaternion tileRot = Quaternion.Euler (90, 0, 0);
+		Instantiate (highlightedTile, tilePos, tileRot);
 	}
 
 	private LinkedList<Tile> FlipPath (OpenTile path) {
