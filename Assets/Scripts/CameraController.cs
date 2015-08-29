@@ -25,6 +25,17 @@ public class CameraController : MonoBehaviour {
 			return (t.z == this.z) && (t.x == this.x);
 		}
 
+		/**
+		 * Overriding hash code function
+		 */
+		public override int GetHashCode () {
+			int prime = 13; // Prime number
+			int hashCode = 0; // The hash code to return
+			hashCode = (hashCode * prime) + this.x;
+			hashCode = (hashCode * prime) + this.z;
+			return hashCode;
+		}
+
 		public int Compare (Tile tile1, Tile tile2) {
 			if (tile1 == null || tile2 == null)
 				throw new System.NullReferenceException ();

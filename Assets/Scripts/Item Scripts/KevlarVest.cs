@@ -9,9 +9,11 @@ public class KevlarVest : Armour {
 	/**
 	 * On start, do the following:
 	 * - Set item description
+	 * - Record that this item has turn effects
 	 * - Set the stats being affected by this armour
 	 * - Set the percentage the stat is being affected by
 	 * - Set the values the stat is being affected by
+	 * - Create turn effects
 	 */
 	void Start () {
 		this.itemDescription = "All-purpose vest. Probably won't " +
@@ -32,6 +34,10 @@ public class KevlarVest : Armour {
 		this.statsAffected[0] = Stat.HP;
 		this.valueEffect[0] = 0;
 		this.percentEffect[0] = 1.05; // Increase health by 5%
+
+		// Add turn effects
+		this.turnEffects = new ArrayList();
+		this.turnEffects.Add(new TurnEffect(Stat.AP, 1));
 	}
 
 	/**
