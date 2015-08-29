@@ -7,18 +7,6 @@ using UnityEngine.UI;
  */
 public class Player : MonoBehaviour {
 
-	public float speed = 10f; // Move speed
-
-	// TODO: make another class
-	public GameObject leftCollider;
-	public GameObject rightCollider;
-	public GameObject upCollider;
-	public GameObject downCollider;
-	private MapCollisionDetector leftDetector;
-	private MapCollisionDetector rightDetector;
-	private MapCollisionDetector upDetector;
-	private MapCollisionDetector downDetector;
-	
 	private Item[] inventory = new Item[10]; // Inventory
 	private GameObject[] physicalItems = new GameObject[10]; // Items' Game Objects
 	public GameObject[] inventoryUI = new GameObject[10]; // UI Slots
@@ -31,7 +19,7 @@ public class Player : MonoBehaviour {
 	 * Physics objects
 	 */
 	//private BoxCollider boxCollider; - Might not be needed
-	public Rigidbody rb;
+	private Rigidbody rb;
 
 	/**
 	 * Do the following to start the player:
@@ -42,31 +30,6 @@ public class Player : MonoBehaviour {
 		this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
 		//this.defaultIcon = Resources.Load<Sprite>("Background");
-
-		leftDetector = leftCollider.GetComponent <MapCollisionDetector> ();
-		rightDetector = rightCollider.GetComponent <MapCollisionDetector> ();
-		upDetector = upCollider.GetComponent <MapCollisionDetector> ();
-		downDetector = downCollider.GetComponent <MapCollisionDetector> ();
-	}
-
-	void Update () {
-
-	}
-
-	void FixedUpdate() {
-		Vector3? newPos =  null;
-		Vector3 currentPos = transform.position;
-		if (Input.GetKeyDown("w") && !upDetector.isColliding ()) {
-			rb.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z + 1));
-		} else if (Input.GetKeyDown ("s") && !downDetector.isColliding ()) {
-			rb.MovePosition(new Vector3(currentPos.x, currentPos.y, currentPos.z - 1));
-		} else if (Input.GetKeyDown ("a") && !leftDetector.isColliding ()) {
-			rb.MovePosition(new Vector3(currentPos.x - 1, currentPos.y, currentPos.z));
-		} else if (Input.GetKeyDown ("d") && !rightDetector.isColliding ()) {
-			rb.MovePosition(new Vector3(currentPos.x + 1, currentPos.y, currentPos.z));
-		}
-		if (newPos.HasValue)
-			transform.position = newPos.Value;
 	}
 
 	/**
