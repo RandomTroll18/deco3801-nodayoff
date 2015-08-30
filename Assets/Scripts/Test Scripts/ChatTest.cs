@@ -94,7 +94,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		
 		if (string.IsNullOrEmpty(this.UserName))
 		{
-			this.UserName = "user" + Environment.TickCount%99; //made-up username
+			this.UserName = "user" + Environment.TickCount%99; //made-up username CHANGE NEEDED
 		}
 		
 		chatClient = new ChatClient(this);
