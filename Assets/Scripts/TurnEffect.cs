@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TurnEffect : MonoBehaviour {
+public class TurnEffect {
 
 	private Stat statAffected; // The stat affected
 	/*
@@ -40,5 +40,41 @@ public class TurnEffect : MonoBehaviour {
 	 */
 	public double getValue () {
 		return this.value;
+	}
+
+	/**
+	 * Sets the stat affected
+	 * 
+	 * Arguments
+	 * - Stat newStat - The stat being affected
+	 */
+	public void setStatAffected (Stat newStat) {
+		this.statAffected = newStat;
+	}
+
+	/**
+	 * Sets the value by which the stat is affected by
+	 * 
+	 * Arguments
+	 * - double newValue - the value by which the stat is affected
+	 */
+	public void setValue (double newValue) {
+		this.value = newValue;
+	}
+
+	/**
+	 * Tostring function
+	 * 
+	 * Return
+	 * - The string form of this function
+	 */
+	public override string ToString ()
+	{
+		string finalString = "Turn Effect: " + StringMethodsScript.NEWLINE;
+		finalString += 
+				"Stat: " + EnumsToString.convertStatEnum(this.statAffected)
+				+ StringMethodsScript.NEWLINE;
+		finalString += "Value: " + this.value;
+		return finalString;
 	}
 }

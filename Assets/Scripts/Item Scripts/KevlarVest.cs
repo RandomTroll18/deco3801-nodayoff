@@ -16,6 +16,7 @@ public class KevlarVest : Armour {
 	 * - Create turn effects
 	 */
 	void Start () {
+		TurnEffect effect = new TurnEffect(Stat.AP, 1.0); // The turn effect
 		this.itemDescription = "All-purpose vest. Probably won't " +
 			"do much against an alien, but it's better than nothing";
 
@@ -37,7 +38,7 @@ public class KevlarVest : Armour {
 
 		// Add turn effects
 		this.turnEffects = new ArrayList();
-		this.turnEffects.Add(new TurnEffect(Stat.AP, 1));
+		this.turnEffects.Add(effect);
 	}
 
 	/**

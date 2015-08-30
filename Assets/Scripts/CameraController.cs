@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class CameraController : MonoBehaviour {
 
+	public GameObject gameManagerObject; // The game manager object
+	private GameManager gameManagerScript; // The game manager script
+
 	enum Moving {
 		NO, POSSIBLY, YES
 	}
@@ -103,6 +106,7 @@ public class CameraController : MonoBehaviour {
 	
 	void Start () {
 		offset = transform.position - player.transform.position;
+		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
 
 		// Initalises set of all blocked tiles
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag ("Blocker");

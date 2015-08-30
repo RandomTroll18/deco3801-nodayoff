@@ -15,10 +15,12 @@ public class InventoryUISlotScript : MonoBehaviour {
 	private Item item = null; // The item contained in this slot
 	private ContextAwareBoxScript contextBoxScript = null; // Script of context aware box
 	private InventoryUIScript containerScript = null; // Script of parent
+	private Sprite defaultIcon; // The default icon for this ui slot
 
 	/**
 	 * Start function. Need to do the following:
 	 * - Initialize variables only if the game objects have been set
+	 * - Get the default icon which is "Background"
 	 */
 	void Start () {
 		if (this.uiSlot != null) {
@@ -32,6 +34,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 			this.containerScript = 
 					this.container.GetComponent<InventoryUIScript>();
 		}
+		this.defaultIcon = Resources.Load<Sprite>("Background");
 	}
 
 	/**
@@ -68,6 +71,8 @@ public class InventoryUISlotScript : MonoBehaviour {
 		if (this.uiSlotImage == null || this.contextBoxScript == null 
 		    || this.containerScript == null) return; // Do nothing
 		this.item = item;
+		// Update icon to be the item's icon
+		this.uiSlot.GetComponent<Image>().sprite = item.image;
 		Debug.Log ("Item inserted: " + item);
 		// If the slot is selected, update inventory context
 		if (selected) this.contextBoxScript.setContextToInventory(this.item);
@@ -80,6 +85,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 		if (this.uiSlotImage == null || this.contextBoxScript == null 
 		    || this.containerScript == null) return; // Do nothing
 		this.item = null;
+		this.uiSlot.GetComponent<Image>().sprite = this.defaultIcon;
 		// If the slot is selected, update inventory context
 		if (selected) this.contextBoxScript.setContextToInventory(this.item);
 	}
