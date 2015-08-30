@@ -841,6 +841,7 @@ MonoBehaviour:
     m_Bits: 256
   speed: 3
   highlightedTile: {fileID: 155234, guid: d12909909bee2ca4ea5338642e05a209, type: 2}
+  pathMarker: {fileID: 117908, guid: eaf72b7f40c37734d9ee4a39bd21578a, type: 2}
 --- !u!1001 &1968068622
 Prefab:
   m_ObjectHideFlags: 0

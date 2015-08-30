@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class CameraController : MonoBehaviour {
 
+	enum Moving {
+		NO, POSSIBLY, YES
+	}
+
 	class Tile : IComparer<Tile> {
 		public int x;
 		public int z;
@@ -46,8 +50,7 @@ public class CameraController : MonoBehaviour {
 				return tile2.z - tile2.z;
 		}
 
-		public override string ToString ()
-		{
+		public override string ToString () {
 			return string.Format ("X: {0}, Z: {1}", this.x, this.z);
 		}
 	}
@@ -67,8 +70,7 @@ public class CameraController : MonoBehaviour {
 			depth = parent.depth + 1;
 		}
 
-		public override string ToString ()
-		{
+		public override string ToString () {
 			return string.Format ("depth: {0}, {1}", this.depth, base.ToString());
 		}
 	}
@@ -90,11 +92,14 @@ public class CameraController : MonoBehaviour {
 	public LayerMask layerMask;
 	public float speed;
 	public GameObject highlightedTile;
+	public GameObject pathMarker;
 
 	private Vector3 offset;
 	private HashSet<Tile> blockedTiles = new HashSet<Tile> (new TileEqualityComparer ());
-	private bool moving = false;
+	private Moving moving = Moving.NO;
 	private LinkedList<Tile> path;
+	private Tile clickedTile;
+	private LinkedList<Object> movPath = new LinkedList<Object>();
 	
 	void Start () {
 		offset = transform.position - player.transform.position;
@@ -142,7 +147,7 @@ public class CameraController : MonoBehaviour {
 
 
 		// Mouse click detection and path finding
-		if (!moving && Input.GetMouseButtonUp (0)) {
+		if ((moving != Moving.YES) && (Input.GetMouseButtonUp (0))) {
 			Tile goal = null;
 
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -152,18 +157,30 @@ public class CameraController : MonoBehaviour {
 				goal.x = TilePosition (hit.point.x);
 				goal.z = TilePosition (hit.point.z);
 				Debug.Log (goal.x + " " + goal.z);
+
+				if (moving == Moving.POSSIBLY && goal.Equals (clickedTile)) {
+					moving = Moving.YES;
+				} else if (moving == Moving.POSSIBLY) {
+					Destroy (GameObject.FindGameObjectWithTag ("Highlighted Tile"));
+					foreach (Object obj in movPath) {
+						DestroyObject (obj);
+					}
+					movPath.Clear ();
+				}
 			}
 
 			OpenTile dest = FindPath (goal);
-			if (dest != null) {
-				// SpawnHighlitedTile (goal); Not really needed just yet
-				moving = true;
+			if (moving != Moving.YES && dest != null) {
+				SpawnHighlitedTile (goal);
+				clickedTile = goal;
+				moving = Moving.POSSIBLY;
 				path = FlipPath (dest);
+				dest = dest.parent;
 			}
 
 			// Just for logging
-			while (dest != null) {
-				Debug.Log (dest.ToString ());
+			while (moving != Moving.YES && dest != null && dest.parent != null) {
+				movPath.AddLast (SpawnPathTile (dest));
 				dest = dest.parent;
 			}
 		}
@@ -171,13 +188,17 @@ public class CameraController : MonoBehaviour {
 		/* Movement. Note that right now this is shifting the transform but we could do it the physics way
 		 * I just find the transform way easier.
 		 */
-		if (moving) {
+		if (moving == Moving.YES) {
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
-				moving = false;
+				moving = Moving.NO;
 				Destroy (GameObject.FindGameObjectWithTag ("Highlighted Tile"));
 			} else if (player.transform.position == TileMiddle(path.First.Value)) {
 				path.RemoveFirst ();
+				if (movPath.Count > 0) {
+					DestroyObject (movPath.Last.Value);
+					movPath.RemoveLast ();
+				}
 			} else {
 				float step = speed * Time.deltaTime;
 				player.transform.position = Vector3.MoveTowards(
@@ -188,6 +209,13 @@ public class CameraController : MonoBehaviour {
 				ResetCamera(); // This is a little dodgy. Locking the camera (i.e. disable camera panning code) will fix this.
 			}
 		}
+	}
+
+	private Object SpawnPathTile (Tile pos) {
+		// I could add direction to the spawned path. But maybe another day
+		Vector3 tilePos = TileMiddle (pos);
+		Quaternion tileRot = Quaternion.Euler (90, 0, 0);
+		return Instantiate (pathMarker, tilePos, tileRot);
 	}
 
 	private void SpawnHighlitedTile (Tile pos) {
@@ -219,6 +247,9 @@ public class CameraController : MonoBehaviour {
 	 * is the end of the path.
 	 */
 	private OpenTile FindPath (Tile goal) {
+		// Fixes:
+		// Store an explored set. This should just be a hashset containing visited tiles
+		// Use a different algorithm. BFS should be fine for our purposes
 		if (goal != null && !blockedTiles.Contains (goal)) {
 			Queue<OpenTile> q = new Queue<OpenTile> ();
 			q.Enqueue (new OpenTile (PlayerPosition ()));
