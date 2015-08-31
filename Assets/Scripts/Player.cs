@@ -231,4 +231,11 @@ public class Player : MonoBehaviour {
 		this.turnEffectsApplied = true; // We have applied turn effects
 	}
 
+	public Tile PlayerPosition() {
+		Tile pos = new Tile();
+		pos.X = Tile.TilePosition(transform.position.x);
+		pos.Z = Tile.TilePosition(transform.position.z);
+		return pos;
+	}
+
 }
