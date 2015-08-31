@@ -15,11 +15,11 @@ public class CameraController : MonoBehaviour {
 	public LayerMask LayerMask;
 
 	Vector3 offset;
-	Player playerScript;
+	//Player playerScript;
 	MovementController movController;
 
 	void Start() {
-		playerScript = Player.GetComponent<Player>();
+		//playerScript = Player.GetComponent<Player>();
 		movController = Player.GetComponent<MovementController>();
 
 		offset = transform.position - Player.transform.position;

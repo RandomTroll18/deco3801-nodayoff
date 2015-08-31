@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 	 */
 	private bool validTurn;
 	private int playersLeft; // The number of players still active
-	private Player[] playerList; // List of players
+	public Player[] playerList; // List of players
 
 	/**
 	 * Start function. Needs to be done:
@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour {
 	 * - Initialize number of players still active. 
 	 */
 	void Start () {
-		this.playerList = FindObjectsOfType<Player>();
 		this.validTurn = false;
 		this.playersLeft = this.playerList.Length;
 		Debug.Log("Valid turn is: " + this.validTurn + " by default");
@@ -42,9 +41,12 @@ public class GameManager : MonoBehaviour {
 	 */
 	void Update () {
 		if (this.validTurn) {
-			if (this.playersLeft == 0) this.validTurn = false;
+			if (this.playersLeft == 0) { // No more active players
+				this.validTurn = false;
+				Debug.Log("No more active players");
+			}
 			return;
-		} else { // Just sleep for 5 seconds
+		} else {
 			Debug.Log("Invalid turn. Game Manager doing stuff");
 			// Reset number of players left
 			this.playersLeft = this.playerList.Length;
