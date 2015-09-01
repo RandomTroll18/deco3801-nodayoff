@@ -7,11 +7,11 @@ using UnityEngine.UI;
  */
 public class Player : MonoBehaviour {
 
-	public GameObject[] inventoryUI = new GameObject[10]; // UI Slots
+	public GameObject[] inventoryUI = new GameObject[9]; // UI Slots
 	public GameObject gameManagerObject; // The game manager object
 
-	private Item[] inventory = new Item[10]; // Inventory
-	private GameObject[] physicalItems = new GameObject[10]; // Items' Game Objects
+	private Item[] inventory = new Item[9]; // Inventory
+	private GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
 	private Transform transformComponent; // The transform component of this player
 	private double[] stats; // The stats of this player
 	private ArrayList turnEffects; // The turn-based effects attached to this player
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour {
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {
-			if (availableSpot == 10) return; // No more room
+			if (availableSpot == 9) return; // No more room
 
 			// Get the ui slot script
 			uiSlotScript = 
@@ -122,7 +122,7 @@ public class Player : MonoBehaviour {
 	 * Function used to initialize inventory array
 	 */
 	private void initializeInventory () {
-		for (int i = 0; i < 10; ++i) { 
+		for (int i = 0; i < 9; ++i) { 
 			this.inventory[i] = null;
 			this.physicalItems[i] = null;
 		}
@@ -197,7 +197,7 @@ public class Player : MonoBehaviour {
 	 * - -1 otherwise
 	 */
 	private int getIndex (Item item) {
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 9; ++i) {
 			Debug.Log("Getting index: " + this.inventory[i]);
 			if (this.inventory[i].Equals(item)) return i;
 		}

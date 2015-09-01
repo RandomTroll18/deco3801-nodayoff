@@ -45,7 +45,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 			/* Change text position */
 			this.inventoryContextPanel[1]
 					.GetComponent<RectTransform>().anchoredPosition3D = 
-					new Vector3((float)29.9, (float)-9.7);
+				new Vector3((float)0, (float)-7.629395e-06);
 			/* Set buttons to be inactive */
 			this.inventoryContextPanel[2].SetActive(false);
 			this.inventoryContextPanel[3].SetActive(false);
@@ -54,7 +54,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 				this.attachedObject.ToString();
 			this.inventoryContextPanel[1]
 					.GetComponent<RectTransform>().anchoredPosition3D = 
-					new Vector3((float)-71.77429, (float)53.49995);
+					new Vector3((float)80, (float)-15);
 			/* Set buttons to be active */
 			this.inventoryContextPanel[2].SetActive(true);
 			this.inventoryContextPanel[3].SetActive(true);
