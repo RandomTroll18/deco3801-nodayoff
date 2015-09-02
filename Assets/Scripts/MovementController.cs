@@ -39,13 +39,18 @@ public class MovementController : MonoBehaviour {
 	public GameObject HighlightedTile;
 	public GameObject Player;
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
-	Moving moving = Moving.NO;									/* Player's "moving" status */
+	/* Player's "moving" status */
+	Moving moving = Moving.NO;
+	/* The path of tiles the player is moving with */
 	LinkedList<Tile> path;
-	LinkedList<Object> movPath = new LinkedList<Object>();
+	/* The list of objects used to visualise the movement path */
+	LinkedList<Object> visualPath = new LinkedList<Object>();
+	/* Tile player has selected for movement */
+	Tile clickedTile;
 	CameraController camController;
 	Player playerScript;
-	Tile clickedTile;
-	bool debugging = false;		/* Whether debugging output is used */
+	/* Whether debugging output is used */
+	bool debugging = false;
 	
 	void Start() {
 		camController = Camera.main.GetComponent<CameraController>();
@@ -65,6 +70,7 @@ public class MovementController : MonoBehaviour {
 			));
 		}
 
+		/* Checks if blockedTiles is correct */
 		if (debugging) {
 			foreach (Tile tile in blockedTiles) {
 				Debug.Log(tile.X + " " + tile.Z);
@@ -87,11 +93,12 @@ public class MovementController : MonoBehaviour {
 				Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
 			} else if (Player.transform.position == Tile.TileMiddle(path.First.Value)) {
 				path.RemoveFirst();
-				if (movPath.Count > 0) {
-					DestroyObject(movPath.Last.Value);
-					movPath.RemoveLast();
+				if (visualPath.Count > 0) { // Most of the time this condition is true
+					DestroyObject(visualPath.Last.Value);
+					visualPath.RemoveLast();
 				}
 			} else {
+				/* Moves the player */
 				float step = Speed * Time.deltaTime;
 				Player.transform.position = Vector3.MoveTowards(
 					Player.transform.position, 
@@ -112,25 +119,26 @@ public class MovementController : MonoBehaviour {
 		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
 			moving = Moving.YES;
 		} else if (moving == Moving.POSSIBLY) {
+			/* Clears all visual elements of selected path */
 			Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
-			foreach (Object obj in movPath) {
+			foreach (Object obj in visualPath) {
 				DestroyObject(obj);
 			}
-			movPath.Clear();
-		}
-
-		PathTile dest = FindPath(goal);
-		if (moving != Moving.YES && dest != null) {
-			SpawnHighlitedTile(goal);
-			clickedTile = goal;
-			moving = Moving.POSSIBLY;
-			path = FlipPath(dest);
-			dest = dest.Parent;
-		}
-		
-		while (moving != Moving.YES && dest != null && dest.Parent != null) {
-			movPath.AddLast(SpawnPathTile(dest));
-			dest = dest.Parent;
+			visualPath.Clear();
+		} else {
+			PathTile dest = FindPath(goal);
+			if (dest != null) {
+				SpawnHighlitedTile(goal);
+				clickedTile = goal;
+				moving = Moving.POSSIBLY;
+				path = FlipPath(dest);
+				dest = dest.Parent;
+			}
+			
+			while (dest != null && dest.Parent != null) {
+				visualPath.AddLast(SpawnPathTile(dest));
+				dest = dest.Parent;
+			}
 		}
 	}
 
@@ -153,9 +161,7 @@ public class MovementController : MonoBehaviour {
 	 * is the end of the path.
 	 */
 	PathTile FindPath(Tile goal) {
-		// Fixes:
-		// Store an explored set. This should just be a hashset containing visited tiles
-		// Use a different algorithm. BFS should be fine for our purposes
+		HashSet<Tile> explored = new HashSet<Tile>();
 		if (goal != null && !blockedTiles.Contains(goal)) {
 			Queue<PathTile> q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
@@ -166,13 +172,15 @@ public class MovementController : MonoBehaviour {
 				}
 				for (int z = 1; z >= -1; z -= 2) {
 					Tile neighbour = new Tile(current.X + 0, current.Z + z);
-					if (!blockedTiles.Contains(neighbour)) {
+					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
+						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
 					}
 				}
 				for (int x = 1; x >= -1; x -= 2) {
 					Tile neighbour = new Tile(current.X + x, current.Z + 0);
-					if (!blockedTiles.Contains(neighbour)) {
+					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
+						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
 					}
 				}
