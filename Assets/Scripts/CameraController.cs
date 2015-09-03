@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour {
 
@@ -54,7 +55,7 @@ public class CameraController : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0)) {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask)) {
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask) && !EventSystem.current.IsPointerOverGameObject()) {
 				Tile goal;
 				goal = new Tile();
 				goal.X = Tile.TilePosition(hit.point.x);

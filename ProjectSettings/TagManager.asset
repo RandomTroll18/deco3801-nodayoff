@@ -10,6 +10,7 @@ TagManager:
   - Item
   - Blocker
   - Highlighted Tile
+  - Ground
   layers:
   - Default
   - TransparentFX

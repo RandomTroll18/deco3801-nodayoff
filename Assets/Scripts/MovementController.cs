@@ -116,29 +116,36 @@ public class MovementController : MonoBehaviour {
 	 * first time the player has clicked the goal or the second.
 	 */
 	public void RequestMovement(Tile goal) {
+		if (moving == Moving.YES) {
+			return;
+		}
+
 		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
 			moving = Moving.YES;
-		} else if (moving == Moving.POSSIBLY) {
+			return;
+		}
+
+		if (moving == Moving.POSSIBLY) {
 			/* Clears all visual elements of selected path */
 			Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
 			foreach (Object obj in visualPath) {
 				DestroyObject(obj);
 			}
 			visualPath.Clear();
-		} else {
-			PathTile dest = FindPath(goal);
-			if (dest != null) {
-				SpawnHighlitedTile(goal);
-				clickedTile = goal;
-				moving = Moving.POSSIBLY;
-				path = FlipPath(dest);
-				dest = dest.Parent;
-			}
-			
-			while (dest != null && dest.Parent != null) {
-				visualPath.AddLast(SpawnPathTile(dest));
-				dest = dest.Parent;
-			}
+		}
+
+		PathTile dest = FindPath(goal);
+		if (dest != null) {
+			SpawnHighlitedTile(goal);
+			clickedTile = goal;
+			moving = Moving.POSSIBLY;
+			path = FlipPath(dest);
+			dest = dest.Parent;
+		}
+		
+		while (dest != null && dest.Parent != null) {
+			visualPath.AddLast(SpawnPathTile(dest));
+			dest = dest.Parent;
 		}
 	}
 
