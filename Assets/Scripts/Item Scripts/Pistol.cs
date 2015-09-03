@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * Class for an ordinary pistol (may be changed if 
  * variety needed for pistols
@@ -15,18 +13,18 @@ public class Pistol : ShortRangeWeapon {
 	 * - Set number of rounds in pistol 
 	 * before it can no longer be used
 	 */
-	void Start () {
-		this.itemDescription = "Your standard issue pistol. Seven 9mm bullets effective " +
+	void Start() {
+		ItemDescription = "Your standard issue pistol. Seven 9mm bullets effective " +
 			"against humans, but we can't say that it's tested on aliens";
 
 		// No stats are being affected
-		this.statsAffected = null;
-		this.valueEffect = null;
-		this.percentEffect = null;
+		StatsAffected = null;
+		ValueEffect = null;
+		PercentEffect = null;
 
-		this.damage = 10.0; // Let's say we do 10.0 damage per successful hit
-		this.range = 4.0; // Let's say range is 4.0 - Not confirmed
-		this.rounds = 7.0; // Only 7 rounds
+		Damage = 10.0; // Let's say we do 10.0 damage per successful hit
+		Range = 4.0; // Let's say range is 4.0 - Not confirmed
+		Rounds = 7.0; // Only 7 rounds
 	}
 
 	/**
@@ -35,26 +33,21 @@ public class Pistol : ShortRangeWeapon {
 	 * Returns
 	 * - A string providing info on this item
 	 */
-	public override string ToString () {
+	public override string ToString() {
 		// The string to return. Start with the name
-		string toReturn = "Item Name: " + this.name 
-				+ StringMethodsScript.NEWLINE;
+		string toReturn = "Item Name: " + name + StringMethodsScript.NEWLINE;
 		
 		// Next, add item description
-		toReturn += "Description: " + this.itemDescription 
-				+ StringMethodsScript.NEWLINE;
+		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
 		
 		// Next, add the amount of damage this weapon does
-		toReturn += "Damage: " + this.damage 
-				+ StringMethodsScript.NEWLINE;
+		toReturn += "Damage: " + Damage + StringMethodsScript.NEWLINE;
 
 		// Next, add the range of this weapon
-		toReturn += "Range: " + this.range 
-				+ StringMethodsScript.NEWLINE;
+		toReturn += "Range: " + Range + StringMethodsScript.NEWLINE;
 
 		// Next, add the number of rounds left and return the final string
-		toReturn += "Rounds Left: " + this.rounds 
-				+ StringMethodsScript.NEWLINE;
+		toReturn += "Rounds Left: " + Rounds + StringMethodsScript.NEWLINE;
 		return toReturn;
 	}
 }

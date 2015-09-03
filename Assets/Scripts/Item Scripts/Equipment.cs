@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * This is an abstract class representing items 	
  * that can be equipped by players. These items 
@@ -24,5 +22,5 @@ public abstract class Equipment : Item {
 	 * the indices of the stats in statsAffected
 	 * (like valueEffect)
 	 */
-	protected double[] percentEffect;
+	protected double[] PercentEffect;
 }

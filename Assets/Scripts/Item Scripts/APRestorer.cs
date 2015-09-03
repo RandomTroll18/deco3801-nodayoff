@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * Consumable which restores AP when used
  */
@@ -12,17 +10,17 @@ public class APRestorer : RecoveryConsumables {
 	 * - Set amount recovered
 	 * - The stat affected
 	 */
-	void Start () {
-		this.itemDescription = "Item which restores your AP";
+	void Start() {
+		ItemDescription = "Item which restores your AP";
 
 		/*
 		 * For this item, we are only affecting one stat - AP
 		 */
-		this.valueEffect = new double[1];
-		this.statsAffected = new Stat[1];
+		ValueEffect = new double[1];
+		StatsAffected = new Stat[1];
 
-		this.valueEffect[0] = 10.0;
-		this.statsAffected[0] = Stat.AP;
+		ValueEffect[0] = 10.0;
+		StatsAffected[0] = Stat.AP;
 	}
 
 	/**
@@ -31,22 +29,19 @@ public class APRestorer : RecoveryConsumables {
 	 * Returns
 	 * - A string providing info on this item
 	 */
-	public override string ToString () {
+	public override string ToString() {
 		string valueEffectString = "Value increase: "; // The values to affect stat by
 		string statString = "Stats affected: "; // The stats affected
-		int numberOfEffects = this.statsAffected.Length; // As it says
+		int numberOfEffects = StatsAffected.Length; // As it says
 
 		// The string to return. Start with the name
-		string toReturn = "Item Name: " + this.name 
-				+ StringMethodsScript.NEWLINE;
+		string toReturn = "Item Name: " + name + StringMethodsScript.NEWLINE;
 
 		// Next, add item description
-		toReturn += "Description: " + this.itemDescription 
-				+ StringMethodsScript.NEWLINE;
+		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
 
 		// Next, add the amount of this item
-		toReturn += "Amount: " + this.amount 
-			+ StringMethodsScript.NEWLINE;
+		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
 
 		/*
 		 * Next, add the stats affected along with the value by which 
@@ -55,20 +50,14 @@ public class APRestorer : RecoveryConsumables {
 		 * than one effect, then change the values below accordingly
 		 */
 		for (int i = 0; i < (numberOfEffects - 1); ++i) {
-			valueEffectString += StringMethodsScript.NEWLINE 
-					+ this.valueEffect[i] + ", ";
-			statString += StringMethodsScript.NEWLINE
-					+ EnumsToString.convertStatEnum(this.statsAffected[i])
-					+ ", ";
+			valueEffectString += StringMethodsScript.NEWLINE + ValueEffect[i] + ", ";
+			statString += StringMethodsScript.NEWLINE + EnumsToString.ConvertStatEnum(StatsAffected[i])+ ", ";
 		}
-		valueEffectString += StringMethodsScript.NEWLINE 
-				+ this.valueEffect[numberOfEffects - 1] + ".";
-		statString += StringMethodsScript.NEWLINE 
-				+ this.statsAffected[numberOfEffects - 1] + ".";
+		valueEffectString += StringMethodsScript.NEWLINE + ValueEffect[numberOfEffects - 1] + ".";
+		statString += StringMethodsScript.NEWLINE + StatsAffected[numberOfEffects - 1] + ".";
 
 		// Concatenate strings together and return the final string
-		toReturn += statString + StringMethodsScript.NEWLINE 
-			+ valueEffectString + StringMethodsScript.NEWLINE;
+		toReturn += statString + StringMethodsScript.NEWLINE + valueEffectString + StringMethodsScript.NEWLINE;
 		return toReturn;
 	}
 }

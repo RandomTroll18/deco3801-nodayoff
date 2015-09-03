@@ -1,14 +1,13 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 public class TurnEffect {
 
-	private Stat statAffected; // The stat affected
+	Stat statAffected; // The stat affected
+	string description;
 	/*
 	 * The value that the stat is affected by.
 	 * The value can be negative
 	 */
-	private double value;
+	double value;
 
 	/**
 	 * The constructor
@@ -17,9 +16,9 @@ public class TurnEffect {
 	 * - Stat statAffected - the stat to be affected
 	 * - double value - The value that the stat will be affected by
 	 */
-	public TurnEffect (Stat statAffected, double value) {
-		this.statAffected = statAffected;
-		this.value = value;
+	public TurnEffect(Stat newStatAffected, double newValue) {
+		statAffected = newStatAffected;
+		value = newValue;
 	}
 
 	/**
@@ -28,8 +27,8 @@ public class TurnEffect {
 	 * Returns
 	 * - The stat this effect is affecting
 	 */
-	public int getStatAffected () {
-		return (int)this.statAffected;
+	public int GetStatAffected() {
+		return (int)statAffected;
 	}
 
 	/**
@@ -38,8 +37,8 @@ public class TurnEffect {
 	 * Returns
 	 * - The value that the stat will be affected by
 	 */
-	public double getValue () {
-		return this.value;
+	public double GetValue() {	
+		return value;
 	}
 
 	/**
@@ -48,8 +47,8 @@ public class TurnEffect {
 	 * Arguments
 	 * - Stat newStat - The stat being affected
 	 */
-	public void setStatAffected (Stat newStat) {
-		this.statAffected = newStat;
+	public void SetStatAffected(Stat newStat) {
+		statAffected = newStat;
 	}
 
 	/**
@@ -58,8 +57,8 @@ public class TurnEffect {
 	 * Arguments
 	 * - double newValue - the value by which the stat is affected
 	 */
-	public void setValue (double newValue) {
-		this.value = newValue;
+	public void SetValue(double newValue) {
+		value = newValue;
 	}
 
 	/**
@@ -68,13 +67,10 @@ public class TurnEffect {
 	 * Return
 	 * - The string form of this function
 	 */
-	public override string ToString ()
-	{
+	public override string ToString() {
 		string finalString = "Turn Effect: " + StringMethodsScript.NEWLINE;
-		finalString += 
-				"Stat: " + EnumsToString.convertStatEnum(this.statAffected)
-				+ StringMethodsScript.NEWLINE;
-		finalString += "Value: " + this.value;
+		finalString += "Stat: " + EnumsToString.ConvertStatEnum(statAffected) + StringMethodsScript.NEWLINE;
+		finalString += "Value: " + value;
 		return finalString;
 	}
 }

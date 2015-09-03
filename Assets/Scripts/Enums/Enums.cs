@@ -7,14 +7,14 @@ using System.Collections;
 
 /*
  * Enum for stats
- * HP - Health
- * DEF - Defense - Not Confirmed
  * AP - Action Points
+ * STUN - Stun Flag
+ * VISION - Range of Sight
  */
 public enum Stat {
-	HP,
-	DEF, 
-	AP
+	AP,
+	STUN,
+	VISION
 };
 
 /*

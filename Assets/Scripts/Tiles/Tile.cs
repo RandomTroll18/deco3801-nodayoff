@@ -67,6 +67,13 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	public static int TilePosition(float pos) {
 		return (int) Mathf.Ceil((pos - 1) / 2);
 	}
+
+	public static Tile TilePosition(float x, float z){
+		return new Tile(
+			TilePosition(x),
+			TilePosition(z)
+		);
+	}
 	
 	/*
 	 * Returns the middle Vector3 position of a tile.

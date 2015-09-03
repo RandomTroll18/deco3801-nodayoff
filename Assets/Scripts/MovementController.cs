@@ -30,7 +30,7 @@ public class MovementController : MonoBehaviour {
 		}
 		
 		public override string ToString() {
-			return string.Format("depth: {0}, {1}", this.Depth, base.ToString());
+			return string.Format("depth: {0}, {1}", Depth, base.ToString());
 		}
 	}
 
@@ -50,9 +50,10 @@ public class MovementController : MonoBehaviour {
 	CameraController camController;
 	Player playerScript;
 	/* Whether debugging output is used */
-	bool debugging = false;
+	bool debugging;
 	
 	void Start() {
+		debugging = false;
 		camController = Camera.main.GetComponent<CameraController>();
 		playerScript = Player.GetComponent<Player>();
 

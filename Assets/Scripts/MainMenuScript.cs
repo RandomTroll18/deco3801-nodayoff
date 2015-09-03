@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MainMenuScript : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() {
 	
 	}
 
@@ -19,14 +18,14 @@ public class MainMenuScript : MonoBehaviour {
 	 * Arguments
 	 * - String level - The name of the scene to load
 	 */
-	public void LoadLevel (string level) {
+	public void LoadLevel(string level) {
 		Application.LoadLevel(level);
 	}
 
 	/*
 	 * Function used to quit the application
 	 */
-	public void Quit () {
+	public void Quit() {
 		Application.Quit();
 	}
 }

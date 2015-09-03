@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour {
 	 * A valid turn is when the game manager is done with calculations
 	 * and any actions it needs to do and allows players to move
 	 */
-	private bool validTurn;
-	private int playersLeft; // The number of players still active
-	public Player[] playerList; // List of players
+	bool validTurn;
+	int playersLeft; // The number of players still active
+	public Player[] PlayerList; // List of players
 
 	/**
 	 * Start function. Needs to be done:
@@ -24,11 +24,11 @@ public class GameManager : MonoBehaviour {
 	 * at the start of the game, then set validTurn to be 0. 
 	 * - Initialize number of players still active. 
 	 */
-	void Start () {
-		this.validTurn = false;
-		this.playersLeft = this.playerList.Length;
-		Debug.Log("Valid turn is: " + this.validTurn + " by default");
-		Debug.Log("Number of players left: " + this.playersLeft);
+	void Start() {
+		validTurn = false;
+		playersLeft = PlayerList.Length;
+		Debug.Log("Valid turn is: " + validTurn + " by default");
+		Debug.Log("Number of players left: " + playersLeft);
 	}
 
 	/**
@@ -39,24 +39,23 @@ public class GameManager : MonoBehaviour {
 	 * set the turn to be invalid
 	 * - if it is an invalid turn, then do any required actions
 	 */
-	void Update () {
-		if (this.validTurn) {
-			if (this.playersLeft == 0) { // No more active players
-				this.validTurn = false;
-				Debug.Log("No more active players");
+	void Update() {
+		if (validTurn) {
+			if (playersLeft == 0) { // No more active players
+				validTurn = false;
+				Debug.Log ("No more active players");
 			}
 			return;
-		} else {
-			Debug.Log("Invalid turn. Game Manager doing stuff");
-			// Reset number of players left
-			this.playersLeft = this.playerList.Length;
-			// Initialize player stats - AP and apply player effects
-			for (int i = 0; i < this.playersLeft; ++i) {
-				this.playerList[i].initializeStats();
-				this.playerList[i].applyTurnEffects();
-			}
-			this.validTurn = true;
 		}
+		Debug.Log ("Invalid turn. Game Manager doing stuff");
+		// Reset number of players left
+		playersLeft = PlayerList.Length;
+		// Initialize player stats - AP and apply player effects
+		for (int i = 0; i < playersLeft; ++i) {
+			PlayerList[i].InitializeStats();
+			PlayerList[i].ApplyTurnEffects();
+		}
+		validTurn = true;
 	}
 
 	/**
@@ -66,14 +65,16 @@ public class GameManager : MonoBehaviour {
 	 * - true if the current turn is still valid. 
 	 * - false if otherwise
 	 */
-	public bool isValidTurn () {
-		return this.validTurn;
+	public bool IsValidTurn() {
+		return validTurn;
 	}
 
 	/**
 	 * Record that a player is no longer active
 	 */
-	public void setInactivePlayer () {
-		if (this.playersLeft != 0) this.playersLeft--;
+	public void SetInactivePlayer() {
+		if (playersLeft != 0) {
+			playersLeft--;
+		}
 	}
 }
