@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
 	 * at the start of the game, then set validTurn to be 0. 
 	 * - Initialize number of players still active. 
 	 */
-	void Start () {
+	void Start() {
 		this.validTurn = false;
 		this.playersLeft = this.playerList.Length;
 		Debug.Log("Valid turn is: " + this.validTurn + " by default");
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour {
 	 * set the turn to be invalid
 	 * - if it is an invalid turn, then do any required actions
 	 */
-	void Update () {
+	void Update() {
 		if (this.validTurn) {
 			if (this.playersLeft == 0) { // No more active players
 				this.validTurn = false;
@@ -66,14 +66,16 @@ public class GameManager : MonoBehaviour {
 	 * - true if the current turn is still valid. 
 	 * - false if otherwise
 	 */
-	public bool isValidTurn () {
+	public bool isValidTurn() {
 		return this.validTurn;
 	}
 
 	/**
 	 * Record that a player is no longer active
 	 */
-	public void setInactivePlayer () {
-		if (this.playersLeft != 0) this.playersLeft--;
+	public void setInactivePlayer() {
+		if (this.playersLeft != 0) {
+			this.playersLeft--;
+		}
 	}
 }
