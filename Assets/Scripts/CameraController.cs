@@ -53,17 +53,9 @@ public class CameraController : MonoBehaviour {
 
 		// Mouse click detection
 		if (Input.GetMouseButtonUp(0)) {
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask) && !EventSystem.current.IsPointerOverGameObject()) {
-				Tile goal;
-				goal = new Tile();
-				goal.X = Tile.TilePosition(hit.point.x);
-				goal.Z = Tile.TilePosition(hit.point.z);
-				Debug.Log(goal.X + " " + goal.Z);
-
+			Tile goal = Tile.MouseToTile((LayerMask));
+			if (goal != null)
 				movController.RequestMovement(goal);
-			}
 		}
 	}
 

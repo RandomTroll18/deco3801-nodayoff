@@ -82,4 +82,25 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 		Vector3 res = new Vector3(t.X * 2, 0, t.Z * 2);
 		return res;
 	}
+
+	/**
+	 * Converts the mouse's current position to a Tile.
+	 * 
+	 * If you're unsure about what the LayerMask does, ask Ben or try something.
+	 * 
+	 * PROBLEMS: works when clicking UI
+	 */
+	public static Tile MouseToTile(LayerMask layerMask) {
+		Tile goal = null;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
+			goal = new Tile();
+			goal.X = Tile.TilePosition(hit.point.x);
+			goal.Z = Tile.TilePosition(hit.point.z);
+		}
+
+		return goal;
+	}
 }
