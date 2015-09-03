@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class BlockedTiles : MonoBehaviour {
-	public int up;
-	public int down;
-	public int left;
-	public int right;
+	public int Up;
+	public int Down;
+	public int Left;
+	public int Right;
 }

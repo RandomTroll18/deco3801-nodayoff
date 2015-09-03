@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * Class inherited by consumables which restore stats 
  * (e.g. Health, AP, etc.)

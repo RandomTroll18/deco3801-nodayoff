@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * Class inherited by short range weapons (e.g. Pistol)
  */

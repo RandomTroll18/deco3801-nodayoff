@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * Class that is inherited by long range weapons (e.g. sniper rifle)
  */

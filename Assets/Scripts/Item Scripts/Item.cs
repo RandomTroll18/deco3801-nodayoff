@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
 /**
  * This is an abstract class which should be inherited 
  * by all items in the game.
  */
+using System.Collections.Generic;
+
+
 public abstract class Item : MonoBehaviour {
 
-	public string itemName; // The name of this item
-	public Sprite image; // The icon for this image
-	protected string itemDescription; // The description of this item
-	protected ArrayList turnEffects = null; // The turn effects in this item
+	public string ItemName; // The name of this item
+	public Sprite Image; // The icon for this image
+	protected string ItemDescription; // The description of this item
+	protected List<TurnEffect> TurnEffects; // The turn effects in this item
 
 	/*
 	 * The stat affected by the given equipment and the value 
@@ -33,21 +34,21 @@ public abstract class Item : MonoBehaviour {
 	 * For consumables, statsAffected is how much a stat is 
 	 * affected on use
 	 */
-	protected Stat[] statsAffected = null; 
-	protected double[] valueEffect = null;
-
+	protected Stat[] StatsAffected; 
+	protected double[] ValueEffect;
+	
 	/**
 	 * Function used to activate the item. 
 	 * Overridable by subclasses
 	 */
-	public virtual void Activate () {
-		Debug.Log ("Item: " + this.itemName + " Activated");
+	public virtual void Activate() {
+		Debug.Log ("Item: " + ItemName + " Activated");
 	}
 
 	/**
 	 * Get the turn effects in this item
 	 */
-	public ArrayList getTurnEffects () {
-		return this.turnEffects;
+	public List<TurnEffect> GetTurnEffects () {
+		return TurnEffects;
 	}
 }

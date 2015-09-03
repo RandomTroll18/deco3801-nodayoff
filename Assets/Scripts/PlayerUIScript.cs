@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerUIScript : MonoBehaviour {
 
@@ -9,7 +8,7 @@ public class PlayerUIScript : MonoBehaviour {
 	 * Arguments
 	 * - GameObject mainCamera - The main camera object
 	 */
-	public void togglePanning (GameObject mainCamera) {
+	public void TogglePanning(GameObject mainCamera) {
 		if (mainCamera.GetComponent<CameraController>().enabled) {
 			mainCamera.GetComponent<CameraController>().enabled = false;
 		} else {

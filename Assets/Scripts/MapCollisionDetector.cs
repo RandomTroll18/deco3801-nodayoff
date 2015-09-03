@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MapCollisionDetector : MonoBehaviour {
 
-	private Player player;
-	private bool colliding;
+	Player player;
+	bool colliding;
 
-	void Start () {
+	void Start() {
 		GameObject playeObject = GameObject.FindWithTag ("Player");
 		if (player == null) {
 			player = playeObject.GetComponent <Player>();
@@ -26,7 +25,7 @@ public class MapCollisionDetector : MonoBehaviour {
 			colliding = false;
 	}
 
-	public bool isColliding() {
+	public bool IsColliding() {
 		return colliding;
 	}
 }

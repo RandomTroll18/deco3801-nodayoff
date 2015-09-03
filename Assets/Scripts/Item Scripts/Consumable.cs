@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 /**
  * This is the class inherited by items that can 
  * be consumed (but not equipped)
@@ -12,5 +10,5 @@ public abstract class Consumable : Item {
 	 * because some objects that are designated to be 
 	 * consumables may have more than 1
 	 */
-	public int amount;
+	public int Amount;
 }

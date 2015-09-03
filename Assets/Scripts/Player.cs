@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
 /**
  * Class inherited by all players
  */
+using System.Collections.Generic;
+
+
 public class Player : MonoBehaviour {
 
-	public GameObject[] inventoryUI = new GameObject[9]; // UI Slots
-	public GameObject gameManagerObject; // The game manager object
+	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
+	public GameObject GameManagerObject; // The game manager object
 
-	private Item[] inventory = new Item[9]; // Inventory
-	private GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
-	private Transform transformComponent; // The transform component of this player
-	private double[] stats; // The stats of this player
-	private ArrayList turnEffects; // The turn-based effects attached to this player
-	private int availableSpot = 0; // Earliest available spot in inventory
-	private const double DEFAULTHP = 100.0; // Default HP
-	private const double DEFAULTAP = 10.0; // Default AP
-	private bool turnEffectsApplied; // Record whether turn effects are applied
-	private GameManager gameManagerScript; // The game manager script
-	private bool noLongerActive; // Record if this player is still active
-	private bool semaphore; // Semaphore to ensure that a function is only called once
+	Item[] inventory = new Item[9]; // Inventory
+	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
+	Transform transformComponent; // The transform component of this player
+	double[] stats; // The stats of this player
+	List<TurnEffect> turnEffects; // The turn-based effects attached to this player
+	int availableSpot; // Earliest available spot in inventory
+	const double DEFAULTAP = 10.0; // Default AP
+	bool turnEffectsApplied; // Record whether turn effects are applied
+	GameManager gameManagerScript; // The game manager script
+	bool noLongerActive; // Record if this player is still active
+	bool semaphore; // Semaphore to ensure that a function is only called once
 
 	/*
 	 * Physics objects
@@ -34,26 +34,26 @@ public class Player : MonoBehaviour {
 	 * - Get rigidbody component for movement purposes - not needed yet
 	 * - Set all values in inventory to null
 	 * - Get the transform component
+	 * - Initialize available spots
 	 * - Initialize stats
 	 * - Initialize array list of turn effects
 	 * - Get the Game Manager's script
 	 * - Set turn effects applied variable to be false
 	 * - Set that this player is not active
 	 */
-	void Start () {
+	void Start() {
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
 		transformComponent = GetComponent<Transform>();
+		availableSpot = 0;
 
-		this.stats = new double[3];
-		this.stats[(int)Stat.HP] = DEFAULTHP;
-		this.stats[(int)Stat.AP] = DEFAULTAP;
+		stats = new double[3];
+		stats[(int)Stat.AP] = DEFAULTAP;
 
-		this.turnEffects = new ArrayList();
-		this.gameManagerScript = 
-				this.gameManagerObject.GetComponent<GameManager>();
-		this.turnEffectsApplied = false;
-		this.noLongerActive = true;
+		turnEffects = new List<TurnEffect>();
+		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
+		turnEffectsApplied = false;
+		noLongerActive = true;
 	}
 
 	/**
@@ -64,16 +64,16 @@ public class Player : MonoBehaviour {
 	 * - if we are in a valid turn but we are not active, don't 
 	 * allow movement
 	 */
-	void Update () {
-		if (!this.gameManagerScript.isValidTurn()) {
+	void Update() {
+		if (!gameManagerScript.IsValidTurn()) {
 			Debug.Log("Player is not in a valid turn");
-			this.turnEffectsApplied = false;
-			this.noLongerActive = false;
+			turnEffectsApplied = false;
+			noLongerActive = false;
 		}
 		else {
-			if (this.noLongerActive) {
+			if (noLongerActive) {
 				// Record that the this player is no longer active
-				this.gameManagerScript.setInactivePlayer();
+				gameManagerScript.SetInactivePlayer();
 			}
 			// Allow movement
 		}
@@ -82,57 +82,61 @@ public class Player : MonoBehaviour {
 	/**
 	 * Function handling collision with a trigger item
 	 */
-	void OnTriggerEnter (Collider other) {
+	void OnTriggerEnter(Collider other) {
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {
 			if (availableSpot == 9) return; // No more room
 
 			// Get the ui slot script
-			uiSlotScript = 
-					this.inventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
+			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
 
 			// We collided with an item. Pick it up
-			this.physicalItems[availableSpot] = other.gameObject;
+			physicalItems[availableSpot] = other.gameObject;
 			item = other.GetComponent<Item>();
-			Debug.Log("Item just collided with: " + item.itemName);
+			Debug.Log("Item just collided with: " + item.ItemName);
 			Debug.Log("Item toString: " + other.GetComponent<Item>());
-			this.inventory[availableSpot] = item;
-			Debug.Log("Item image: " + item.image);
-			uiSlotScript.insertItem(item);
+			inventory[availableSpot] = item;
+			Debug.Log("Item image: " + item.Image);
+			uiSlotScript.InsertItem(item);
 			other.gameObject.SetActive(false); // Make object disappear
 
 			// Get turn effects if they exist
-			if (item.getTurnEffects() != null) {
-				this.turnEffects.AddRange(item.getTurnEffects());
-				for (int i = 0; i < this.turnEffects.Count; ++i) {
-					Debug.Log("Player effect " + i + ": " + this.turnEffects[i]);
+			if (item.GetTurnEffects() != null) {
+				turnEffects.AddRange(item.GetTurnEffects());
+				for (int i = 0; i < turnEffects.Count; ++i) {
+					Debug.Log("Player effect " + i + ": " + turnEffects[i]);
 				}
 				Debug.Log("Added turn effects");
 			}
 
 			// Increment to the next available spot
-			while (this.inventory[availableSpot] != null) {
+			while (inventory[availableSpot] != null) {
 				availableSpot++;
 			}
 		}
 	}
 
+	// TODO: Create function that applies/gets list of turn effects
+	void getTurnEffects() {
+
+	}
+
 	/**
 	 * Function used to initialize inventory array
 	 */
-	private void initializeInventory () {
+	void initializeInventory() {
 		for (int i = 0; i < 9; ++i) { 
-			this.inventory[i] = null;
-			this.physicalItems[i] = null;
+			inventory[i] = null;
+			physicalItems[i] = null;
 		}
 	}
 
 	/**
 	 * Reinitialize player stats
 	 */
-	public void initializeStats () {
-		this.stats[(int)Stat.AP] = DEFAULTAP;
+	public void InitializeStats() {
+		stats[(int)Stat.AP] = DEFAULTAP;
 	}
 
 	/**
@@ -141,11 +145,8 @@ public class Player : MonoBehaviour {
 	 * Arguments
 	 * - GameObject contextAwareBox - The context aware box
 	 */
-	public void dropItem (GameObject contextAwareBox) {
-		Item item = 
-				(Item)contextAwareBox
-				.GetComponent<ContextAwareBoxScript>()
-				.getAttachedObject();
+	public void DropItem(GameObject contextAwareBox) {
+		Item item = (Item)contextAwareBox.GetComponent<ContextAwareBoxScript>().GetAttachedObject();
 		int itemIndex; // The index of the given item
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Debug.Log("Item to drop: " + item);
@@ -159,31 +160,29 @@ public class Player : MonoBehaviour {
 			return;
 		}
 		// Set game object to be behind the player and set it to active
-		this.physicalItems[itemIndex].SetActive(true);
-		this.physicalItems[itemIndex].transform.position = 
-				new Vector3((float)(this.transformComponent.position.x + 1.5), 
-			    (float)0.0, 
-				(float)this.transformComponent.position.z);
+		physicalItems[itemIndex].SetActive(true);
+		physicalItems[itemIndex].transform.position = 
+				new Vector3((float)(transformComponent.position.x + 1.5), (float)0.0, 
+			    transformComponent.position.z);
 
 		// Remove effects if the item has some turn effects
-		if (item.getTurnEffects() != null) {
-			foreach (TurnEffect turnEffect in item.getTurnEffects()) {
-				this.turnEffects.Remove(turnEffect);
+		if (item.GetTurnEffects() != null) {
+			foreach (TurnEffect turnEffect in item.GetTurnEffects()) {
+				turnEffects.Remove(turnEffect);
 			}
 		}
 
 		// Remove the item from the ui slot
-		uiSlotScript = 
-				this.inventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();
-		uiSlotScript.removeItem();
+		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();
+		uiSlotScript.RemoveItem();
 
 		// Set inventory references to null
-		this.inventory[itemIndex] = null;
-		this.physicalItems[itemIndex] = null;
+		inventory[itemIndex] = null;
+		physicalItems[itemIndex] = null;
 
 		// Set next available spot to be this slot
-		this.availableSpot = itemIndex;
-		Debug.Log ("Item: " + item.itemName + " Dropped");
+		availableSpot = itemIndex;
+		Debug.Log ("Item: " + item.ItemName + " Dropped");
 	}
 
 	/**
@@ -196,10 +195,10 @@ public class Player : MonoBehaviour {
 	 * - The index of the item given, if it is inside the array
 	 * - -1 otherwise
 	 */
-	private int getIndex (Item item) {
+	int getIndex(object itemToGet) {
 		for (int i = 0; i < 9; ++i) {
-			Debug.Log("Getting index: " + this.inventory[i]);
-			if (this.inventory[i].Equals(item)) return i;
+			Debug.Log("Getting index: " + inventory[i]);
+			if (inventory[i].Equals(itemToGet)) return i;
 		}
 		return -1; // Item not found
 	}
@@ -207,28 +206,22 @@ public class Player : MonoBehaviour {
 	/**
 	 * Apply turn effects attached to this object
 	 */
-	public void applyTurnEffects () {
-		if (this.turnEffectsApplied) {
+	public void ApplyTurnEffects() {
+		if (turnEffectsApplied) {
 			Debug.Log("Effects already applied");
 			return;
 		}
 		Debug.Log ("Start applying turn effects");
 		int stat; // The stat to effect
 		TurnEffect turnEffect; // The current turn effect
-		if (this.turnEffects.Count == 0) {
-			Debug.Log("No turn effects");
-			this.turnEffectsApplied = true;
-			return; // No effects
+
+		for (int i = 0; i < turnEffects.Count; ++i) {
+			turnEffect = turnEffects [i];
+			stat = turnEffect.GetStatAffected();
+			stats[stat] += turnEffect.GetValue();
 		}
-		for (int i = 0; i < this.turnEffects.Count; ++i) {
-			turnEffect = (TurnEffect)this.turnEffects[i];
-			stat = turnEffect.getStatAffected();
-			this.stats[stat] += turnEffect.getValue();
-		}
-		Debug.Log("Turn effects applied");
-		Debug.Log("New HP: " + this.stats[(int)Stat.HP]);
-		Debug.Log("New AP: " + this.stats[(int)Stat.AP]);
-		this.turnEffectsApplied = true; // We have applied turn effects
+
+		turnEffectsApplied = true; // We have applied turn effects
 	}
 
 	public Tile PlayerPosition() {

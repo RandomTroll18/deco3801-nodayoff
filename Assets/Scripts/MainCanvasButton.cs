@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MainCanvasButton : MonoBehaviour {
 	
-	public GameObject text1;
-	public GameObject text2;
-	public GameObject text3;
-	public GameObject text4;
-	public GameObject text5;
-	public GameObject text6;
+	public GameObject Text1;
+	public GameObject Text2;
+	public GameObject Text3;
+	public GameObject Text4;
+	public GameObject Text5;
+	public GameObject Text6;
 	public GameObject TutorialMenu;
 	public GameObject EscMenu;
 	public GameObject SettingMenu;
@@ -19,20 +18,20 @@ public class MainCanvasButton : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		//EscMenu.SetActive (false);
-		hideAll ();
-		ChangeTab (1);
+		hideAll();
+		ChangeTab(1);
 	}
 
 	void hideAll() {
 
-		text1.SetActive (false);
-		text2.SetActive (false);
-		text3.SetActive (false);
-		text4.SetActive (false);
-		text5.SetActive (false);
-		text6.SetActive (false);
+		Text1.SetActive(false);
+		Text2.SetActive(false);
+		Text3.SetActive(false);
+		Text4.SetActive(false);
+		Text5.SetActive(false);
+		Text6.SetActive(false);
 
 		/*
 		text7.SetActive (false);
@@ -41,13 +40,13 @@ public class MainCanvasButton : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Back ();
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			Back();
 		}
 	}
 
-	public void Back(){
+	public void Back() {
 		if (EscMenu.activeInHierarchy){
 			Toggle(EscMenu);
 			PopupPanel.SetActive(true);
@@ -66,25 +65,25 @@ public class MainCanvasButton : MonoBehaviour {
 		}
 	}
 
-	public void ChangeTab (int tabNumber) {
+	public void ChangeTab(int tabNumber) {
 		hideAll ();
 		if (tabNumber == 1) {
-			text1.SetActive (true);
+			Text1.SetActive (true);
 		} 
 		else if (tabNumber == 2) {
-			text2.SetActive (true);
+			Text2.SetActive (true);
 		} 
 		else if (tabNumber == 3) {
-			text3.SetActive (true);
+			Text3.SetActive (true);
 		} 
 		else if (tabNumber == 4) {
-			text4.SetActive (true);
+			Text4.SetActive (true);
 		} 
 		else if (tabNumber == 5) {
-			text5.SetActive (true);
+			Text5.SetActive (true);
 		} 
 		else if (tabNumber == 6) {
-			text6.SetActive (true);
+			Text6.SetActive (true);
 		} 
 
 
@@ -134,7 +133,7 @@ public class MainCanvasButton : MonoBehaviour {
 		Application.Quit ();
 	}
 
-	public void LoadLevel (string level) {
+	public void LoadLevel(string level) {
 		Application.LoadLevel(level);
 	}
 	

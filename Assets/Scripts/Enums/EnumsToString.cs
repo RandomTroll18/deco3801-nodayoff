@@ -16,11 +16,11 @@ public class EnumsToString : MonoBehaviour {
 	 * Returns
 	 * - The string version of the enum. "Unknown Stat" if unknown.
 	 */
-	public static string convertStatEnum (Stat enumToConvert) {
+	public static string ConvertStatEnum(Stat enumToConvert) {
 		switch (enumToConvert) {
-		case Stat.HP: return "HP";
-		case Stat.DEF: return "DEF";
 		case Stat.AP: return "AP";
+		case Stat.STUN: return "STUN";
+		case Stat.VISION: return "VISION";
 		default: return "Unknown Stat";
 		}
 	}
@@ -35,7 +35,7 @@ public class EnumsToString : MonoBehaviour {
 	 * Returns
 	 * - The string version of the enum. "Unknown Context" if unknown
 	 */
-	public static string convertContextEnum (Context enumToConvert) {
+	public static string ConvertContextEnum(Context enumToConvert) {
 		switch (enumToConvert) {
 		case Context.IDLE: return "IDLE";
 		case Context.INVENTORY: return "INVENTORY";

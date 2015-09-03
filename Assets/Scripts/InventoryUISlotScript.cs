@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 /**
@@ -7,34 +6,33 @@ using UnityEngine.UI;
  */
 public class InventoryUISlotScript : MonoBehaviour {
 	
-	public GameObject uiSlot = null; // The ui slot. Initially null
-	public GameObject contextAwareBox = null; // The context aware box
-	public GameObject container = null; // The parent of this ui slot
-	private bool selected = false; // Record whether ui element was clicked
-	private Image uiSlotImage = null; // The image script of the ui slot
-	private Item item = null; // The item contained in this slot
-	private ContextAwareBoxScript contextBoxScript = null; // Script of context aware box
-	private InventoryUIScript containerScript = null; // Script of parent
-	private Sprite defaultIcon; // The default icon for this ui slot
+	public GameObject UiSlot; // The ui slot. Initially null
+	public GameObject ContextAwareBox; // The context aware box
+	public GameObject Container; // The parent of this ui slot
+	bool selected; // Record whether ui element was clicked
+	Image uiSlotImage; // The image script of the ui slot
+	Item item; // The item contained in this slot
+	ContextAwareBoxScript contextBoxScript; // Script of context aware box
+	InventoryUIScript containerScript; // Script of parent
+	Sprite defaultIcon; // The default icon for this ui slot
 
 	/**
 	 * Start function. Need to do the following:
 	 * - Initialize variables only if the game objects have been set
 	 * - Get the default icon which is "Background"
 	 */
-	void Start () {
-		if (this.uiSlot != null) {
-			this.uiSlotImage = this.uiSlot.GetComponent<Image>();
+	void Start() {
+		selected = false;
+		if (UiSlot != null) {
+			uiSlotImage = UiSlot.GetComponent<Image>();
 		}
-		if (this.contextAwareBox != null) {
-			this.contextBoxScript = 
-					this.contextAwareBox.GetComponent<ContextAwareBoxScript>();
+		if (ContextAwareBox != null) {
+			contextBoxScript = ContextAwareBox.GetComponent<ContextAwareBoxScript>();
 		}
-		if (this.container != null) {
-			this.containerScript = 
-					this.container.GetComponent<InventoryUIScript>();
+		if (Container != null) {
+			containerScript = Container.GetComponent<InventoryUIScript>();
 		}
-		this.defaultIcon = Resources.Load<Sprite>("Background");
+		defaultIcon = Resources.Load<Sprite>("Background");
 	}
 
 	/**
@@ -45,17 +43,16 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 * - 0 if otherwise
 	 * - -1 if there was a problem initializing the script
 	 */
-	public int toggleSelected () {
-		Color iconColour = this.uiSlotImage.color; // Colour of the ui slot
+	public int ToggleSelected() {
+		Color iconColour = uiSlotImage.color; // Colour of the ui slot
 
-		if (this.uiSlotImage == null || this.contextBoxScript == null 
-				|| this.containerScript == null) return -1; // Do nothing
+		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return -1; // Do nothing
 		if (!selected) { // Make ui slot image opaque
 			iconColour.a += 155;
 		} else { // Make ui slot image transluscent
 			iconColour.a -= 155;
 		}
-		this.uiSlot.GetComponent<Image>().color = iconColour;
+		UiSlot.GetComponent<Image>().color = iconColour;
 		selected = !selected;
 		if (selected) return 1;
 		else return 0;
@@ -67,27 +64,25 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 * Arguments
 	 * - Item item - The item to insert
 	 */
-	public void insertItem (Item item) {
-		if (this.uiSlotImage == null || this.contextBoxScript == null 
-		    || this.containerScript == null) return; // Do nothing
-		this.item = item;
+	public void InsertItem(Item itemToInsert) {
+		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return; // Do nothing
+		item = itemToInsert;
 		// Update icon to be the item's icon
-		this.uiSlot.GetComponent<Image>().sprite = item.image;
+		UiSlot.GetComponent<Image>().sprite = item.Image;
 		Debug.Log ("Item inserted: " + item);
 		// If the slot is selected, update inventory context
-		if (selected) this.contextBoxScript.setContextToInventory(this.item);
+		if (selected) contextBoxScript.SetContextToInventory(item);
 	}
 
 	/**
 	 * Remove item from this slot
 	 */
-	public void removeItem () {
-		if (this.uiSlotImage == null || this.contextBoxScript == null 
-		    || this.containerScript == null) return; // Do nothing
-		this.item = null;
-		this.uiSlot.GetComponent<Image>().sprite = this.defaultIcon;
+	public void RemoveItem() {
+		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return; // Do nothing
+		item = null;
+		UiSlot.GetComponent<Image>().sprite = defaultIcon;
 		// If the slot is selected, update inventory context
-		if (selected) this.contextBoxScript.setContextToInventory(this.item);
+		if (selected) contextBoxScript.SetContextToInventory(item);
 	}
 
 	/**
@@ -96,8 +91,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 * Returns
 	 *  - The item attached to this slot
 	 */
-	public Item getItem () {
-		if (this.item == null) return null;
-		return this.item;
+	public Item GetItem() {
+		return item;
 	}
 }
