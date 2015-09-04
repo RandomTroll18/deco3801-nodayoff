@@ -2,6 +2,9 @@
 /**
  * Consumable which restores AP when used
  */
+using System.Collections.Generic;
+
+
 public class APRestorer : RecoveryConsumables {
 
 	/**
@@ -11,16 +14,17 @@ public class APRestorer : RecoveryConsumables {
 	 * - The stat affected
 	 */
 	void Start() {
+		double[] apEffect = new double[3];
 		ItemDescription = "Item which restores your AP";
 
 		/*
 		 * For this item, we are only affecting one stat - AP
 		 */
-		ValueEffect = new double[1];
-		StatsAffected = new Stat[1];
-
-		ValueEffect[0] = 10.0;
-		StatsAffected[0] = Stat.AP;
+		Effects = new Dictionary<Stat, double[]>();
+		apEffect[0] = 10.0;
+		apEffect[1] = -1;
+		apEffect[2] = 1.0;
+		Effects[Stat.AP] = apEffect;
 	}
 
 	/**
@@ -32,7 +36,6 @@ public class APRestorer : RecoveryConsumables {
 	public override string ToString() {
 		string valueEffectString = "Value increase: "; // The values to affect stat by
 		string statString = "Stats affected: "; // The stats affected
-		int numberOfEffects = StatsAffected.Length; // As it says
 
 		// The string to return. Start with the name
 		string toReturn = "Item Name: " + name + StringMethodsScript.NEWLINE;
@@ -43,18 +46,8 @@ public class APRestorer : RecoveryConsumables {
 		// Next, add the amount of this item
 		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
 
-		/*
-		 * Next, add the stats affected along with the value by which 
-		 * these stats are affected by. However, we only have one effect so
-		 * we won't even go into the for loop. However, if there is more 
-		 * than one effect, then change the values below accordingly
-		 */
-		for (int i = 0; i < (numberOfEffects - 1); ++i) {
-			valueEffectString += StringMethodsScript.NEWLINE + ValueEffect[i] + ", ";
-			statString += StringMethodsScript.NEWLINE + EnumsToString.ConvertStatEnum(StatsAffected[i])+ ", ";
-		}
-		valueEffectString += StringMethodsScript.NEWLINE + ValueEffect[numberOfEffects - 1] + ".";
-		statString += StringMethodsScript.NEWLINE + StatsAffected[numberOfEffects - 1] + ".";
+		valueEffectString += StringMethodsScript.NEWLINE + Effects[Stat.AP][0] + ".";
+		statString += StringMethodsScript.NEWLINE + EnumsToString.ConvertStatEnum(Stat.AP) + ".";
 
 		// Concatenate strings together and return the final string
 		toReturn += statString + StringMethodsScript.NEWLINE + valueEffectString + StringMethodsScript.NEWLINE;

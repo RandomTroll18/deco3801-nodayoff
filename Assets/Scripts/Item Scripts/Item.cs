@@ -13,29 +13,16 @@ public abstract class Item : MonoBehaviour {
 	public Sprite Image; // The icon for this image
 	protected string ItemDescription; // The description of this item
 	protected List<TurnEffect> TurnEffects; // The turn effects in this item
-
+	
 	/*
-	 * The stat affected by the given equipment and the value 
-	 * by which the stat is affected by.
-	 * If this has a size of 0, then no stat is affected
-	 * Else, the indices of stats correspond to the indices 
-	 * of the values
+	 * The effects in this item.
 	 * 
-	 * e.g. If statsAffected[0] == Stat.HP, then 
-	 * valueEffect[0] corresponds to how much that 
-	 * stat will be increased/decreased.
-	 * 
-	 * if a value in valueEffect is positive, it means that the 
-	 * affected stat is increased. Otherwise, it is decreased.
-	 * 
-	 * Note: valueEffect is not in terms of percentages. Which means 
-	 * that if valueEffect[0] == 1, then Stat.HP is now: Stat.HP + 1.
-	 * 
-	 * For consumables, statsAffected is how much a stat is 
-	 * affected on use
+	 * Concerning the array of doubles:
+	 * double[0] => to be added (e.g. Stat.AP += double[0])
+	 * double[1] => to be set (e.g. Stat.AP = double[1])
+	 * double[2] => to be multiplied (e.g. Stat.AP *= double[2])
 	 */
-	protected Stat[] StatsAffected; 
-	protected double[] ValueEffect;
+	protected Dictionary<Stat, double[]> Effects;
 	
 	/**
 	 * Function used to activate the item. 
@@ -47,8 +34,21 @@ public abstract class Item : MonoBehaviour {
 
 	/**
 	 * Get the turn effects in this item
+	 * 
+	 * Returns
+	 * - A list of turn effects
 	 */
-	public List<TurnEffect> GetTurnEffects () {
+	public List<TurnEffect> GetTurnEffects() {
 		return TurnEffects;
+	}
+
+	/**
+	 * Get the attached non-turn effects in this item.
+	 * 
+	 * Returns
+	 * - A dictionary of effects
+	 */
+	public Dictionary<Stat, double[]> GetEffects() {
+		return Effects;
 	}
 }

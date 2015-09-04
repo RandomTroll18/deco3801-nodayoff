@@ -2,7 +2,14 @@
 public class TurnEffect {
 
 	Stat statAffected; // The stat affected
-	string description;
+	string description; // Description of turn effect
+	/*
+	 * How this turn effect is to be applied
+	 * - 0 => to be added (e.g. Stat.AP += value)
+	 * - 1 => to be set (e.g. Stat.AP = value)
+	 * - 2 => to be multiplied (e.g. Stat.AP *= value);
+	 */
+	int mode;
 	/*
 	 * The value that the stat is affected by.
 	 * The value can be negative
@@ -15,10 +22,43 @@ public class TurnEffect {
 	 * Arguments
 	 * - Stat statAffected - the stat to be affected
 	 * - double value - The value that the stat will be affected by
+	 * - int mode - The way the stat would be applied
+	 * - string newDescription - The description of this turn effect
 	 */
-	public TurnEffect(Stat newStatAffected, double newValue) {
+	public TurnEffect(Stat newStatAffected, double newValue, int newMode, 
+			string newDescription) {
 		statAffected = newStatAffected;
 		value = newValue;
+		mode = newMode;
+		description = newDescription;
+	}
+
+	/**
+	 * Sets the mode of this turn effect
+	 * 
+	 * Arguments
+	 * - int newMode - The new mode for this turn effect
+	 */
+	public void SetMode(int newMode) {
+		switch (newMode) { // Apparently we are not allowed to fall through cases :(
+		case 2: goto case 0;
+		case 1: goto case 0;
+		case 0: // Valid mode
+			mode = newMode;
+			goto default;
+		default: // Invalid modes
+			break;
+		}
+	}
+
+	/**
+	 * Get the mode of this turn effect
+	 * 
+	 * Returns
+	 * - The mode
+	 */
+	public int GetMode() {
+		return mode;
 	}
 
 	/**
@@ -27,8 +67,8 @@ public class TurnEffect {
 	 * Returns
 	 * - The stat this effect is affecting
 	 */
-	public int GetStatAffected() {
-		return (int)statAffected;
+	public Stat GetStatAffected() {
+		return statAffected;
 	}
 
 	/**
@@ -62,6 +102,26 @@ public class TurnEffect {
 	}
 
 	/**
+	 * Sets the description of this turn effect
+	 * 
+	 * Arguments
+	 * - string newDescription - The new description of this turn effect
+	 */
+	public void SetDescription(string newDescription) {
+		description = newDescription;
+	}
+
+	/**
+	 * Gets the description of this turn effect
+	 * 
+	 * Returns 
+	 * - The description of this turn effect
+	 */
+	public string GetDescription() {
+		return description;
+	}
+
+	/**
 	 * Tostring function
 	 * 
 	 * Return
@@ -70,7 +130,8 @@ public class TurnEffect {
 	public override string ToString() {
 		string finalString = "Turn Effect: " + StringMethodsScript.NEWLINE;
 		finalString += "Stat: " + EnumsToString.ConvertStatEnum(statAffected) + StringMethodsScript.NEWLINE;
-		finalString += "Value: " + value;
+		finalString += "Value: " + value + StringMethodsScript.NEWLINE;
+		finalString += "Description: " + description;
 		return finalString;
 	}
 }

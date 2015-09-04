@@ -17,10 +17,7 @@ public class Pistol : ShortRangeWeapon {
 		ItemDescription = "Your standard issue pistol. Seven 9mm bullets effective " +
 			"against humans, but we can't say that it's tested on aliens";
 
-		// No stats are being affected
-		StatsAffected = null;
-		ValueEffect = null;
-		PercentEffect = null;
+		Effects = null; // No stats being affected
 
 		Damage = 10.0; // Let's say we do 10.0 damage per successful hit
 		Range = 4.0; // Let's say range is 4.0 - Not confirmed

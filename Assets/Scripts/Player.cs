@@ -1,11 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /**
  * Class inherited by all players
  */
-using System.Collections.Generic;
-
-
 public class Player : MonoBehaviour {
 
 	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
@@ -14,10 +12,12 @@ public class Player : MonoBehaviour {
 	Item[] inventory = new Item[9]; // Inventory
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
 	Transform transformComponent; // The transform component of this player
-	double[] stats; // The stats of this player
+	Dictionary<Stat, double> stats;
 	List<TurnEffect> turnEffects; // The turn-based effects attached to this player
 	int availableSpot; // Earliest available spot in inventory
 	const double DEFAULTAP = 10.0; // Default AP
+	const double DEFAULTSTUN = 0.0; // Default stun
+	const double DEFAULTVISION = 5.0; // Default vision
 	bool turnEffectsApplied; // Record whether turn effects are applied
 	GameManager gameManagerScript; // The game manager script
 	bool noLongerActive; // Record if this player is still active
@@ -46,9 +46,10 @@ public class Player : MonoBehaviour {
 		initializeInventory();
 		transformComponent = GetComponent<Transform>();
 		availableSpot = 0;
-
-		stats = new double[3];
-		stats[(int)Stat.AP] = DEFAULTAP;
+		stats = new Dictionary<Stat, double>();
+		stats[Stat.AP] = DEFAULTAP;
+		stats[Stat.STUN] = DEFAULTSTUN;
+		stats[Stat.VISION] = DEFAULTVISION;
 
 		turnEffects = new List<TurnEffect>();
 		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
@@ -136,7 +137,9 @@ public class Player : MonoBehaviour {
 	 * Reinitialize player stats
 	 */
 	public void InitializeStats() {
-		stats[(int)Stat.AP] = DEFAULTAP;
+		stats[Stat.AP] = DEFAULTAP;
+		stats[Stat.STUN] = DEFAULTSTUN;
+		stats[Stat.VISION] = DEFAULTVISION;
 	}
 
 	/**
@@ -207,17 +210,33 @@ public class Player : MonoBehaviour {
 	 * Apply turn effects attached to this object
 	 */
 	public void ApplyTurnEffects() {
+		Stat stat; // The stat to effect
+		TurnEffect turnEffect; // The current turn effect
+		int mode; // The mode of this turn effect
+
 		if (turnEffectsApplied) {
 			Debug.Log("Effects already applied");
 			return;
 		}
 		Debug.Log ("Start applying turn effects");
-		int stat; // The stat to effect
-		TurnEffect turnEffect; // The current turn effect
 
 		for (int i = 0; i < turnEffects.Count; ++i) {
-			turnEffect = turnEffects [i];
+			turnEffect = turnEffects[i];
 			stat = turnEffect.GetStatAffected();
+			mode = turnEffect.GetMode();
+			switch (mode) {
+			case 0: // Increment to stat
+				stats[stat] += turnEffect.GetValue();
+				break;
+			case 1: // Set stat
+				stats[stat] = turnEffect.GetValue();
+				break;
+			case 2: // Multiply stat
+				stats[stat] *= turnEffect.GetValue();
+				break;
+			default: // Invalid mode. Do nothing
+				break;
+			}
 			stats[stat] += turnEffect.GetValue();
 		}
 
