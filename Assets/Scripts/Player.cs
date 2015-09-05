@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 
 	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
 	public GameObject GameManagerObject; // The game manager object
+	public GameObject EndTurnButton; // End turn button
 
 	Item[] inventory = new Item[9]; // Inventory
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
@@ -124,6 +125,18 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * End this player's turn. Write everything that the 
+	 * player should do here when the player's turn ends
+	 */
+	public void EndTurn () {
+		if (!noLongerActive) {
+			noLongerActive = true;
+			gameManagerScript.SetInactivePlayer();
+			EndTurnButton.SetActive(false);
+		}
+	}
+
+	/**
 	 * Function used to initialize inventory array
 	 */
 	void initializeInventory() {
@@ -134,12 +147,21 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Initialize the following objects:
+	 * - End Turn Button
+	 */
+	public void InitializeAttachedObjects () {
+		EndTurnButton.SetActive(true);
+	}
+
+	/**
 	 * Reinitialize player stats
 	 */
 	public void InitializeStats() {
 		stats[Stat.AP] = DEFAULTAP;
 		stats[Stat.STUN] = DEFAULTSTUN;
 		stats[Stat.VISION] = DEFAULTVISION;
+
 	}
 
 	/**

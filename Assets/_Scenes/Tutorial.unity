@@ -471,6 +471,10 @@ Prefab:
       propertyPath: Panels.Array.size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 11423050, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 22492538, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -815,9 +819,33 @@ Prefab:
       propertyPath: m_Text
       value: Inventory Context
       objectReference: {fileID: 0}
+    - target: {fileID: 11423050, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11423050, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11423050, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1294418748}
+    - target: {fileID: 11423050, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 11423050, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &759636655 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 179996, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+  m_PrefabInternal: {fileID: 759636654}
 --- !u!4 &763023505 stripped
 Transform:
   m_PrefabParentObject: {fileID: 496356, guid: 6542d6c51557bef4098784fc8789c1fd, type: 2}
@@ -1096,6 +1124,10 @@ Prefab:
       propertyPath: InventoryUI.Array.data[8]
       value: 
       objectReference: {fileID: 185566542}
+    - target: {fileID: 11493398, guid: 29a47224c6f38d44c99c177872a0f526, type: 2}
+      propertyPath: EndTurnButton
+      value: 
+      objectReference: {fileID: 759636655}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29a47224c6f38d44c99c177872a0f526, type: 2}
   m_IsPrefabParent: 0

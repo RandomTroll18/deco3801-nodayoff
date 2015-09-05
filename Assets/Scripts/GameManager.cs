@@ -46,16 +46,18 @@ public class GameManager : MonoBehaviour {
 				Debug.Log ("No more active players");
 			}
 			return;
+		} else {
+			Debug.Log ("Invalid turn. Game Manager doing stuff");
+			// Reset number of players left
+			playersLeft = PlayerList.Length;
+			// Initialize player stats - AP and apply player effects
+			for (int i = 0; i < playersLeft; ++i) {
+				PlayerList[i].InitializeStats();
+				PlayerList[i].ApplyTurnEffects();
+				PlayerList[i].InitializeAttachedObjects();
+			}
+			validTurn = true;
 		}
-		Debug.Log ("Invalid turn. Game Manager doing stuff");
-		// Reset number of players left
-		playersLeft = PlayerList.Length;
-		// Initialize player stats - AP and apply player effects
-		for (int i = 0; i < playersLeft; ++i) {
-			PlayerList[i].InitializeStats();
-			PlayerList[i].ApplyTurnEffects();
-		}
-		validTurn = true;
 	}
 
 	/**
