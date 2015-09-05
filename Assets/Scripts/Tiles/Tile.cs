@@ -27,6 +27,9 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	}
 	
 	public override int GetHashCode() {
+		/* josh sucks
+		 * 		- Ben
+		 */
 		int prime = 13; // Prime number
 		int hashCode = 0; // The hash code to return
 		hashCode = (hashCode * prime) + this.X;

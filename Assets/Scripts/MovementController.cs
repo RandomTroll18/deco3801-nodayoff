@@ -209,4 +209,21 @@ public class MovementController : MonoBehaviour {
 		res.RemoveFirst(); // Don't need the original path position
 		return res;
 	}
+
+	/**
+	 * Sets the given tile to no longer be blocking. This means the movement path could now go 
+	 * through that tile. NOTE: this will not alter the scene so your blocker will still appear on
+	 * the map unless you delete it yourself. 
+	 * 
+	 * It would be nice if there was some way this method could be automatically called by Unity 
+	 * after you destroy a blocker, but I dunno how to do or if it's even possible.
+	 */
+	public void UnblockTile(Tile tile) {
+		if (!blockedTiles.Contains(tile)) {
+			Debug.LogError("You tried to unblock a tile that wasn't blocked. Did you want to do" +
+				"this?");
+		} else {
+			blockedTiles.Remove(tile);
+		}
+	}
 }
