@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour {
 
 		offset = transform.position - Player.transform.position;
 		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
+
+		 movController.UnblockTile(new Tile(-1, -8));
 	}
 
 	void Update() {
@@ -54,6 +56,7 @@ public class CameraController : MonoBehaviour {
 		// Mouse click detection
 		if (Input.GetMouseButtonUp(0)) {
 			Tile goal = Tile.MouseToTile((LayerMask));
+			Debug.Log("Clicked: " + goal.ToString());
 			if (goal != null)
 				movController.RequestMovement(goal);
 		}
