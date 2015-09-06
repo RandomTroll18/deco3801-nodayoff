@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 /**
@@ -39,6 +40,7 @@ public class MovementController : MonoBehaviour {
 	public GameObject HighlightedTile;
 	public GameObject Player;
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
+	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
 	/* Player's "moving" status */
 	Moving moving = Moving.NO;
 	/* The path of tiles the player is moving with */
@@ -91,6 +93,16 @@ public class MovementController : MonoBehaviour {
 				o.transform.position = v;
 			}
 		}
+
+		// Initalises set of all Interactable tiles
+		InteractiveObject c;
+		GameObject[] Interactables = GameObject.FindGameObjectsWithTag("Interactable");
+		foreach (GameObject i in Interactables) {
+			c = i.GetComponent<InteractiveObject>();
+			InteractiveTiles.Add(c);
+			blockedTiles.Add(c.GetTile());
+			Debug.Log("int added: " + c.GetTile().ToString());
+		}
 	}
 
 	void Update() {
@@ -130,6 +142,10 @@ public class MovementController : MonoBehaviour {
 	 * first time the player has clicked the goal or the second.
 	 */
 	public void RequestMovement(Tile goal) {
+		if (InteractiveTiles.Count >= 1) {
+			InteractiveTiles[0].CloseEvent();
+		}
+
 		if (moving == Moving.YES) {
 			return;
 		}
@@ -148,6 +164,15 @@ public class MovementController : MonoBehaviour {
 			visualPath.Clear();
 		}
 
+		int index;
+		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
+			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
+			Debug.Log(index);
+			InteractiveTiles[index].Interact();
+			//Debug.Log(InteractiveTiles[index]);
+			return;
+		}
+		
 		PathTile dest = FindPath(goal);
 		if (dest != null) {
 			SpawnHighlitedTile(goal);
@@ -240,4 +265,41 @@ public class MovementController : MonoBehaviour {
 			blockedTiles.Remove(tile);
 		}
 	}
+
+	public void blockTile(Tile tile) {
+		if (blockedTiles.Contains(tile)) {
+			Debug.LogWarning("You tried to block a tile that was blocked. Did you want to do" +
+			                 "this? FROM BEN");
+		} else {
+			blockedTiles.Add(tile);
+		}
+	}
+
+	/*
+	 * Get Index of Interactable on a certain Tile.
+	 */
+	public int GetInteractable(Tile tile) {
+		for (int i = 0; i < InteractiveTiles.Count; i++) {
+			if (tile.Equals(InteractiveTiles[i].GetTile())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/*
+	 * Checks if player is Adjacent to tile. 
+	 */
+	public bool IsNear(Tile tile, Player player) {
+		if (player.PlayerPosition().Equals(new Tile(tile.X + 1, tile.Z)) || 
+		    player.PlayerPosition().Equals(new Tile(tile.X - 1, tile.Z)) ||
+		    player.PlayerPosition().Equals(new Tile(tile.X, tile.Z + 1)) ||
+		    player.PlayerPosition().Equals(new Tile(tile.X, tile.Z - 1))) {
+			return true;
+		}
+		return false;
+	}
+
+
+
 }

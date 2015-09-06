@@ -11,6 +11,7 @@ TagManager:
   - Blocker
   - Highlighted Tile
   - Ground
+  - Interactable
   layers:
   - Default
   - TransparentFX

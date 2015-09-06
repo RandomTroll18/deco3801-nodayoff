@@ -60,7 +60,7 @@ public class CameraController : MonoBehaviour {
 		// Mouse click detection
 		if (Input.GetMouseButtonUp(0)) {
 			Tile goal = Tile.MouseToTile((LayerMask));
-			Debug.Log("Clicked: " + goal.ToString());
+			//Debug.Log("Clicked: " + goal.ToString());
 			if (goal != null)
 				movController.RequestMovement(goal);
 		}
