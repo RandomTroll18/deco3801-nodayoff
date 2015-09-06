@@ -62,18 +62,29 @@ public class MovementController : MonoBehaviour {
 		camController = Camera.main.GetComponent<CameraController>();
 		playerScript = Player.GetComponent<Player>();
 
-		// TODO: WASD
+		// TODO: WASD well it would have to be directional arrows now
 		// Should behave like a mouse click at a fixed offset
 
 
 		// Initalises set of all blocked tiles
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag("Blocker");
 		foreach (GameObject blocker in blockers) {
-			// TODO: consider the declared size of each tile
-			blockedTiles.Add(new Tile(
-				Tile.TilePosition(blocker.transform.position.x), 
-				Tile.TilePosition(blocker.transform.position.z)
-			));
+			BlockedTiles bt = blocker.GetComponent<BlockedTiles>();
+			/* I like duplicate code :} */
+			for (int i = -bt.Down; i <= bt.Up; i++) {
+				Tile t = new Tile(
+					Tile.TilePosition(blocker.transform.position.x), 
+					Tile.TilePosition(blocker.transform.position.z) + i
+					);
+				blockedTiles.Add(t);
+			}
+			for (int i = -bt.Left; i <= bt.Right; i++) {
+				Tile t = new Tile(
+					Tile.TilePosition(blocker.transform.position.x) + i, 
+					Tile.TilePosition(blocker.transform.position.z)
+					);
+				blockedTiles.Add(t);
+			}
 		}
 
 		/* Checks if blockedTiles is correct */
@@ -103,9 +114,11 @@ public class MovementController : MonoBehaviour {
 		 * just find the transform way easier.
 		 */
 		if (moving == Moving.YES) {
+			camController.LockCamera();
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
 				moving = Moving.NO;
+				camController.UnlockCamera();
 				Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
 			} else if (Player.transform.position == Tile.TileMiddle(path.First.Value)) {
 				path.RemoveFirst();
@@ -121,13 +134,13 @@ public class MovementController : MonoBehaviour {
 					Tile.TileMiddle(path.First.Value), 
 					step
 				);
-				camController.ResetCamera(); // This is a little dodgy. Locking the camera (i.e. disable camera panning code) will fix this.
+				camController.ResetCamera();
 			}
 		}
 	}
 
 	/**
-	 * This done one of two things: visualises the player's movement choice or it confirms
+	 * This does one of two things: visualises the player's movement choice or it confirms
 	 * and moves a player's movement choice. Which one is chosen depends on whether this is the
 	 * first time the player has clicked the goal or the second.
 	 */
@@ -202,6 +215,7 @@ public class MovementController : MonoBehaviour {
 				if (current.Equals(goal)) {
 					return current;
 				}
+				/* I like duplicate code :} */
 				for (int z = 1; z >= -1; z -= 2) {
 					Tile neighbour = new Tile(current.X + 0, current.Z + z);
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
@@ -244,8 +258,8 @@ public class MovementController : MonoBehaviour {
 	 */
 	public void UnblockTile(Tile tile) {
 		if (!blockedTiles.Contains(tile)) {
-			Debug.LogError("You tried to unblock a tile that wasn't blocked. Did you want to do" +
-				"this?");
+			Debug.LogWarning("You tried to unblock a tile that wasn't blocked. Did you want to do" +
+				"this? FROM BEN");
 		} else {
 			blockedTiles.Remove(tile);
 		}

@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
 	public GameObject GameManagerObject; // The game manager object
 	public GameObject EndTurnButton; // End turn button
+	public GameObject EffectCardPanel; // The effect card panel
 
 	Item[] inventory = new Item[9]; // Inventory
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour {
 	GameManager gameManagerScript; // The game manager script
 	bool noLongerActive; // Record if this player is still active
 	bool semaphore; // Semaphore to ensure that a function is only called once
+	EffectPanelScript effectPanelScript; // The effect panel script
+
 
 	/*
 	 * Physics objects
@@ -41,6 +44,7 @@ public class Player : MonoBehaviour {
 	 * - Get the Game Manager's script
 	 * - Set turn effects applied variable to be false
 	 * - Set that this player is not active
+	 * - Get the effect panel script
 	 */
 	void Start() {
 		//this.rb = GetComponent<Rigidbody>();
@@ -56,6 +60,7 @@ public class Player : MonoBehaviour {
 		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
 		turnEffectsApplied = false;
 		noLongerActive = true;
+		effectPanelScript = EffectCardPanel.GetComponent<EffectPanelScript>();
 	}
 
 	/**
@@ -106,6 +111,7 @@ public class Player : MonoBehaviour {
 			// Get turn effects if they exist
 			if (item.GetTurnEffects() != null) {
 				turnEffects.AddRange(item.GetTurnEffects());
+				effectPanelScript.AddTurnEffects(item.GetTurnEffects());
 				for (int i = 0; i < turnEffects.Count; ++i) {
 					Debug.Log("Player effect " + i + ": " + turnEffects[i]);
 				}
@@ -119,16 +125,38 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	// TODO: Create function that applies/gets list of turn effects
-	void getTurnEffects() {
-
+	/**
+	 * Apply a given turn effect
+	 * 
+	 * Arguments
+	 * - TurnEffect effect - The turn effect to apply
+	 */
+	void applyTurnEffect(TurnEffect effect) {
+		Stat stat; // The stat to effect
+		int mode; // The mode of this turn effect
+		stat = effect.GetStatAffected();
+		mode = effect.GetMode();
+		switch (mode) {
+		case 0: // Increment to stat
+			stats[stat] += effect.GetValue();
+			break;
+		case 1: // Set stat
+			stats[stat] = effect.GetValue();
+			break;
+		case 2: // Multiply stat
+			stats[stat] *= effect.GetValue();
+			break;
+		default: // Invalid mode. Do nothing
+			break;
+		}
+		stats[stat] += effect.GetValue();
 	}
 
 	/**
 	 * End this player's turn. Write everything that the 
 	 * player should do here when the player's turn ends
 	 */
-	public void EndTurn () {
+	public void EndTurn() {
 		if (!noLongerActive) {
 			noLongerActive = true;
 			gameManagerScript.SetInactivePlayer();
@@ -193,6 +221,7 @@ public class Player : MonoBehaviour {
 		// Remove effects if the item has some turn effects
 		if (item.GetTurnEffects() != null) {
 			foreach (TurnEffect turnEffect in item.GetTurnEffects()) {
+				effectPanelScript.RemoveTurnEffect(turnEffect);
 				turnEffects.Remove(turnEffect);
 			}
 		}
@@ -223,7 +252,8 @@ public class Player : MonoBehaviour {
 	int getIndex(object itemToGet) {
 		for (int i = 0; i < 9; ++i) {
 			Debug.Log("Getting index: " + inventory[i]);
-			if (inventory[i].Equals(itemToGet)) return i;
+			if (inventory[i] == null) continue; // Nothing here
+			else if (inventory[i].Equals(itemToGet)) return i;
 		}
 		return -1; // Item not found
 	}
@@ -232,10 +262,6 @@ public class Player : MonoBehaviour {
 	 * Apply turn effects attached to this object
 	 */
 	public void ApplyTurnEffects() {
-		Stat stat; // The stat to effect
-		TurnEffect turnEffect; // The current turn effect
-		int mode; // The mode of this turn effect
-
 		if (turnEffectsApplied) {
 			Debug.Log("Effects already applied");
 			return;
@@ -243,23 +269,7 @@ public class Player : MonoBehaviour {
 		Debug.Log ("Start applying turn effects");
 
 		for (int i = 0; i < turnEffects.Count; ++i) {
-			turnEffect = turnEffects[i];
-			stat = turnEffect.GetStatAffected();
-			mode = turnEffect.GetMode();
-			switch (mode) {
-			case 0: // Increment to stat
-				stats[stat] += turnEffect.GetValue();
-				break;
-			case 1: // Set stat
-				stats[stat] = turnEffect.GetValue();
-				break;
-			case 2: // Multiply stat
-				stats[stat] *= turnEffect.GetValue();
-				break;
-			default: // Invalid mode. Do nothing
-				break;
-			}
-			stats[stat] += turnEffect.GetValue();
+			applyTurnEffect(turnEffects[i]);
 		}
 
 		turnEffectsApplied = true; // We have applied turn effects
