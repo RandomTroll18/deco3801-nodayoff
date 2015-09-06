@@ -57,7 +57,7 @@ public class MovementController : MonoBehaviour {
 		camController = Camera.main.GetComponent<CameraController>();
 		playerScript = Player.GetComponent<Player>();
 
-		// TODO: WASD
+		// TODO: WASD well it would have to be directional arrows now
 		// Should behave like a mouse click at a fixed offset
 
 
@@ -125,13 +125,13 @@ public class MovementController : MonoBehaviour {
 					Tile.TileMiddle(path.First.Value), 
 					step
 				);
-				camController.ResetCamera(); // This is a little dodgy. Locking the camera (i.e. disable camera panning code) will fix this.
+				camController.ResetCamera();
 			}
 		}
 	}
 
 	/**
-	 * This done one of two things: visualises the player's movement choice or it confirms
+	 * This does one of two things: visualises the player's movement choice or it confirms
 	 * and moves a player's movement choice. Which one is chosen depends on whether this is the
 	 * first time the player has clicked the goal or the second.
 	 */
