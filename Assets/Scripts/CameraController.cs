@@ -18,6 +18,8 @@ public class CameraController : MonoBehaviour {
 	Vector3 offset;
 	//Player playerScript;
 	MovementController movController;
+	/* Whether the player can control the camera */
+	bool locked = false;
 
 	void Start() {
 		//playerScript = Player.GetComponent<Player>();
@@ -35,21 +37,23 @@ public class CameraController : MonoBehaviour {
 		Rect recup = new Rect(0, Screen.height - GUISize, Screen.width, GUISize);
 		Rect recleft = new Rect(0, 0, GUISize, Screen.height);
 		Rect recright = new Rect(Screen.width - GUISize, 0, GUISize, Screen.height);
-		
-		if (recdown.Contains(Input.mousePosition)) {
-			transform.Translate(0, 0, -CamSpeed, Space.World);
-		}
-		
-		if (recup.Contains(Input.mousePosition)) {
-			transform.Translate(0, 0, CamSpeed, Space.World);
-		}
-		
-		if (recleft.Contains(Input.mousePosition)) {
-			transform.Translate(-CamSpeed, 0, 0, Space.World);
-		}
-		
-		if (recright.Contains(Input.mousePosition)) {
-			transform.Translate(CamSpeed, 0, 0, Space.World);
+
+		if (!locked) {
+			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
+				transform.Translate(0, 0, -CamSpeed, Space.World);
+			}
+			
+			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) {
+				transform.Translate(0, 0, CamSpeed, Space.World);
+			}
+			
+			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) {
+				transform.Translate(-CamSpeed, 0, 0, Space.World);
+			}
+			
+			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) {
+				transform.Translate(CamSpeed, 0, 0, Space.World);
+			}
 		}
 
 
@@ -60,6 +64,14 @@ public class CameraController : MonoBehaviour {
 			if (goal != null)
 				movController.RequestMovement(goal);
 		}
+	}
+
+	public void LockCamera() {
+		locked = true;
+	}
+
+	public void UnlockCamera() {
+		locked = false;
 	}
 
 	/*

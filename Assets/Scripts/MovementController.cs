@@ -88,9 +88,11 @@ public class MovementController : MonoBehaviour {
 		 * just find the transform way easier.
 		 */
 		if (moving == Moving.YES) {
+			camController.LockCamera();
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
 				moving = Moving.NO;
+				camController.UnlockCamera();
 				Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
 			} else if (Player.transform.position == Tile.TileMiddle(path.First.Value)) {
 				path.RemoveFirst();
