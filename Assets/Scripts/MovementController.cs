@@ -64,12 +64,29 @@ public class MovementController : MonoBehaviour {
 		// Initalises set of all blocked tiles
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag("Blocker");
 		foreach (GameObject blocker in blockers) {
-			// TODO: consider the declared size of each tile
-			blockedTiles.Add(new Tile(
-				Tile.TilePosition(blocker.transform.position.x), 
-				Tile.TilePosition(blocker.transform.position.z)
-			));
+			BlockedTiles bt = blocker.GetComponent<BlockedTiles>();
+			Debug.Log(bt.Up);
+			Debug.Log(bt.Down);
+			/* I like duplicate code :} */
+			for (int i = -bt.Down; i <= bt.Up; i++) {
+				Tile t = new Tile(
+					Tile.TilePosition(blocker.transform.position.x), 
+					Tile.TilePosition(blocker.transform.position.z) + i
+					);
+				Debug.Log(t.ToString());
+				blockedTiles.Add(t);
+			}
+			for (int i = -bt.Left; i <= bt.Right; i++) {
+				Tile t = new Tile(
+					Tile.TilePosition(blocker.transform.position.x) + i, 
+					Tile.TilePosition(blocker.transform.position.z)
+					);
+				Debug.Log(t.ToString());
+				blockedTiles.Add(t);
+			}
 		}
+
+		Debug.Log("SADSADASDADS");
 
 		/* Checks if blockedTiles is correct */
 		if (debugging) {
@@ -180,6 +197,7 @@ public class MovementController : MonoBehaviour {
 				if (current.Equals(goal)) {
 					return current;
 				}
+				/* I like duplicate code :} */
 				for (int z = 1; z >= -1; z -= 2) {
 					Tile neighbour = new Tile(current.X + 0, current.Z + z);
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
@@ -222,7 +240,7 @@ public class MovementController : MonoBehaviour {
 	 */
 	public void UnblockTile(Tile tile) {
 		if (!blockedTiles.Contains(tile)) {
-			Debug.LogError("You tried to unblock a tile that wasn't blocked. Did you want to do" +
+			Debug.Log("You tried to unblock a tile that wasn't blocked. Did you want to do" +
 				"this?");
 		} else {
 			blockedTiles.Remove(tile);
