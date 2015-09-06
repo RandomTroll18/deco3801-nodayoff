@@ -142,14 +142,10 @@ public class MovementController : MonoBehaviour {
 	 * first time the player has clicked the goal or the second.
 	 */
 	public void RequestMovement(Tile goal) {
-		int index;
-		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
-			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
-			Debug.Log(index);
-			InteractiveTiles[index].Interact();
-			//Debug.Log(InteractiveTiles[index]);
-			return;
+		if (InteractiveTiles.Count >= 1) {
+			InteractiveTiles[0].CloseEvent();
 		}
+
 		if (moving == Moving.YES) {
 			return;
 		}
@@ -168,6 +164,15 @@ public class MovementController : MonoBehaviour {
 			visualPath.Clear();
 		}
 
+		int index;
+		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
+			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
+			Debug.Log(index);
+			InteractiveTiles[index].Interact();
+			//Debug.Log(InteractiveTiles[index]);
+			return;
+		}
+		
 		PathTile dest = FindPath(goal);
 		if (dest != null) {
 			SpawnHighlitedTile(goal);
@@ -258,6 +263,15 @@ public class MovementController : MonoBehaviour {
 				"this? FROM BEN");
 		} else {
 			blockedTiles.Remove(tile);
+		}
+	}
+
+	public void blockTile(Tile tile) {
+		if (blockedTiles.Contains(tile)) {
+			Debug.LogWarning("You tried to block a tile that was blocked. Did you want to do" +
+			                 "this? FROM BEN");
+		} else {
+			blockedTiles.Add(tile);
 		}
 	}
 

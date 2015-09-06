@@ -9,6 +9,8 @@ public class InteractiveObject : MonoBehaviour {
 	//public bool IsInteracting = false;
 
 	//the UICanvas
+	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
+	public GameObject Player;
 	public GameObject Panel;
 	public Text NameLabel;
 	//public Text DescriptionLabel;
@@ -29,6 +31,8 @@ public class InteractiveObject : MonoBehaviour {
 	private bool IsBlocked;
 	private bool IsClosed;
 
+	private MovementController MController;
+
 
 	void Start() {
 
@@ -47,6 +51,8 @@ public class InteractiveObject : MonoBehaviour {
 		this.IsActivated = false;
 		this.IsClosed = true;
 
+		this.MController = Player.GetComponent<MovementController>();
+
 
 		Debug.Log (this.Position.ToString());
 		
@@ -56,29 +62,52 @@ public class InteractiveObject : MonoBehaviour {
 	public void Interact() {
 		Debug.Log ("Interacted with " + this.name + " at " + this.Position.ToString());
 		// TODO: Figure whats wrong with code below & add toggle Panel
-		if (Panel.activeInHierarchy) {
-			Panel.SetActive(false);
-		} else {
-			// TODO: Change text
-			NameLabel.text = this.Name;
-			// TODO: Change Button function
-			Panel.GetComponent<EventCard>().SetCurrent(this);
-			// TODO: Change Slider properties
-			APSlider.value = 0;
-			APSlider.maxValue = this.APLimit;
-			Panel.SetActive(true);
-		}
+		Panel.SetActive(true);
+		// TODO: Change text
+		NameLabel.text = this.Name;
+		// TODO: Change Button function
+		Panel.GetComponent<EventCard>().SetCurrent(this);
+		// TODO: Change Slider properties
+		APSlider.value = 0;
+		APSlider.maxValue = this.APLimit;
+		Panel.SetActive(true);
+
 		return;
+	}
+
+	public void CloseEvent(){
+		Panel.SetActive(false);
 	}
 
 	public void TakeAction(float input){
 		if (input == 0)
 			return;
 		Debug.Log (input + "AP has been used on " + this.Name);
+		// TODO: RNG Element to opening
+		if (true) {
+			if (IsClosed) {
+				this.IsClosed = false;
+				this.Open(this.getTile());
+				Debug.Log ("OPEN");
+			} else {
+				this.IsClosed = true;
+				this.Close(this.getTile());
+				Debug.Log ("CLOSE");
+			}
+
+		}
 	}
 
 	public Tile getTile(){
 		return this.Position;
+	}
+
+	public void Open(Tile t){
+		MController.UnblockTile(t);
+	}
+
+	public void Close(Tile t){
+		MController.blockTile(t);
 	}
 
 
