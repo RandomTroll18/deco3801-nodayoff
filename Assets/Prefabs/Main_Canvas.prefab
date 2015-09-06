@@ -29,7 +29,7 @@ GameObject:
   - 222: {fileID: 22242386}
   - 114: {fileID: 11413878}
   m_Layer: 5
-  m_Name: EventCardPanel
+  m_Name: EffectCardPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -476,23 +476,6 @@ GameObject:
   - 224: {fileID: 22451048}
   - 222: {fileID: 22291736}
   - 114: {fileID: 11402522}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &122978
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 22462102}
-  - 222: {fileID: 22247178}
-  - 114: {fileID: 11434402}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -2154,7 +2137,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 164856}
@@ -2331,7 +2314,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: dropItem
+        m_MethodName: DropItem
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 136908}
@@ -2396,9 +2379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 193280}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 193280}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11408394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2906,9 +2889,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 164856}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 164856}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11419192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2986,7 +2969,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 134322}
@@ -3084,7 +3067,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11404142}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: EndTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11423298
@@ -3155,7 +3149,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 193280}
@@ -3501,7 +3495,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 104336}
@@ -3513,32 +3507,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11434402
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Event Cards
 --- !u!114 &11436126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3649,7 +3617,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 174164}
@@ -4381,7 +4349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acbd8424b9aaf544e91108d642e40a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contextAwareBox: {fileID: 136908}
+  ContextAwareBox: {fileID: 136908}
 --- !u!114 &11453226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4414,9 +4382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 134322}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 134322}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11453318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4480,9 +4448,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 115142}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 115142}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11454134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4591,7 +4559,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 170408}
@@ -4724,9 +4692,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 165510}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 165510}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11459050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4907,12 +4875,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772cc985127297e409980c777bf3a821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text1: {fileID: 164962}
-  text2: {fileID: 110906}
-  text3: {fileID: 177910}
-  text4: {fileID: 103064}
-  text5: {fileID: 159938}
-  text6: {fileID: 192718}
+  Text1: {fileID: 164962}
+  Text2: {fileID: 110906}
+  Text3: {fileID: 177910}
+  Text4: {fileID: 103064}
+  Text5: {fileID: 159938}
+  Text6: {fileID: 192718}
   TutorialMenu: {fileID: 125936}
   EscMenu: {fileID: 196808}
   SettingMenu: {fileID: 131644}
@@ -5340,9 +5308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 150202}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 150202}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11471574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5383,7 +5351,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11490246}
-        m_MethodName: activateAttachedItem
+        m_MethodName: ActivateAttachedItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5406,9 +5374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 170408}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 170408}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11473648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5420,9 +5388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 174164}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 174164}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11473828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5578,7 +5546,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 115142}
@@ -5853,9 +5821,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34dc89e573ad704eaf6c4949fdfd27f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSlot: {fileID: 104336}
-  contextAwareBox: {fileID: 136908}
-  container: {fileID: 176882}
+  UiSlot: {fileID: 104336}
+  ContextAwareBox: {fileID: 136908}
+  Container: {fileID: 176882}
 --- !u!114 &11485448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6004,8 +5972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainPanel: {fileID: 160706}
-  currentPanel: 0
-  panels:
+  CurrentPanel: 0
+  Panels:
   - {fileID: 141994}
   - {fileID: 118892}
   - {fileID: 179866}
@@ -6168,7 +6136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbdb57ad170016439ea03af1db8cd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryContextPanel:
+  InventoryContextPanel:
   - {fileID: 134872}
   - {fileID: 194744}
   - {fileID: 142472}
@@ -6276,7 +6244,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 165510}
@@ -6547,7 +6515,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11452972}
-        m_MethodName: setSelected
+        m_MethodName: SetSelected
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 150202}
@@ -7183,12 +7151,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134322}
---- !u!222 &22247178
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122978}
 --- !u!222 &22247346
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -7531,8 +7493,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 66.9000015, y: -10}
+  m_SizeDelta: {x: 133.699997, y: 20}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22401906
 RectTransform:
@@ -8710,8 +8672,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 22462102}
+  m_Children: []
   m_Father: {fileID: 22435998}
   m_RootOrder: 8
   m_AnchorMin: {x: 1, y: 1}
@@ -8825,11 +8786,11 @@ RectTransform:
   - {fileID: 22497400}
   m_Father: {fileID: 22435998}
   m_RootOrder: 7
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -44, y: 315.25}
+  m_AnchorMin: {x: .5, y: 1}
+  m_AnchorMax: {x: .5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 233, y: 137.5}
-  m_Pivot: {x: .5, y: .5}
+  m_Pivot: {x: .5, y: 1}
 --- !u!224 &22461538
 RectTransform:
   m_ObjectHideFlags: 1
@@ -8848,23 +8809,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 37.5}
   m_SizeDelta: {x: 206, y: 281}
   m_Pivot: {x: 0, y: .5}
---- !u!224 &22462102
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122978}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22456274}
-  m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 307, y: 117}
-  m_Pivot: {x: .5, y: .5}
 --- !u!224 &22464740
 RectTransform:
   m_ObjectHideFlags: 1

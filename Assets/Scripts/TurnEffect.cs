@@ -1,6 +1,10 @@
 ﻿
+using UnityEngine;
+
 public class TurnEffect {
 
+
+	Sprite icon; // The icon for this turn effect
 	Stat statAffected; // The stat affected
 	string description; // Description of turn effect
 	/*
@@ -24,13 +28,25 @@ public class TurnEffect {
 	 * - double value - The value that the stat will be affected by
 	 * - int mode - The way the stat would be applied
 	 * - string newDescription - The description of this turn effect
+	 * - string iconPath - The path to the icon (with the Resources folder as the root)
 	 */
 	public TurnEffect(Stat newStatAffected, double newValue, int newMode, 
-			string newDescription) {
+			string newDescription, string iconPath) {
 		statAffected = newStatAffected;
 		value = newValue;
 		mode = newMode;
 		description = newDescription;
+		icon  = Resources.Load<Sprite>(iconPath);
+	}
+
+	/**
+	 * Get the icon of this turn effect
+	 * 
+	 * Return
+	 * - The icon attached to this turn effect
+	 */
+	public Sprite GetIcon() {
+		return icon;
 	}
 
 	/**
