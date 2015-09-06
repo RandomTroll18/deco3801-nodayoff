@@ -65,15 +65,12 @@ public class MovementController : MonoBehaviour {
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag("Blocker");
 		foreach (GameObject blocker in blockers) {
 			BlockedTiles bt = blocker.GetComponent<BlockedTiles>();
-			Debug.Log(bt.Up);
-			Debug.Log(bt.Down);
 			/* I like duplicate code :} */
 			for (int i = -bt.Down; i <= bt.Up; i++) {
 				Tile t = new Tile(
 					Tile.TilePosition(blocker.transform.position.x), 
 					Tile.TilePosition(blocker.transform.position.z) + i
 					);
-				Debug.Log(t.ToString());
 				blockedTiles.Add(t);
 			}
 			for (int i = -bt.Left; i <= bt.Right; i++) {
@@ -81,12 +78,9 @@ public class MovementController : MonoBehaviour {
 					Tile.TilePosition(blocker.transform.position.x) + i, 
 					Tile.TilePosition(blocker.transform.position.z)
 					);
-				Debug.Log(t.ToString());
 				blockedTiles.Add(t);
 			}
 		}
-
-		Debug.Log("SADSADASDADS");
 
 		/* Checks if blockedTiles is correct */
 		if (debugging) {
