@@ -240,8 +240,8 @@ public class MovementController : MonoBehaviour {
 	 */
 	public void UnblockTile(Tile tile) {
 		if (!blockedTiles.Contains(tile)) {
-			Debug.Log("You tried to unblock a tile that wasn't blocked. Did you want to do" +
-				"this?");
+			Debug.LogWarning("You tried to unblock a tile that wasn't blocked. Did you want to do" +
+				"this? FROM BEN");
 		} else {
 			blockedTiles.Remove(tile);
 		}
