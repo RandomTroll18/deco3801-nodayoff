@@ -90,16 +90,11 @@ public class MovementController : MonoBehaviour {
 		InteractiveObject c;
 		GameObject[] Interactable = GameObject.FindGameObjectsWithTag("Interactable");
 		foreach (GameObject i in Interactable) {
-			c = new InteractiveObject(0, new Tile(
-				Tile.TilePosition(i.transform.position.x), 
-				Tile.TilePosition(i.transform.position.z)
-				));
+			c = i.GetComponent<InteractiveObject>();
 			InteractiveTiles.Add(c);
 			blockedTiles.Add(c.getTile());
-			//Debug.Log("int added: " + c.getTile().ToString());
+			Debug.Log("int added: " + c.getTile().ToString());
 		}
-
-
 	}
 
 	void Update() {

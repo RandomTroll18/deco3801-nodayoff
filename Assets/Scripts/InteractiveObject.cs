@@ -12,8 +12,10 @@ public class InteractiveObject : MonoBehaviour {
 	public GameObject Panel;
 	public Text NameLabel;
 	//public Text DescriptionLabel;
-	public Slider Slider;
+	public Slider APSlider;
 	public Button Button;
+	//public Tile Target;
+
 
 	private int ObjectID;
 	private Tile Position;
@@ -27,10 +29,16 @@ public class InteractiveObject : MonoBehaviour {
 	private bool IsBlocked;
 	private bool IsClosed;
 
-	public InteractiveObject(int ID, Tile t) {
-		this.ObjectID = ID;
-		this.Position = t;
 
+	void Start() {
+
+		this.ObjectID = 0;
+
+		this.Position = new Tile(
+			Tile.TilePosition(this.transform.position.x), 
+			Tile.TilePosition(this.transform.position.z)
+			);
+		
 		this.Name = "Test";
 		this.Description = "Lorum Ipsum";
 		this.APLimit = 3;
@@ -38,30 +46,35 @@ public class InteractiveObject : MonoBehaviour {
 		this.RNGvariable = 1;
 		this.IsActivated = false;
 		this.IsClosed = true;
-	
-	}
-	
-	public InteractiveObject() {
-		;
+
+
+		Debug.Log (this.Position.ToString());
+		
+		
 	}
 	
 	public void Interact() {
 		Debug.Log ("Interacted with " + this.name + " at " + this.Position.ToString());
 		// TODO: Figure whats wrong with code below & add toggle Panel
-		/*
-		Debug.Log (Panel.activeInHierarchy);
 		if (Panel.activeInHierarchy) {
 			Panel.SetActive(false);
 		} else {
+			// TODO: Change text
+			NameLabel.text = this.Name;
+			// TODO: Change Button function
+			Panel.GetComponent<EventCard>().SetCurrent(this);
+			// TODO: Change Slider properties
+			APSlider.value = 0;
+			APSlider.maxValue = this.APLimit;
 			Panel.SetActive(true);
 		}
-		*/
-		// TODO: Change text
-		NameLabel.text = this.name;
-		// TODO: Change Button function
-		// TODO: Change Slider properties
-
 		return;
+	}
+
+	public void TakeAction(float input){
+		if (input == 0)
+			return;
+		Debug.Log (input + "AP has been used on " + this.Name);
 	}
 
 	public Tile getTile(){
