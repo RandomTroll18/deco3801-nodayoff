@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 	public GameObject EndTurnButton; // End turn button
 	public GameObject EffectCardPanel; // The effect card panel
 
+	PlayerClass playerClass; // The class of this player
 	Item[] inventory = new Item[9]; // Inventory
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
 	Transform transformComponent; // The transform component of this player
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour {
 	 * Do the following to start the player:
 	 * - Get rigidbody component for movement purposes - not needed yet
 	 * - Set all values in inventory to null
+	 * - Set the player's class to the base class for now
 	 * - Get the transform component
 	 * - Initialize available spots
 	 * - Initialize stats
@@ -49,6 +51,8 @@ public class Player : MonoBehaviour {
 	void Start() {
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
+		SetPlayerClass("Base");
+		Debug.Log("Player Class: " + GetPlayerClass());
 		transformComponent = GetComponent<Transform>();
 		availableSpot = 0;
 		stats = new Dictionary<Stat, double>();
@@ -84,6 +88,31 @@ public class Player : MonoBehaviour {
 			}
 			// Allow movement
 		}
+	}
+
+	/**
+	 * Sets the class of this player
+	 * 
+	 * Arguments
+	 * - string playerClass - The class to give to this player
+	 */
+	public void SetPlayerClass(string newPlayerClass) {
+		switch (newPlayerClass) {
+		case "Base": goto default;
+		default: // The default class will be the base
+			playerClass = new BaseClass();
+			return;
+		}
+	}
+
+	/**
+	 * Returns the class of this player in human readable format
+	 * 
+	 * Returns
+	 * - The name of this player's class
+	 */
+	public string GetPlayerClass() {
+		return playerClass.GetPlayerClassType();
 	}
 
 	/**
@@ -186,9 +215,9 @@ public class Player : MonoBehaviour {
 	 * Reinitialize player stats
 	 */
 	public void InitializeStats() {
-		stats[Stat.AP] = DEFAULTAP;
-		stats[Stat.STUN] = DEFAULTSTUN;
-		stats[Stat.VISION] = DEFAULTVISION;
+		stats[Stat.AP] = playerClass.GetDefaultAP();
+		stats[Stat.STUN] = playerClass.GetDefaultStun();
+		stats[Stat.VISION] = playerClass.GetDefaultVision();
 
 	}
 
