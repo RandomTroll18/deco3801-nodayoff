@@ -34,15 +34,15 @@ public class InteractiveObject : MonoBehaviour {
 	private MovementController MController;
 
 
-	void Start() {
+	void Awake() {
 
 		this.ObjectID = 0;
 
 		this.Position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
 			Tile.TilePosition(this.transform.position.z)
-			);
-		
+		);
+
 		this.Name = "Test";
 		this.Description = "Lorum Ipsum";
 		this.APLimit = 3;
@@ -87,18 +87,18 @@ public class InteractiveObject : MonoBehaviour {
 		if (true) {
 			if (IsClosed) {
 				this.IsClosed = false;
-				this.Open(this.getTile());
+				this.Open(this.GetTile());
 				Debug.Log ("OPEN");
 			} else {
 				this.IsClosed = true;
-				this.Close(this.getTile());
+				this.Close(this.GetTile());
 				Debug.Log ("CLOSE");
 			}
 
 		}
 	}
 
-	public Tile getTile(){
+	public Tile GetTile(){
 		return this.Position;
 	}
 

@@ -96,12 +96,12 @@ public class MovementController : MonoBehaviour {
 
 		// Initalises set of all Interactable tiles
 		InteractiveObject c;
-		GameObject[] Interactable = GameObject.FindGameObjectsWithTag("Interactable");
-		foreach (GameObject i in Interactable) {
+		GameObject[] Interactables = GameObject.FindGameObjectsWithTag("Interactable");
+		foreach (GameObject i in Interactables) {
 			c = i.GetComponent<InteractiveObject>();
 			InteractiveTiles.Add(c);
-			blockedTiles.Add(c.getTile());
-			Debug.Log("int added: " + c.getTile().ToString());
+			blockedTiles.Add(c.GetTile());
+			Debug.Log("int added: " + c.GetTile().ToString());
 		}
 	}
 
@@ -280,7 +280,7 @@ public class MovementController : MonoBehaviour {
 	 */
 	public int GetInteractable(Tile tile) {
 		for (int i = 0; i < InteractiveTiles.Count; i++) {
-			if (tile.Equals(InteractiveTiles[i].getTile())) {
+			if (tile.Equals(InteractiveTiles[i].GetTile())) {
 				return i;
 			}
 		}
