@@ -30,7 +30,7 @@ GameObject:
   - 114: {fileID: 11438474}
   m_Layer: 0
   m_Name: wallHorizontalWestEnd
-  m_TagString: Blocker
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,7 +192,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .5, y: 0, z: -18.5}
+  m_LocalPosition: {x: .5, y: 0, z: -2.5}
   m_LocalScale: {x: .00999999978, y: .00999999978, z: .00999999978}
   m_Children:
   - {fileID: 479020}
