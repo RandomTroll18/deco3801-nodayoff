@@ -27,10 +27,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 486086}
   - 65: {fileID: 6597044}
-  - 114: {fileID: 11438474}
+  - 114: {fileID: 11439292}
   m_Layer: 0
   m_Name: wallHorizontalWestEnd
-  m_TagString: Blocker
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,7 +192,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .5, y: 0, z: -18.5}
+  m_LocalPosition: {x: .5, y: 0, z: -2.5}
   m_LocalScale: {x: .00999999978, y: .00999999978, z: .00999999978}
   m_Children:
   - {fileID: 479020}
@@ -431,7 +431,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11438474
+--- !u!114 &11439292
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -439,13 +439,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 130006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d6ab634d7670a49a82f1a82a557c9c, type: 3}
+  m_Script: {fileID: 11500000, guid: ada7a2155022c164a819c7b260818c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Up: 0
-  Down: 0
-  Left: 0
-  Right: 0
+  ObjectID: 0
+  IsActivated: 0
+  IsBlocked: 0
+  IsInteracting: 0
+  Panel: {fileID: 0}
+  Label1: {fileID: 0}
+  Slider: {fileID: 0}
+  Button: {fileID: 0}
+  movController: {fileID: 0}
 --- !u!114 &11450476
 MonoBehaviour:
   m_ObjectHideFlags: 1

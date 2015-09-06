@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 /**
  * Controls the player's movement within the game.
  * Assumes: there is only one player with the script "Player".
  */
+using System.Linq;
+
+
 public class MovementController : MonoBehaviour {
 	enum Moving {
 		NO,			/* Player has not clicked a tile to move to */
@@ -39,6 +43,7 @@ public class MovementController : MonoBehaviour {
 	public GameObject HighlightedTile;
 	public GameObject Player;
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
+	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
 	/* Player's "moving" status */
 	Moving moving = Moving.NO;
 	/* The path of tiles the player is moving with */
@@ -80,6 +85,21 @@ public class MovementController : MonoBehaviour {
 				o.transform.position = v;
 			}
 		}
+
+		// Initalises set of all Interactable tiles
+		InteractiveObject c;
+		GameObject[] Interactable = GameObject.FindGameObjectsWithTag("Interactable");
+		foreach (GameObject i in Interactable) {
+			c = new InteractiveObject(0, new Tile(
+				Tile.TilePosition(i.transform.position.x), 
+				Tile.TilePosition(i.transform.position.z)
+				));
+			InteractiveTiles.Add(c);
+			blockedTiles.Add(c.getTile());
+			//Debug.Log("int added: " + c.getTile().ToString());
+		}
+
+
 	}
 
 	void Update() {
@@ -117,6 +137,15 @@ public class MovementController : MonoBehaviour {
 	 * first time the player has clicked the goal or the second.
 	 */
 	public void RequestMovement(Tile goal) {
+		int index;
+		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
+			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
+			Debug.Log(index);
+			InteractiveTiles[index].Interact();
+			//Debug.Log(InteractiveTiles[index]);
+			return;
+		}
+
 		if (moving == Moving.YES) {
 			return;
 		}
@@ -226,4 +255,24 @@ public class MovementController : MonoBehaviour {
 			blockedTiles.Remove(tile);
 		}
 	}
+
+	public int GetInteractable(Tile tile) {
+		for (int i = 0; i < InteractiveTiles.Count(); i++) {
+			if (tile.Equals(InteractiveTiles[i].getTile())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public bool IsNear(Tile tile, Player player) {
+		if (player.PlayerPosition().Equals(new Tile(tile.X + 1, tile.Z)) || 
+		    player.PlayerPosition().Equals(new Tile(tile.X - 1, tile.Z)) ||
+		    player.PlayerPosition().Equals(new Tile(tile.X, tile.Z + 1)) ||
+		    player.PlayerPosition().Equals(new Tile(tile.X, tile.Z - 1))) {
+			return true;
+		}
+		return false;
+	}
+
 }

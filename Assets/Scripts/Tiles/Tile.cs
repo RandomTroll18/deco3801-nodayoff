@@ -6,7 +6,7 @@ using UnityEngine;
  */
 public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	public int X;
-	public int Z;
+	public int Z; 
 	
 	public Tile(int x, int z) {
 		this.X = x;
