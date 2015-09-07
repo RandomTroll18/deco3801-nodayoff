@@ -156,7 +156,7 @@ public class Player : MonoBehaviour {
 		if (other.gameObject.CompareTag ("Trap")) {
 
 			Trap TrapObject = other.GetComponent<Trap>();
-			TrapObject.Activated();
+			TrapObject.Activated(this);
 		}
 
 	}

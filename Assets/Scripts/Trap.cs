@@ -14,10 +14,14 @@ public class Trap : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	public void Activated () {
+	public void Activated (Player p) {
 
 		Debug.Log ("Sorry Yugi, but you've triggered my trap card!");
 		Destroy(this.gameObject);
+		GameObject card = Instantiate (Resources.Load ("EventCard")) as GameObject;
+		//GameObject card2 = Instantiate (Resources.Load ("EventCard"), Vector3(transform.position.x,transform.position.y, transform.position.z) , Quaternion.identity);
+		GameObject UI = GameObject.Find("Main_Canvas");
+		card.transform.parent = UI.transform;
 
 	}
 

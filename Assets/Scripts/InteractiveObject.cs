@@ -66,7 +66,7 @@ public class InteractiveObject : MonoBehaviour {
 		// TODO: Change text
 		NameLabel.text = this.Name;
 		// TODO: Change Button function
-		Panel.GetComponent<EventCard>().SetCurrent(this);
+		Panel.GetComponent<SkillCheck>().SetCurrent(this);
 		// TODO: Change Slider properties
 		APSlider.value = 0;
 		APSlider.maxValue = this.APLimit;

@@ -4,25 +4,16 @@ using System.Collections;
 
 public class EventCard : MonoBehaviour {
 
-	public Slider APSlider;
+	public GameObject prefab;
 
-	private InteractiveObject Current;
+	// Use this for initialization
 
-
-	void Start(){
+	void Start () {
 
 	}
 
-	public void Action(GameObject x) {
-		x.GetComponent<EventCard>().Action();
+	// Update is called once per frame
+	void Update () {
+		
 	}
-
-	public void Action(){
-		Current.TakeAction(APSlider.value);
-	}
-
-	public void SetCurrent(InteractiveObject i) {
-		this.Current = i;
-	}
-
 }
