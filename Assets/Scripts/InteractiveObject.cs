@@ -114,29 +114,6 @@ public class InteractiveObject : MonoBehaviour {
     
 }
 
-public class Trap : InteractiveObject {
-	// Activate Trap function
-	public virtual void ActivateTrap(){
-		// TODO: Add Trap effect
-	}
-}
-
-public class PopUp : Trap {
-	// Activate Trap function
-	public override void ActivateTrap(){
-		// TODO: Add Trap effect
-		// TODO: Show popup
-	}
-}
-
-public class StunTrap : Trap {
-	// Activate Trap function
-	public override void ActivateTrap(){
-		// TODO: Add Trap effect
-
-	}
-}
-
 public class Removeable : InteractiveObject {
 	public virtual void TryToRemove(){
 		// TODO: Add Trap effect

@@ -152,6 +152,13 @@ public class Player : MonoBehaviour {
 				availableSpot++;
 			}
 		}
+
+		if (other.gameObject.CompareTag ("Trap")) {
+
+			Trap TrapObject = other.GetComponent<Trap>();
+			TrapObject.Activated();
+		}
+
 	}
 
 	/**

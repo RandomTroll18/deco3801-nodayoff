@@ -12,6 +12,7 @@ TagManager:
   - Highlighted Tile
   - Ground
   - Interactable
+  - Trap
   layers:
   - Default
   - TransparentFX
