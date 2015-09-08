@@ -21,7 +21,7 @@ public class Trap : MonoBehaviour {
 		GameObject card = Instantiate (Resources.Load ("EventCard")) as GameObject;
 		//GameObject card2 = Instantiate (Resources.Load ("EventCard"), Vector3(transform.position.x,transform.position.y, transform.position.z) , Quaternion.identity);
 		GameObject UI = GameObject.Find("Main_Canvas");
-		card.transform.parent = UI.transform;
+		card.transform.SetParent(UI.transform, false);
 
 	}
 
