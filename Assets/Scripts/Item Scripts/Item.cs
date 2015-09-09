@@ -11,8 +11,14 @@ public abstract class Item : MonoBehaviour {
 
 	public string ItemName; // The name of this item
 	public Sprite Image; // The icon for this image
+
 	protected string ItemDescription; // The description of this item
 	protected List<TurnEffect> TurnEffects; // The turn effects in this item
+	protected int CoolDown; // Cool down for activation. This is in terms of turns
+	protected int CoolDownSetting; // The amount of turns that this item should be cooling down for
+	protected double Range = 1; // The range of this item's activation action
+	protected ActivationType ItemActivationType; // Activation Type of this item
+	protected RangeType ItemRangeType; // The range type of this item
 	
 	/*
 	 * The effects in this item.
@@ -23,15 +29,63 @@ public abstract class Item : MonoBehaviour {
 	 * double[2] => to be multiplied (e.g. Stat.AP *= double[2])
 	 */
 	protected Dictionary<Stat, double[]> Effects;
-	
+
 	/**
-	 * Function used to activate the item. 
-	 * Overridable by subclasses
+	 * Get the Activation Type of this item
+	 * 
+	 * Returns
+	 * - The activation type of this item
 	 */
-	public virtual void Activate() {
-		Debug.Log ("Item: " + ItemName + " Activated");
+	public ActivationType GetActivationType() {
+		return ItemActivationType;
 	}
 
+	/**
+	 * Get the Range Type of this item
+	 * 
+	 * Returns
+	 * - The range type of this item
+	 */
+	public RangeType GetRangeType() {
+		return ItemRangeType;
+	}
+
+	/**
+	 * Get the range of this item
+	 * 
+	 * Returns
+	 * - The range of this item
+	 */
+	public double GetRange() {
+		return Range;
+	}
+
+	/**
+	 * Reset Cool Down
+	 */
+	public void ResetCoolDown() {
+		CoolDown = 0;
+	}
+
+	/**
+	 * Reduce the amount of turns before this item can be used again.
+	 * Simply decrement.
+	 */
+	public void ReduceCoolDown() {
+		if (CoolDown != 0) CoolDown--;
+		Debug.Log(ItemName + " Cool Down Remaining: " + CoolDown);
+	}
+
+	/**
+	 * Get the amount of turns left before this item can be used again
+	 * 
+	 * Returns
+	 * - Remaining Cool Down Turns
+	 */
+	public int RemainingCoolDownturns() {
+		return CoolDown;
+	}
+	
 	/**
 	 * Get the turn effects in this item
 	 * 
@@ -51,4 +105,21 @@ public abstract class Item : MonoBehaviour {
 	public Dictionary<Stat, double[]> GetEffects() {
 		return Effects;
 	}
+
+	/**
+	 * Use this function when instantiating this object, which, 
+	 * apparently, bypasses the Start() function
+	 */
+	public virtual void StartAfterInstantiate() {
+		Debug.Log("Item: " + ItemName + " started after instantiation");
+	}
+
+	/**
+	 * Function used to activate the item. 
+	 * Overridable by subclasses
+	 */
+	public virtual void Activate() {
+		Debug.Log(ItemName + " attempting to be activated");
+	}
+
 }

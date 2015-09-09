@@ -41,4 +41,39 @@ public class EnumsToString : MonoBehaviour {
 		default: return "Unknown Context";
 		}
 	}
+
+	/**
+	 * Convert given activation type enum to a string
+	 * 
+	 * Arguments
+	 * - ActivationType enumToConvert - The activation type to convert
+	 * 
+	 * Returns
+	 * - The string version of the enum. "Unknown Activation Type" if unknown
+	 */
+	public static string ConvertActivationTypeEnum(ActivationType enumToConvert) {
+		switch (enumToConvert) {
+		case ActivationType.OFFENSIVE: return "OFFENISVE";
+		case ActivationType.DEFENSIVE: return "DEFENSIVE";
+		case ActivationType.SUPPORTIVE: return "SUPPORTIVE";
+		default: return "Unknown Activation Type";
+		}
+	}
+
+	/**
+	 * Convert given range type enum to a string
+	 * 
+	 * Arguments
+	 * - RangeType enumToConvert - The range type to convert
+	 * 
+	 * Returns
+	 * - The string version of the enum. "Unknown Range Type" if unknown
+	 */
+	public static string ConvertRangeTypeEnum(RangeType enumToConvert) {
+		switch (enumToConvert) {
+		case RangeType.SQUARERANGE: return "SQUARE RANGE";
+		case RangeType.STRAIGHTLINERANGE: return "STRAIGHT LINE RANGE";
+		default: return "Unknown Range Type";
+		}
+	}
 }

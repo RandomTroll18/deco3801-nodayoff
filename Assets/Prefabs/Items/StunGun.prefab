@@ -1,43 +1,43 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &176242
+--- !u!1 &175900
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 486276}
-  - 33: {fileID: 3313246}
-  - 65: {fileID: 6505456}
-  - 23: {fileID: 2357416}
-  - 114: {fileID: 11492898}
-  - 54: {fileID: 5458524}
+  - 4: {fileID: 465852}
+  - 33: {fileID: 3326308}
+  - 65: {fileID: 6591004}
+  - 23: {fileID: 2330400}
+  - 114: {fileID: 11494560}
+  - 54: {fileID: 5423044}
   m_Layer: 0
-  m_Name: KevlarVest
+  m_Name: StunGun
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &486276
+--- !u!4 &465852
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176242}
+  m_GameObject: {fileID: 175900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.11999989, y: 0, z: 2.3499999}
+  m_LocalPosition: {x: .25999999, y: 0, z: -8.38000011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2357416
+--- !u!23 &2330400
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176242}
+  m_GameObject: {fileID: 175900}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -56,19 +56,19 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3313246
+--- !u!33 &3326308
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176242}
+  m_GameObject: {fileID: 175900}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5458524
+--- !u!54 &5423044
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176242}
+  m_GameObject: {fileID: 175900}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -78,30 +78,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6505456
+--- !u!65 &6591004
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176242}
+  m_GameObject: {fileID: 175900}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11492898
+--- !u!114 &11494560
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176242}
+  m_GameObject: {fileID: 175900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa1707b3ec703ed41baadd891e91ff11, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b259c35e47ce96499e107f0d879f5e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemName: Kevlar Vest
+  ItemName: Stun Gun
   Image: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed, type: 3}
 --- !u!1001 &100100000
 Prefab:
@@ -109,38 +109,8 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: image
-      value: 
-      objectReference: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed,
-        type: 3}
-    - target: {fileID: 0}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Size.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: ItemName
-      value: Kevlar Vest
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: Image
-      value: 
-      objectReference: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed,
-        type: 3}
+    m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 176242}
+  m_RootGameObject: {fileID: 175900}
   m_IsPrefabParent: 1

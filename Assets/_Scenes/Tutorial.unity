@@ -824,7 +824,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 422500, guid: 29a47224c6f38d44c99c177872a0f526, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11493398, guid: 29a47224c6f38d44c99c177872a0f526, type: 2}
       propertyPath: inventoryUI.Array.data[0]
@@ -954,6 +954,10 @@ Prefab:
       propertyPath: EffectCardPanel
       value: 
       objectReference: {fileID: 1066744939}
+    - target: {fileID: 11493398, guid: 29a47224c6f38d44c99c177872a0f526, type: 2}
+      propertyPath: StunGunPrefab
+      value: 
+      objectReference: {fileID: 175900, guid: b7ff5306b1c7acb4985b2295b47de133, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29a47224c6f38d44c99c177872a0f526, type: 2}
   m_IsPrefabParent: 0
@@ -1285,6 +1289,22 @@ Prefab:
       propertyPath: m_Name
       value: EffectBoxPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 134872, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1294418743}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
   m_IsPrefabParent: 0
@@ -2242,6 +2262,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 451451a7b81eae6468aefd63baec6819, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2017601931 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 136908, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+  m_PrefabInternal: {fileID: 1295520810}
+--- !u!114 &2017601932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2017601931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a28546edbdae3e448fd84a9d169b538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActivationTilePrefab: {fileID: 197380, guid: 0de4ea29ff01d084c843e97f2b0ca826, type: 2}
 --- !u!1 &2018908286 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 134322, guid: 7303fe0916c6272419ed13d87f047651, type: 2}

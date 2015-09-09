@@ -3,6 +3,9 @@
 /**
  * The class for a Kevlar Vest (Armour)
  */
+using UnityEngine;
+
+
 public class KevlarVest : Armour {
 
 	/**
@@ -23,6 +26,14 @@ public class KevlarVest : Armour {
 		// Add turn effects
 		TurnEffects = new List<TurnEffect>();
 		TurnEffects.Add(effect);
+	}
+
+	/**
+	 * Override Activate Function
+	 */
+	public override void Activate() {
+		base.Activate();
+		Debug.Log("Kevlar Vest Has No Activation Function");
 	}
 
 	/**

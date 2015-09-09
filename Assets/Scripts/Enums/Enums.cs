@@ -24,3 +24,25 @@ public enum Context {
 	IDLE,
 	INVENTORY
 };
+
+/*
+ * Enum for Activation Types - Tile Generation Purposes
+ * OFFENSIVE - Offensive Activation - Need Reddish Activation Tiles
+ * DEFENSIVE - Defensive Activation - Need Blueish Activation Tiles
+ * SUPPORTIVE - Supportive Activation (e.g. Healing) - Need Greenish Activation Tiles
+ */
+public enum ActivationType {
+	OFFENSIVE, 
+	DEFENSIVE, 
+	SUPPORTIVE
+};
+
+/*
+ * Enum for Range Types
+ * SQUARERANGE - Range is in the form of a square
+ * STRAIGHTLINERANGE - Range is in a straight line
+ */
+public enum RangeType {
+	SQUARERANGE,
+	STRAIGHTLINERANGE
+};

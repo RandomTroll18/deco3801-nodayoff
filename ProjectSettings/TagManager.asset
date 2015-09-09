@@ -13,6 +13,7 @@ TagManager:
   - Ground
   - Interactable
   - Trap
+  - Activation Tile
   layers:
   - Default
   - TransparentFX

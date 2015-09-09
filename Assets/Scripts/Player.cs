@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	public GameObject GameManagerObject; // The game manager object
 	public GameObject EndTurnButton; // End turn button
 	public GameObject EffectCardPanel; // The effect card panel
+	public GameObject StunGunPrefab; // Stun Gun Prefab
 
 	Dictionary<Stat, double> stats; // Dictionary of stats
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
@@ -46,8 +47,10 @@ public class Player : MonoBehaviour {
 	 * - Set turn effects applied variable to be false
 	 * - Set that this player is not active
 	 * - Get the effect panel script
+	 * - Instantiate a Stun Gun for the player and have the player pick it up
 	 */
 	void Start() {
+		GameObject stunGunObject; // The stun gun object
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
 
@@ -67,6 +70,11 @@ public class Player : MonoBehaviour {
 		turnEffectsApplied = false;
 		noLongerActive = true;
 		effectPanelScript = EffectCardPanel.GetComponent<EffectPanelScript>();
+
+		stunGunObject = Instantiate(StunGunPrefab);
+		stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
+		stunGunObject.transform.position = 
+				new Vector3(transformComponent.position.x, (float)0.0, transformComponent.position.z);
 	}
 
 	/**
@@ -336,6 +344,16 @@ public class Player : MonoBehaviour {
 		}
 
 		turnEffectsApplied = true; // We have applied turn effects
+	}
+
+	/**
+	 * Reduce the cool downs for the items attached to this player
+	 */
+	public void ReduceItemCoolDowns() {
+		foreach (Item item in inventory) {
+			if (item == null) continue;
+			item.ReduceCoolDown();
+		}
 	}
 
 	public Tile PlayerPosition() {

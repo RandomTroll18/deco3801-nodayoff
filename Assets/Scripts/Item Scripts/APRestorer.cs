@@ -1,10 +1,11 @@
 ﻿
+
+using System.Collections.Generic;
+using UnityEngine;
+
 /**
  * Consumable which restores AP when used
  */
-using System.Collections.Generic;
-
-
 public class APRestorer : RecoveryConsumables {
 
 	/**
@@ -25,6 +26,14 @@ public class APRestorer : RecoveryConsumables {
 		apEffect[1] = -1;
 		apEffect[2] = 1.0;
 		Effects[Stat.AP] = apEffect;
+	}
+
+	/**
+	 * Override Activate function
+	 */
+	public override void Activate() {
+		base.Activate();
+		Debug.Log("AP Restorer activation");
 	}
 
 	/**

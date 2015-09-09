@@ -11,6 +11,8 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	 * 3 = Drop Button
 	 */
 	public GameObject[] InventoryContextPanel = new GameObject[4];
+
+	ActivationTileHandler activationTileScript; // Script for Activation Tiles
 	Context currentContext; // The current context
 	Object attachedObject; // Object currently attached
 
@@ -21,6 +23,8 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	 */
 	void Start() {
 		SetContextToIdle();
+
+		activationTileScript = GetComponent<ActivationTileHandler>();
 	}
 
 	/**
@@ -71,9 +75,17 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	 * should be used for are:
 	 * - Items
 	 * - Interactive Objects
+	 * 
+	 * Arguments
+	 * - GameObject playerObject - The player
 	 */
-	public void ActivateAttachedItem() {
+	public void ActivateAttachedItem(GameObject playerObject) {
 		Item item; // The item to be activated
+		Player playerScript = playerObject.GetComponent<Player>();
+
+		/* The X and Z Coordinates of the calling player */
+		int playerPositionX = playerScript.PlayerPosition().X * 2;
+		int playerPositionZ = playerScript.PlayerPosition().Z * 2;
 		if (currentContext == Context.INVENTORY) {
 			// We are in the inventory context
 			item = (Item)attachedObject;
@@ -81,6 +93,13 @@ public class ContextAwareBoxScript : MonoBehaviour {
 				Debug.Log ("No Item Given");
 				return;
 			}
+			Debug.Log("Item Name: " + item.ItemName);
+
+			activationTileScript.GenerateActivationTiles(
+					item.GetRange(), 
+					playerPositionX, playerPositionZ, 
+					item.GetRangeType(), item.GetActivationType());
+
 			item.Activate();
 		}
 	}
