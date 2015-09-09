@@ -7,8 +7,28 @@ using System.Collections.Generic;
  */
 public abstract class PlayerClass {
 
-	protected Dictionary<Stat, double> defaultStats; // Default stats
-	
+	protected Dictionary<Stat, double> DefaultStats; // Default stats
+	protected Dictionary<Stat, double> Discount; // Discounts
+
+	/**
+	 * Return the discount for Vision
+	 * 
+	 * Returns
+	 * - The discount multiplier for vision
+	public double GetVisionDiscount() {
+		return Discount[Stat.VISION];
+	}
+
+	/**
+	 * Return the discount for AP
+	 * 
+	 * Returns
+	 * -  The discount multiplier for AP
+	 */
+	public double GetAPDiscount() {
+		return Discount[Stat.AP];
+	}
+
 	/**
 	 * Return the default AP for this class
 	 * 
@@ -16,7 +36,7 @@ public abstract class PlayerClass {
 	 * - The default AP
 	 */
 	public double GetDefaultAP() {
-		return defaultStats[Stat.AP];
+		return DefaultStats[Stat.AP];
 	}
 
 	/**
@@ -26,7 +46,7 @@ public abstract class PlayerClass {
 	 * - The default vision value
 	 */
 	public double GetDefaultVision() {
-		return defaultStats[Stat.VISION];
+		return DefaultStats[Stat.VISION];
 	}
 
 	/**

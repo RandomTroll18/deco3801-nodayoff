@@ -118,6 +118,16 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Returns the actual player class object attached to this player
+	 * 
+	 * Returns
+	 * - The actual player class
+	 */
+	public PlayerClass GetPlayerClassObject() {
+		return playerClass;
+	}
+
+	/**
 	 * Function handling event when we exit a trigger
 	 */
 	void OnTriggerExit(Collider other) {

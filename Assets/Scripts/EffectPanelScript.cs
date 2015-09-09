@@ -4,37 +4,37 @@ using System.Collections.Generic;
 
 public class EffectPanelScript : MonoBehaviour {
 
-	public GameObject Panel; // The effect card panel
-	public GameObject CardPrefab; // The prefab for a card
-	List<GameObject> cards; // List of cards
+	public GameObject Panel; // The effect box panel
+	public GameObject BoxPrefab; // The prefab for a box
+	List<GameObject> boxes; // List of boxes
 	RectTransform panelTransform;  // The transform component of the panel
-	float cardWidth; // The width of the card
-	float cardHeight; // The height of the card
+	float boxWidth; // The width of the box
+	float boxHeight; // The height of the box
 
 	/**
 	 * Start function. Things to do
 	 * - Initialize list of effects
 	 * - Get the RectTransform component of the panel
-	 * - Set the card's height and width (relative measurement)
+	 * - Set the box's height and width (relative measurement)
 	 */
 	void Start() {
-		cards = new List<GameObject>();
+		boxes = new List<GameObject>();
 		panelTransform = Panel.GetComponent<RectTransform>();
-		cardWidth = (float)-47.8333;
-		cardHeight = (float)-45.8333;
+		boxWidth = (float)-47.8333;
+		boxHeight = (float)-45.8333;
 	}
 
 	/**
 	 * Update the UI when list of turn effects is updated
 	 */
 	void updateUI() {
-		int rowCount = 1; // The number of cards in the row
+		int rowCount = 1; // The number of boxes in the row
 		int heightCount = 0; // The number of rows
-		foreach (GameObject card in cards) {
-			// Set the card position
-			card.GetComponent<RectTransform>().anchoredPosition3D = 
-				new Vector3((((cardWidth - 25) * rowCount)), (cardHeight * heightCount));
-			card.GetComponent<Image>().sprite = card.GetComponent<EffectCardScript>().GetEffect().GetIcon();
+		foreach (GameObject box in boxes) {
+			// Set the box position
+			box.GetComponent<RectTransform>().anchoredPosition3D = 
+				new Vector3((((boxWidth - 25) * rowCount)), (boxHeight * heightCount));
+			box.GetComponent<Image>().sprite = box.GetComponent<EffectBoxScript>().GetEffect().GetIcon();
 			rowCount++;
 			if (rowCount == 13) { // New row
 				rowCount = 0;
@@ -51,17 +51,17 @@ public class EffectPanelScript : MonoBehaviour {
 	 * - List<TurnEffect> newEffects - New effects to add
 	 */
 	public void AddTurnEffects(List<TurnEffect> newEffects) {
-		GameObject card; // Card to instantiate
-		EffectCardScript cardScript; // The script attached to the card
+		GameObject box; // Box to instantiate
+		EffectBoxScript boxScript; // The script attached to the box
 		foreach (TurnEffect effect in newEffects) {
-			card = Instantiate<GameObject>(CardPrefab); // Instantiate UI element
-			card.GetComponent<RectTransform>().SetParent(panelTransform); // Set the parent
-			card.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
-			card.GetComponent<RectTransform>().anchorMin = new Vector2(1, 1);
-			card.GetComponent<Image>().sprite = effect.GetIcon(); // Set the icon
-			cards.Add(card); // Add this game object to the list of cards
-			cardScript = card.GetComponent<EffectCardScript>(); // Get Card Script
-			cardScript.AddEffect(effect); // Add the turn effect to the card
+			box = Instantiate<GameObject>(BoxPrefab); // Instantiate UI element
+			box.GetComponent<RectTransform>().SetParent(panelTransform); // Set the parent
+			box.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+			box.GetComponent<RectTransform>().anchorMin = new Vector2(1, 1);
+			box.GetComponent<Image>().sprite = effect.GetIcon(); // Set the icon
+			boxes.Add(box); // Add this game object to the list of boxs
+			boxScript = box.GetComponent<EffectBoxScript>(); // Get Box Script
+			boxScript.AddEffect(effect); // Add the turn effect to the box
 		}
 		updateUI();
 	}
@@ -73,12 +73,12 @@ public class EffectPanelScript : MonoBehaviour {
 	 * - TurnEffect toRemove - The effect to be removed
 	 */
 	public void RemoveTurnEffect(TurnEffect toRemove) {
-		EffectCardScript cardScript; // The script attached to a card
-		foreach (GameObject card in cards) {
-			cardScript = card.GetComponent<EffectCardScript>();
-			if (cardScript.GetEffect().Equals(toRemove)) {
-				cards.Remove(card); // Remove this game object from list of cards
-				Destroy(card); // Destroy this from existence
+		EffectBoxScript boxScript; // The script attached to a box
+		foreach (GameObject box in boxes) {
+			boxScript = box.GetComponent<EffectBoxScript>();
+			if (boxScript.GetEffect().Equals(toRemove)) {
+				boxes.Remove(box); // Remove this game object from list of boxs
+				Destroy(box); // Destroy this from existence
 				break;
 			}
 		}
