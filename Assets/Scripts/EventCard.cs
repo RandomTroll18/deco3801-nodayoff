@@ -4,7 +4,7 @@ using System.Collections;
 
 public class EventCard : MonoBehaviour {
 
-	public GameObject prefab;
+	//public GameObject prefab;
 
 	// Use this for initialization
 
@@ -16,4 +16,9 @@ public class EventCard : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void Close(){
+		Destroy(transform.gameObject);
+	}
+	
 }

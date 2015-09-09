@@ -23,6 +23,7 @@ public class Trap : MonoBehaviour {
 		GameObject UI = GameObject.Find("Main_Canvas");
 		card.transform.SetParent(UI.transform, false);
 
+
 	}
 
 }
