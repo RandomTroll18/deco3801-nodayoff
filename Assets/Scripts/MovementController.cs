@@ -67,6 +67,12 @@ public class MovementController : MonoBehaviour {
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag("Blocker");
 		foreach (GameObject blocker in blockers) {
 			BlockedTiles bt = blocker.GetComponent<BlockedTiles>();
+
+			if (bt == null){
+				Debug.LogWarning("BlockedTiles doesn't exist at " + blocker.transform.position + " " +
+				                 blocker.transform.parent.name);
+			}
+
 			/* I like duplicate code :} */
 			for (int i = -bt.Down; i <= bt.Up; i++) {
 				Tile t = new Tile(

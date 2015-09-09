@@ -12,6 +12,7 @@ public class InteractiveObject : MonoBehaviour {
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
 	public GameObject Player;
 	public GameObject Panel;
+	public GameObject Target;
 	public Text NameLabel;
 	//public Text DescriptionLabel;
 	public Slider APSlider;
@@ -108,6 +109,10 @@ public class InteractiveObject : MonoBehaviour {
 
 	public void Close(Tile t){
 		MController.blockTile(t);
+	}
+
+	public void TargetDestory(){
+
 	}
 
 
