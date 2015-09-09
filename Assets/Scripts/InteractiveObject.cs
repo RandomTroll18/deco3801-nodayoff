@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using System.Collections;
 
 //class representing Interactive Objects
 public class InteractiveObject : MonoBehaviour {
@@ -26,7 +26,6 @@ public class InteractiveObject : MonoBehaviour {
 	private string Name;
 	private string Description;
 	private int APLimit;
-	private int multiplier;
 	private int RNGvariable;
 	private bool IsActivated;
 	private bool IsBlocked;
@@ -47,16 +46,12 @@ public class InteractiveObject : MonoBehaviour {
 		this.Name = "Test";
 		this.Description = "Lorum Ipsum";
 		this.APLimit = 3;
-		this.multiplier = 1;
 		this.RNGvariable = 1;
 		this.IsActivated = false;
 		this.IsClosed = true;
 
 		this.MController = Player.GetComponent<MovementController>();
-
-
-		Debug.Log (this.Position.ToString());
-		
+		Debug.Log (this.Position.ToString());		
 		
 	}
 	
@@ -81,10 +76,17 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	public void TakeAction(float input){
-		if (input == 0)
+		if (input == 0) {
 			return;
+		}
+
+		//PlayerClass Class = this.Player.GetPlayerClassObject();
+		//double Multiplier;
+
 		Debug.Log (input + "AP has been used on " + this.Name);
 		// TODO: RNG Element to opening
+		this.TargetDestroy();
+		/*
 		if (true) {
 			if (IsClosed) {
 				this.IsClosed = false;
@@ -96,7 +98,8 @@ public class InteractiveObject : MonoBehaviour {
 				Debug.Log ("CLOSE");
 			}
 
-		}
+		} 
+		 */
 	}
 
 	public Tile GetTile(){
@@ -111,12 +114,27 @@ public class InteractiveObject : MonoBehaviour {
 		MController.blockTile(t);
 	}
 
-	public void TargetDestory(){
-
+	public void TargetOpen(){
+		Tile t = new Tile(
+			Tile.TilePosition(this.Target.transform.position.x), 
+			Tile.TilePosition(this.Target.transform.position.z)
+			);
+		MController.UnblockTile(t);
 	}
 
+	public void TargetClose(){
+		Tile t = new Tile(
+			Tile.TilePosition(this.Target.transform.position.x), 
+			Tile.TilePosition(this.Target.transform.position.z)
+			);
+		MController.blockTile(t);
+	}
 
-    
+	public void TargetDestroy(){
+		this.TargetClose();
+		Destroy(this.Target);
+	}
+
 }
 
 public class Removeable : InteractiveObject {
