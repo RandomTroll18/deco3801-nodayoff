@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 /**
  * Script handling individual ui slots
@@ -32,7 +33,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 		if (Container != null) {
 			containerScript = Container.GetComponent<InventoryUIScript>();
 		}
-		defaultIcon = Resources.Load<Sprite>("Background");
+		defaultIcon = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
 	}
 
 	/**

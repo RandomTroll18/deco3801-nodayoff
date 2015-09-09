@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
 	PlayerClass playerClass; // The class of this player
 	Item[] inventory = new Item[9]; // Inventory
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
+	List<GameObject> droppedItems; // Recently dropped items
 	Transform transformComponent; // The transform component of this player
 	Dictionary<Stat, double> stats;
 	List<TurnEffect> turnEffects; // The turn-based effects attached to this player
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour {
 	 * - Set all values in inventory to null
 	 * - Set the player's class to the base class for now
 	 * - Get the transform component
+	 * - Initialize list of recently dropped items
 	 * - Initialize available spots
 	 * - Initialize stats
 	 * - Initialize array list of turn effects
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour {
 	void Start() {
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
+		droppedItems = new List<GameObject>();
 		SetPlayerClass("Base");
 		Debug.Log("Player Class: " + GetPlayerClass());
 		transformComponent = GetComponent<Transform>();
@@ -116,6 +119,15 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Function handling event when we exit a trigger
+	 */
+	void OnTriggerExit(Collider other) {
+		if (other.gameObject.CompareTag("Item")) { // Remove item from list of dropped items
+			droppedItems.Remove(other.gameObject);
+		}
+	}
+
+	/**
 	 * Function handling collision with a trigger item
 	 */
 	void OnTriggerEnter(Collider other) {
@@ -123,7 +135,7 @@ public class Player : MonoBehaviour {
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {
 			if (availableSpot == 9) return; // No more room
-
+			if (droppedItems.Contains(other.gameObject)) return; // Just recently dropped
 			// Get the ui slot script
 			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
 
@@ -148,7 +160,7 @@ public class Player : MonoBehaviour {
 			}
 
 			// Increment to the next available spot
-			while (inventory[availableSpot] != null) {
+			while (availableSpot != 9 && inventory[availableSpot] != null) {
 				availableSpot++;
 			}
 		}
@@ -251,8 +263,11 @@ public class Player : MonoBehaviour {
 		// Set game object to be behind the player and set it to active
 		physicalItems[itemIndex].SetActive(true);
 		physicalItems[itemIndex].transform.position = 
-				new Vector3((float)(transformComponent.position.x + 1.5), (float)0.0, 
+				new Vector3(transformComponent.position.x, (float)0.0, 
 			    transformComponent.position.z);
+
+		// Add item to list of recently dropped items
+		droppedItems.Add(physicalItems[itemIndex]);
 
 		// Remove effects if the item has some turn effects
 		if (item.GetTurnEffects() != null) {
@@ -270,8 +285,11 @@ public class Player : MonoBehaviour {
 		inventory[itemIndex] = null;
 		physicalItems[itemIndex] = null;
 
-		// Set next available spot to be this slot
-		availableSpot = itemIndex;
+		// Find next available spot
+		availableSpot = 0;
+		while (availableSpot != 9 && inventory[availableSpot] != null) {
+			availableSpot++;
+		}
 		Debug.Log ("Item: " + item.ItemName + " Dropped");
 	}
 
