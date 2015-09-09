@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class BaseClass : PlayerClass {
 
@@ -7,9 +7,9 @@ public class BaseClass : PlayerClass {
 	 * Constructor
 	 */
 	public BaseClass() {
-		DefaultAP = 10.0; // Default AP is 10
-		DefaultStun = 0.0; // Not stunned by default
-		DefaultVision = 5.0; // Vision of base class is a range of 5 units
+		defaultStats = new Dictionary<Stat, double>();
+		defaultStats[Stat.AP] = 10.0; // Default AP is 10
+		defaultStats[Stat.VISION] = 5.0; // Vision of base class is a range of 5 units
 	}
 
 	/**

@@ -11,23 +11,20 @@ public class Player : MonoBehaviour {
 	public GameObject EndTurnButton; // End turn button
 	public GameObject EffectCardPanel; // The effect card panel
 
-	PlayerClass playerClass; // The class of this player
-	Item[] inventory = new Item[9]; // Inventory
+	Dictionary<Stat, double> stats; // Dictionary of stats
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
+	Item[] inventory = new Item[9]; // Inventory
 	List<GameObject> droppedItems; // Recently dropped items
-	Transform transformComponent; // The transform component of this player
-	Dictionary<Stat, double> stats;
 	List<TurnEffect> turnEffects; // The turn-based effects attached to this player
-	int availableSpot; // Earliest available spot in inventory
-	const double DEFAULTAP = 10.0; // Default AP
-	const double DEFAULTSTUN = 0.0; // Default stun
-	const double DEFAULTVISION = 5.0; // Default vision
-	bool turnEffectsApplied; // Record whether turn effects are applied
-	GameManager gameManagerScript; // The game manager script
-	bool noLongerActive; // Record if this player is still active
-	bool semaphore; // Semaphore to ensure that a function is only called once
-	EffectPanelScript effectPanelScript; // The effect panel script
 
+	GameManager gameManagerScript; // The game manager script
+	EffectPanelScript effectPanelScript; // The effect panel script
+	PlayerClass playerClass; // The class of this player
+	Transform transformComponent; // The transform component of this player
+	int availableSpot; // Earliest available spot in inventory
+	bool turnEffectsApplied; // Record whether turn effects are applied
+	bool noLongerActive; // Record if this player is still active
+	bool isStunned; // Record if this player is stunned
 
 	/*
 	 * Physics objects
@@ -53,15 +50,17 @@ public class Player : MonoBehaviour {
 	void Start() {
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
+
 		droppedItems = new List<GameObject>();
+
 		SetPlayerClass("Base");
 		Debug.Log("Player Class: " + GetPlayerClass());
+
 		transformComponent = GetComponent<Transform>();
 		availableSpot = 0;
+
 		stats = new Dictionary<Stat, double>();
-		stats[Stat.AP] = DEFAULTAP;
-		stats[Stat.STUN] = DEFAULTSTUN;
-		stats[Stat.VISION] = DEFAULTVISION;
+		InitializeStats();
 
 		turnEffects = new List<TurnEffect>();
 		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
@@ -235,7 +234,7 @@ public class Player : MonoBehaviour {
 	 */
 	public void InitializeStats() {
 		stats[Stat.AP] = playerClass.GetDefaultAP();
-		stats[Stat.STUN] = playerClass.GetDefaultStun();
+		isStunned = false;
 		stats[Stat.VISION] = playerClass.GetDefaultVision();
 
 	}

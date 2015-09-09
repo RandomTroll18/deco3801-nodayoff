@@ -20,23 +20,23 @@ public class EffectPanelScript : MonoBehaviour {
 	void Start() {
 		cards = new List<GameObject>();
 		panelTransform = Panel.GetComponent<RectTransform>();
-		cardWidth = (float)47.8333;
-		cardHeight = (float)45.8333;
+		cardWidth = (float)-47.8333;
+		cardHeight = (float)-45.8333;
 	}
 
 	/**
 	 * Update the UI when list of turn effects is updated
 	 */
 	void updateUI() {
-		int rowCount = 0; // The number of cards in the row
+		int rowCount = 1; // The number of cards in the row
 		int heightCount = 0; // The number of rows
 		foreach (GameObject card in cards) {
 			// Set the card position
 			card.GetComponent<RectTransform>().anchoredPosition3D = 
-				new Vector3((cardWidth * rowCount), (cardHeight * heightCount));
+				new Vector3((((cardWidth - 25) * rowCount)), (cardHeight * heightCount));
 			card.GetComponent<Image>().sprite = card.GetComponent<EffectCardScript>().GetEffect().GetIcon();
 			rowCount++;
-			if (rowCount == 12) { // New row
+			if (rowCount == 13) { // New row
 				rowCount = 0;
 				heightCount++;
 			}
@@ -56,6 +56,8 @@ public class EffectPanelScript : MonoBehaviour {
 		foreach (TurnEffect effect in newEffects) {
 			card = Instantiate<GameObject>(CardPrefab); // Instantiate UI element
 			card.GetComponent<RectTransform>().SetParent(panelTransform); // Set the parent
+			card.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+			card.GetComponent<RectTransform>().anchorMin = new Vector2(1, 1);
 			card.GetComponent<Image>().sprite = effect.GetIcon(); // Set the icon
 			cards.Add(card); // Add this game object to the list of cards
 			cardScript = card.GetComponent<EffectCardScript>(); // Get Card Script

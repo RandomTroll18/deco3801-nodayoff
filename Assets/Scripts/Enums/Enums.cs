@@ -8,12 +8,10 @@ using System.Collections;
 /*
  * Enum for stats
  * AP - Action Points
- * STUN - Stun Flag
  * VISION - Range of Sight
  */
 public enum Stat {
 	AP,
-	STUN,
 	VISION
 };
 

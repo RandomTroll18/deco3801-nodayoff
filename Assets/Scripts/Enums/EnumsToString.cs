@@ -19,7 +19,6 @@ public class EnumsToString : MonoBehaviour {
 	public static string ConvertStatEnum(Stat enumToConvert) {
 		switch (enumToConvert) {
 		case Stat.AP: return "AP";
-		case Stat.STUN: return "STUN";
 		case Stat.VISION: return "VISION";
 		default: return "Unknown Stat";
 		}
