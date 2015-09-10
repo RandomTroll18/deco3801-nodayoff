@@ -6,7 +6,7 @@ using System.Collections;
  * 
  * Primary objectives are just Objectives.
  */
-public class Objective {
+public abstract class Objective {
 	string title;
 	string description;
 	Tile location;
@@ -38,5 +38,5 @@ public class Objective {
 		}
 	}
 
-	// TODO: OnComplete()
+	public abstract void OnComplete();
 }
