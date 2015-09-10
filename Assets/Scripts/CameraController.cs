@@ -67,13 +67,17 @@ public class CameraController : MonoBehaviour {
 
 		// Mouse click detection
 		if (Input.GetMouseButtonUp(0)) {
-			Tile goal = Tile.MouseToTile((LayerMask));
-			//Debug.Log("Clicked: " + goal.ToString());
-			if (actController.ActivationTiles().Contains(goal)) {
-				Debug.Log("Clicked Tile: (" + goal.X + ", " + goal.Z + ")");
-				actController.Activate(goal);
-			} else if (goal != null) {
-				movController.RequestMovement(goal);
+			if (!EventSystem.current.IsPointerOverGameObject()) {
+				Tile goal = Tile.MouseToTile((LayerMask));
+				//Debug.Log("Clicked: " + goal.ToString());
+				if (actController.ActivationTiles().Contains(goal)) {
+					Debug.Log("Clicked Tile: (" + goal.X + ", " + goal.Z + ")");
+					if (actController == null) Debug.Log("Act Controller is null");
+					actController.Activate(goal);
+				} else if (goal != null) {
+					actController.DestroyActivationTiles(); // Stop targetting
+					movController.RequestMovement(goal);
+				}
 			}
 		}
 	}

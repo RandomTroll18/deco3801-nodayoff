@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 	public GameObject EndTurnButton; // End turn button
 	public GameObject EffectCardPanel; // The effect card panel
 	public GameObject StunGunPrefab; // Stun Gun Prefab
+	public GameObject ClassPanel; // The Class Panel
 
 	Dictionary<Stat, double> stats; // Dictionary of stats
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour {
 	List<TurnEffect> turnEffects; // The turn-based effects attached to this player
 
 	GameManager gameManagerScript; // The game manager script
+	ClassPanelScript classPanelScript; // The class panel script
 	EffectPanelScript effectPanelScript; // The effect panel script
 	PlayerClass playerClass; // The class of this player
 	Transform transformComponent; // The transform component of this player
@@ -48,6 +50,7 @@ public class Player : MonoBehaviour {
 	 * - Set that this player is not active
 	 * - Get the effect panel script
 	 * - Instantiate a Stun Gun for the player and have the player pick it up
+	 * - Get class panel script and initialize class panel
 	 */
 	void Start() {
 		GameObject stunGunObject; // The stun gun object
@@ -56,7 +59,7 @@ public class Player : MonoBehaviour {
 
 		droppedItems = new List<GameObject>();
 
-		SetPlayerClass("Base");
+		SetPlayerClass("Engineer");
 		Debug.Log("Player Class: " + GetPlayerClass());
 
 		transformComponent = GetComponent<Transform>();
@@ -75,6 +78,10 @@ public class Player : MonoBehaviour {
 		stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
 		stunGunObject.transform.position = 
 				new Vector3(transformComponent.position.x, (float)0.0, transformComponent.position.z);
+
+		classPanelScript = ClassPanel.GetComponent<ClassPanelScript>();
+		classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), 
+				playerClass.GetPrimaryAbility().GetAbilityName());
 	}
 
 	/**
@@ -113,6 +120,9 @@ public class Player : MonoBehaviour {
 	public void SetPlayerClass(string newPlayerClass) {
 		switch (newPlayerClass) {
 		case "Base": goto default;
+		case "Engineer": // Create Engineer Class
+			playerClass = new EngineerClass();
+			return;
 		default: // The default class will be the base
 			playerClass = new BaseClass();
 			return;
@@ -349,6 +359,13 @@ public class Player : MonoBehaviour {
 		}
 
 		turnEffectsApplied = true; // We have applied turn effects
+	}
+
+	/**
+	 * Reduce the number of turns this player's ability is still active
+	 */
+	public void ReduceAbilityTurns() {
+		playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
 	}
 
 	/**

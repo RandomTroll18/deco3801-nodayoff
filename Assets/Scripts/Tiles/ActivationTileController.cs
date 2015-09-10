@@ -12,7 +12,7 @@ public class ActivationTileController : MonoBehaviour {
 	List<GameObject> activationTileList = new List<GameObject>(); // List of activation tiles
 	Player player; // Current calling player
 	Item item; // Current item
-	//TODO:Ability ability // Current calling ability
+	Ability ability; // Current calling ability
 
 	/**
 	 * Activate Item/Ability on the given tile
@@ -20,18 +20,18 @@ public class ActivationTileController : MonoBehaviour {
 	 * Tile tileClicked - The tile that was clicked
 	 */
 	public void Activate(Tile tileClicked) {
+		if (ability == null) {
+			Debug.Log("Ability is null during activation");
+		} else {
+			Debug.Log("Ability being activated: " + ability.GetAbilityName());
+		}
+		if (item != null) {
+			Debug.Log("Add Activation Tile Prefab To Stun Gun");
+			item.SetTestPrefab(ActivationTilePrefab);
+			item.Activate(tileClicked); // Second, determine what to activate. 
+		} else if (item == null) ability.Activate(tileClicked); // Activate ability
+
 		DestroyActivationTiles(); // Destroy all visual tiles
-
-		Debug.Log("Add Activation Tile Prefab To Stun Gun");
-		item.SetTestPrefab(ActivationTilePrefab);
-
-		if (item != null) item.Activate(tileClicked); // Second, determine what to activate. 
-		// TODO: else if (item == null) ability.Activate();
-
-		// Third, set all references here to null
-		player = null;
-		item = null;
-		// TODO: ability = null;
 	}
 
 	/**
@@ -52,17 +52,41 @@ public class ActivationTileController : MonoBehaviour {
 			Destroy(activationTile);
 		}
 		activationTileList.Clear(); // Clear the activation tile list
+
+		/* Set referenes to null */
+		player = null;
+		item = null;
+		ability = null;
 	}
 
 
 	/**
-	 * TODO:
 	 * Interface for Player used to generate  activation tiles for ability activation
 	 * 
 	 * Arguments
 	 * - Player player - The player
 	 * - Ability ability - The ability being activated
 	 */
+	public void GeneratorInterface(Player newPlayer, Ability newAbility) {
+		Debug.Log("Ability Activation Interface");
+		double abilityRange = newAbility.GetRange();
+		/* The X and Z Coordinates of the calling player */
+		int playerPositionX = newPlayer.PlayerPosition().X * 2;
+		int playerPositionZ = newPlayer.PlayerPosition().Z * 2;
+		RangeType rangeType = newAbility.GetRangeType();
+		ActivationType activationType = newAbility.GetActivationType();
+
+		// First, destroy previous activation tiles
+		DestroyActivationTiles();
+		
+		// Second, set references to player and item. Set ability to be null
+		player = newPlayer;
+		item = null;
+		ability = newAbility;
+		
+		// Third, start generating
+		generateActivationTiles(abilityRange, playerPositionX, playerPositionZ, rangeType, activationType);
+	}
 
 	/**
 	 * Interface for Context Aware Box used to generate activation tiles for item activation
@@ -70,7 +94,6 @@ public class ActivationTileController : MonoBehaviour {
 	 * Arguments
 	 * - Player player - The player
 	 * - Item item - The item
-	 * // TODO: Ability ability = newAbility
 	 */
 	public void GeneratorInterface(Player newPlayer, Item newItem) {
 		double itemRange = newItem.GetRange(); // The item's range
@@ -83,10 +106,10 @@ public class ActivationTileController : MonoBehaviour {
 		// First, destroy previous activation tiles
 		DestroyActivationTiles();
 
-		// Second, set references to player and item
+		// Second, set references to player and item. Set ability to be null
 		player = newPlayer;
 		item = newItem;
-		// TODO: ability = newAbility
+		ability = null;
 
 		// Third, start generating
 		generateActivationTiles(itemRange, playerPositionX, playerPositionZ, rangeType, activationType);
@@ -181,14 +204,61 @@ public class ActivationTileController : MonoBehaviour {
 		generateIndividualTile(trueX, trueZ, tileColour);
 
 		
-		if (range - 1.0 <= 0 && range - 1.0 >= 0) {
-			Debug.Log(range);
-			Debug.Log("Range of 1");
+		if (range - 1.0 <= 0 && range - 1.0 >= 0) return; // Do nothing
+		else if (range - 2.0 <= 0 && range - 2.0 >= 0) { // Simply generate a square of tiles
+			for (float currentZ = (trueZ + 2.0f) - 1.0f; currentZ > (trueZ - 2.0f); currentZ -= 1.0f) {
+				for (float currentX = (trueX - 2.0f) + 1.0f; currentX < (trueX + 2.0f); currentX += 1.0f) {
+					generateIndividualTile(currentX, currentZ, tileColour);
+				}
+			}
 			return;
-		} else if (range - 2.0 <= 0 && range - 2.0 >= 0) {
-			Debug.Log(trueRange);
-			Debug.Log("Range of 2");
-			return;
+		}
+		else { // Range is bigger than 2.
+			Debug.Log("Range is bigger than 2");
+
+			/*
+			 * Additional easy cases: beneath each of the 4 easy cases, three tiles are generated at the 
+			 * following positions, assuming we are handling the top easy case:
+			 * 
+			 * - (easyCaseX - 1, easyCaseZ - 1)
+			 * - (easyCaseX, easyCaseZ - 1)
+			 * - (easyCaseX + 1, easyCaseZ - 1)
+			 */
+
+			/* Right case */
+			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileColour);
+			generateIndividualTile((trueX + trueRange - 1.0f), trueZ, tileColour);
+			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileColour);
+
+			/* Left case */
+			generateIndividualTile((trueX - trueRange + 1.0f), trueZ + 1.0f, tileColour);
+			generateIndividualTile((trueX - trueRange + 1.0f), trueZ, tileColour);
+			generateIndividualTile((trueX - trueRange + 1.0f), trueZ - 1.0f, tileColour);
+
+			/* Top case */
+			generateIndividualTile(trueX + 1.0f, (trueZ + trueRange - 1.0f), tileColour);
+			generateIndividualTile(trueX, (trueZ + trueRange - 1.0f), tileColour);
+			generateIndividualTile(trueX - 1.0f, (trueZ + trueRange - 1.0f), tileColour);
+
+			/* Bottom case */
+			generateIndividualTile(trueX + 1.0f, (trueZ - trueRange + 1.0f), tileColour);
+			generateIndividualTile(trueX, (trueZ - trueRange + 1.0f), tileColour);
+			generateIndividualTile(trueX - 1.0f, (trueZ - trueRange + 1.0f), tileColour);
+
+			/* 
+			 * Generate square where the bounds are:
+			 * trueX - trueRange + 1 < X < trueX + trueRange - 1
+			 * trueZ - trueRange + 1 < Z < trueZ + trueRange - 1
+			 */
+			for (float currentZ = (trueZ + trueRange - 2.0f); 
+					currentZ > (trueZ - trueRange + 1.0f); 
+			     	currentZ -= 1.0f) {
+				for (float currentX = (trueX - trueRange + 2.0f);
+						currentX < (trueX + trueRange - 1.0f);
+						currentX += 1.0f) {
+					generateIndividualTile(currentX, currentZ, tileColour);
+				}
+			}
 		}
 
 	}

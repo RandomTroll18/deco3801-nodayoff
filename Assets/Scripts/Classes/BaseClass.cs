@@ -10,9 +10,15 @@ public class BaseClass : PlayerClass {
 		DefaultStats = new Dictionary<Stat, double>();
 		DefaultStats[Stat.AP] = 10.0; // Default AP is 10
 		DefaultStats[Stat.VISION] = 5.0; // Vision of base class is a range of 5 units
-		Discount = new Dictionary<Stat, double>();
-		Discount[Stat.AP] = 1.0;
-		Discount[Stat.VISION] = 1.0;
+
+		Discount = new Dictionary<ActionCost, double>();
+		Discount[ActionCost.DOORS] = 1.0;
+		Discount[ActionCost.MOVEMENT] = 1.0;
+		Discount[ActionCost.REPAIR] = 1.0;
+		Discount[ActionCost.STRENGTH] = 1.0;
+		Discount[ActionCost.TECH] = 1.0;
+
+		PrimaryAbility = null; // This class has no primary ability
 	}
 
 	/**

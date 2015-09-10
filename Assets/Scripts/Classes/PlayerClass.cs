@@ -8,25 +8,67 @@ using System.Collections.Generic;
 public abstract class PlayerClass {
 
 	protected Dictionary<Stat, double> DefaultStats; // Default stats
-	protected Dictionary<Stat, double> Discount; // Discounts
+	protected Dictionary<ActionCost, double> Discount; // Discounts
+	protected Ability PrimaryAbility; // This class' primary ability
 
 	/**
-	 * Return the discount for Vision
+	 * Return the primary ability of this class
 	 * 
 	 * Returns
-	 * - The discount multiplier for vision
-	public double GetVisionDiscount() {
-		return Discount[Stat.VISION];
+	 * - The primary ability of this class
+	 */
+	public Ability GetPrimaryAbility() {
+		return PrimaryAbility;
 	}
 
 	/**
-	 * Return the discount for AP
+	 * Return the discount for strength action costs
 	 * 
 	 * Returns
-	 * -  The discount multiplier for AP
+	 * - The multiplier for strength action costs
 	 */
-	public double GetAPDiscount() {
-		return Discount[Stat.AP];
+	public double GetStrengthActionDiscount() {
+		return Discount[ActionCost.STRENGTH];
+	}
+
+	/**
+	 * Return the discount for tech action costs
+	 * 
+	 * Returns
+	 * - The multiplier for tech action costs
+	 */
+	public double GetTechActionDiscount() {
+		return Discount[ActionCost.TECH];
+	}
+
+	/**
+	 * Return the discount for movement action costs
+	 * 
+	 * Returns
+	 * - The multiplier for movement action costs
+	 */
+	public double GetMovementActionDiscount() {
+		return Discount[ActionCost.MOVEMENT];
+	}
+
+	/**
+	 * Return the discount for repair action costs
+	 * 
+	 * Returns
+	 * - The multiplier for repair action costs
+	 */
+	public double GetRepairActionDiscount() {
+		return Discount[ActionCost.REPAIR];
+	}
+
+	/**
+	 * Return the discount for door action costs
+	 * 
+	 * Returns
+	 * - The multiplier for door action costs
+	 */
+	public double GetDoorActionDiscount() {
+		return Discount[ActionCost.DOORS];
 	}
 
 	/**

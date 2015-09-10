@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour {
 				PlayerList[i].ApplyTurnEffects();
 				PlayerList[i].InitializeAttachedObjects();
 				PlayerList[i].ReduceItemCoolDowns();
+				PlayerList[i].ReduceAbilityTurns();
 			}
 			validTurn = true;
 		}

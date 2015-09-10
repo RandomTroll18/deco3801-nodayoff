@@ -15,6 +15,7 @@ TagManager:
   - Trap
   - Activation Tile
   - Lighting
+  - AbilitySpawn
   layers:
   - Default
   - TransparentFX

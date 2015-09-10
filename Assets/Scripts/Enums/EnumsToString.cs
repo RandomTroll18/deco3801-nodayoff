@@ -29,7 +29,7 @@ public class EnumsToString : MonoBehaviour {
 	 * a string
 	 * 
 	 * Arguments
-	 * - Contexts enumToConvert - the context value to convert
+	 * - Context enumToConvert - the context value to convert
 	 * 
 	 * Returns
 	 * - The string version of the enum. "Unknown Context" if unknown
@@ -39,6 +39,26 @@ public class EnumsToString : MonoBehaviour {
 		case Context.IDLE: return "IDLE";
 		case Context.INVENTORY: return "INVENTORY";
 		default: return "Unknown Context";
+		}
+	}
+
+	/**
+	 * Convert given action cost enum to a string
+	 * 
+	 * Arguments
+	 * - ActionCost enumToCovert - The action cost value to convert
+	 * 
+	 * Returns
+	 * - The string version of the enum. "Unknown Action Cost" if unknown
+	 */
+	public static string ConvertActionCostEnum(ActionCost enumToConvert) {
+		switch (enumToConvert) {
+		case ActionCost.DOORS: return "DOORCOST";
+		case ActionCost.MOVEMENT: return "MOVEMENTCOST";
+		case ActionCost.REPAIR: return "REPAIRCOST";
+		case ActionCost.STRENGTH: return "STRENGTHCOST";
+		case ActionCost.TECH: return "TECHCOST";
+		default: return "Unknown Action Cost";
 		}
 	}
 

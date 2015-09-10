@@ -26,6 +26,22 @@ public enum Context {
 };
 
 /*
+ * Enum for action costs
+ * DOORS - Door Actions
+ * REPAIR - Repair Actions
+ * MOVEMENT - Movement Actions
+ * TECH - Tech Actions 
+ * STRENGTH - Strength Actions
+ */
+public enum ActionCost {
+	DOORS,
+	REPAIR,
+	MOVEMENT,
+	TECH,
+	STRENGTH
+};
+
+/*
  * Enum for Activation Types - Tile Generation Purposes
  * OFFENSIVE - Offensive Activation - Need Reddish Activation Tiles
  * DEFENSIVE - Defensive Activation - Need Blueish Activation Tiles
