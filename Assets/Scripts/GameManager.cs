@@ -25,10 +25,20 @@ public class GameManager : MonoBehaviour {
 	 * - Initialize number of players still active. 
 	 */
 	void Start() {
+		TurnOnLighting();
+
 		validTurn = false;
 		playersLeft = PlayerList.Length;
 		Debug.Log("Valid turn is: " + validTurn + " by default");
 		Debug.Log("Number of players left: " + playersLeft);
+	}
+
+	void TurnOnLighting() {
+		RenderSettings.ambientLight = Color.black;
+		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Lighting")) {
+			Debug.Log("DSFSFDSFSDFSFFDSF");
+			g.GetComponent<Light>().enabled = true;
+		}
 	}
 
 	/**
