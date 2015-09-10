@@ -12,7 +12,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	 */
 	public GameObject[] InventoryContextPanel = new GameObject[4];
 
-	ActivationTileHandler activationTileScript; // Script for Activation Tiles
+	ActivationTileController activationTileScript; // Script for Activation Tiles
 	Context currentContext; // The current context
 	Object attachedObject; // Object currently attached
 
@@ -24,7 +24,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	void Start() {
 		SetContextToIdle();
 
-		activationTileScript = GetComponent<ActivationTileHandler>();
+		activationTileScript = GetComponent<ActivationTileController>();
 	}
 
 	/**
@@ -82,10 +82,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	public void ActivateAttachedItem(GameObject playerObject) {
 		Item item; // The item to be activated
 		Player playerScript = playerObject.GetComponent<Player>();
-
-		/* The X and Z Coordinates of the calling player */
-		int playerPositionX = playerScript.PlayerPosition().X * 2;
-		int playerPositionZ = playerScript.PlayerPosition().Z * 2;
+	
 		if (currentContext == Context.INVENTORY) {
 			// We are in the inventory context
 			item = (Item)attachedObject;
@@ -95,12 +92,12 @@ public class ContextAwareBoxScript : MonoBehaviour {
 			}
 			Debug.Log("Item Name: " + item.ItemName);
 
-			activationTileScript.GenerateActivationTiles(
-					item.GetRange(), 
-					playerPositionX, playerPositionZ, 
-					item.GetRangeType(), item.GetActivationType());
+			if (item.RemainingCoolDownTurns() != 0) { // Item is still cooling down
+				Debug.Log("Can't Activate: " + item.ItemName);
+				return;
+			}
 
-			item.Activate();
+			activationTileScript.GeneratorInterface(playerScript, item);
 		}
 	}
 

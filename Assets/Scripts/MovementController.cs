@@ -272,7 +272,7 @@ public class MovementController : MonoBehaviour {
 		}
 	}
 
-	public void blockTile(Tile tile) {
+	public void BlockTile(Tile tile) {
 		if (blockedTiles.Contains(tile)) {
 			Debug.LogWarning("You tried to block a tile that was blocked. Did you want to do" +
 			                 "this? FROM BEN");

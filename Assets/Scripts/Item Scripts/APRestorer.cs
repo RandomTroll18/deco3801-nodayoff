@@ -31,8 +31,8 @@ public class APRestorer : RecoveryConsumables {
 	/**
 	 * Override Activate function
 	 */
-	public override void Activate() {
-		base.Activate();
+	public override void Activate(Tile targetTile) {
+		base.Activate(targetTile);
 		Debug.Log("AP Restorer activation");
 	}
 

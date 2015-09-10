@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public class CameraController : MonoBehaviour {
 
 	public GameObject GameManagerObject; // The game manager object
+	public GameObject ContextAwareBox; // The context aware box
 	GameManager gameManagerScript; // The game manager script
 
 	public GameObject Player;
@@ -18,12 +19,14 @@ public class CameraController : MonoBehaviour {
 	Vector3 offset;
 	//Player playerScript;
 	MovementController movController;
+	ActivationTileController actController; // Activation Controller script
 	/* Whether the player can control the camera */
 	bool locked = false;
 
 	void Start() {
 		//playerScript = Player.GetComponent<Player>();
 		movController = Player.GetComponent<MovementController>();
+		actController = ContextAwareBox.GetComponent<ActivationTileController>();
 
 		offset = transform.position - Player.transform.position;
 		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
@@ -61,8 +64,12 @@ public class CameraController : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0)) {
 			Tile goal = Tile.MouseToTile((LayerMask));
 			//Debug.Log("Clicked: " + goal.ToString());
-			if (goal != null)
+			if (actController.ActivationTiles().Contains(goal)) {
+				Debug.Log("Clicked Tile: (" + goal.X + ", " + goal.Z + ")");
+				actController.Activate(goal);
+			} else if (goal != null) {
 				movController.RequestMovement(goal);
+			}
 		}
 	}
 

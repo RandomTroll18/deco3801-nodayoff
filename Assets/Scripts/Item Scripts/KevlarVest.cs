@@ -31,8 +31,8 @@ public class KevlarVest : Armour {
 	/**
 	 * Override Activate Function
 	 */
-	public override void Activate() {
-		base.Activate();
+	public override void Activate(Tile targetTile) {
+		base.Activate(targetTile);
 		Debug.Log("Kevlar Vest Has No Activation Function");
 	}
 

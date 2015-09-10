@@ -92,6 +92,10 @@ public class Player : MonoBehaviour {
 			noLongerActive = false;
 		}
 		else {
+			if (isStunned) { // Player is currently stunned. Can't do anything
+				noLongerActive = true;
+				return;
+			}
 			if (noLongerActive) {
 				// Record that the this player is no longer active
 				gameManagerScript.SetInactivePlayer();
@@ -186,6 +190,7 @@ public class Player : MonoBehaviour {
 
 			Trap TrapObject = other.GetComponent<Trap>();
 			TrapObject.Activated(this);
+
 		}
 
 	}

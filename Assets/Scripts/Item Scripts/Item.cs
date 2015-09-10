@@ -11,6 +11,7 @@ public abstract class Item : MonoBehaviour {
 
 	public string ItemName; // The name of this item
 	public Sprite Image; // The icon for this image
+	public GameObject TestPrefab; // Prefab to show where Stun Gun is activated - MVP Purposes
 
 	protected string ItemDescription; // The description of this item
 	protected List<TurnEffect> TurnEffects; // The turn effects in this item
@@ -29,6 +30,16 @@ public abstract class Item : MonoBehaviour {
 	 * double[2] => to be multiplied (e.g. Stat.AP *= double[2])
 	 */
 	protected Dictionary<Stat, double[]> Effects;
+
+	/**
+	 * Function for MVP purposes
+	 * 
+	 * Arguments
+	 * - GameObject newTestPrefab - The new test prefab for stun gun
+	 */
+	public void SetTestPrefab(GameObject newTestPrefab) {
+		TestPrefab = newTestPrefab;
+	}
 
 	/**
 	 * Get the Activation Type of this item
@@ -82,7 +93,7 @@ public abstract class Item : MonoBehaviour {
 	 * Returns
 	 * - Remaining Cool Down Turns
 	 */
-	public int RemainingCoolDownturns() {
+	public int RemainingCoolDownTurns() {
 		return CoolDown;
 	}
 	
@@ -117,8 +128,11 @@ public abstract class Item : MonoBehaviour {
 	/**
 	 * Function used to activate the item. 
 	 * Overridable by subclasses
+	 * 
+	 * Arguments
+	 * - Tile targetTile - The target tile 
 	 */
-	public virtual void Activate() {
+	public virtual void Activate(Tile targetTile) {
 		Debug.Log(ItemName + " attempting to be activated");
 	}
 

@@ -31,6 +31,8 @@ public class StunGun : ShortRangeWeapon {
 		ItemActivationType = ActivationType.OFFENSIVE;
 	}
 
+
+
 	/**
 	 * Override the StartAfterInstantiate function
 	 */
@@ -42,14 +44,28 @@ public class StunGun : ShortRangeWeapon {
 	/**
 	 * Override the Activate function
 	 */
-	public override void Activate() {
-		base.Activate();
+	public override void Activate(Tile targetTile) {
+		GameObject testActivate; // MVP purposes
+
+		base.Activate(targetTile);
 		if (CoolDown != 0) {
 			Debug.Log("Item still cooling down");
 			return;
 		}
 
+		Debug.Log("Target tile: (" + targetTile.X + ", " + targetTile.Z + ")");
+		Debug.Log("Middle of target tile: " + Tile.TileMiddle(targetTile).ToString());
+
+		// Show where Stun Gun was activated - MVP purposes
+		testActivate = Instantiate(TestPrefab);
+		testActivate.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
+		testActivate.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+
+		Destroy(testActivate, (float)2.0); // Destroy tile after 2 seconds
+
 		Debug.Log("Stun Gun Done Activating");
+
+		CoolDown = CoolDownSetting; // Set Cool Down
 	}
 	
 	/**

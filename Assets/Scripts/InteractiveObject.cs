@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -111,7 +111,7 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	public void Close(Tile t){
-		MController.blockTile(t);
+		MController.BlockTile(t);
 	}
 
 	public void TargetOpen(){
@@ -127,7 +127,7 @@ public class InteractiveObject : MonoBehaviour {
 			Tile.TilePosition(this.Target.transform.position.x), 
 			Tile.TilePosition(this.Target.transform.position.z)
 			);
-		MController.blockTile(t);
+		MController.BlockTile(t);
 	}
 
 	public void TargetDestroy(){
