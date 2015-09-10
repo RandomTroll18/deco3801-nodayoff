@@ -38,5 +38,5 @@ public abstract class Objective {
 		}
 	}
 
-	// TODO: OnComplete()
+	public abstract void OnComplete();
 }

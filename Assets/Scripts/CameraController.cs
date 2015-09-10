@@ -38,7 +38,12 @@ public class CameraController : MonoBehaviour {
 		Rect recleft = new Rect(0, 0, GUISize, Screen.height);
 		Rect recright = new Rect(Screen.width - GUISize, 0, GUISize, Screen.height);
 
+		/* Camera controlling input */
 		if (!locked) {
+			if (Input.GetKey("space")) {
+				ResetCamera();
+			}
+
 			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
 				transform.Translate(0, 0, -CamSpeed, Space.World);
 			}
@@ -81,5 +86,18 @@ public class CameraController : MonoBehaviour {
 	 */
 	public void ResetCamera() {
 		transform.position = Player.transform.position + offset;
+	}
+
+	/**
+	 * Moves the camera to the given location.
+	 * 
+	 * At the moment this teleports the camera but in the future we 
+	 * could make it pan.
+	 */
+	public void MoveCamera(Tile location) {
+		Vector3 dest = transform.position;
+		dest.z = location.Z;
+		dest.x = location.X;
+		transform.position = dest;
 	}
 }
