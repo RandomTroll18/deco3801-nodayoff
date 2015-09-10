@@ -12,41 +12,45 @@ public class InteractiveObject : MonoBehaviour {
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
 	public GameObject Player;
 	public GameObject Panel;
-	public GameObject Target;
+	public GameObject[] Targets;
+
 	public Text NameLabel;
-	//public Text DescriptionLabel;
+	public string StringInput;
+
 	public Slider APSlider;
+	public int APLimit;
+
 	public Button Button;
-	//public Tile Target;
-
-
+	public bool FunctionToggle;
+	
 	private int ObjectID;
 	private Tile Position;
 
-	private string Name;
-	private string Description;
-	private int APLimit;
-	private int RNGvariable;
-	private bool IsActivated;
-	private bool IsBlocked;
-	private bool IsClosed;
+	public bool IsActivated;
+	public bool IsBlocked;
+	public bool IsClosed;
 
 	private MovementController MController;
 
 
 	void Awake() {
 
+		if (Targets.Length == 0) {
+			// Set Target to self
+		}
 		this.ObjectID = 0;
-
 		this.Position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
 			Tile.TilePosition(this.transform.position.z)
 		);
 
+		/*
 		this.Name = "Test";
 		this.Description = "Lorum Ipsum";
 		this.APLimit = 3;
-		this.RNGvariable = 1;
+		this.RNGvariable = 1; 
+		 */
+
 		this.IsActivated = false;
 		this.IsClosed = true;
 
@@ -60,7 +64,7 @@ public class InteractiveObject : MonoBehaviour {
 		// TODO: Figure whats wrong with code below & add toggle Panel
 		Panel.SetActive(true);
 		// TODO: Change text
-		NameLabel.text = this.Name;
+		NameLabel.text = StringInput;
 		// TODO: Change Button function
 		Panel.GetComponent<SkillCheck>().SetCurrent(this);
 		// TODO: Change Slider properties
@@ -76,30 +80,36 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	public void TakeAction(float input){
+		if (IsActivated) {
+			Debug.Log ("Interactable is already activated");
+			return;
+		}
+
 		if (input == 0) {
+			Debug.Log ("Input AP");
 			return;
 		}
 
 		//PlayerClass Class = this.Player.GetPlayerClassObject();
 		//double Multiplier;
 
-		Debug.Log (input + "AP has been used on " + this.Name);
+		Debug.Log (input + "AP has been used on " + gameObject.ToString());
 		// TODO: RNG Element to opening
-		this.TargetDestroy();
-		/*
-		if (true) {
+		if (FunctionToggle) {
 			if (IsClosed) {
 				this.IsClosed = false;
-				this.Open(this.GetTile());
+				//this.Open(this.GetTile());
+				TargetOpen ();
 				Debug.Log ("OPEN");
 			} else {
 				this.IsClosed = true;
-				this.Close(this.GetTile());
+				//this.Close(this.GetTile());
+				TargetClose ();
 				Debug.Log ("CLOSE");
 			}
-
-		} 
-		 */
+		} else {
+			this.TargetDestroy();
+		}
 	}
 
 	public Tile GetTile(){
@@ -115,42 +125,30 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	public void TargetOpen(){
-		Tile t = new Tile(
-			Tile.TilePosition(this.Target.transform.position.x), 
-			Tile.TilePosition(this.Target.transform.position.z)
+		foreach (GameObject Target in Targets) {
+			Tile t = new Tile (
+				Tile.TilePosition (Target.transform.position.x), 
+				Tile.TilePosition (Target.transform.position.z)
 			);
-		MController.UnblockTile(t);
+			MController.UnblockTile (t);
+		}
 	}
 
 	public void TargetClose(){
-		Tile t = new Tile(
-			Tile.TilePosition(this.Target.transform.position.x), 
-			Tile.TilePosition(this.Target.transform.position.z)
+		foreach (GameObject Target in Targets) {
+			Tile t = new Tile(
+				Tile.TilePosition(Target.transform.position.x), 
+				Tile.TilePosition(Target.transform.position.z)
 			);
-		MController.BlockTile(t);
+			MController.BlockTile(t);
+		}
 	}
 
 	public void TargetDestroy(){
-		this.TargetClose();
-		Destroy(this.Target);
-	}
-
-}
-
-public class Removeable : InteractiveObject {
-	public virtual void TryToRemove(){
-		// TODO: Add Trap effect
+		foreach (GameObject Target in Targets) {
+			Destroy(Target);
+		}
+		this.IsActivated = true;
 	}
 }
 
-public class Rubble : Removeable {
-	
-}
-
-public class Terminal : InteractiveObject {
-	
-}
-
-public class Door : InteractiveObject {
-	
-}
