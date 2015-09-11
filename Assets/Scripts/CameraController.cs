@@ -31,7 +31,6 @@ public class CameraController : MonoBehaviour {
 		offset = transform.position - Player.transform.position;
 		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
 
-		 movController.UnblockTile(new Tile(-1, -8));
 	}
 
 	void Update() {

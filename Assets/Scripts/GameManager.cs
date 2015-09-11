@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour {
 	 */
 	void Start() {
 		TurnOnLighting();
-
 		validTurn = false;
 		playersLeft = PlayerList.Length;
 		Debug.Log("Valid turn is: " + validTurn + " by default");
@@ -36,7 +35,6 @@ public class GameManager : MonoBehaviour {
 	void TurnOnLighting() {
 		RenderSettings.ambientLight = Color.black;
 		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Lighting")) {
-			Debug.Log("DSFSFDSFSDFSFFDSF");
 			g.GetComponent<Light>().enabled = true;
 		}
 	}

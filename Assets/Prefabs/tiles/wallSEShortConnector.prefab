@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 443368}
   - 33: {fileID: 3362328}
   - 23: {fileID: 2319034}
+  - 114: {fileID: 11446902}
   m_Layer: 0
   m_Name: wall (5)
   m_TagString: Blocker
@@ -42,6 +43,7 @@ GameObject:
   - 4: {fileID: 423044}
   - 33: {fileID: 3332332}
   - 23: {fileID: 2344828}
+  - 114: {fileID: 11430080}
   m_Layer: 0
   m_Name: wall (4)
   m_TagString: Blocker
@@ -297,6 +299,36 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11430080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d6ab634d7670a49a82f1a82a557c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Up: 0
+  Down: 0
+  Left: 0
+  Right: 0
+--- !u!114 &11446902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 105874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d6ab634d7670a49a82f1a82a557c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Up: 0
+  Down: 0
+  Left: 0
+  Right: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
