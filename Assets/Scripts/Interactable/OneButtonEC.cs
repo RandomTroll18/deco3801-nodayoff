@@ -1,24 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
-public class EventCard : MonoBehaviour {
-
-	//public GameObject prefab;
+public class OneButtonEC : EventCard {
 
 	// Use this for initialization
-
 	void Start () {
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	public void Close(){
-		Destroy(transform.gameObject);
+	
 	}
 	
+	// Update is called once per frame
+	void Update () {
+
+	}
+
 }

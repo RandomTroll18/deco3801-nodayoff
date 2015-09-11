@@ -13,6 +13,7 @@ public class InteractiveObject : MonoBehaviour {
 	public GameObject Player;
 	public GameObject Panel;
 	public GameObject[] Targets;
+	public string SkillType;
 
 	public Text NameLabel;
 	public string StringInput;
