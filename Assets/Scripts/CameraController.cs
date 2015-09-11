@@ -25,7 +25,8 @@ public class CameraController : MonoBehaviour {
 
 	void Start() {
 		//playerScript = Player.GetComponent<Player>();
-		movController = Player.GetComponent<MovementController>();
+		movController = GameObject.FindGameObjectWithTag("GameController")
+			.GetComponent<MovementController>();
 		actController = ContextAwareBox.GetComponent<ActivationTileController>();
 
 		offset = transform.position - Player.transform.position;

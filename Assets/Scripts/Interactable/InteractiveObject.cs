@@ -55,7 +55,8 @@ public class InteractiveObject : MonoBehaviour {
 		this.IsActivated = false;
 		this.IsClosed = true;
 
-		this.MController = Player.GetComponent<MovementController>();
+		this.MController = GameObject.FindGameObjectWithTag("GameController")
+			.GetComponent<MovementController>();
 		Debug.Log (this.Position.ToString());		
 		
 	}

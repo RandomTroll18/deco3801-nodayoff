@@ -50,27 +50,38 @@ public class MovementController : MonoBehaviour {
 	/* Tile player has selected for movement */
 	Tile clickedTile;
 	CameraController camController;
+	GameManager gamManager;
 	Player playerScript;
 	/* Whether debugging output is used */
 	bool debugging;
 	
-	void Start() {
+	void Awake() {
 		debugging = false;
 		camController = Camera.main.GetComponent<CameraController>();
 		playerScript = Player.GetComponent<Player>();
+		gamManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 
 		// TODO: WASD well it would have to be directional arrows now
 		// Should behave like a mouse click at a fixed offset
 
 
 		// Initalises set of all blocked tiles
+		/*
+		 * IMPORTANT: if you make a tag type that you want to add to blockedTiles, use AddRange()
+		 * like I have here.
+		 */ 
 		GameObject[] blockers = GameObject.FindGameObjectsWithTag("Blocker");
-		foreach (GameObject blocker in blockers) {
+		GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+		List<GameObject> allBlockedTiles = new List<GameObject>();
+		allBlockedTiles.AddRange(blockers);
+		allBlockedTiles.AddRange(doors);
+
+		allBlockedTiles.ForEach(delegate(GameObject blocker) {
 			BlockedTiles bt = blocker.GetComponent<BlockedTiles>();
 
-			if (bt == null){
-				Debug.LogError("BlockedTiles doesn't exist at " + blocker.transform.position + " " +
-				                 blocker.transform.parent.name);
+			/* Not all blockers will have a BlockedTiles script (e.g. doors) */
+			if (bt == null) {
+				bt = new BlockedTiles();
 			} 
 
 			/* I like duplicate code :} */
@@ -78,17 +89,17 @@ public class MovementController : MonoBehaviour {
 				Tile t = new Tile(
 					Tile.TilePosition(blocker.transform.position.x), 
 					Tile.TilePosition(blocker.transform.position.z) + i
-					);
+				);
 				blockedTiles.Add(t);
 			}
 			for (int i = -bt.Left; i <= bt.Right; i++) {
 				Tile t = new Tile(
 					Tile.TilePosition(blocker.transform.position.x) + i, 
 					Tile.TilePosition(blocker.transform.position.z)
-					);
+				);
 				blockedTiles.Add(t);
 			}
-		}
+		});
 
 		/* Checks if blockedTiles is correct */
 		if (debugging) {
@@ -101,13 +112,17 @@ public class MovementController : MonoBehaviour {
 		}
 
 		// Initalises set of all Interactable tiles
+		// TODO: Ken fix this
 		InteractiveObject c;
 		GameObject[] Interactables = GameObject.FindGameObjectsWithTag("Interactable");
 		foreach (GameObject i in Interactables) {
-			c = i.GetComponent<InteractiveObject>();
-			InteractiveTiles.Add(c);
-			blockedTiles.Add(c.GetTile());
-			Debug.Log("int added: " + c.GetTile().ToString());
+//			c = i.GetComponent<InteractiveObject>();
+//			InteractiveTiles.Add(c);
+//			blockedTiles.Add(c.GetTile());
+//			Debug.Log("int added: " + c.GetTile().ToString());
+
+			// I can't see a reason why you need to call getTile() when this function exists:
+			blockedTiles.Add(Tile.TilePosition(i.transform.position));
 		}
 	}
 
@@ -238,6 +253,7 @@ public class MovementController : MonoBehaviour {
 					}
 				}
 			}
+			Debug.Log("a");
 		}
 		return null;
 	}
@@ -257,17 +273,19 @@ public class MovementController : MonoBehaviour {
 
 	/**
 	 * Sets the given tile to no longer be blocking. This means the movement path could now go 
-	 * through that tile. NOTE: this will not alter the scene so your blocker will still appear on
+	 * through that tile. NOTE: your blocker will still appear on
 	 * the map unless you delete it yourself. 
-	 * 
-	 * It would be nice if there was some way this method could be automatically called by Unity 
-	 * after you destroy a blocker, but I dunno how to do or if it's even possible.
 	 */
 	public void UnblockTile(Tile tile) {
 		if (!blockedTiles.Contains(tile)) {
 			Debug.LogWarning("You tried to unblock a tile that wasn't blocked. Did you want to do" +
 				"this? FROM BEN");
 		} else {
+			if (debugging) {
+				GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				Vector3 v = Tile.TileMiddle(tile);
+				o.transform.position = v;
+			}
 			blockedTiles.Remove(tile);
 		}
 	}
@@ -275,7 +293,7 @@ public class MovementController : MonoBehaviour {
 	public void BlockTile(Tile tile) {
 		if (blockedTiles.Contains(tile)) {
 			Debug.LogWarning("You tried to block a tile that was blocked. Did you want to do" +
-			                 "this? FROM BEN");
+				"this? FROM BEN");
 		} else {
 			blockedTiles.Add(tile);
 		}
@@ -298,9 +316,9 @@ public class MovementController : MonoBehaviour {
 	 */
 	public bool IsNear(Tile tile, Player player) {
 		if (player.PlayerPosition().Equals(new Tile(tile.X + 1, tile.Z)) || 
-		    player.PlayerPosition().Equals(new Tile(tile.X - 1, tile.Z)) ||
-		    player.PlayerPosition().Equals(new Tile(tile.X, tile.Z + 1)) ||
-		    player.PlayerPosition().Equals(new Tile(tile.X, tile.Z - 1))) {
+			player.PlayerPosition().Equals(new Tile(tile.X - 1, tile.Z)) ||
+			player.PlayerPosition().Equals(new Tile(tile.X, tile.Z + 1)) ||
+			player.PlayerPosition().Equals(new Tile(tile.X, tile.Z - 1))) {
 			return true;
 		}
 		return false;

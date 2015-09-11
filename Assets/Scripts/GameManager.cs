@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 	 
@@ -15,7 +16,10 @@ public class GameManager : MonoBehaviour {
 	 */
 	bool validTurn;
 	int playersLeft; // The number of players still active
+	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>();
+	MovementController movController;
 	public Player[] PlayerList; // List of players
+	public GameObject[] OpenedDoors;
 
 	/**
 	 * Start function. Needs to be done:
@@ -25,11 +29,24 @@ public class GameManager : MonoBehaviour {
 	 * - Initialize number of players still active. 
 	 */
 	void Start() {
+		movController = gameObject.GetComponent<MovementController>();
+
+		InitalizeDoors();
 		TurnOnLighting();
 		validTurn = false;
 		playersLeft = PlayerList.Length;
 		Debug.Log("Valid turn is: " + validTurn + " by default");
 		Debug.Log("Number of players left: " + playersLeft);
+	}
+
+	void InitalizeDoors() {
+		foreach (GameObject door in GameObject.FindGameObjectsWithTag("Door")) {
+			doors.Add(Tile.TilePosition(door.transform.position), door);
+		}
+
+		foreach (GameObject openDoor in OpenedDoors) {
+			OpenDoor(Tile.TilePosition(openDoor.transform.position));
+		}
 	}
 
 	void TurnOnLighting() {
@@ -88,5 +105,20 @@ public class GameManager : MonoBehaviour {
 		if (playersLeft != 0) {
 			playersLeft--;
 		}
+	}
+
+	/**
+	 * Opens the door at the given position. This means the door will start its animation and will
+	 * no longer block that tile.
+	 */
+	public void OpenDoor(Tile position) {
+		GameObject door;
+		if (!doors.TryGetValue(position, out door)) {
+			Debug.LogWarning("You tried to open a door that doesn't exist on that tile. BEN");
+			return;
+		}
+
+		door.GetComponent<Animator>().enabled = true;
+		movController.UnblockTile(position);
 	}
 }

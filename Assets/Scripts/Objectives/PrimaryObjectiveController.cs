@@ -29,5 +29,6 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	public void GoToLocation() {
 		cam.MoveCamera(objective.Location);
+		OnComplete();
 	}
 }

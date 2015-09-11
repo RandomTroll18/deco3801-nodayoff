@@ -34,6 +34,7 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 		int hashCode = 0; // The hash code to return
 		hashCode = (hashCode * prime) + this.X;
 		hashCode = (hashCode * prime) + this.Z;
+//		return (this.X.GetHashCode() * Z).GetHashCode());
 		return hashCode;
 	}
 	
@@ -71,11 +72,18 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 		return (int) Mathf.Ceil((pos - 1) / 2);
 	}
 
+	/**
+	 * Returns the tile at the given position
+	 */
 	public static Tile TilePosition(float x, float z){
 		return new Tile(
 			TilePosition(x),
 			TilePosition(z)
 		);
+	}
+
+	public static Tile TilePosition(Vector3 pos) {
+		return TilePosition(pos.x, pos.z);
 	}
 	
 	/*

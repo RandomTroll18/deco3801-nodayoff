@@ -16,6 +16,8 @@ TagManager:
   - Activation Tile
   - Lighting
   - AbilitySpawn
+  - Door
+  - Objective UI
   layers:
   - Default
   - TransparentFX
