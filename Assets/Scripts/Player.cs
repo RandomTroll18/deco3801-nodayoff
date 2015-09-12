@@ -258,17 +258,67 @@ public class Player : MonoBehaviour {
 	 * Initialize the following objects:
 	 * - End Turn Button
 	 */
-	public void InitializeAttachedObjects () {
+	public void InitializeAttachedObjects() {
 		EndTurnButton.SetActive(true);
+	}
+
+	/**
+	 * Increase the value for a particular player stat
+	 * 
+	 * Arguments
+	 * - Stat playerStat - The stat to increase
+	 * - double value - The value to increase the stat by
+	 */
+	public void IncreaseStatValue(Stat playerStat, double value) {
+		stats[playerStat] += value;
+		if (stats[playerStat] >= playerClass.GetDefaultStat(playerStat)) 
+			// Value bigger than default. Not allowed?
+			stats[playerStat] = playerClass.GetDefaultStat(playerStat);
+	}
+
+	/**
+	 * Reduce the value for a particular player stat
+	 * 
+	 * Arguments
+	 * - Stat playerStat - The stat to reduce
+	 * - double value - The value to reduce the stat by
+	 */
+	public void ReduceStatValue(Stat playerStat, double value) {
+		stats[playerStat] -= value;
+		if (stats[playerStat] <= 0.0) stats[playerStat] = 0.0;
+	}
+
+	/**
+	 * Set the value for a particular player stat
+	 * 
+	 * Arguments
+	 * - Stat playerStat - The stat to set
+	 * - double value - The value to set the stat by
+	 */
+	public void SetStatValue(Stat playerStat, double value) {
+		stats[playerStat] = value;
+	}
+
+	/**
+	 * Get the value for a particular player stat
+	 * 
+	 * Arguments
+	 * - Stat playerStat - The stat to get
+	 * 
+	 * Returns
+	 * - The value of the stat given. Null if stat doesn't exist or value is not set
+	 */
+	public double GetStatValue(Stat playerStat) {
+		return stats[playerStat];
 	}
 
 	/**
 	 * Reinitialize player stats
 	 */
 	public void InitializeStats() {
-		stats[Stat.AP] = playerClass.GetDefaultAP();
+		stats[Stat.AP] = playerClass.GetDefaultStat(Stat.AP);
 		isStunned = false;
-		stats[Stat.VISION] = playerClass.GetDefaultVision();
+		stats[Stat.VISION] = playerClass.GetDefaultStat(Stat.VISION);
 
 	}
 

@@ -22,73 +22,29 @@ public abstract class PlayerClass {
 	}
 
 	/**
-	 * Return the discount for strength action costs
+	 * Return the discount for particular action costs
+	 * 
+	 * Arguments
+	 * - ActionCost actionCost - The action cost discount requested
 	 * 
 	 * Returns
-	 * - The multiplier for strength action costs
+	 * - The multiplier for the requested action cost
 	 */
-	public double GetStrengthActionDiscount() {
-		return Discount[ActionCost.STRENGTH];
+	public double GetActionDiscount(ActionCost actionCost) {
+		return Discount[actionCost];
 	}
 
 	/**
-	 * Return the discount for tech action costs
+	 * Return the default value for a particular stat for this class
+	 * 
+	 * Arguments
+	 * - Stat playerStat - The stat requested
 	 * 
 	 * Returns
-	 * - The multiplier for tech action costs
+	 * - The default value for the given player stat. NULL if not set
 	 */
-	public double GetTechActionDiscount() {
-		return Discount[ActionCost.TECH];
-	}
-
-	/**
-	 * Return the discount for movement action costs
-	 * 
-	 * Returns
-	 * - The multiplier for movement action costs
-	 */
-	public double GetMovementActionDiscount() {
-		return Discount[ActionCost.MOVEMENT];
-	}
-
-	/**
-	 * Return the discount for repair action costs
-	 * 
-	 * Returns
-	 * - The multiplier for repair action costs
-	 */
-	public double GetRepairActionDiscount() {
-		return Discount[ActionCost.REPAIR];
-	}
-
-	/**
-	 * Return the discount for door action costs
-	 * 
-	 * Returns
-	 * - The multiplier for door action costs
-	 */
-	public double GetDoorActionDiscount() {
-		return Discount[ActionCost.DOORS];
-	}
-
-	/**
-	 * Return the default AP for this class
-	 * 
-	 * Returns
-	 * - The default AP
-	 */
-	public double GetDefaultAP() {
-		return DefaultStats[Stat.AP];
-	}
-
-	/**
-	 * Return the default vision value for this class
-	 * 
-	 * Returns
-	 * - The default vision value
-	 */
-	public double GetDefaultVision() {
-		return DefaultStats[Stat.VISION];
+	public double GetDefaultStat(Stat playerStat) {
+		return DefaultStats[playerStat];
 	}
 
 	/**
