@@ -6,7 +6,7 @@ using System.Collections;
  * 
  * Primary objectives are just Objectives.
  */
-public abstract class Objective : MonoBehaviour {
+public abstract class Objective {
 	protected string title;
 	protected string description;
 	protected Tile location;

@@ -45,7 +45,9 @@ public class GameManager : MonoBehaviour {
 		}
 
 		foreach (GameObject openDoor in OpenedDoors) {
-			OpenDoor(Tile.TilePosition(openDoor.transform.position));
+			if (openDoor != null) {
+				OpenDoor(Tile.TilePosition(openDoor.transform.position));
+			}
 		}
 	}
 

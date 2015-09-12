@@ -253,7 +253,6 @@ public class MovementController : MonoBehaviour {
 					}
 				}
 			}
-			Debug.Log("a");
 		}
 		return null;
 	}
