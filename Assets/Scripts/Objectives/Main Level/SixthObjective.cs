@@ -10,6 +10,6 @@ public class SixthObjective : PrimaryObjective {
 	}
 
 	public override void OnComplete() {
-		// TODO: finish level
+		Application.LoadLevel("WinScreen");
 	}
 }
