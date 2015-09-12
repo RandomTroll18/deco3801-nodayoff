@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	int playersLeft; // The number of players still active
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>();
 	MovementController movController;
+	public int roundsLeftUntilLose;
 	public Player[] PlayerList; // List of players
 	public GameObject[] OpenedDoors;
 
@@ -85,6 +86,12 @@ public class GameManager : MonoBehaviour {
 				PlayerList[i].ReduceItemCoolDowns();
 				PlayerList[i].ReduceAbilityTurns();
 			}
+
+			roundsLeftUntilLose--;
+			if (roundsLeftUntilLose <= 0) {
+				Application.LoadLevel("GameOver");
+			}
+
 			validTurn = true;
 		}
 	}
