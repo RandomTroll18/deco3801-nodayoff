@@ -11,9 +11,9 @@ public class ActivationTileController : MonoBehaviour {
 	public Material DefensiveTileMaterial; // Material for a defensive tile
 	public Material SupportiveTileMaterial; // Material for a supportive tile
 
-	HashSet<Tile> activationTiles = new HashSet<Tile>((new Tile())); // Container of activation tiles
+	HashSet<Tile> conceptualTiles = new HashSet<Tile>((new Tile())); // Set of conceptual (Tile) tiles
 	HashSet<Tile> badActivationTiles = new HashSet<Tile>(new Tile()); // Container of bad activation tiles
-	List<GameObject> activationTileList = new List<GameObject>(); // List of activation tiles
+	List<GameObject> gameObjectTiles = new List<GameObject>(); // List of instantiated tiles
 	Player player; // Current calling player
 	Item item; // Current item
 	Ability ability; // Current calling ability
@@ -25,16 +25,14 @@ public class ActivationTileController : MonoBehaviour {
 	 * Tile tileClicked - The tile that was clicked
 	 */
 	public void Activate(Tile tileClicked) {
-		if (ability == null) {
-			Debug.Log("Ability is null during activation");
-		} else {
-			Debug.Log("Ability being activated: " + ability.GetAbilityName());
-		}
+
 		if (item != null) {
 			Debug.Log("Add Activation Tile Prefab To Stun Gun");
 			item.SetTestPrefab(ActivationTilePrefab);
 			item.Activate(tileClicked); // Second, determine what to activate. 
-		} else if (item == null) ability.Activate(tileClicked); // Activate ability
+		} else if (ability != null) {
+			ability.Activate(tileClicked); // Activate ability
+		}
 
 		DestroyActivationTiles(); // Destroy all visual tiles
 	}
@@ -46,17 +44,18 @@ public class ActivationTileController : MonoBehaviour {
 	 * - The set of activation tile objects
 	 */
 	public HashSet<Tile> ActivationTiles() {
-		return activationTiles;
+		return conceptualTiles;
 	}
 
 	/**
 	 * Destroy all activation tiles
 	 */
 	public void DestroyActivationTiles() {
-		foreach (GameObject activationTile in activationTileList) {
+		foreach (GameObject activationTile in gameObjectTiles) {
 			Destroy(activationTile);
 		}
-		activationTileList.Clear(); // Clear the activation tile list
+		gameObjectTiles.Clear(); // Clear the activation tile list
+		conceptualTiles.Clear(); // Clear the set of activation tiles (Tile class)
 		badActivationTiles.Clear(); // Clear the list of bad activation tiles
 
 		/* Set referenes to null */
@@ -174,6 +173,28 @@ public class ActivationTileController : MonoBehaviour {
 	}
 
 	/**
+	 * Helper function for checking if we can generate a tile at a given position
+	 * 
+	 * Arguments
+	 * - float tileX - The x coordinate of the intended tile
+	 * - float tilez - The z coordinate of the intended tile
+	 * 
+	 * Returns
+	 * - True if we can generate a tile at this location
+	 * - False if otherwise
+	 */
+	bool canGenerate(float tileX, float tileZ) {
+		Tile intendedTile; // The intended tile to spawn
+
+		intendedTile = new Tile(Tile.TilePosition(tileX), Tile.TilePosition(tileZ));
+
+		if (movementController.IsTileBlocked(intendedTile)) return false;  // Tile is blocked
+
+		conceptualTiles.Add(intendedTile);
+		return true;
+	}
+
+	/**
 	 * Helper function to generate one tile
 	 * 
 	 * Arguments
@@ -183,20 +204,34 @@ public class ActivationTileController : MonoBehaviour {
 	 */
 	void generateIndividualTile(float x, float z, Material tileMaterial) {
 		GameObject tileGenerated; // The generated tile
-		Tile newTile; // The new tile object
 
-		newTile = new Tile(Tile.TilePosition(x), Tile.TilePosition(z));
-		if (movementController.IsTileBlocked(newTile)) return; // Don't generate tile
-
-		/* Tile is not blocked. Generate it */
 		tileGenerated = Instantiate<GameObject>(ActivationTilePrefab);
 		tileGenerated.GetComponent<Renderer>().material = tileMaterial;
-		Debug.Log("Tile Generated Colour: " + tileMaterial.ToString());
-		tileGenerated.GetComponent<Transform>().position = 
-				new Vector3(x, 0.0f, z);
+		tileGenerated.GetComponent<Transform>().position = new Vector3(x, 0.0f, z);
 
-		activationTileList.Add(tileGenerated);
-		activationTiles.Add(newTile);
+		gameObjectTiles.Add(tileGenerated);
+	}
+
+	/** 
+	 * Generate a corner tile
+	 * 
+	 * Arguments
+	 * - float range - The range from the corner tile we are trying to generate
+	 * - float currentX - This corner tile's x coordinate
+	 * - float currentZ - This corner tile's z coordinate
+	 * - float initialX - The x coordinate from which this corner tile is going to be generated from
+	 * - float initialZ - The z coordinate from which this corner tile is going to be generated from
+	 * - Material tileMaterial - The tile material
+	 */
+	void generateCornerTile(float range, float currentX, float currentZ, float initialX, float initialZ, 
+			Material tileMaterial) {
+
+		if (!canGenerate(currentX, currentZ)) return; // Can't generate corner tile. Just don't do it
+
+		if (range <= 0.0f && range >= 0.0f) { // Only generate the corner tile
+			generateIndividualTile(currentX, currentZ, tileMaterial);
+		}
+
 	}
 
 	/**
@@ -213,79 +248,17 @@ public class ActivationTileController : MonoBehaviour {
 		float trueX = (float)initialX; // True float values for X
 		float trueZ = (float)initialZ; // True float values for Z
 
-		/*
-		 * Easy case: simply generate tiles sticking out of the square at the following positions:
-		 * - (initialX + range, initialZ)
-		 * - (initialX - range, initialZ)
-		 * - (initialX, initialZ + range)
-		 * - (initialX, initialZ - range)
-		 */
+		// Firstly, we can just generate tiles in a straight line from the origin
+		generateStraightLineTiles(range, initialX, initialZ, tileMaterial);
 
-		generateIndividualTile(trueX + trueRange, trueZ, tileMaterial);
-		generateIndividualTile(trueX - trueRange, trueZ, tileMaterial);
-		generateIndividualTile(trueX, trueZ + trueRange, tileMaterial);
-		generateIndividualTile(trueX, trueZ - trueRange, tileMaterial);
-		
-		if (range - 1.0f <= 0f && range - 1.0f >= 0) { // Just generate the easy cases
-			generateIndividualTile(trueX, trueZ, tileMaterial);
-			return;
-		}
-		else if (range - 2.0f <= 0f && range - 2.0f >= 0) { // Simply generate a square of tiles
-			for (float currentZ = (trueZ + 2.0f); currentZ > (trueZ - 3.0f); currentZ -= 2.0f) {
-				for (float currentX = (trueX - 2.0f); currentX < (trueX + 3.0f); currentX += 2.0f) {
-					Debug.Log("Generate at: (" + currentX + ", " + currentZ + ")");
-					generateIndividualTile(currentX, currentZ, tileMaterial);
-				}
-			}
-			return;
-		}
-		else { // Range is bigger than 2.
-			Debug.Log("Range is bigger than 2");
+		// Secondly, check if the range is just 1. 
+		if (range <= 1.0f && range >= 1.0f) return; // No need to generate more. 
 
-			/*
-			 * Additional easy cases: beneath each of the 4 easy cases, three tiles are generated at the 
-			 * following positions, assuming we are handling the top easy case:
-			 * 
-			 * - (easyCaseX - 1, easyCaseZ - 1)
-			 * - (easyCaseX, easyCaseZ - 1)
-			 * - (easyCaseX + 1, easyCaseZ - 1)
-			 */
-
-			/* Right case */
-			generateIndividualTile((trueX + trueRange - 2.0f), trueZ + 2.0f, tileMaterial);
-			generateIndividualTile((trueX + trueRange - 2.0f), trueZ, tileMaterial);
-			generateIndividualTile((trueX + trueRange - 2.0f), trueZ + 2.0f, tileMaterial);
-
-			/* Left case */
-			generateIndividualTile((trueX - trueRange + 2.0f), trueZ + 2.0f, tileMaterial);
-			generateIndividualTile((trueX - trueRange + 2.0f), trueZ, tileMaterial);
-			generateIndividualTile((trueX - trueRange + 2.0f), trueZ - 2.0f, tileMaterial);
-
-			/* Top case */
-			generateIndividualTile(trueX + 2.0f, (trueZ + trueRange - 2.0f), tileMaterial);
-			generateIndividualTile(trueX, (trueZ + trueRange - 2.0f), tileMaterial);
-			generateIndividualTile(trueX - 2.0f, (trueZ + trueRange - 2.0f), tileMaterial);
-
-			/* Bottom case */
-			generateIndividualTile(trueX + 2.0f, (trueZ - trueRange + 2.0f), tileMaterial);
-			generateIndividualTile(trueX, (trueZ - trueRange + 2.0f), tileMaterial);
-			generateIndividualTile(trueX - 2.0f, (trueZ - trueRange + 2.0f), tileMaterial);
-
-			/* 
-			 * Generate square where the bounds are:
-			 * trueX - trueRange + 1 < X < trueX + trueRange - 1
-			 * trueZ - trueRange + 1 < Z < trueZ + trueRange - 1
-			 */
-			for (float currentZ = (trueZ + trueRange - 2.0f); 
-					currentZ > (trueZ - trueRange + 2.0f); 
-			     	currentZ -= 2.0f) {
-				for (float currentX = (trueX - trueRange + 2.0f);
-						currentX < (trueX + trueRange - 2.0f);
-						currentX += 2.0f) {
-					generateIndividualTile(currentX, currentZ, tileMaterial);
-				}
-			}
-		}
+		// Generate the corner tiles pseudo-recursively, if the corner's adjacent tiles are valid
+		generateCornerTile(trueRange - 2.0f, trueX - 2.0f, trueZ + 2.0f, trueX, trueZ, tileMaterial);
+		generateCornerTile(trueRange - 2.0f, trueX - 2.0f, trueZ - 2.0f, trueX, trueZ, tileMaterial);
+		generateCornerTile(trueRange - 2.0f, trueX + 2.0f, trueZ - 2.0f, trueX, trueZ, tileMaterial);
+		generateCornerTile(trueRange - 2.0f, trueX + 2.0f, trueZ + 2.0f, trueX, trueZ, tileMaterial);
 
 	}
 
@@ -299,7 +272,58 @@ public class ActivationTileController : MonoBehaviour {
 	 * - Material tileMaterial - The material of the tiles
 	 */
 	void generateStraightLineTiles(double range, int initialX, int initialZ, Material tileMaterial) {
-		
+		float trueRange = (float)range * 2.0f; // The true range for positioning purposes
+		float trueX = (float)initialX; // True float values for X
+		float trueZ = (float)initialZ; // True float values for Z
+
+		// Simple. Just generate the tiles in a straight line
+		generateStraightLine(trueRange, trueX, trueZ, tileMaterial, "left");
+		generateStraightLine(trueRange, trueX, trueZ, tileMaterial, "right");
+		generateStraightLine(trueRange, trueX, trueZ, tileMaterial, "up");
+		generateStraightLine(trueRange, trueX, trueZ, tileMaterial, "down");
+
+		// Generate the centre tile only if the centre tile is not blocked
+		if (!canGenerate(trueX, trueZ)) return; // Centre tile is blocked
+		generateIndividualTile(trueX, trueZ, tileMaterial);
+	}
+
+	/**
+	 * Helper in generating tiles in a straight line. Only generate tiles until an invalid tile
+	 * 
+	 * Arguments
+	 * - double range - The range
+	 * - float initialX - The x coordinate of the centre
+	 * - float initialZ - The z cordinate of the centre
+	 * - Material tileMaterial - The material of the tiles
+	 * - string direction - Determines the direction
+	 */
+	void generateStraightLine(double range, float initialX, float initialZ, Material tileMaterial, string direction) {
+		switch (direction) { // Only generate based on the given direction 
+		case "left": // Towards the left
+			for (float currentX = (initialX - 2.0f); currentX >= (initialX - range); currentX -= 2.0f) {
+				if (!canGenerate(currentX, initialZ)) return; // Blocked. Just stop
+				generateIndividualTile(currentX, initialZ, tileMaterial);
+			}
+			return;
+		case "right": // Towards the right
+			for (float currentX = (initialX + 2.0f); currentX <= (initialX + range); currentX += 2.0f) {
+				if (!canGenerate(currentX, initialZ)) return; // Blocked. Just stop
+				generateIndividualTile(currentX, initialZ, tileMaterial);
+			}
+			return;
+		case "up": // Upwards
+			for (float currentZ = (initialZ + 2.0f); currentZ <= (initialZ + range); currentZ += 2.0f) {
+				if (!canGenerate(initialX, currentZ)) return; // Blocked. Just stop
+				generateIndividualTile(initialX, currentZ, tileMaterial);
+			}
+			return;
+		case "down": // Downwards
+			for (float currentZ = (initialZ - 2.0f); currentZ >= (initialZ - range); currentZ -= 2.0f) {
+				if (!canGenerate(initialX, currentZ)) return; // Blocked. Just stop
+				generateIndividualTile(initialX, currentZ, tileMaterial);
+			}
+			return;
+		}
 	}
 	
 }
