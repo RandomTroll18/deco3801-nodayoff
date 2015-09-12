@@ -323,6 +323,15 @@ public class MovementController : MonoBehaviour {
 		return false;
 	}
 
+	/*
+	 * Returns whether the given tile blocks movement.
+	 * 
+	 * These tiles include walls, doors, interactables + whatever else you want.
+	 */ 
+	public bool IsTileBlocked(Tile tile) {
+		return blockedTiles.Contains(tile);
+	}
+
 
 
 }
