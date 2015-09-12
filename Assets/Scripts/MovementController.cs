@@ -110,6 +110,20 @@ public class MovementController : MonoBehaviour {
 				o.transform.position = v;
 			}
 		}
+
+		// Initalises set of all Interactable tiles
+		// TODO: Ken fix this
+		InteractiveObject c;
+		GameObject[] Interactables = GameObject.FindGameObjectsWithTag("Interactable");
+		foreach (GameObject i in Interactables) {
+//			c = i.GetComponent<InteractiveObject>();
+//			InteractiveTiles.Add(c);
+//			blockedTiles.Add(c.GetTile());
+//			Debug.Log("int added: " + c.GetTile().ToString());
+
+			// I can't see a reason why you need to call getTile() when this function exists:
+			blockedTiles.Add(Tile.TilePosition(i.transform.position));
+		}
 	}
 
 	void Update() {
@@ -174,17 +188,13 @@ public class MovementController : MonoBehaviour {
 			visualPath.Clear();
 		}
 
-		// TODO: Ken can you put this in a function
-		int index;
-		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
-			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
-			Debug.Log(index);
-			InteractiveTiles[index].Interact();
-			//Debug.Log(InteractiveTiles[index]);
+		// TODO: Ben i changed it, check it.
+		if (UseInteractable (goal, playerScript)) {
 			return;
 		}
 		
 		PathTile dest = FindPath(goal);
+
 		if (dest != null) {
 			// TODO: if the cost of movement is too much, spawn a different coloured path
 			SpawnHighlitedTile(goal);
@@ -328,6 +338,8 @@ public class MovementController : MonoBehaviour {
 		InteractiveTiles.Add(ToAdd);
 		blockedTiles.Add(ToAdd.GetTile());
 		Debug.Log("int added: " + ToAdd.GetTile().ToString());
+		// I can't see a reason why you need to call getTile() when this function exists:
+		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
 	
 	public void RemoveInteractable(InteractiveObject ToRemove) {
@@ -335,7 +347,22 @@ public class MovementController : MonoBehaviour {
 		InteractiveTiles.Remove(ToRemove);
 		blockedTiles.Remove(ToRemove.GetTile());
 		Debug.Log("int Remove: " + ToRemove.GetTile().ToString());
+		// I can't see a reason why you need to call getTile() when this function exists:
+		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
+
+	public bool UseInteractable(Tile goal, Player playerSCript) {
+		int index;
+		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
+			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
+			Debug.Log(index);
+			InteractiveTiles[index].Interact();
+			//Debug.Log(InteractiveTiles[index]);
+			return true;
+		}
+		return false;
+	}
+
 
 
 
