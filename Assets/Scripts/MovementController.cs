@@ -337,6 +337,24 @@ public class MovementController : MonoBehaviour {
 		return blockedTiles.Contains(tile);
 	}
 
+	public void AddInteractable(InteractiveObject ToAdd) {
+		//c = i.GetComponent<InteractiveObject>();
+		InteractiveTiles.Add(ToAdd);
+		blockedTiles.Add(ToAdd.GetTile());
+		Debug.Log("int added: " + ToAdd.GetTile().ToString());
+		// I can't see a reason why you need to call getTile() when this function exists:
+		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
+	}
+	
+	public void RemoveInteractable(InteractiveObject ToRemove) {
+		//c = i.GetComponent<InteractiveObject>();
+		InteractiveTiles.Remove(ToRemove);
+		blockedTiles.Remove(ToRemove.GetTile());
+		Debug.Log("int Remove: " + ToRemove.GetTile().ToString());
+		// I can't see a reason why you need to call getTile() when this function exists:
+		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
+	}
+
 
 
 }
