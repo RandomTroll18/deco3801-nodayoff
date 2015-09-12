@@ -7,12 +7,16 @@ using System.Collections.Generic;
 public class ActivationTileController : MonoBehaviour {
 
 	public GameObject ActivationTilePrefab; // Activation Tile Prefab
+	public Material OffensiveTileMaterial; // Material for an offensive tile
+	public Material DefensiveTileMaterial; // Material for a defensive tile
+	public Material SupportiveTileMaterial; // Material for a supportive tile
 
 	HashSet<Tile> activationTiles = new HashSet<Tile>((new Tile())); // Container of activation tiles
 	List<GameObject> activationTileList = new List<GameObject>(); // List of activation tiles
 	Player player; // Current calling player
 	Item item; // Current item
 	Ability ability; // Current calling ability
+	MovementController movementController; // The movement controller
 
 	/**
 	 * Activate Item/Ability on the given tile
@@ -83,8 +87,11 @@ public class ActivationTileController : MonoBehaviour {
 		player = newPlayer;
 		item = null;
 		ability = newAbility;
+
+		// Third, get movement controller
+		movementController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
 		
-		// Third, start generating
+		// Fourth, start generating
 		generateActivationTiles(abilityRange, playerPositionX, playerPositionZ, rangeType, activationType);
 	}
 
@@ -111,7 +118,11 @@ public class ActivationTileController : MonoBehaviour {
 		item = newItem;
 		ability = null;
 
-		// Third, start generating
+		// Third, get movement controller
+		movementController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
+
+
+		// Fourth, start generating
 		generateActivationTiles(itemRange, playerPositionX, playerPositionZ, rangeType, activationType);
 	}
 
@@ -128,7 +139,7 @@ public class ActivationTileController : MonoBehaviour {
 	 */
 	void generateActivationTiles(double range, int initialX, int initialZ, RangeType rangeType, 
 			ActivationType activationType) {
-		Color tileColour ; // The tile colour
+		Material tileMaterial; // The material to set
 		// Some debugging
 		Debug.Log("Generate Activation Tiles");
 		Debug.Log("Range: " + range);
@@ -137,13 +148,13 @@ public class ActivationTileController : MonoBehaviour {
 		// First, determine the tile colour
 		switch (activationType) {
 		case ActivationType.OFFENSIVE: 
-			tileColour = new Color((float)180, (float)0, (float)0);
+			tileMaterial = OffensiveTileMaterial;
 			break;
 		case ActivationType.DEFENSIVE:
-			tileColour = Color.blue;
+			tileMaterial = DefensiveTileMaterial;
 			break;
 		case ActivationType.SUPPORTIVE:
-			tileColour = Color.green;
+			tileMaterial = SupportiveTileMaterial;
 			break;
 		default: goto case ActivationType.DEFENSIVE; // Default is just blue
 		}
@@ -151,23 +162,36 @@ public class ActivationTileController : MonoBehaviour {
 		// Second determine how tiles are generated and generate them accordingly
 		switch (rangeType) {
 		case RangeType.SQUARERANGE:
-			generateSquareRangeTiles(range, initialX, initialZ, tileColour);
+			generateSquareRangeTiles(range, initialX, initialZ, tileMaterial);
 			break;
 		case RangeType.STRAIGHTLINERANGE:
-			generateStraightLineTiles(range, initialX, initialZ, tileColour);
+			generateStraightLineTiles(range, initialX, initialZ, tileMaterial);
 			break;
 		default: goto case RangeType.SQUARERANGE; // Default is the square range
 		}
 	}
 
-	void generateIndividualTile(float x, float z, Color tileColour) {
+	/**
+	 * Helper function to generate one tile
+	 * 
+	 * Arguments
+	 * - float x - The x coordinate to generate the tile
+	 * - float z - The z coordinate to generate the tile
+	 * - Material tileMaterial - The tile material
+	 */
+	void generateIndividualTile(float x, float z, Material tileMaterial) {
 		GameObject tileGenerated; // The generated tile
 		Tile newTile; // The new tile object
 
-		tileGenerated = Instantiate<GameObject>(ActivationTilePrefab);
-		tileGenerated.GetComponent<Renderer>().material.SetColor("_Color", tileColour);
-		tileGenerated.GetComponent<Transform>().position = new Vector3(x, (float)0.0, z);
 		newTile = new Tile(Tile.TilePosition(x), Tile.TilePosition(z));
+		if (movementController.IsTileBlocked(newTile)) return; // Don't generate tile
+
+		/* Tile is not blocked. Generate it */
+		tileGenerated = Instantiate<GameObject>(ActivationTilePrefab);
+		tileGenerated.GetComponent<Renderer>().material = tileMaterial;
+		Debug.Log("Tile Generated Colour: " + tileMaterial.ToString());
+		tileGenerated.GetComponent<Transform>().position = 
+				new Vector3(x, 0.0f, z);
 
 		activationTileList.Add(tileGenerated);
 		activationTiles.Add(newTile);
@@ -180,9 +204,9 @@ public class ActivationTileController : MonoBehaviour {
 	 * - double range - The range
 	 * - int initialX - The X coordinate of the centre
 	 * - int initialZ - The Z coordinate of the centre
-	 * - Color tileColour - The colour of the tiles
+	 * - Material tileMaterial - The material of the tiles
 	 */
-	void generateSquareRangeTiles(double range, int initialX, int initialZ, Color tileColour) {
+	void generateSquareRangeTiles(double range, int initialX, int initialZ, Material tileMaterial) {
 		float trueRange = (float)range + (float)1; // The true range for positioning purposes
 		float trueX = (float)initialX; // True float values for X
 		float trueZ = (float)initialZ; // True float values for Z
@@ -193,22 +217,22 @@ public class ActivationTileController : MonoBehaviour {
 		 * - (initialX - range, initialZ)
 		 * - (initialX, initialZ + range)
 		 * - (initialX, initialZ - range)
-		 * 
-		 * and generate a square at the centre
 		 */
 
-		generateIndividualTile(trueX + trueRange, trueZ, tileColour);
-		generateIndividualTile(trueX - trueRange, trueZ, tileColour);
-		generateIndividualTile(trueX, trueZ + trueRange, tileColour);
-		generateIndividualTile(trueX, trueZ - trueRange, tileColour);
-		generateIndividualTile(trueX, trueZ, tileColour);
-
+		generateIndividualTile(trueX + trueRange, trueZ, tileMaterial);
+		generateIndividualTile(trueX - trueRange, trueZ, tileMaterial);
+		generateIndividualTile(trueX, trueZ + trueRange, tileMaterial);
+		generateIndividualTile(trueX, trueZ - trueRange, tileMaterial);
 		
-		if (range - 1.0 <= 0 && range - 1.0 >= 0) return; // Do nothing
-		else if (range - 2.0 <= 0 && range - 2.0 >= 0) { // Simply generate a square of tiles
-			for (float currentZ = (trueZ + 2.0f) - 1.0f; currentZ > (trueZ - 2.0f); currentZ -= 1.0f) {
-				for (float currentX = (trueX - 2.0f) + 1.0f; currentX < (trueX + 2.0f); currentX += 1.0f) {
-					generateIndividualTile(currentX, currentZ, tileColour);
+		if (range - 1.0f <= 0f && range - 1.0f >= 0) {
+			generateIndividualTile(trueX, trueZ, tileMaterial);
+			return;
+		}
+		else if (range - 2.0f <= 0f && range - 2.0f >= 0) { // Simply generate a square of tiles
+			for (float currentZ = (trueZ + 2.0f); currentZ > (trueZ - 3.0f); currentZ -= 2.0f) {
+				for (float currentX = (trueX - 2.0f); currentX < (trueX + 3.0f); currentX += 2.0f) {
+					Debug.Log("Generate at: (" + currentX + ", " + currentZ + ")");
+					generateIndividualTile(currentX, currentZ, tileMaterial);
 				}
 			}
 			return;
@@ -226,24 +250,24 @@ public class ActivationTileController : MonoBehaviour {
 			 */
 
 			/* Right case */
-			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileColour);
-			generateIndividualTile((trueX + trueRange - 1.0f), trueZ, tileColour);
-			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileColour);
+			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileMaterial);
+			generateIndividualTile((trueX + trueRange - 1.0f), trueZ, tileMaterial);
+			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileMaterial);
 
 			/* Left case */
-			generateIndividualTile((trueX - trueRange + 1.0f), trueZ + 1.0f, tileColour);
-			generateIndividualTile((trueX - trueRange + 1.0f), trueZ, tileColour);
-			generateIndividualTile((trueX - trueRange + 1.0f), trueZ - 1.0f, tileColour);
+			generateIndividualTile((trueX - trueRange + 1.0f), trueZ + 1.0f, tileMaterial);
+			generateIndividualTile((trueX - trueRange + 1.0f), trueZ, tileMaterial);
+			generateIndividualTile((trueX - trueRange + 1.0f), trueZ - 1.0f, tileMaterial);
 
 			/* Top case */
-			generateIndividualTile(trueX + 1.0f, (trueZ + trueRange - 1.0f), tileColour);
-			generateIndividualTile(trueX, (trueZ + trueRange - 1.0f), tileColour);
-			generateIndividualTile(trueX - 1.0f, (trueZ + trueRange - 1.0f), tileColour);
+			generateIndividualTile(trueX + 1.0f, (trueZ + trueRange - 1.0f), tileMaterial);
+			generateIndividualTile(trueX, (trueZ + trueRange - 1.0f), tileMaterial);
+			generateIndividualTile(trueX - 1.0f, (trueZ + trueRange - 1.0f), tileMaterial);
 
 			/* Bottom case */
-			generateIndividualTile(trueX + 1.0f, (trueZ - trueRange + 1.0f), tileColour);
-			generateIndividualTile(trueX, (trueZ - trueRange + 1.0f), tileColour);
-			generateIndividualTile(trueX - 1.0f, (trueZ - trueRange + 1.0f), tileColour);
+			generateIndividualTile(trueX + 1.0f, (trueZ - trueRange + 1.0f), tileMaterial);
+			generateIndividualTile(trueX, (trueZ - trueRange + 1.0f), tileMaterial);
+			generateIndividualTile(trueX - 1.0f, (trueZ - trueRange + 1.0f), tileMaterial);
 
 			/* 
 			 * Generate square where the bounds are:
@@ -256,7 +280,7 @@ public class ActivationTileController : MonoBehaviour {
 				for (float currentX = (trueX - trueRange + 2.0f);
 						currentX < (trueX + trueRange - 1.0f);
 						currentX += 1.0f) {
-					generateIndividualTile(currentX, currentZ, tileColour);
+					generateIndividualTile(currentX, currentZ, tileMaterial);
 				}
 			}
 		}
@@ -270,9 +294,9 @@ public class ActivationTileController : MonoBehaviour {
 	 * - double range - The range
 	 * - int initialX - The X coordinate of the centre
 	 * - int initialZ - The Z coordinate of the centre
-	 * - Color tileColour - The colour of the tiles
+	 * - Material tileMaterial - The material of the tiles
 	 */
-	void generateStraightLineTiles(double range, int initialX, int initialZ, Color tileColour) {
+	void generateStraightLineTiles(double range, int initialX, int initialZ, Material tileMaterial) {
 		
 	}
 	

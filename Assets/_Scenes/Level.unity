@@ -1652,6 +1652,54 @@ Prefab:
       propertyPath: m_TagString
       value: Objective UI
       objectReference: {fileID: 0}
+    - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: DefensiveTileMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 585b4a84d20b1ee4a82096cdd182d3e1, type: 2}
+    - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: OffensiveTileMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: a7b074a23b5916d49aa39ea55689b6a0, type: 2}
+    - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: SupportiveTileMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 12db84aa312a6654b9849465a64c60c5, type: 2}
+    - target: {fileID: 11458416, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11453238, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11473648, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11471156, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11418742, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11485326, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11408218, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11453320, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11471630, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: defaultIcon
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
   m_IsPrefabParent: 0

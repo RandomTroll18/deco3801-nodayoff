@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 /**
  * Script handling individual ui slots
@@ -10,12 +9,12 @@ public class InventoryUISlotScript : MonoBehaviour {
 	public GameObject UiSlot; // The ui slot. Initially null
 	public GameObject ContextAwareBox; // The context aware box
 	public GameObject Container; // The parent of this ui slot
+	public Sprite defaultIcon; // The default icon
 	bool selected; // Record whether ui element was clicked
 	Image uiSlotImage; // The image script of the ui slot
 	Item item; // The item contained in this slot
 	ContextAwareBoxScript contextBoxScript; // Script of context aware box
 	InventoryUIScript containerScript; // Script of parent
-	Sprite defaultIcon; // The default icon for this ui slot
 
 	/**
 	 * Start function. Need to do the following:
@@ -33,7 +32,6 @@ public class InventoryUISlotScript : MonoBehaviour {
 		if (Container != null) {
 			containerScript = Container.GetComponent<InventoryUIScript>();
 		}
-		defaultIcon = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
 	}
 
 	/**
