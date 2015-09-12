@@ -18,6 +18,7 @@ TagManager:
   - AbilitySpawn
   - Door
   - Objective UI
+  - SkillPanel
   layers:
   - Default
   - TransparentFX

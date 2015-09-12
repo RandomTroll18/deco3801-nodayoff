@@ -351,6 +351,17 @@ public class MovementController : MonoBehaviour {
 		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
 
+	public void RemoveInteractable(Tile ToRemove) {
+		int index = GetInteractable (ToRemove);
+		if (index == -1) {
+			Debug.Log("Can't find Tile");
+			return;
+		}
+		blockedTiles.Remove(ToRemove);
+		InteractiveTiles.Remove(InteractiveTiles[index]);
+		Debug.Log("int Remove: " + ToRemove.ToString());
+	}
+
 	public bool UseInteractable(Tile goal, Player playerSCript) {
 		int index;
 		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {

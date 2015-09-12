@@ -27,11 +27,9 @@ public class InteractiveObject : MonoBehaviour {
 	private int ObjectID;
 	private Tile Position;
 
-	public bool IsActivated;
-	public bool IsBlocked;
-	public bool IsClosed;
-
-	private MovementController MController;
+	protected bool IsInactivated;
+	protected PrimaryObjectiveController PrimaryO;
+	protected MovementController MController;
 
 
 	void Awake() {
@@ -52,12 +50,11 @@ public class InteractiveObject : MonoBehaviour {
 		this.RNGvariable = 1; 
 		 */
 
-		this.IsActivated = false;
-		this.IsClosed = true;
-
+		IsInactivated = false;
+	
 		MController = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<MovementController>();
-		
+		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI").GetComponent<PrimaryObjectiveController> ();
 		MController.AddInteractable (this);
 		Debug.Log (this.Position.ToString());		
 		
@@ -75,7 +72,6 @@ public class InteractiveObject : MonoBehaviour {
 		APSlider.value = 0;
 		APSlider.maxValue = this.APLimit;
 		Panel.SetActive(true);
-
 		return;
 	}
 
@@ -83,38 +79,10 @@ public class InteractiveObject : MonoBehaviour {
 		Panel.SetActive(false);
 	}
 
-	public void TakeAction(float input){
-		if (IsActivated) {
-			Debug.Log ("Interactable is already activated");
-			return;
-		}
+	public virtual void TakeAction(float input){
 
-		if (input == 0) {
-			Debug.Log ("Input AP");
-			return;
-		}
-
-		//PlayerClass Class = this.Player.GetPlayerClassObject();
-		//double Multiplier;
-
-		Debug.Log (input + "AP has been used on " + gameObject.ToString());
-		// TODO: RNG Element to opening
-		if (FunctionToggle) {
-			if (IsClosed) {
-				this.IsClosed = false;
-				//this.Open(this.GetTile());
-				TargetOpen ();
-				Debug.Log ("OPEN");
-			} else {
-				this.IsClosed = true;
-				//this.Close(this.GetTile());
-				TargetClose ();
-				Debug.Log ("CLOSE");
-			}
-		} else {
-			this.TargetDestroy();
-		}
 	}
+
 
 	public Tile GetTile(){
 		return this.Position;
@@ -152,7 +120,9 @@ public class InteractiveObject : MonoBehaviour {
 		foreach (GameObject Target in Targets) {
 			Destroy(Target);
 		}
-		this.IsActivated = true;
+		IsInactivated = true;
 	}
+
+
 }
 

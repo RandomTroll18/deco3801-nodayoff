@@ -27,6 +27,11 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	}
 
+	public Objective GetObjective() {
+		return objective;
+		
+	}
+
 	public void GoToLocation() {
 		cam.MoveCamera(objective.Location);
 
