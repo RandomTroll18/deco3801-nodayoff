@@ -212,6 +212,77 @@ public class ActivationTileController : MonoBehaviour {
 		gameObjectTiles.Add(tileGenerated);
 	}
 
+	/**
+	 * Checks if the tiles adjacent to the corner are not blocking
+	 * 
+	 * Arugments
+	 * - float cornerX - The corner's x coordinate
+	 * - float cornerZ - The corner's y coordinate
+	 * - float initialX - The origin x coordinate
+	 * - float initialZ - The origin z coordinate
+	 * 
+	 * Returns
+	 * - True if both adjacent tiles are valid
+	 * - False if otherwise
+	 */
+	bool checkCornerAdjacency(float cornerX, float cornerZ, float initialX, float initialZ) {
+		Tile adjacentTileOne, adjacentTileTwo; // The tiles adjacent to the corner
+
+		if (cornerX > initialX && cornerZ > initialZ) { // This is the upper right corner
+			Debug.Log("Upper right corner");
+			adjacentTileOne = new Tile(Tile.TilePosition(cornerX - 2.0f), Tile.TilePosition(cornerZ));
+			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ - 2.0f));
+		} else if (cornerX > initialX && cornerZ < initialZ) { // This is the lower right corner
+			Debug.Log("Lower right corner");
+			adjacentTileOne = new Tile(Tile.TilePosition(cornerX - 2.0f), Tile.TilePosition(cornerZ));
+			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ + 2.0f));
+		} else if (cornerX < initialX && cornerZ > initialZ) { // This is the upper left corner
+			Debug.Log("Upper left corner");
+			adjacentTileOne = new Tile(Tile.TilePosition(cornerX + 2.0f), Tile.TilePosition(cornerZ));
+			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ - 2.0f));
+		} else { // This is the lower left corner
+			Debug.Log("Lower left corner");
+			adjacentTileOne = new Tile(Tile.TilePosition(cornerX + 2.0f), Tile.TilePosition(cornerZ));
+			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ + 2.0f));
+		}
+
+		if (!movementController.IsTileBlocked(adjacentTileOne) && !movementController.IsTileBlocked(adjacentTileTwo)) {
+			Debug.Log("Both adjacent tiles are valid");
+			return true; // Adjacent tiles are valid. Corner tile can be generated
+		}
+
+		Debug.Log("One of the adjacent tiles are invalid");
+		return false; // One adjacen tile is invalid. Corner tile can't be generated
+	}
+
+	/**
+	 * Generate tiles straight from the corner
+	 * 
+	 * Arguments
+	 * - float range - The range from the corner tile we are trying to generate
+	 * - float currentX - This corner's x coordinate
+	 * - float currentZ - This corner's z coordinate
+	 * - float initialX - The origin x coordinate
+	 * - float initialZ - The origin z coordinate
+	 * - Material tileMaterial - The material of the tile
+	 */
+	void generateStraightFromCorner(float range, float currentX, float currentZ, float initialX, float initialZ, 
+			Material tileMaterial) {
+		if (currentX > initialX && currentZ > initialZ) { // This is the upper right corner
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "right");
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "up");
+		} else if (currentX > initialX && currentZ < initialZ) { // This is the lower right corner
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "right");
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "down");
+		} else if (currentX < initialZ && currentZ > initialZ) { // This is the upper left corner
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "left");
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "up");
+		} else { // This is the lower left corner
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "left");
+			generateStraightLine(range, currentX, currentZ, tileMaterial, "down");
+		}
+	}
+
 	/** 
 	 * Generate a corner tile
 	 * 
@@ -225,13 +296,35 @@ public class ActivationTileController : MonoBehaviour {
 	 */
 	void generateCornerTile(float range, float currentX, float currentZ, float initialX, float initialZ, 
 			Material tileMaterial) {
+		Debug.Log("Corner range: " + range);
+		Debug.Log("Corner is supposed to be generated at: (" + currentX + ", " + currentZ + ")");
+		if (range <= 0.0f && range >= 0.0f) return; // Don't generate anything
 
-		if (!canGenerate(currentX, currentZ)) return; // Can't generate corner tile. Just don't do it
+		// Generate centre tile
+		if (!checkCornerAdjacency(currentX, currentZ, initialX, initialZ)) return; // Can't generate centre
+		else if (!canGenerate(currentX, currentZ)) return; // Can't generate corner tile. Just don't do it
 
-		if (range <= 0.0f && range >= 0.0f) { // Only generate the corner tile
-			generateIndividualTile(currentX, currentZ, tileMaterial);
+		Debug.Log("Generating corner tile");
+		generateIndividualTile(currentX, currentZ, tileMaterial); // Generate the corner tile
+		Debug.Log("Generated corner tile at: (" + currentX + ", " + currentZ + ")");
+
+		if (range <= 2.0f && range >= 2.0f) return; // Only generate the corner tile
+
+		// Generate tiles in a straight line from the corner
+		generateStraightFromCorner(range, currentX, currentZ, initialX, initialZ, tileMaterial);
+
+		if (range <= 4.0f && range >= 4.0f) return; // We only want to generate the tiles straight from the corner
+
+		// Generate the next corner tile based on the position of this corner tile
+		if (currentX > initialX && currentZ >= initialZ) { // Upper right corner 
+			generateCornerTile(range - 2.0f, currentX + 2.0f, currentZ + 2.0f, currentX, currentZ, tileMaterial);
+		} else if (currentX > initialX && currentZ <= initialZ) { // Lower right corner 
+			generateCornerTile(range - 2.0f, currentX + 2.0f, currentZ - 2.0f, currentX, currentZ, tileMaterial);
+		} else if (currentX < 0.0f && currentZ > 0.0f) { // Upper left corner
+			generateCornerTile(range - 2.0f, currentX - 2.0f, currentZ + 2.0f, currentX, currentZ, tileMaterial);
+		} else { // Lower left corner
+			generateCornerTile(range - 2.0f, currentX - 2.0f, currentZ - 2.0f, currentX, currentZ, tileMaterial);
 		}
-
 	}
 
 	/**
