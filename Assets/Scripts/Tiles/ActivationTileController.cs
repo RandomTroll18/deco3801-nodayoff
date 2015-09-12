@@ -12,6 +12,7 @@ public class ActivationTileController : MonoBehaviour {
 	public Material SupportiveTileMaterial; // Material for a supportive tile
 
 	HashSet<Tile> activationTiles = new HashSet<Tile>((new Tile())); // Container of activation tiles
+	HashSet<Tile> badActivationTiles = new HashSet<Tile>(new Tile()); // Container of bad activation tiles
 	List<GameObject> activationTileList = new List<GameObject>(); // List of activation tiles
 	Player player; // Current calling player
 	Item item; // Current item
@@ -56,6 +57,7 @@ public class ActivationTileController : MonoBehaviour {
 			Destroy(activationTile);
 		}
 		activationTileList.Clear(); // Clear the activation tile list
+		badActivationTiles.Clear(); // Clear the list of bad activation tiles
 
 		/* Set referenes to null */
 		player = null;
@@ -207,7 +209,7 @@ public class ActivationTileController : MonoBehaviour {
 	 * - Material tileMaterial - The material of the tiles
 	 */
 	void generateSquareRangeTiles(double range, int initialX, int initialZ, Material tileMaterial) {
-		float trueRange = (float)range + (float)1; // The true range for positioning purposes
+		float trueRange = (float)range * 2.0f; // The true range for positioning purposes
 		float trueX = (float)initialX; // True float values for X
 		float trueZ = (float)initialZ; // True float values for Z
 
@@ -224,7 +226,7 @@ public class ActivationTileController : MonoBehaviour {
 		generateIndividualTile(trueX, trueZ + trueRange, tileMaterial);
 		generateIndividualTile(trueX, trueZ - trueRange, tileMaterial);
 		
-		if (range - 1.0f <= 0f && range - 1.0f >= 0) {
+		if (range - 1.0f <= 0f && range - 1.0f >= 0) { // Just generate the easy cases
 			generateIndividualTile(trueX, trueZ, tileMaterial);
 			return;
 		}
@@ -250,24 +252,24 @@ public class ActivationTileController : MonoBehaviour {
 			 */
 
 			/* Right case */
-			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileMaterial);
-			generateIndividualTile((trueX + trueRange - 1.0f), trueZ, tileMaterial);
-			generateIndividualTile((trueX + trueRange - 1.0f), trueZ + 1.0f, tileMaterial);
+			generateIndividualTile((trueX + trueRange - 2.0f), trueZ + 2.0f, tileMaterial);
+			generateIndividualTile((trueX + trueRange - 2.0f), trueZ, tileMaterial);
+			generateIndividualTile((trueX + trueRange - 2.0f), trueZ + 2.0f, tileMaterial);
 
 			/* Left case */
-			generateIndividualTile((trueX - trueRange + 1.0f), trueZ + 1.0f, tileMaterial);
-			generateIndividualTile((trueX - trueRange + 1.0f), trueZ, tileMaterial);
-			generateIndividualTile((trueX - trueRange + 1.0f), trueZ - 1.0f, tileMaterial);
+			generateIndividualTile((trueX - trueRange + 2.0f), trueZ + 2.0f, tileMaterial);
+			generateIndividualTile((trueX - trueRange + 2.0f), trueZ, tileMaterial);
+			generateIndividualTile((trueX - trueRange + 2.0f), trueZ - 2.0f, tileMaterial);
 
 			/* Top case */
-			generateIndividualTile(trueX + 1.0f, (trueZ + trueRange - 1.0f), tileMaterial);
-			generateIndividualTile(trueX, (trueZ + trueRange - 1.0f), tileMaterial);
-			generateIndividualTile(trueX - 1.0f, (trueZ + trueRange - 1.0f), tileMaterial);
+			generateIndividualTile(trueX + 2.0f, (trueZ + trueRange - 2.0f), tileMaterial);
+			generateIndividualTile(trueX, (trueZ + trueRange - 2.0f), tileMaterial);
+			generateIndividualTile(trueX - 2.0f, (trueZ + trueRange - 2.0f), tileMaterial);
 
 			/* Bottom case */
-			generateIndividualTile(trueX + 1.0f, (trueZ - trueRange + 1.0f), tileMaterial);
-			generateIndividualTile(trueX, (trueZ - trueRange + 1.0f), tileMaterial);
-			generateIndividualTile(trueX - 1.0f, (trueZ - trueRange + 1.0f), tileMaterial);
+			generateIndividualTile(trueX + 2.0f, (trueZ - trueRange + 2.0f), tileMaterial);
+			generateIndividualTile(trueX, (trueZ - trueRange + 2.0f), tileMaterial);
+			generateIndividualTile(trueX - 2.0f, (trueZ - trueRange + 2.0f), tileMaterial);
 
 			/* 
 			 * Generate square where the bounds are:
@@ -275,11 +277,11 @@ public class ActivationTileController : MonoBehaviour {
 			 * trueZ - trueRange + 1 < Z < trueZ + trueRange - 1
 			 */
 			for (float currentZ = (trueZ + trueRange - 2.0f); 
-					currentZ > (trueZ - trueRange + 1.0f); 
-			     	currentZ -= 1.0f) {
+					currentZ > (trueZ - trueRange + 2.0f); 
+			     	currentZ -= 2.0f) {
 				for (float currentX = (trueX - trueRange + 2.0f);
-						currentX < (trueX + trueRange - 1.0f);
-						currentX += 1.0f) {
+						currentX < (trueX + trueRange - 2.0f);
+						currentX += 2.0f) {
 					generateIndividualTile(currentX, currentZ, tileMaterial);
 				}
 			}
