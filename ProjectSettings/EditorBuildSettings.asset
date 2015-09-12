@@ -23,3 +23,5 @@ EditorBuildSettings:
     path: Assets/_Scenes/GameRoom.unity
   - enabled: 1
     path: Assets/Prototype/WinScreen.unity
+  - enabled: 1
+    path: Assets/Prototype/GameOver.unity

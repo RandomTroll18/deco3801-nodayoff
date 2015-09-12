@@ -285,7 +285,9 @@ public class Player : MonoBehaviour {
 	 */
 	public void ReduceStatValue(Stat playerStat, double value) {
 		stats[playerStat] -= value;
-		if (stats[playerStat] <= 0.0) stats[playerStat] = 0.0;
+		if (stats[playerStat] <= 0.0) {
+			stats[playerStat] = 0.0;
+		}
 	}
 
 	/**

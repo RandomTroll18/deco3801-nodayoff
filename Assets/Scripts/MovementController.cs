@@ -144,6 +144,8 @@ public class MovementController : MonoBehaviour {
 					DestroyObject(visualPath.Last.Value);
 					visualPath.RemoveLast();
 				}
+
+				playerScript.ReduceStatValue(Stat.AP, 1);
 			} else {
 				/* Moves the player */
 				float step = Speed * Time.deltaTime;
@@ -171,7 +173,8 @@ public class MovementController : MonoBehaviour {
 			return;
 		}
 
-		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
+		if (moving == Moving.POSSIBLY && path.Count <= playerScript.GetStatValue(Stat.AP) 
+				&& goal.Equals(clickedTile)) {
 			moving = Moving.YES;
 			return;
 		}
@@ -185,6 +188,7 @@ public class MovementController : MonoBehaviour {
 			visualPath.Clear();
 		}
 
+		// TODO: Ken can you put this in a function
 		int index;
 		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
 			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
@@ -196,6 +200,7 @@ public class MovementController : MonoBehaviour {
 		
 		PathTile dest = FindPath(goal);
 		if (dest != null) {
+			// TODO: if the cost of movement is too much, spawn a different coloured path
 			SpawnHighlitedTile(goal);
 			clickedTile = goal;
 			moving = Moving.POSSIBLY;
