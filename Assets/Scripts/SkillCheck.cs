@@ -11,10 +11,12 @@ public class SkillCheck : MonoBehaviour {
 
 	void Start(){
 
+		//GameObject.FindGameObjectWithTag ("Interactable").GetComponent<InteractiveObject>().CloseEvent();
 	}
 
 	public void Action(GameObject x) {
 		x.GetComponent<SkillCheck>().Action();
+
 	}
 
 	public void Action(){

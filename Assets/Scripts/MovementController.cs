@@ -110,20 +110,7 @@ public class MovementController : MonoBehaviour {
 				o.transform.position = v;
 			}
 		}
-
-		// Initalises set of all Interactable tiles
-		// TODO: Ken fix this
-		InteractiveObject c;
-		GameObject[] Interactables = GameObject.FindGameObjectsWithTag("Interactable");
-		foreach (GameObject i in Interactables) {
-//			c = i.GetComponent<InteractiveObject>();
-//			InteractiveTiles.Add(c);
-//			blockedTiles.Add(c.GetTile());
-//			Debug.Log("int added: " + c.GetTile().ToString());
-
-			// I can't see a reason why you need to call getTile() when this function exists:
-			blockedTiles.Add(Tile.TilePosition(i.transform.position));
-		}
+	
 	}
 
 	void Update() {

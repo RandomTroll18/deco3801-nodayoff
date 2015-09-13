@@ -10,17 +10,17 @@ public class InteractiveObject : MonoBehaviour {
 
 	//the UICanvas
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
-	public GameObject Player;
-	public GameObject Panel;
+	private GameObject Player;
+	private GameObject Panel;
 	public string SkillType;
 
-	public Text NameLabel;
+	private Text NameLabel;
 	public string StringInput;
 
-	public Slider APSlider;
+	private Slider APSlider;
 	public int APLimit;
 
-	public Button Button;
+	private Button Button;
 	private Tile Position;
 
 	public double ChanceDecimal;
@@ -48,9 +48,15 @@ public class InteractiveObject : MonoBehaviour {
 
 		IsInactivated = false;
 
+		Panel = GameObject.FindGameObjectWithTag("SkillPanel");
+		NameLabel = Panel.transform.FindChild("SkillCheckText").GetComponent<Text> ();
+		APSlider = Panel.transform.FindChild("Slider").GetComponent<Slider> ();
+		Button = Panel.transform.FindChild("Button").GetComponent<Button> ();
+
 		Chance = ChanceDecimal;
 		MController = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<MovementController>();
+		Player = GameObject.Find ("Player");
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI").GetComponent<PrimaryObjectiveController> ();
 		playerScript = Player.GetComponent<Player>();
 		MController.AddInteractable (this);
@@ -61,7 +67,6 @@ public class InteractiveObject : MonoBehaviour {
 	public void Interact() {
 		Debug.Log ("Interacted with " + this.name + " at " + this.Position.ToString());
 		// TODO: Figure whats wrong with code below & add toggle Panel
-		Panel.SetActive(true);
 		// TODO: Change text
 		NameLabel.text = StringInput;
 		// TODO: Change Button function
@@ -69,14 +74,21 @@ public class InteractiveObject : MonoBehaviour {
 		// TODO: Change Slider properties
 		APSlider.value = 0;
 		APSlider.maxValue = this.APLimit;
-		Panel.SetActive(true);
+		OpenEvent();
 		return;
 	}
 
 	public void CloseEvent(){
-		Panel.SetActive(false);
+		Debug.Log ("Close Panel " + Panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		Panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-9999, (float)37.5);
 	}
 
+	public void OpenEvent(){
+		Debug.Log ("Open Panel " + Panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		Panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-683, (float)37.5);
+	}
+
+	
 	public virtual void TakeAction(float input){
 
 	}
