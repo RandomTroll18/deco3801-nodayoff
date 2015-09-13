@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour {
 			.GetComponent<MovementController>();
 		actController = ContextAwareBox.GetComponent<ActivationTileController>();
 
-		offset = transform.position - Player.transform.position;
+		ResetOffset();
 		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
 
 	}
@@ -80,6 +80,15 @@ public class CameraController : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	/*
+	 * This needs to be called since Player can change in the middle of a 
+	 * game
+	 */ 
+	void ResetOffset() {
+		offset = transform.position - Player.transform.position;
+		offset = new Vector3(0, offset.y, 0);
 	}
 
 	public void LockCamera() {

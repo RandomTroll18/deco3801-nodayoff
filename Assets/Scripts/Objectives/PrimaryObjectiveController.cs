@@ -34,8 +34,5 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	public void GoToLocation() {
 		cam.MoveCamera(objective.Location);
-
-
-		OnComplete(); // TODO: remove this since interactables should be calling it
 	}
 }
