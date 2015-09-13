@@ -12,7 +12,6 @@ public class InteractiveObject : MonoBehaviour {
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
 	public GameObject Player;
 	public GameObject Panel;
-	public GameObject[] Targets;
 	public string SkillType;
 
 	public Text NameLabel;
@@ -22,11 +21,12 @@ public class InteractiveObject : MonoBehaviour {
 	public int APLimit;
 
 	public Button Button;
-	public bool FunctionToggle;
-	
-	private int ObjectID;
 	private Tile Position;
 
+	public double ChanceDecimal;
+
+	protected double Chance;
+	protected Player playerScript;
 	protected bool IsInactivated;
 	protected PrimaryObjectiveController PrimaryO;
 	protected MovementController MController;
@@ -34,10 +34,6 @@ public class InteractiveObject : MonoBehaviour {
 
 	void Awake() {
 
-		if (Targets.Length == 0) {
-			// Set Target to self
-		}
-		this.ObjectID = 0;
 		this.Position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
 			Tile.TilePosition(this.transform.position.z)
@@ -51,10 +47,12 @@ public class InteractiveObject : MonoBehaviour {
 		 */
 
 		IsInactivated = false;
-	
+
+		Chance = ChanceDecimal;
 		MController = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<MovementController>();
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI").GetComponent<PrimaryObjectiveController> ();
+		playerScript = Player.GetComponent<Player>();
 		MController.AddInteractable (this);
 		Debug.Log (this.Position.ToString());		
 		
@@ -96,6 +94,7 @@ public class InteractiveObject : MonoBehaviour {
 		MController.BlockTile(t);
 	}
 
+	/*
 	public void TargetOpen(){
 		foreach (GameObject Target in Targets) {
 			Tile t = new Tile (
@@ -104,7 +103,7 @@ public class InteractiveObject : MonoBehaviour {
 			);
 			MController.UnblockTile (t);
 		}
-	}
+	} 
 
 	public void TargetClose(){
 		foreach (GameObject Target in Targets) {
@@ -122,6 +121,7 @@ public class InteractiveObject : MonoBehaviour {
 		}
 		IsInactivated = true;
 	}
+	*/
 
 
 }

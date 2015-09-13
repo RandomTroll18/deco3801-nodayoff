@@ -23,11 +23,26 @@ public class L1I2 : InteractiveObject {
 			Debug.Log("Wrong part of the story");
 			return;
 		}
-		
+
+		if (playerScript.GetStatValue (Stat.AP) >= input) {
+			playerScript.ReduceStatValue (Stat.AP, input);
+			Debug.Log ("Reduced AP");
+			double rng = Random.value;
+			Debug.Log(rng);
+			if (rng < Chance + (input/10)) {
+				IsInactivated = true;
+				PrimaryO.OnComplete ();
+				Debug.Log ("Opened");
+				this.CloseEvent();
+			} else {
+				Debug.Log ("Failed");
+			}
+		} else {
+			Debug.Log ("Insufficient AP");
+			return;
+		}
+
 		//TODO: Class interaction
-		
-		
-		IsInactivated = true;
-		PrimaryO.OnComplete ();
+
 	}
 }

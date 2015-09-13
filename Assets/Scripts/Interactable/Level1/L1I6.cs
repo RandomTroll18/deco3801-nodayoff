@@ -23,6 +23,8 @@ public class L1I6 : InteractiveObject {
 			Debug.Log("Wrong part of the story");
 			return;
 		}
+
+
 		
 		//TODO: Class interaction
 		

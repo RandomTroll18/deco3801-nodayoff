@@ -6,7 +6,7 @@ public class EventCard : MonoBehaviour {
 
 	//public GameObject prefab;
 
-	private GameObject card;
+	protected GameObject card;
 
 	// Use this for initialization
 	void Start () {
@@ -24,33 +24,44 @@ public class EventCard : MonoBehaviour {
 		//GameObject card2 = Instantiate (Resources.Load ("EventCard"), Vector3(transform.position.x,transform.position.y, transform.position.z) , Quaternion.identity);
 		GameObject UI = GameObject.Find("Main_Canvas");
 		card.transform.SetParent(UI.transform, false);
-		Debug.Log ("Hey");
-		this.ChangeButton (1, "hw");
-		this.ChangeText ("LOREM IPSUM");
+		ChangeCard ();
 		return card;
 	}
 
-	public void ChangeButton(int bNum, string input){
-		GameObject b = card.transform.GetChild (bNum).gameObject;
-		b.GetComponentInChildren<Text>().text = input;
-		//Debug.Log (Button.GetComponent<Text>().text);//.gameObject.GetComponent<Text> ().text = text;
-		Debug.Log ("Hello?" );
+	public virtual void ChangeCard(){
+		Debug.Log ("Hey");
+		this.ChangeButton (1, "hw", null);
+		this.ChangeText ("LOREM IPSUM");
+		return;
+	}
 
+	public void ChangeButton(int bNum, string input, Event function){
+		GameObject b = card.transform.GetChild (bNum).gameObject;
+		b.SetActive (true);
+		b.GetComponentInChildren<Text>().text = input;
 		Button target = b.GetComponent<Button> ();
 
 		target.onClick.RemoveAllListeners();
 		target.onClick.AddListener (() => EventCardDestroy(b));
 	}
+
 	
 	public void ChangeText(string input){
 		GameObject  Label = card.transform.GetChild (4).gameObject;
 		Label.GetComponentInChildren<Text> ().text = input;
+	}
+
+	public void ChangeImage(string input){
+		GameObject  Label = card.transform.GetChild (3).gameObject;
+		Label.GetComponentInChildren<Image>().overrideSprite = Resources.Load<Sprite>(input);
 	}
 	
 
 	void EventCardDestroy(GameObject go) {
 //		childObject.transform.parent.gameObject
 		Destroy(go.transform.parent.gameObject);
+		GameObject  Label = card.transform.GetChild (3).gameObject;
+		Debug.Log (Label.GetComponentInChildren<Image> ().sprite.ToString ());
 	}
 
 	public void Close(){

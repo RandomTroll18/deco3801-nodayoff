@@ -26,15 +26,31 @@ public class L1I4 : InteractiveObject {
 			Debug.Log("Wrong part of the story");
 			return;
 		}
-		
-		//TODO: Class interaction
-		
 
-		PrimaryO.OnComplete ();
+		if (playerScript.GetStatValue (Stat.AP) >= input) {
+			playerScript.ReduceStatValue (Stat.AP, input);
+			Debug.Log ("Reduced AP");
+			double rng = Random.value;
+			Debug.Log(rng);
+			if (rng < Chance + (input/10)) {
+				IsInactivated = true;
+				MController.RemoveInteractable(this.GetTile());
+				Destroy(Door);
+				PrimaryO.OnComplete ();
+				Debug.Log ("Opened");
+				this.CloseEvent();
+				EC2 Biceps = gameObject.AddComponent<EC2> ();
+				GameObject BicepsUI = Biceps.CreateCard ();
+			} else {
+				Debug.Log ("Failed");
+			}
+		} else {
+			Debug.Log ("Insufficient AP");
+			return;
+		}
 
-		MController.RemoveInteractable (this.GetTile());
+		//TODO: Class 
 		//TODO: Fix To not destroy door, and fix to destroy Interactable
-		Destroy(Door);
-		//TODO: Objective add
+
 	}
 }
