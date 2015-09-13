@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class EngineerClass : PlayerClass {
-	
+public class EngineerRobotClass : PlayerClass {
+
 	/**
 	 * Constructor
-	 * 
-	 * Arguments
-	 * - The player object
 	 */
-	public EngineerClass(Player player) {
+	public EngineerRobotClass() {
 		DefaultStats = new Dictionary<Stat, double>();
 		DefaultStats[Stat.AP] = 10.0; // Default AP is 10
 		DefaultStats[Stat.VISION] = 5.0; // Vision of base class is a range of 5 units
@@ -20,10 +17,9 @@ public class EngineerClass : PlayerClass {
 		Discount[ActionCost.REPAIR] = 0.5;
 		Discount[ActionCost.STRENGTH] = 1.0;
 		Discount[ActionCost.TECH] = 1.0;
-		
-		PrimaryAbility = new EngineerPrimaryAbility(player); // This class has no primary ability
-	}
 
+		PrimaryAbility = new EngineerRobotPrimaryAbility();
+	}
 
 	/**
 	 * Return the name of this class in human readable format

@@ -374,6 +374,13 @@ public class MovementController : MonoBehaviour {
 		return false;
 	}
 
+	/**
+	 * Reassign the player script (once the Player GameObject changes)
+	 */
+	public void ChangePlayerScript() { 
+		playerScript = Player.GetComponent<Player>();
+	}
+
 
 
 

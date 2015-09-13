@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	 
+	public int RoundsLeftUntilLose;
+	public Player[] PlayerList; // List of players
+	public GameObject[] OpenedDoors;
+	public Text RemainingTurnsText; // The text counter for the remaining turns
+
 	/*
 	 * Remember whether the current turn is a valid turn. 
 	 * 
@@ -15,19 +21,18 @@ public class GameManager : MonoBehaviour {
 	 * and any actions it needs to do and allows players to move
 	 */
 	bool validTurn;
+
 	int playersLeft; // The number of players still active
-	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>();
-	MovementController movController;
-	public int roundsLeftUntilLose;
-	public Player[] PlayerList; // List of players
-	public GameObject[] OpenedDoors;
+	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
+	MovementController movController; // Movement controller script
 
 	/**
 	 * Start function. Needs to be done:
 	 * - Initialize list of players
 	 * - Initialize valid turn. If there is some calculation required, 
 	 * at the start of the game, then set validTurn to be 0. 
-	 * - Initialize number of players still active. 
+	 * - Initialize number of players still active.
+	 * - Initialize Text
 	 */
 	void Start() {
 		movController = gameObject.GetComponent<MovementController>();
@@ -38,6 +43,8 @@ public class GameManager : MonoBehaviour {
 		playersLeft = PlayerList.Length;
 		Debug.Log("Valid turn is: " + validTurn + " by default");
 		Debug.Log("Number of players left: " + playersLeft);
+
+		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 	}
 
 	void InitalizeDoors() {
@@ -87,8 +94,9 @@ public class GameManager : MonoBehaviour {
 				PlayerList[i].ReduceAbilityTurns();
 			}
 
-			roundsLeftUntilLose--;
-			if (roundsLeftUntilLose <= 0) {
+			RoundsLeftUntilLose--;
+			RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
+			if (RoundsLeftUntilLose <= 0) {
 				Application.LoadLevel("GameOver");
 			}
 

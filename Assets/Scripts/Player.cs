@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /**
  * Class inherited by all players
@@ -9,9 +10,17 @@ public class Player : MonoBehaviour {
 	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
 	public GameObject GameManagerObject; // The game manager object
 	public GameObject EndTurnButton; // End turn button
-	public GameObject EffectCardPanel; // The effect card panel
+	public GameObject EffectBoxPanel; // The effect box panel
 	public GameObject StunGunPrefab; // Stun Gun Prefab
 	public GameObject ClassPanel; // The Class Panel
+	public GameObject MainCanvas; // The main canvas
+	public GameObject APCounterPanel; // The panel for counting AP
+	public GameObject SpawnAPCounterPanel; // The panel for counting a spawn's AP
+	public GameObject PlayerObject; // The game object that this script is attached to
+	public Text APCounterText; // The text for counting AP
+	public Text SpawnAPCounterText; // The text for counting a spawn's AP
+	public string ClassToSet; // The class to set
+	public bool IsSpawned; // Record if this object is spawned
 
 	Dictionary<Stat, double> stats; // Dictionary of stats
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
@@ -59,7 +68,7 @@ public class Player : MonoBehaviour {
 
 		droppedItems = new List<GameObject>();
 
-		SetPlayerClass("Engineer");
+		SetPlayerClass(ClassToSet);
 		Debug.Log("Player Class: " + GetPlayerClass());
 
 		transformComponent = GetComponent<Transform>();
@@ -71,13 +80,15 @@ public class Player : MonoBehaviour {
 		turnEffects = new List<TurnEffect>();
 		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
 		turnEffectsApplied = false;
-		noLongerActive = true;
-		effectPanelScript = EffectCardPanel.GetComponent<EffectPanelScript>();
+		noLongerActive = false;
+		effectPanelScript = EffectBoxPanel.GetComponent<EffectPanelScript>();
 
-		stunGunObject = Instantiate(StunGunPrefab);
-		stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
-		stunGunObject.transform.position = 
+		if (StunGunPrefab != null) { // Generate stun gun 
+			stunGunObject = Instantiate(StunGunPrefab);
+			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
+			stunGunObject.transform.position = 
 				new Vector3(transformComponent.position.x, (float)0.0, transformComponent.position.z);
+		}
 
 		classPanelScript = ClassPanel.GetComponent<ClassPanelScript>();
 		classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), 
@@ -121,7 +132,22 @@ public class Player : MonoBehaviour {
 		switch (newPlayerClass) {
 		case "Base": goto default;
 		case "Engineer": // Create Engineer Class
-			playerClass = new EngineerClass();
+			playerClass = new EngineerClass(this);
+			return;
+		case "Alien": // Create Alien Class
+			playerClass = new AlienClass();
+			return;
+		case "Marine": // Create Marine Class
+			playerClass = new MarineClass();
+			return;
+		case "Scout": // Create Scout Class
+			playerClass = new ScoutClass();
+			return;
+		case "Technician": // Create Technician Class
+			playerClass = new TechnicianClass();
+			return;
+		case "Engineer Robot": // Create Class for an Engineer Robot
+			playerClass = new EngineerRobotClass();
 			return;
 		default: // The default class will be the base
 			playerClass = new BaseClass();
@@ -167,6 +193,7 @@ public class Player : MonoBehaviour {
 		if (other.gameObject.CompareTag("Item")) {
 			if (availableSpot == 9) return; // No more room
 			if (droppedItems.Contains(other.gameObject)) return; // Just recently dropped
+			if (InventoryUI == null || InventoryUI.Length == 0) return; // Don't do anything
 			// Get the ui slot script
 			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
 
@@ -230,6 +257,10 @@ public class Player : MonoBehaviour {
 			break;
 		}
 		stats[stat] += effect.GetValue();
+		if (stat == Stat.AP) { // Update AP Counter
+			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
+			else APCounterText.text = "Player AP Count: " + stats[stat];
+		}
 	}
 
 	/**
@@ -274,6 +305,9 @@ public class Player : MonoBehaviour {
 		if (stats[playerStat] >= playerClass.GetDefaultStat(playerStat)) 
 			// Value bigger than default. Not allowed?
 			stats[playerStat] = playerClass.GetDefaultStat(playerStat);
+		if (playerStat == Stat.AP) // Update AP Counter
+			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
+			else APCounterText.text = "Player AP Count: " + stats[playerStat];
 	}
 
 	/**
@@ -288,6 +322,9 @@ public class Player : MonoBehaviour {
 		if (stats[playerStat] <= 0.0) {
 			stats[playerStat] = 0.0;
 		}
+		if (playerStat == Stat.AP) // Update AP Counter
+			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
+			else APCounterText.text = "Player AP Count: " + stats[playerStat];
 	}
 
 	/**
@@ -299,6 +336,9 @@ public class Player : MonoBehaviour {
 	 */
 	public void SetStatValue(Stat playerStat, double value) {
 		stats[playerStat] = value;
+		if (playerStat == Stat.AP) // Update AP Counter
+			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
+			else APCounterText.text = "Player AP Count: " + stats[playerStat];
 	}
 
 	/**
@@ -319,6 +359,8 @@ public class Player : MonoBehaviour {
 	 */
 	public void InitializeStats() {
 		stats[Stat.AP] = playerClass.GetDefaultStat(Stat.AP);
+		if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[Stat.AP];
+		else APCounterText.text = "Player AP Count: " + stats[Stat.AP];
 		isStunned = false;
 		stats[Stat.VISION] = playerClass.GetDefaultStat(Stat.VISION);
 
