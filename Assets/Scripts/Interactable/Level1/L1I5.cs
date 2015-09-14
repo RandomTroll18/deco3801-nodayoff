@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class L1I5 : InteractiveObject {
@@ -25,8 +25,8 @@ public class L1I5 : InteractiveObject {
 			return;
 		}
 
-		if (playerScript.GetStatValue (Stat.AP) >= input) {
-			playerScript.ReduceStatValue (Stat.AP, input);
+		if (PlayerScript.GetStatValue (Stat.AP) >= input) {
+			PlayerScript.ReduceStatValue (Stat.AP, input);
 			Debug.Log ("Reduced AP");
 			double rng = Random.value;
 			Debug.Log(rng);

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 /**
@@ -13,6 +13,7 @@ public class ClassPanelScript : MonoBehaviour {
 	public GameObject MainCamera; // The main camera
 	public GameObject GameManager; // The game manager
 	public GameObject PrimaryAbilityButton; // The primary ability button
+	public List<GameObject> Interactables; // Interactable objects
 	
 	CameraController cameraController; // The camera controller script
 	MovementController movementController; // The movement controller script
@@ -28,6 +29,15 @@ public class ClassPanelScript : MonoBehaviour {
 		movementController = GameManager.GetComponent<MovementController>();
 		contextAwareBoxScript = ContextAwareBox.GetComponent<ContextAwareBoxScript>();
 		activationTileController = ContextAwareBox.GetComponent<ActivationTileController>();
+	}
+
+	/**
+	 * Change the player being tracked by interactive objects
+	 */
+	void changeInteractiveObjectTracker() {
+		foreach (GameObject interactable in Interactables) {
+			interactable.GetComponent<InteractiveObject>().ChangeTrackedPlayer(currentPlayer);
+		}
 	}
 
 	/**
@@ -102,6 +112,7 @@ public class ClassPanelScript : MonoBehaviour {
 		cameraController.ResetCamera();
 
 		currentPlayer = master; // Reset the current player to be the master
+		changeInteractiveObjectTracker(); // Change the tracked player for interactive objects
 		ClassTitle.text = master.GetComponent<Player>().GetPlayerClassObject().GetPlayerClassType(); // Reset class text
 
 		// Make inventory active
@@ -165,6 +176,7 @@ public class ClassPanelScript : MonoBehaviour {
 			callingPlayer.InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
 		}
 
+		changeInteractiveObjectTracker(); // Change the tracked player for interactive objects
 		movementController.ChangePlayerScript(); // Change player script of movement controller
 		cameraController.ResetCamera(); // Reset the camera to point at player object
 		ContextAwareBox.GetComponent<ActivationTileController>().DestroyActivationTiles(); // Destroy activation tiles
