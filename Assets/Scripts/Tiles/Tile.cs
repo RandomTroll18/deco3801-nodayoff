@@ -27,14 +27,10 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	}
 	
 	public override int GetHashCode() {
-		/* josh sucks
-		 * 		- Ben
-		 */
 		int prime = 13; // Prime number
 		int hashCode = 0; // The hash code to return
 		hashCode = (hashCode * prime) + this.X;
 		hashCode = (hashCode * prime) + this.Z;
-//		return (this.X.GetHashCode() * Z).GetHashCode());
 		return hashCode;
 	}
 	
@@ -98,8 +94,6 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	 * Converts the mouse's current position to a Tile.
 	 * 
 	 * If you're unsure about what the LayerMask does, ask Ben or try something.
-	 * 
-	 * PROBLEMS: works when clicking UI
 	 */
 	public static Tile MouseToTile(LayerMask layerMask) {
 		Tile goal = null;

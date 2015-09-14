@@ -4,7 +4,6 @@ using UnityEngine;
 
 /**
  * Controls the player's movement within the game.
- * Assumes: there is only one player with the script "Player".
  */
 public class MovementController : MonoBehaviour {
 	enum Moving {
@@ -366,8 +365,4 @@ public class MovementController : MonoBehaviour {
 	public void ChangePlayerScript() { 
 		playerScript = Player.GetComponent<Player>();
 	}
-
-
-
-
 }

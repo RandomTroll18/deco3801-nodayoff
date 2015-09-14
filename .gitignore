@@ -24,3 +24,5 @@ Builds/
 Assets/Photon Unity Networking/Demos/
 Assets/Scripts/Editor Scripts/
 Assets/Scripts/Editor Scripts.meta
+Assets/Editor/CountLines.cs.meta
+Assets/Editor/CountLines.cs
