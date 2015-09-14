@@ -33,7 +33,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	 * Arguments
 	 * - Item item - The item selected
 	 */
-	public void SetContextToInventory(Object item) {
+	public void SetContextToInventory(Item item) {
 		if (currentContext != Context.INVENTORY) 
 			currentContext = Context.INVENTORY;
 		// First, set the inventory context panel to active
@@ -54,8 +54,12 @@ public class ContextAwareBoxScript : MonoBehaviour {
 			InventoryContextPanel[1].GetComponent<Text>().text = attachedObject.ToString();
 			InventoryContextPanel[1].GetComponent<RectTransform>().anchoredPosition3D = 
 					new Vector3((float)80, (float)-15);
-			/* Set buttons to be active */
-			InventoryContextPanel[2].SetActive(true);
+			/* Set buttons to be active, but if not activatable, don't activate the "Activate" button */
+			if (item.IsActivatable()) { // Generate activate button
+				InventoryContextPanel[2].SetActive(true);
+			} else { // Don't generate activate button
+				InventoryContextPanel[2].SetActive(false);
+			}
 			InventoryContextPanel[3].SetActive(true);
 		}
 	}

@@ -29,6 +29,8 @@ public class StunGun : ShortRangeWeapon {
 
 		ItemRangeType = RangeType.SQUARERANGE;
 		ItemActivationType = ActivationType.OFFENSIVE;
+
+		activatable = true; // Set this item to be activatable
 	}
 
 

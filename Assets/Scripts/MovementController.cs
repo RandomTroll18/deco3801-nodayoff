@@ -183,7 +183,7 @@ public class MovementController : MonoBehaviour {
 
 		if (dest != null) {
 			// TODO: if the cost of movement is too much, spawn a different coloured path
-			SpawnHighlitedTile(goal);
+			SpawnHighlightedTile(goal);
 			clickedTile = goal;
 			moving = Moving.POSSIBLY;
 			path = FlipPath(dest);
@@ -203,7 +203,7 @@ public class MovementController : MonoBehaviour {
 		return Instantiate(PathMarker, tilePos, tileRot);
 	}
 
-	void SpawnHighlitedTile(Tile pos) {
+	void SpawnHighlightedTile(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos);
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		Instantiate(HighlightedTile, tilePos, tileRot);

@@ -16,6 +16,7 @@ public class KevlarVest : Armour {
 	 * - Set the percentage the stat is being affected by
 	 * - Set the values the stat is being affected by
 	 * - Create turn effects
+	 * - Set this item to be inactivatable
 	 */
 	void Start() {
 		// The turn effect
@@ -26,6 +27,7 @@ public class KevlarVest : Armour {
 		// Add turn effects
 		TurnEffects = new List<TurnEffect>();
 		TurnEffects.Add(effect);
+		activatable = false; // This item can't be activated
 	}
 
 	/**

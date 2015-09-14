@@ -20,6 +20,7 @@ public abstract class Item : MonoBehaviour {
 	protected double Range = 1; // The range of this item's activation action
 	protected ActivationType ItemActivationType; // Activation Type of this item
 	protected RangeType ItemRangeType; // The range type of this item
+	protected bool activatable; // Record if this item can be activated
 	
 	/*
 	 * The effects in this item.
@@ -134,6 +135,17 @@ public abstract class Item : MonoBehaviour {
 	 */
 	public virtual void Activate(Tile targetTile) {
 		Debug.Log(ItemName + " attempting to be activated");
+	}
+
+	/**
+	 * Return if this item is activatable
+	 * 
+	 * Returns
+	 * - true if this item is activatable
+	 * - false if otherwise
+	 */
+	public bool IsActivatable() {
+		return activatable;
 	}
 
 }

@@ -17,7 +17,7 @@ public class L1I1 : InteractiveObject {
 	public override void TakeAction(float input){
 
 		if (IsInactivated) {
-			Debug.Log ("Inactive");
+			Debug.Log("Inactive");
 			return;
 		}
 
@@ -26,24 +26,25 @@ public class L1I1 : InteractiveObject {
 			return;
 		}
 
-		if (playerScript.GetStatValue (Stat.AP) >= input) {
-			playerScript.ReduceStatValue (Stat.AP, input);
-			Debug.Log ("Reduced AP");
+
+		if (PlayerScript.GetStatValue(Stat.AP) >= input) {
+			PlayerScript.ReduceStatValue(Stat.AP, input);
+			Debug.Log("Reduced AP");
 			double rng = Random.value;
 			Debug.Log(rng);
-			if (rng < Chance + (input/10)) {
+			if (rng < Chance + (input / 10)) {
 				IsInactivated = true;
-				MController.UnblockTile (Tile.TilePosition(Door.transform.position));
-				PrimaryO.OnComplete ();
-				Debug.Log ("Opened");
+				MController.UnblockTile(Tile.TilePosition(Door.transform.position));
+				PrimaryO.OnComplete();
+				Debug.Log("Opened");
 				this.CloseEvent();		
-				EC1 Chopper = gameObject.AddComponent<EC1> ();
+				EC1 Chopper = gameObject.AddComponent<EC1>();
 				GameObject ChopperUI = Chopper.CreateCard ();
 			} else {
-				Debug.Log ("Failed");
+				Debug.Log("Failed");
 			}
 		} else {
-			Debug.Log ("Insufficient AP");
+			Debug.Log("Insufficient AP");
 			return;
 		}
 

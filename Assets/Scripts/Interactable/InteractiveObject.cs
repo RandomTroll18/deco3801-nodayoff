@@ -26,7 +26,7 @@ public class InteractiveObject : MonoBehaviour {
 	public double ChanceDecimal;
 
 	protected double Chance;
-	protected Player playerScript;
+	protected Player PlayerScript;
 	protected bool IsInactivated;
 	protected PrimaryObjectiveController PrimaryO;
 	protected MovementController MController;
@@ -58,14 +58,26 @@ public class InteractiveObject : MonoBehaviour {
 			.GetComponent<MovementController>();
 		Player = GameObject.Find ("Player");
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI").GetComponent<PrimaryObjectiveController> ();
-		playerScript = Player.GetComponent<Player>();
+		PlayerScript = Player.GetComponent<Player>();
 		MController.AddInteractable (this);
 		Debug.Log (this.Position.ToString());		
 		
 	}
+
+	/**
+	 * Set the player we are tracking
+	 * 
+	 * Arguments
+	 * - GameObject playerObject - The game object of the player
+	 */
+	public void ChangeTrackedPlayer(GameObject playerObject) {
+		Player = playerObject;
+		PlayerScript = playerObject.GetComponent<Player>();
+	}
 	
 	public void Interact() {
 		Debug.Log ("Interacted with " + this.name + " at " + this.Position.ToString());
+		if (PlayerScript.IsSpawned) return; // A spawned player cannot interact with this object
 		// TODO: Figure whats wrong with code below & add toggle Panel
 		// TODO: Change text
 		NameLabel.text = StringInput;
