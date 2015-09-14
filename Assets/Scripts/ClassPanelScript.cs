@@ -103,6 +103,9 @@ public class ClassPanelScript : MonoBehaviour {
 
 		currentPlayer = master; // Reset the current player to be the master
 		ClassTitle.text = master.GetComponent<Player>().GetPlayerClassObject().GetPlayerClassType(); // Reset class text
+
+		// Make inventory active
+		master.GetComponent<Player>().InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
 		Destroy(PrimaryAbilityButton); // Destroy the primary ability button
 	}
 
@@ -117,6 +120,7 @@ public class ClassPanelScript : MonoBehaviour {
 		Player robotScript = robot.GetComponent<Player>(); // The robot's player script
 		Player callingPlayer = player.GetComponent<Player>(); // The calling player's script
 		bool whoToToggle; // Record who to toggle to
+		bool isSelected; // Store whether or not the ui slot was selected
 
 		// First, make sure robot still exists
 		if (robot == null) return; // Don't do anything
@@ -137,16 +141,33 @@ public class ClassPanelScript : MonoBehaviour {
 			currentPlayer = robot;
 			ClassTitle.text = robotScript.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Engineer";
+
+			// Set the context aware box to be in the idle context
+			contextAwareBoxScript.SetContextToIdle();
+
+			// Set the individual ui slots to be unselected and set the inventory panel to be inactive
+			callingPlayer.InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(false);
+			for (int i = 0; i < 9; ++i) {
+				isSelected = 
+						callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().IsSelected();
+				if (isSelected) { // Toggle
+					callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().ToggleSelected();
+				}
+			}
 		} else { // Toggle to player
 			cameraController.Player = player;
 			movementController.Player = player;
 			currentPlayer = player;
 			ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Robot";
+
+			// Set the individual ui slots to be unselected and set the inventory panel to be inactive
+			callingPlayer.InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
 		}
 
 		movementController.ChangePlayerScript(); // Change player script of movement controller
 		cameraController.ResetCamera(); // Reset the camera to point at player object
+		ContextAwareBox.GetComponent<ActivationTileController>().DestroyActivationTiles(); // Destroy activation tiles
 	}
 
 	/**

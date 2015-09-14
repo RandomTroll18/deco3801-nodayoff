@@ -9,7 +9,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 	public GameObject UiSlot; // The ui slot. Initially null
 	public GameObject ContextAwareBox; // The context aware box
 	public GameObject Container; // The parent of this ui slot
-	public Sprite defaultIcon; // The default icon
+	public Sprite DefaultIcon; // The default icon
 	bool selected; // Record whether ui element was clicked
 	Image uiSlotImage; // The image script of the ui slot
 	Item item; // The item contained in this slot
@@ -79,7 +79,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 	public void RemoveItem() {
 		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return; // Do nothing
 		item = null;
-		UiSlot.GetComponent<Image>().sprite = defaultIcon;
+		UiSlot.GetComponent<Image>().sprite = DefaultIcon;
 		// If the slot is selected, update inventory context
 		if (selected) contextBoxScript.SetContextToInventory(item);
 	}
@@ -92,5 +92,16 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 */
 	public Item GetItem() {
 		return item;
+	}
+
+	/**
+	 * Check if the ui slot was selected
+	 * 
+	 * Return
+	 * - true if the ui slot is selected
+	 * - false if otherwise
+	 */
+	public bool IsSelected() {
+		return selected;
 	}
 }
