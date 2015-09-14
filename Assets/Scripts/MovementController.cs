@@ -175,7 +175,6 @@ public class MovementController : MonoBehaviour {
 			visualPath.Clear();
 		}
 
-		// TODO: Ben i changed it, check it.
 		if (UseInteractable (goal, playerScript)) {
 			return;
 		}

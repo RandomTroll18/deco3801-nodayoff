@@ -113,9 +113,8 @@ public class CameraController : MonoBehaviour {
 	 * could make it pan.
 	 */
 	public void MoveCamera(Tile location) {
-		Vector3 dest = transform.position;
-		dest.z = location.Z;
-		dest.x = location.X;
+		Vector3 dest = Tile.TileMiddle(location);
+		dest.y = transform.position.y;
 		transform.position = dest;
 	}
 }
