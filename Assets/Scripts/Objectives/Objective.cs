@@ -6,13 +6,15 @@ using System.Collections;
  * 
  * Primary objectives are just Objectives.
  */
-public abstract class Objective {
+public abstract class Objective
+{
 	protected string title;
 	protected string description;
 	protected Tile location;
 	protected GameManager gameManager;
 
-	protected Objective() {
+	protected Objective()
+	{
 		gameManager = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<GameManager>();
 	}
