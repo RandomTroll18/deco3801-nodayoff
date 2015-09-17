@@ -19,6 +19,7 @@ TagManager:
   - Door
   - Objective UI
   - SkillPanel
+  - SurveillanceCameras
   layers:
   - Default
   - TransparentFX

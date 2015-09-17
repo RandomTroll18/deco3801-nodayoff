@@ -10,13 +10,10 @@ public class TechnicianClass : PlayerClass {
 		DefaultStats = new Dictionary<Stat, double>();
 		DefaultStats[Stat.AP] = 10.0;
 		DefaultStats[Stat.VISION] = 5.0;
-		
-		Discount = new Dictionary<ActionCost, double>();
-		Discount[ActionCost.DOORS] = 1.0;
-		Discount[ActionCost.MOVEMENT] = 1.0;
-		Discount[ActionCost.REPAIR] = 1.0;
-		Discount[ActionCost.STRENGTH] = 1.0;
-		Discount[ActionCost.TECH] = 0.5;
+		DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
+		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
+		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
+		DefaultStats[Stat.TECHMULTIPLIER] = 2.0;
 	}
 
 	/**

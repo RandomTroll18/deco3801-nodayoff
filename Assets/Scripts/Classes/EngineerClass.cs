@@ -11,15 +11,12 @@ public class EngineerClass : PlayerClass {
 	 */
 	public EngineerClass(Player player) {
 		DefaultStats = new Dictionary<Stat, double>();
-		DefaultStats[Stat.AP] = 10.0; // Default AP is 10
+		DefaultStats[Stat.AP] = 20.0; // Default AP is 20
 		DefaultStats[Stat.VISION] = 5.0; // Vision of base class is a range of 5 units
-		
-		Discount = new Dictionary<ActionCost, double>();
-		Discount[ActionCost.DOORS] = 0.5;
-		Discount[ActionCost.MOVEMENT] = 1.0;
-		Discount[ActionCost.REPAIR] = 0.5;
-		Discount[ActionCost.STRENGTH] = 1.0;
-		Discount[ActionCost.TECH] = 1.0;
+		DefaultStats[Stat.ENGMULTIPLIER] = 2.0;
+		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
+		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
+		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 		
 		PrimaryAbility = new EngineerPrimaryAbility(player); // This class has no primary ability
 	}

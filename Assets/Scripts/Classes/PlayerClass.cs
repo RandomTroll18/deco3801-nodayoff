@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public abstract class PlayerClass {
 
 	protected Dictionary<Stat, double> DefaultStats; // Default stats
-	protected Dictionary<ActionCost, double> Discount; // Discounts
 	protected Ability PrimaryAbility; // This class' primary ability
 
 	/**
@@ -19,19 +18,6 @@ public abstract class PlayerClass {
 	 */
 	public Ability GetPrimaryAbility() {
 		return PrimaryAbility;
-	}
-
-	/**
-	 * Return the discount for particular action costs
-	 * 
-	 * Arguments
-	 * - ActionCost actionCost - The action cost discount requested
-	 * 
-	 * Returns
-	 * - The multiplier for the requested action cost
-	 */
-	public double GetActionDiscount(ActionCost actionCost) {
-		return Discount[actionCost];
 	}
 
 	/**

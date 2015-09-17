@@ -10,13 +10,10 @@ public class ScoutClass : PlayerClass {
 		DefaultStats = new Dictionary<Stat, double>();
 		DefaultStats[Stat.AP] = 10.0;
 		DefaultStats[Stat.VISION] = 5.0;
-		
-		Discount = new Dictionary<ActionCost, double>();
-		Discount[ActionCost.DOORS] = 1.0;
-		Discount[ActionCost.MOVEMENT] = 0.5;
-		Discount[ActionCost.REPAIR] = 1.0;
-		Discount[ActionCost.STRENGTH] = 0.5;
-		Discount[ActionCost.TECH] = 1.0;
+		DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
+		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
+		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
+		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 	}
 
 	/**

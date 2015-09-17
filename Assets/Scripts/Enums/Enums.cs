@@ -9,10 +9,15 @@ using System.Collections;
  * Enum for stats
  * AP - Action Points
  * VISION - Range of Sight
+ * TECHMULTIPLIER
  */
 public enum Stat {
 	AP,
-	VISION
+	VISION, 
+	TECHMULTIPLIER,
+	ENGMULTIPLIER,
+	MARINEMULTIPLIER,
+	SCOUTMULTIPLIER
 };
 
 /*
@@ -57,6 +62,7 @@ public enum ActivationType {
  * Enum for Range Types
  * SQUARERANGE - Range is in the form of a square
  * STRAIGHTLINERANGE - Range is in a straight line
+ * GLOBALTARGET - Range is global, showing valid targets around the map
  */
 public enum RangeType {
 	SQUARERANGE,

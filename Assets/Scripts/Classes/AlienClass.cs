@@ -10,13 +10,10 @@ public class AlienClass : PlayerClass {
 		DefaultStats = new Dictionary<Stat, double>();
 		DefaultStats[Stat.AP] = 20.0;
 		DefaultStats[Stat.VISION] = 7.0;
-
-		Discount = new Dictionary<ActionCost, double>();
-		Discount[ActionCost.DOORS] = 0.8;
-		Discount[ActionCost.MOVEMENT] = 0.8;
-		Discount[ActionCost.REPAIR] = 0.8;
-		Discount[ActionCost.STRENGTH] = 0.8;
-		Discount[ActionCost.TECH] = 0.8;
+		DefaultStats[Stat.ENGMULTIPLIER] = 1.5;
+		DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
+		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.5;
+		DefaultStats[Stat.TECHMULTIPLIER] = 1.5;
 	}
 
 	/**
