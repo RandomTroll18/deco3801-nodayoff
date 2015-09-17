@@ -13,7 +13,7 @@ public class L1I5 : InteractiveObject {
 	
 	}
 
-	public override void TakeAction(float input){
+	public override void TakeAction(int input){
 		
 		if (IsInactivated) {
 			Debug.Log ("Inactive");
@@ -25,22 +25,13 @@ public class L1I5 : InteractiveObject {
 			return;
 		}
 
-		if (PlayerScript.GetStatValue (Stat.AP) >= input) {
-			PlayerScript.ReduceStatValue (Stat.AP, input);
-			Debug.Log ("Reduced AP");
-			double rng = Random.value;
-			Debug.Log(rng);
-			if (rng < Chance + (input/10)) {
-				IsInactivated = true;
-				PrimaryO.OnComplete ();
-				Debug.Log ("Opened");
-				this.CloseEvent();
-			} else {
-				Debug.Log ("Failed");
-			}
+		if (SpendAP(input, MinCost)) {
+			IsInactivated = true;
+			PrimaryO.OnComplete ();
+			Debug.Log ("Opened");
+			this.CloseEvent();
 		} else {
-			Debug.Log ("Insufficient AP");
-			return;
+			Debug.Log("Failed");
 		}
 
 		//TODO: Class interaction

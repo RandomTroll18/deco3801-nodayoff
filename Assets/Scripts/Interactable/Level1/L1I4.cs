@@ -15,7 +15,7 @@ public class L1I4 : InteractiveObject {
 	
 	}
 
-	public override void TakeAction(float input){
+	public override void TakeAction(int input){
 
 		if (IsInactivated) {
 			Debug.Log ("Inactive");
@@ -27,28 +27,20 @@ public class L1I4 : InteractiveObject {
 			return;
 		}
 
-		if (PlayerScript.GetStatValue (Stat.AP) >= input) {
-			PlayerScript.ReduceStatValue (Stat.AP, input);
-			Debug.Log ("Reduced AP");
-			double rng = Random.value;
-			Debug.Log(rng);
-			if (rng < Chance + (input/10)) {
-				IsInactivated = true;
-				MController.RemoveInteractable(this.GetTile());
-				Destroy(Door);
-				PrimaryO.OnComplete ();
-				Debug.Log ("Opened");
-				this.CloseEvent();
-				EC2 Biceps = gameObject.AddComponent<EC2> ();
-				GameObject BicepsUI = Biceps.CreateCard ();
-			} else {
-				Debug.Log ("Failed");
-			}
+		if (SpendAP(input, MinCost)) {
+			IsInactivated = true;
+			MController.RemoveInteractable(this.GetTile());
+			Destroy(Door);
+			PrimaryO.OnComplete ();
+			Debug.Log ("Opened");
+			this.CloseEvent();
+			EC2 Biceps = gameObject.AddComponent<EC2> ();
+			GameObject BicepsUI = Biceps.CreateCard ();
 		} else {
-			Debug.Log ("Insufficient AP");
-			return;
+			Debug.Log("Failed");
 		}
-
+		
+		
 		//TODO: Class 
 		//TODO: Fix To not destroy door, and fix to destroy Interactable
 

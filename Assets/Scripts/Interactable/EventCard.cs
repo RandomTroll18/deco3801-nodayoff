@@ -67,7 +67,7 @@ public class EventCard : MonoBehaviour
 //		childObject.transform.parent.gameObject
 		Destroy(go.transform.parent.gameObject);
 		GameObject Label = card.transform.GetChild(3).gameObject;
-		Debug.Log(Label.GetComponentInChildren<Image>().sprite.ToString());
+		//Debug.Log(Label.GetComponentInChildren<Image>().sprite.ToString());
 	}
 
 	public void Close()

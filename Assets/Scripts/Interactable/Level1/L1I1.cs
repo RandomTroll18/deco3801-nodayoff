@@ -14,7 +14,7 @@ public class L1I1 : InteractiveObject {
 	void Update () {
 	
 	}
-	public override void TakeAction(float input){
+	public override void TakeAction(int input){
 
 		if (IsInactivated) {
 			Debug.Log("Inactive");
@@ -27,26 +27,19 @@ public class L1I1 : InteractiveObject {
 		}
 
 
-		if (PlayerScript.GetStatValue(Stat.AP) >= input) {
-			PlayerScript.ReduceStatValue(Stat.AP, input);
-			Debug.Log("Reduced AP");
-			double rng = Random.value;
-			Debug.Log(rng);
-			if (rng < Chance + (input / 10)) {
-				IsInactivated = true;
-				MController.UnblockTile(Tile.TilePosition(Door.transform.position));
-				PrimaryO.OnComplete();
-				Debug.Log("Opened");
-				this.CloseEvent();		
-				EC1 Chopper = gameObject.AddComponent<EC1>();
-				GameObject ChopperUI = Chopper.CreateCard ();
-			} else {
-				Debug.Log("Failed");
-			}
+		if (SpendAP(input, MinCost)) {
+			IsInactivated = true;
+			MController.UnblockTile(Tile.TilePosition(Door.transform.position));
+			PrimaryO.OnComplete();
+			Debug.Log("Opened");
+			this.CloseEvent();		
+			EC1 Chopper = gameObject.AddComponent<EC1>();
+			GameObject ChopperUI = Chopper.CreateCard ();
 		} else {
-			Debug.Log("Insufficient AP");
-			return;
+			Debug.Log("Failed with " + input);
+			this.CloseEvent();	
 		}
+
 
 		//TODO: Class interaction
 		//TODO: Toggle Door?

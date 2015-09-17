@@ -12,7 +12,7 @@ public class L1I6 : InteractiveObject {
 	void Update () {
 	
 	}
-	public override void TakeAction(float input){
+	public override void TakeAction(int input){
 		
 		if (IsInactivated) {
 			Debug.Log ("Inactive");

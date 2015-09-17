@@ -18,14 +18,13 @@ public class InteractiveObject : MonoBehaviour {
 	public string StringInput;
 
 	private Slider APSlider;
-	public int APLimit;
+	//public int APLimit;
 
 	private Button Button;
 	private Tile Position;
 
-	public double ChanceDecimal;
-
-	protected double Chance;
+	public int Cost;
+	protected int MinCost;
 	protected Player PlayerScript;
 	protected bool IsInactivated;
 	protected PrimaryObjectiveController PrimaryO;
@@ -47,13 +46,12 @@ public class InteractiveObject : MonoBehaviour {
 		 */
 
 		IsInactivated = false;
-
+		MinCost = Cost;
 		Panel = GameObject.FindGameObjectWithTag("SkillPanel");
 		NameLabel = Panel.transform.FindChild("SkillCheckText").GetComponent<Text> ();
 		APSlider = Panel.transform.FindChild("Slider").GetComponent<Slider> ();
 		Button = Panel.transform.FindChild("Button").GetComponent<Button> ();
 
-		Chance = ChanceDecimal;
 		MController = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<MovementController>();
 		Player = GameObject.Find ("Player");
@@ -85,9 +83,24 @@ public class InteractiveObject : MonoBehaviour {
 		Panel.GetComponent<SkillCheck>().SetCurrent(this);
 		// TODO: Change Slider properties
 		APSlider.value = 0;
-		APSlider.maxValue = this.APLimit;
-		OpenEvent();
+		//APSlider.maxValue = this.APLimit;
+		if (!this.IsInactivated) {
+			OpenEvent();
+		}
 		return;
+	}
+
+	public bool SpendAP(int input, int cost) {
+		//double Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(Stat.);
+		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float)input / 100f));
+		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
+		int multipliedAP = actualAP; // TODO: add character class element
+		int rng = Random.Range(1, multipliedAP);
+		Debug.Log("Rolled " + rng);
+		if (rng >= cost) {
+			return true;
+		}
+		return false;
 	}
 
 	public void CloseEvent(){
@@ -101,7 +114,7 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	
-	public virtual void TakeAction(float input){
+	public virtual void TakeAction(int input){
 
 	}
 

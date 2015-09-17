@@ -20,7 +20,7 @@ public class SkillCheck : MonoBehaviour {
 	}
 
 	public void Action(){
-		Current.TakeAction(APSlider.value);
+		Current.TakeAction((int)APSlider.value);
 	}
 
 	public void SetCurrent(InteractiveObject i) {
