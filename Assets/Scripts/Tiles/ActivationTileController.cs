@@ -207,7 +207,7 @@ public class ActivationTileController : MonoBehaviour {
 
 		tileGenerated = Instantiate<GameObject>(ActivationTilePrefab);
 		tileGenerated.GetComponent<Renderer>().material = tileMaterial;
-		tileGenerated.GetComponent<Transform>().position = new Vector3(x, 0.0f, z);
+		tileGenerated.GetComponent<Transform>().position = new Vector3(x, 0.1f, z);
 
 		gameObjectTiles.Add(tileGenerated);
 	}

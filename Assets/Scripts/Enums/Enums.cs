@@ -62,9 +62,10 @@ public enum ActivationType {
  * Enum for Range Types
  * SQUARERANGE - Range is in the form of a square
  * STRAIGHTLINERANGE - Range is in a straight line
- * GLOBALTARGET - Range is global, showing valid targets around the map
+ * GLOBALTARGETRANGE - Range is global, showing valid targets around the map
  */
 public enum RangeType {
 	SQUARERANGE,
-	STRAIGHTLINERANGE
+	STRAIGHTLINERANGE, 
+	GLOBALTARGETRANGE
 };

@@ -21,7 +21,7 @@ public class EngineerPrimaryAbility : Ability {
 		Range = 2.0;
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
-		robotPrefab = Resources.Load<GameObject>("AbilityPrefabs/EngineerRobot");
+		robotPrefab = Resources.Load<GameObject>("AbilityPrefabs/Engineer/EngineerRobot");
 		Debug.Log("Robot Prefab: " + robotPrefab.ToString());
 		master = newMaster;
 	}
@@ -50,7 +50,7 @@ public class EngineerPrimaryAbility : Ability {
 		robotPrefab.GetComponent<Player>().IsSpawned = true;
 
 		// Instantiate robot at correct position and get its reference
-		robotReference = Object.Instantiate(robotPrefab);
+		robotReference = Object.Instantiate<GameObject>(robotPrefab);
 		robotReference.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
 		robotReference.GetComponent<Player>().PlayerObject = robotReference;
 

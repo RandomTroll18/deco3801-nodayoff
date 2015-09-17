@@ -144,7 +144,7 @@ public class Player : MonoBehaviour {
 			playerClass = new ScoutClass();
 			return;
 		case "Technician": // Create Technician Class
-			playerClass = new TechnicianClass();
+			playerClass = new TechnicianClass(this);
 			return;
 		case "Engineer Robot": // Create Class for an Engineer Robot
 			playerClass = new EngineerRobotClass();

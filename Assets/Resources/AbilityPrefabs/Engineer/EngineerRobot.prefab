@@ -88,7 +88,14 @@ MonoBehaviour:
   EffectBoxPanel: {fileID: 0}
   StunGunPrefab: {fileID: 0}
   ClassPanel: {fileID: 0}
+  MainCanvas: {fileID: 0}
+  APCounterPanel: {fileID: 0}
+  SpawnAPCounterPanel: {fileID: 0}
+  PlayerObject: {fileID: 0}
+  APCounterText: {fileID: 0}
+  SpawnAPCounterText: {fileID: 0}
   ClassToSet: 
+  IsSpawned: 0
 --- !u!136 &13604178
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -54,12 +54,23 @@ public class ClassPanelScript : MonoBehaviour {
 			// Only activate if ability hasn't been activated before
 			Debug.Log("Class Panel: ability is not active. Activate it");
 			Debug.Log("Primary ability: " + primaryAbility);
-			activationTileController.GeneratorInterface(playerScript, primaryAbility);
-			currentPlayer = player; // Set the current player of this script to be the calling player
+			switch (primaryAbility.GetAbilityName()) { // Handle different kinds of abilities
+			case "Big Brother": // Technician Primary Ability
+				Debug.Log("Big Brother Australia");
+				primaryAbility.Activate();
+				break;
+			default: 
+				activationTileController.GeneratorInterface(playerScript, primaryAbility);
+				currentPlayer = player; // Set the current player of this script to be the calling player
+				break;
+			}
 		} else { // Ability is active. Need to decide what ability this is
 			switch (primaryAbility.GetAbilityName()) {
 			case "Block-Buster": // Toggle players
 				handleEngineerPrimaryAbility(player);
+				return;
+			case "Big Brother": // Toggle Hack Mode
+				primaryAbility.Deactivate();
 				return;
 			default: // Unknown action
 				return;

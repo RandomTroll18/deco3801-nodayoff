@@ -81,13 +81,29 @@ public abstract class Ability {
 	}
 
 	/**
-	 * Activate this ability
+	 * Activate this ability (with a targetted tile)
 	 * 
 	 * Arguments
 	 * - Tile targetTile - The targetted tile
 	 */
 	public virtual void Activate(Tile targetTile) {
-		IsActive = true; // This ability is not active
+		IsActive = true; // This ability is now active
 		Debug.Log("Ability is now active");
+		Debug.Log("Ability is targetting: " + targetTile.ToString());
+	}
+
+	/**
+	 * Activate this ability (with no target)
+	 */
+	public virtual void Activate() {
+		IsActive = true;
+	}
+
+	/**
+	 * Deactivate this ability
+	 */
+	public virtual void Deactivate() {
+		Debug.Log("Ability has been deactivated");
+		IsActive = false;
 	}
 }
