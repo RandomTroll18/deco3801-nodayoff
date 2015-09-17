@@ -21,7 +21,6 @@ public class Trap : MonoBehaviour {
 		Debug.Log ("Sorry Yugi, but you've triggered my trap card!");
 		Destroy(this.gameObject);
 
-
 	}
 
 }
