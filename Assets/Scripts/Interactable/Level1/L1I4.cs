@@ -27,7 +27,7 @@ public class L1I4 : InteractiveObject {
 			return;
 		}
 
-		if (SpendAP(input, MinCost)) {
+		if (SpendAP(input, MinCost, Stat.MARINEMULTIPLIER)) {
 			IsInactivated = true;
 			MController.RemoveInteractable(this.GetTile());
 			Destroy(Door);

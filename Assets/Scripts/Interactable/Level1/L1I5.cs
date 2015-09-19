@@ -25,7 +25,7 @@ public class L1I5 : InteractiveObject {
 			return;
 		}
 
-		if (SpendAP(input, MinCost)) {
+		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
 			IsInactivated = true;
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");

@@ -27,7 +27,7 @@ public class L1I1 : InteractiveObject {
 		}
 
 
-		if (SpendAP(input, MinCost)) {
+		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
 			IsInactivated = true;
 			MController.UnblockTile(Tile.TilePosition(Door.transform.position));
 			PrimaryO.OnComplete();

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EC2 : EventCard {
-	
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,6 +18,7 @@ public class EC2 : EventCard {
 		this.ChangeButton (1, "OH... KAY..", null);
 		this.ChangeImage("bicep");
 		this.ChangeText ("Oooooooooh~ Look at you and your biceps.");
+
 		return;
 	}
 	

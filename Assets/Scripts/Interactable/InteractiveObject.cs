@@ -90,11 +90,12 @@ public class InteractiveObject : MonoBehaviour {
 		return;
 	}
 
-	public bool SpendAP(int input, int cost) {
-		//double Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(Stat.);
+	public bool SpendAP(int input, int cost, Stat x) {
+		double Multiplier = 1;
+		Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(x);
 		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float)input / 100f));
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
-		int multipliedAP = actualAP; // TODO: add character class element
+		int multipliedAP = (int)Mathf.Floor((float)actualAP * (float)Multiplier); // TODO: add character class element
 		int rng = Random.Range(1, multipliedAP);
 		Debug.Log("Rolled " + rng);
 		if (rng >= cost) {

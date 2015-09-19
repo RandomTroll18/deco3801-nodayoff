@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
 
 public class EventCard : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class EventCard : MonoBehaviour
 		return;
 	}
 
-	public void ChangeButton(int bNum, string input, Event function)
+	public void ChangeButton(int bNum, string input, UnityAction function)
 	{
 		GameObject b = card.transform.GetChild(bNum).gameObject;
 		b.SetActive(true);
@@ -47,7 +48,11 @@ public class EventCard : MonoBehaviour
 		Button target = b.GetComponent<Button>();
 
 		target.onClick.RemoveAllListeners();
-		target.onClick.AddListener(() => EventCardDestroy(b));
+		if (function == null) {
+			target.onClick.AddListener(() => EventCardDestroy(b));
+		} else {
+			target.onClick.AddListener(function);
+		}
 	}
 	
 	public void ChangeText(string input)
