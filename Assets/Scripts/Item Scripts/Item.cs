@@ -20,7 +20,7 @@ public abstract class Item : MonoBehaviour {
 	protected double Range = 1; // The range of this item's activation action
 	protected ActivationType ItemActivationType; // Activation Type of this item
 	protected RangeType ItemRangeType; // The range type of this item
-	protected bool activatable; // Record if this item can be activated
+	protected bool Activatable; // Record if this item can be activated
 	
 	/*
 	 * The effects in this item.
@@ -78,7 +78,7 @@ public abstract class Item : MonoBehaviour {
 	public void ResetCoolDown() {
 		CoolDown = 0;
 	}
-
+	
 	/**
 	 * Reduce the amount of turns before this item can be used again.
 	 * Simply decrement.
@@ -145,7 +145,7 @@ public abstract class Item : MonoBehaviour {
 	 * - false if otherwise
 	 */
 	public bool IsActivatable() {
-		return activatable;
+		return Activatable;
 	}
 
 }

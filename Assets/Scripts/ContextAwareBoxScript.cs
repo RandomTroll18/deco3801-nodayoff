@@ -86,6 +86,8 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	public void ActivateAttachedItem(GameObject playerObject) {
 		Item item; // The item to be activated
 		Player playerScript = playerObject.GetComponent<Player>();
+		Ability primaryAbility = playerScript.GetPlayerClassObject().GetPrimaryAbility();
+		MarinePrimaryAbility marinePrimary; // Marine's primary ability
 	
 		if (currentContext == Context.INVENTORY) {
 			// We are in the inventory context
@@ -96,6 +98,11 @@ public class ContextAwareBoxScript : MonoBehaviour {
 			}
 			Debug.Log("Item Name: " + item.ItemName);
 
+			if (primaryAbility.GetAbilityName().Equals("Stimulus Debris") 
+			    	&& primaryAbility.RemainingNumberOfTurns() > 0) { // Marine ability
+				marinePrimary = (MarinePrimaryAbility)primaryAbility;
+				marinePrimary.ApplyAbilityToItem(item);
+			}
 			if (item.RemainingCoolDownTurns() != 0) { // Item is still cooling down
 				Debug.Log("Can't Activate: " + item.ItemName);
 				return;

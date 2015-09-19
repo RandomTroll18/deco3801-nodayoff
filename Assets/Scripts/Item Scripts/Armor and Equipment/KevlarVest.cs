@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 /**
  * The class for a Kevlar Vest (Armour)
@@ -27,7 +27,7 @@ public class KevlarVest : Armour {
 		// Add turn effects
 		TurnEffects = new List<TurnEffect>();
 		TurnEffects.Add(effect);
-		activatable = false; // This item can't be activated
+		Activatable = false; // This item can't be activated
 	}
 
 	/**

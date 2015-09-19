@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
 	bool turnEffectsApplied; // Record whether turn effects are applied
 	bool noLongerActive; // Record if this player is still active
 	bool isStunned; // Record if this player is stunned
+	bool isImmuneToStun; // Recod if the player is immune to stun
 
 	/*
 	 * Physics objects
@@ -99,6 +100,29 @@ public class Player : MonoBehaviour {
 			classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), 
 					playerClass.GetPrimaryAbility().GetAbilityName());
 		}
+
+		isImmuneToStun = false;
+	}
+	
+	/**
+	 * Set the player's immunity to stun
+	 * 
+	 * Arguments
+	 * - bool immuneFlag - Value to set the stun immunity variable
+	 */
+	public void SetStunImmunity(bool immuneFlag) {
+		isImmuneToStun = immuneFlag;
+	}
+
+	/**
+	 * Check if player is immune to stun
+	 * 
+	 * Return 
+	 * - true if player is immune
+	 * - false if otherwise
+	 */
+	public bool IsPlayerStunImmune() {
+		return isImmuneToStun;
 	}
 
 	/**
@@ -144,7 +168,7 @@ public class Player : MonoBehaviour {
 			playerClass = new AlienClass();
 			return;
 		case "Marine": // Create Marine Class
-			playerClass = new MarineClass();
+			playerClass = new MarineClass(this);
 			return;
 		case "Scout": // Create Scout Class
 			playerClass = new ScoutClass(this);

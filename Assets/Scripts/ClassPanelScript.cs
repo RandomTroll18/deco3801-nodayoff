@@ -56,8 +56,8 @@ public class ClassPanelScript : MonoBehaviour {
 			Debug.Log("Class Panel: ability is not active. Activate it");
 			Debug.Log("Primary ability: " + primaryAbility);
 			switch (primaryAbility.GetAbilityName()) { // Handle different kinds of abilities
-			case "Big Brother": // Technician Primary Ability
-				Debug.Log("Big Brother Australia");
+			case "Stimulus Debris": goto case "Big Brother"; // Same as Big Brother Ability
+			case "Big Brother": // Technician/Marine Primary Ability
 				primaryAbility.Activate();
 				break;
 			default: // Ordinary targetting abilities
@@ -73,6 +73,7 @@ public class ClassPanelScript : MonoBehaviour {
 			case "Big Brother": // Toggle Hack Mode
 				primaryAbility.Deactivate();
 				return;
+			case "Stimulus Debris": goto default; // Ability is already activated
 			case "Traps": goto default; // out of scout traps
 			default: // Unknown action
 				return;

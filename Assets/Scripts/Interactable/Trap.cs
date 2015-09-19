@@ -9,7 +9,7 @@ public class Trap : MonoBehaviour {
 	 * Arguments
 	 * - Player p - The player that activated this trap
 	 */
-	public virtual void Activated (Player p) {
+	public virtual void Activated(Player p) {
 
 		EventCard test = gameObject.AddComponent<EventCard>();
 		GameObject UI = test.CreateCard();
