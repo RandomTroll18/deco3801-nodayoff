@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
 	public Text APCounterText; // The text for counting AP
 	public Text SpawnAPCounterText; // The text for counting a spawn's AP
 	public string ClassToSet; // The class to set
+	public static string ChosenClass; // The chosen class
 	public bool IsSpawned; // Record if this object is spawned
 
 	Dictionary<Stat, double> stats; // Dictionary of stats
@@ -68,6 +69,7 @@ public class Player : MonoBehaviour {
 
 		droppedItems = new List<GameObject>();
 
+		if (!IsSpawned) ClassToSet = ChosenClass; // Assign chosen player class
 		SetPlayerClass(ClassToSet);
 		Debug.Log("Player Class: " + GetPlayerClass());
 
