@@ -5,8 +5,11 @@ public class ScoutClass : PlayerClass {
 
 	/**
 	 * Constructor
+	 * 
+	 * Arguments
+	 * - Player player - The player that belongs to this class
 	 */
-	public ScoutClass() {
+	public ScoutClass(Player player) {
 		DefaultStats = new Dictionary<Stat, double>();
 		DefaultStats[Stat.AP] = 10.0;
 		DefaultStats[Stat.VISION] = 5.0;
@@ -14,6 +17,8 @@ public class ScoutClass : PlayerClass {
 		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
 		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
+
+		PrimaryAbility = new ScoutPrimaryAbility(player);
 	}
 
 	/**

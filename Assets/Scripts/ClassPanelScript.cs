@@ -50,7 +50,8 @@ public class ClassPanelScript : MonoBehaviour {
 		Player playerScript = player.GetComponent<Player>(); // Player script
 		Ability primaryAbility = playerScript.GetPlayerClassObject().GetPrimaryAbility(); // Primary ability
 
-		if (primaryAbility != null && !primaryAbility.AbilityIsActive()) { 
+		if (primaryAbility == null) return; // No abilities
+		else if (!primaryAbility.AbilityIsActive()) { 
 			// Only activate if ability hasn't been activated before
 			Debug.Log("Class Panel: ability is not active. Activate it");
 			Debug.Log("Primary ability: " + primaryAbility);
@@ -59,12 +60,12 @@ public class ClassPanelScript : MonoBehaviour {
 				Debug.Log("Big Brother Australia");
 				primaryAbility.Activate();
 				break;
-			default: 
+			default: // Ordinary targetting abilities
 				activationTileController.GeneratorInterface(playerScript, primaryAbility);
 				currentPlayer = player; // Set the current player of this script to be the calling player
 				break;
 			}
-		} else { // Ability is active. Need to decide what ability this is
+		} else if (primaryAbility.AbilityIsActive()){ // Ability is active. Need to decide what ability this is
 			switch (primaryAbility.GetAbilityName()) {
 			case "Block-Buster": // Toggle players
 				handleEngineerPrimaryAbility(player);
@@ -72,6 +73,7 @@ public class ClassPanelScript : MonoBehaviour {
 			case "Big Brother": // Toggle Hack Mode
 				primaryAbility.Deactivate();
 				return;
+			case "Traps": goto default; // out of scout traps
 			default: // Unknown action
 				return;
 			}

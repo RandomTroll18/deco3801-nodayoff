@@ -190,6 +190,7 @@ GameObject:
   - 114: {fileID: 342664601}
   - 114: {fileID: 342664600}
   - 114: {fileID: 342664599}
+  - 114: {fileID: 342664603}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -253,6 +254,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &342664603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 342664598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d66e2b7bac6baa4aa222da462aa7a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &364065111
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +276,7 @@ GameObject:
   - 222: {fileID: 364065114}
   - 114: {fileID: 364065113}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: TitlePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,9 +338,8 @@ GameObject:
   - 222: {fileID: 417594560}
   - 114: {fileID: 417594559}
   - 114: {fileID: 417594558}
-  - 114: {fileID: 417594561}
   m_Layer: 5
-  m_Name: Button 1
+  m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,20 +397,20 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 417594559}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 417594561}
-        m_MethodName: onClick
-        m_Mode: 1
+      - m_Target: {fileID: 342664603}
+        m_MethodName: LoadLevel
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -431,18 +442,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 417594556}
---- !u!114 &417594561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 417594556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5cc1d6ade0748a09c8d21e33c2c7e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isQuit: 1
 --- !u!1 &566098609
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,9 +453,8 @@ GameObject:
   - 222: {fileID: 566098612}
   - 114: {fileID: 566098611}
   - 114: {fileID: 566098610}
-  - 114: {fileID: 566098614}
   m_Layer: 5
-  m_Name: Button
+  m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -496,13 +494,24 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 566098611}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 566098614}
-        m_MethodName: onClick
+      - m_Target: {fileID: 342664603}
+        m_MethodName: RememberLevel
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Level
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 342664603}
+        m_MethodName: LoadClassSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -559,18 +568,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -77}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
---- !u!114 &566098614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 566098609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5cc1d6ade0748a09c8d21e33c2c7e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isQuit: 0
 --- !u!1 &621672905
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +664,7 @@ GameObject:
   - 222: {fileID: 725733364}
   - 114: {fileID: 725733363}
   m_Layer: 5
-  m_Name: Text
+  m_Name: QuitButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -733,7 +730,7 @@ GameObject:
   - 222: {fileID: 1191859538}
   - 114: {fileID: 1191859537}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TitlePanelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -799,7 +796,7 @@ GameObject:
   - 222: {fileID: 2045999598}
   - 114: {fileID: 2045999597}
   m_Layer: 5
-  m_Name: Text
+  m_Name: RestartButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -69,7 +69,7 @@ public class Player : MonoBehaviour {
 
 		droppedItems = new List<GameObject>();
 
-		if (!IsSpawned) ClassToSet = ChosenClass; // Assign chosen player class
+		if (!IsSpawned && ChosenClass != null) ClassToSet = ChosenClass; // Assign chosen player class
 		SetPlayerClass(ClassToSet);
 		Debug.Log("Player Class: " + GetPlayerClass());
 
@@ -93,8 +93,12 @@ public class Player : MonoBehaviour {
 		}
 
 		classPanelScript = ClassPanel.GetComponent<ClassPanelScript>();
-		classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), 
-				playerClass.GetPrimaryAbility().GetAbilityName());
+		if (playerClass.GetPrimaryAbility() == null) {
+			classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), "No name");
+		} else {
+			classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), 
+					playerClass.GetPrimaryAbility().GetAbilityName());
+		}
 	}
 
 	/**
@@ -143,7 +147,7 @@ public class Player : MonoBehaviour {
 			playerClass = new MarineClass();
 			return;
 		case "Scout": // Create Scout Class
-			playerClass = new ScoutClass();
+			playerClass = new ScoutClass(this);
 			return;
 		case "Technician": // Create Technician Class
 			playerClass = new TechnicianClass(this);
@@ -223,9 +227,7 @@ public class Player : MonoBehaviour {
 			while (availableSpot != 9 && inventory[availableSpot] != null) {
 				availableSpot++;
 			}
-		}
-
-		if (other.gameObject.CompareTag ("Trap")) {
+		} else if (other.gameObject.CompareTag("Trap")) {
 
 			Trap TrapObject = other.GetComponent<Trap>();
 			TrapObject.Activated(this);
@@ -461,6 +463,7 @@ public class Player : MonoBehaviour {
 	 * Reduce the number of turns this player's ability is still active
 	 */
 	public void ReduceAbilityTurns() {
+		if (playerClass.GetPrimaryAbility() == null) return; // No ability
 		playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
 	}
 
