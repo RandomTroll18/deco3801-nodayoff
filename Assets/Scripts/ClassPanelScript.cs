@@ -56,9 +56,13 @@ public class ClassPanelScript : MonoBehaviour {
 			Debug.Log("Class Panel: ability is not active. Activate it");
 			Debug.Log("Primary ability: " + primaryAbility);
 			switch (primaryAbility.GetAbilityName()) { // Handle different kinds of abilities
-			case "Stimulus Debris": goto case "Big Brother"; // Same as Big Brother Ability
+			case "Stimulus Debris":
+				primaryAbility.Activate();
+				PrimaryAbilityButton.SetActive(false); // Set the primary ability button to be inactive
+				break;
 			case "Big Brother": // Technician/Marine Primary Ability
 				primaryAbility.Activate();
+				PrimaryAbilityText.text = "Exit Camera";
 				break;
 			default: // Ordinary targetting abilities
 				activationTileController.GeneratorInterface(playerScript, primaryAbility);
@@ -72,6 +76,7 @@ public class ClassPanelScript : MonoBehaviour {
 				return;
 			case "Big Brother": // Toggle Hack Mode
 				primaryAbility.Deactivate();
+				PrimaryAbilityText.text = "Big Brother";
 				return;
 			case "Stimulus Debris": goto default; // Ability is already activated
 			case "Traps": goto default; // out of scout traps
@@ -131,7 +136,7 @@ public class ClassPanelScript : MonoBehaviour {
 
 		// Make inventory active
 		master.GetComponent<Player>().InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
-		Destroy(PrimaryAbilityButton); // Destroy the primary ability button
+		PrimaryAbilityButton.SetActive(false); // Set the primary ability button to be inactive
 	}
 
 	/**
