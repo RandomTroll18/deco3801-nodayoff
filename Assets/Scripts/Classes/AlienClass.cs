@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AlienClass : PlayerClass {
+public class AlienClass : BaseClass {
 
 	/**
 	 * Constructor for Alien Class
 	 */
-	public AlienClass() {
-		DefaultStats = new Dictionary<Stat, double>();
-		DefaultStats[Stat.AP] = 20.0;
-		DefaultStats[Stat.VISION] = 7.0;
+	public AlienClass() : base(){
 		DefaultStats[Stat.ENGMULTIPLIER] = 1.5;
 		DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.5;

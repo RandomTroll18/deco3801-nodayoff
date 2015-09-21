@@ -13,6 +13,9 @@ using System.Collections;
  */
 public enum Stat {
 	AP,
+	/*
+	 * Can only be a value of 1, 2 or 3
+	 */
 	VISION, 
 	TECHMULTIPLIER,
 	ENGMULTIPLIER,

@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
 	bool noLongerActive; // Record if this player is still active
 	bool isStunned; // Record if this player is stunned
 	bool isImmuneToStun; // Recod if the player is immune to stun
+	Light playerLight;
 
 	/*
 	 * Physics objects
@@ -63,7 +64,12 @@ public class Player : MonoBehaviour {
 	 * - Instantiate a Stun Gun for the player and have the player pick it up
 	 * - Get class panel script and initialize class panel
 	 */
-	void Start() {
+	void Awake() {
+		foreach (Transform child in transform) {
+			if (child.CompareTag("Lighting"))
+				playerLight = child.GetComponent<Light>();
+		}
+
 		GameObject stunGunObject; // The stun gun object
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
@@ -102,6 +108,7 @@ public class Player : MonoBehaviour {
 		}
 
 		isImmuneToStun = false;
+
 	}
 	
 	/**
@@ -329,13 +336,13 @@ public class Player : MonoBehaviour {
 	 * - double value - The value to increase the stat by
 	 */
 	public void IncreaseStatValue(Stat playerStat, double value) {
-		stats[playerStat] += value;
-		if (stats[playerStat] >= playerClass.GetDefaultStat(playerStat)) 
-			// Value bigger than default. Not allowed?
-			stats[playerStat] = playerClass.GetDefaultStat(playerStat);
-		if (playerStat == Stat.AP) // Update AP Counter
-			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
-			else APCounterText.text = "Player AP Count: " + stats[playerStat];
+		SetStatValue(playerStat, GetStatValue(playerStat) + value);
+		// stats can go beyond the default value - Ben
+//		if (stats[playerStat] >= playerClass.GetDefaultStat(playerStat)) 
+//			stats[playerStat] = playerClass.GetDefaultStat(playerStat);
+//		if (playerStat == Stat.AP) // Update AP Counter
+//			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
+//			else APCounterText.text = "Player AP Count: " + stats[playerStat];
 	}
 
 	/**
@@ -346,13 +353,7 @@ public class Player : MonoBehaviour {
 	 * - double value - The value to reduce the stat by
 	 */
 	public void ReduceStatValue(Stat playerStat, double value) {
-		stats[playerStat] -= value;
-		if (stats[playerStat] <= 0.0) {
-			stats[playerStat] = 0.0;
-		}
-		if (playerStat == Stat.AP) // Update AP Counter
-			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
-			else APCounterText.text = "Player AP Count: " + stats[playerStat];
+		SetStatValue(playerStat, GetStatValue(playerStat) - value);
 	}
 
 	/**
@@ -364,9 +365,39 @@ public class Player : MonoBehaviour {
 	 */
 	public void SetStatValue(Stat playerStat, double value) {
 		stats[playerStat] = value;
-		if (playerStat == Stat.AP) // Update AP Counter
-			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
-			else APCounterText.text = "Player AP Count: " + stats[playerStat];
+		if (stats[playerStat] <= 0.0) {
+			stats[playerStat] = 0.0;
+		}
+
+		/*
+		 * Add any constraint checking to this switch
+		 */
+		switch(playerStat) {
+		case Stat.AP:
+			if (IsSpawned) 
+				APCounterText.text = "Spawn AP Count: " + stats[playerStat];
+			else 
+				APCounterText.text = "Player AP Count: " + stats[playerStat];
+			break;
+		case Stat.VISION:
+			if (value < 1 || value > 3) {
+				Debug.LogError("You tried to change the vision stat to a value outside it's range" +
+			                   "of 1-3. Setting vision value to 2.");
+				stats[Stat.VISION] = 2;
+			}
+			UpdateVision();
+			break;
+		}
+	}
+
+	void UpdateVision() {
+		if (stats[Stat.VISION] == 1) {
+			playerLight.intensity = 0;
+		} else if (stats[Stat.VISION] == 2) {
+			playerLight.intensity = 10;
+		} else if (stats[Stat.VISION] == 3) {
+
+		}
 	}
 
 	/**
@@ -386,11 +417,10 @@ public class Player : MonoBehaviour {
 	 * Reinitialize player stats
 	 */
 	public void InitializeStats() {
-		stats[Stat.AP] = playerClass.GetDefaultStat(Stat.AP);
-		if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[Stat.AP];
-		else APCounterText.text = "Player AP Count: " + stats[Stat.AP];
+		SetStatValue(Stat.AP, playerClass.GetDefaultStat(Stat.AP));
+		SetStatValue(Stat.VISION, playerClass.GetDefaultStat(Stat.VISION));
+
 		isStunned = false;
-		stats[Stat.VISION] = playerClass.GetDefaultStat(Stat.VISION);
 
 	}
 

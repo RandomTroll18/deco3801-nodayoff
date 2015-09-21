@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ScoutClass : PlayerClass {
+public class ScoutClass : BaseClass {
 
 	/**
 	 * Constructor
@@ -9,14 +9,9 @@ public class ScoutClass : PlayerClass {
 	 * Arguments
 	 * - Player player - The player that belongs to this class
 	 */
-	public ScoutClass(Player player) {
-		DefaultStats = new Dictionary<Stat, double>();
+	public ScoutClass(Player player) : base() {
 		DefaultStats[Stat.AP] = 10.0;
-		DefaultStats[Stat.VISION] = 5.0;
-		DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
-		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
-		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 
 		PrimaryAbility = new ScoutPrimaryAbility(player);
 	}

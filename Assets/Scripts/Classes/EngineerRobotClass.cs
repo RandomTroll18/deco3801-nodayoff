@@ -1,19 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class EngineerRobotClass : PlayerClass {
+public class EngineerRobotClass : BaseClass {
 
 	/**
 	 * Constructor
 	 */
-	public EngineerRobotClass() {
-		DefaultStats = new Dictionary<Stat, double>();
+	public EngineerRobotClass() : base() {
 		DefaultStats[Stat.AP] = 10.0; // Default AP is 10
-		DefaultStats[Stat.VISION] = 5.0; // Vision of base class is a range of 5 units
 		DefaultStats[Stat.ENGMULTIPLIER] = 2.0;
-		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
-		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
-		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 
 		PrimaryAbility = new EngineerRobotPrimaryAbility();
 	}

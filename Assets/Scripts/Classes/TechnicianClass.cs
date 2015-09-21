@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TechnicianClass : PlayerClass {
+public class TechnicianClass : BaseClass {
 
 	/**
 	 * Constructor
@@ -9,13 +9,8 @@ public class TechnicianClass : PlayerClass {
 	 * Arguments
 	 * - Player player - Reference to player
 	 */
-	public TechnicianClass(Player player) {
-		DefaultStats = new Dictionary<Stat, double>();
+	public TechnicianClass(Player player) : base() {
 		DefaultStats[Stat.AP] = 10.0;
-		DefaultStats[Stat.VISION] = 5.0;
-		DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
-		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
-		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
 		DefaultStats[Stat.TECHMULTIPLIER] = 2.0;
 
 		PrimaryAbility = new TechnicianPrimaryAbility(player);
