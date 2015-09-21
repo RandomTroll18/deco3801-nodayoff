@@ -2,6 +2,10 @@
 using System.Collections;
 using UnityEngine;
 
+/* Known bugs:
+ * The visual path is not reset when the end turn button is pressed.
+ */ 
+
 /**
  * Controls the player's movement within the game.
  */
@@ -35,7 +39,8 @@ public class MovementController : MonoBehaviour {
 	}
 
 	public float Speed;
-	public GameObject PathMarker;
+	public GameObject InvalidPathMarker;
+	public GameObject ValidPathMarker;
 	public GameObject HighlightedTile;
 	public GameObject Player;
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
@@ -121,9 +126,7 @@ public class MovementController : MonoBehaviour {
 			camController.LockCamera();
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
-				moving = Moving.NO;
-				camController.UnlockCamera();
-				Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
+				StopMoving();
 			} else if (Player.transform.position == Tile.TileMiddle(path.First.Value)) {
 				path.RemoveFirst();
 				if (visualPath.Count > 0) { // Most of the time this condition is true
@@ -132,6 +135,10 @@ public class MovementController : MonoBehaviour {
 				}
 
 				playerScript.ReduceStatValue(Stat.AP, 1);
+				if (playerScript.GetStatValue(Stat.AP) == 0) {
+					ClearPath();
+					StopMoving();
+				}
 			} else {
 				/* Moves the player */
 				float step = Speed * Time.deltaTime;
@@ -143,6 +150,12 @@ public class MovementController : MonoBehaviour {
 				camController.ResetCamera();
 			}
 		}
+	}
+
+	void StopMoving() {
+		moving = Moving.NO;
+		camController.UnlockCamera();
+		Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
 	}
 
 	/**
@@ -159,19 +172,16 @@ public class MovementController : MonoBehaviour {
 			return;
 		}
 
-		if (moving == Moving.POSSIBLY && path.Count <= playerScript.GetStatValue(Stat.AP) 
-				&& goal.Equals(clickedTile)) {
-			moving = Moving.YES;
+		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
+			if (playerScript.GetStatValue(Stat.AP) != 0)
+				moving = Moving.YES;
 			return;
 		}
 
 		if (moving == Moving.POSSIBLY) {
 			/* Clears all visual elements of selected path */
 			Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
-			foreach (Object obj in visualPath) {
-				DestroyObject(obj);
-			}
-			visualPath.Clear();
+			ClearPath();
 		}
 
 		if (UseInteractable (goal, playerScript)) {
@@ -190,16 +200,27 @@ public class MovementController : MonoBehaviour {
 		}
 		
 		while (dest != null && dest.Parent != null) {
-			visualPath.AddLast(SpawnPathTile(dest));
+			if (dest.Depth > playerScript.GetStatValue(Stat.AP)) {
+				visualPath.AddLast(SpawnPathTile(dest, InvalidPathMarker));
+			} else {
+				visualPath.AddLast(SpawnPathTile(dest, ValidPathMarker));
+			}
 			dest = dest.Parent;
 		}
 	}
 
-	Object SpawnPathTile(Tile pos) {
+	void ClearPath() {
+		foreach (Object obj in visualPath) {
+			DestroyObject(obj);
+		}
+		visualPath.Clear();
+	}
+
+	Object SpawnPathTile(Tile pos, GameObject pathMarker) {
 		// I could add direction to the spawned path. But maybe another day
 		Vector3 tilePos = Tile.TileMiddle(pos);
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
-		return Instantiate(PathMarker, tilePos, tileRot);
+		return Instantiate(pathMarker, tilePos, tileRot);
 	}
 
 	void SpawnHighlightedTile(Tile pos) {

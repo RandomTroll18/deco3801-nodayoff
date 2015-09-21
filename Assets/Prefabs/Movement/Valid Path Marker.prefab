@@ -12,7 +12,7 @@ GameObject:
   - 64: {fileID: 6403206}
   - 23: {fileID: 2323138}
   m_Layer: 0
-  m_Name: Path Marker
+  m_Name: Valid Path Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
