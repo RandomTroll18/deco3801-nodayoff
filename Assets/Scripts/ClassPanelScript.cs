@@ -59,6 +59,7 @@ public class ClassPanelScript : MonoBehaviour {
 			case "Stimulus Debris": goto case "Big Brother"; // Same as Big Brother Ability
 			case "Big Brother": // Technician/Marine Primary Ability
 				primaryAbility.Activate();
+				PrimaryAbilityButton.SetActive(false); // Set primary ability button to be inactive
 				break;
 			default: // Ordinary targetting abilities
 				activationTileController.GeneratorInterface(playerScript, primaryAbility);
@@ -131,7 +132,7 @@ public class ClassPanelScript : MonoBehaviour {
 
 		// Make inventory active
 		master.GetComponent<Player>().InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
-		Destroy(PrimaryAbilityButton); // Destroy the primary ability button
+		PrimaryAbilityButton.SetActive(false); // Set the primary ability button to be inactive
 	}
 
 	/**
