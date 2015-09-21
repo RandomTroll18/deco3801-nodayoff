@@ -75,6 +75,7 @@ public class EventCard : MonoBehaviour
 		//Debug.Log(Label.GetComponentInChildren<Image>().sprite.ToString());
 	}
 
+
 	public void Close()
 	{
 		Destroy(transform.gameObject);

@@ -20,6 +20,7 @@ TagManager:
   - Objective UI
   - SkillPanel
   - SurveillanceCameras
+  - Poll
   layers:
   - Default
   - TransparentFX
