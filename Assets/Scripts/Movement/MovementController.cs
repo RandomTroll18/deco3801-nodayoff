@@ -218,12 +218,14 @@ public class MovementController : MonoBehaviour {
 	Object SpawnPathTile(Tile pos, GameObject pathMarker) {
 		// I could add direction to the spawned path. But maybe another day
 		Vector3 tilePos = Tile.TileMiddle(pos);
+		tilePos.y = tilePos.y - 0.49f;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		return Instantiate(pathMarker, tilePos, tileRot);
 	}
 
 	void SpawnHighlightedTile(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos);
+		tilePos.y = tilePos.y - 0.49f;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		Instantiate(HighlightedTile, tilePos, tileRot);
 	}
