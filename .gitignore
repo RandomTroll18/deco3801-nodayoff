@@ -26,3 +26,5 @@ Assets/Scripts/Editor Scripts/
 Assets/Scripts/Editor Scripts.meta
 Assets/Editor/CountLines.cs.meta
 Assets/Editor/CountLines.cs
+Assets/Editor/SaveSceneOnRun.cs
+Assets/Editor/SaveSceneOnRun.cs.meta
