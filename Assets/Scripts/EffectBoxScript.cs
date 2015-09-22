@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class EffectBoxScript : MonoBehaviour {
 
-	TurnEffect effect; // The turn effect attached to this box
+	Effect effect; // The turn effect attached to this box
 
 	/**
 	 * Add a turn effect to this box
@@ -11,7 +11,7 @@ public class EffectBoxScript : MonoBehaviour {
 	 * Arguments
 	 * - TurnEffect newEffect - The effect to be added
 	 */
-	public void AddEffect(TurnEffect newEffect) {
+	public void AddEffect(Effect newEffect) {
 		effect = newEffect;
 	}
 
@@ -21,7 +21,7 @@ public class EffectBoxScript : MonoBehaviour {
 	 * Returns
 	 * - The turn effect attached to this box
 	 */
-	public TurnEffect GetEffect() {
+	public Effect GetEffect() {
 		return effect;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Class inherited by short range weapons (e.g. Pistol)
  */
-public class ShortRangeWeapon : Weapon {
+public abstract class ShortRangeWeapon : Weapon {
 
 	/**
 	 * Nothing yet. If this class is not needed, 

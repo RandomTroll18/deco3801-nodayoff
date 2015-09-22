@@ -21,19 +21,29 @@ public class APRestorer : RecoveryConsumables {
 		/*
 		 * For this item, we are only affecting one stat - AP
 		 */
-		Effects = new Dictionary<Stat, double[]>();
+		InstantEffects = new Dictionary<Stat, double[]>();
 		apEffect[0] = 10.0;
 		apEffect[1] = -1;
 		apEffect[2] = 1.0;
-		Effects[Stat.AP] = apEffect;
+		InstantEffects[Stat.AP] = apEffect;
 	}
 
 	/**
 	 * Override Activate function
 	 */
 	public override void Activate(Tile targetTile) {
-		base.Activate(targetTile);
 		Debug.Log("AP Restorer activation");
+	}
+
+	/* Override abstract functions so that compiler doesn't whine */
+	public override void Activate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void StartAfterInstantiate()
+	{
+		throw new System.NotImplementedException();
 	}
 
 	/**
@@ -55,7 +65,7 @@ public class APRestorer : RecoveryConsumables {
 		// Next, add the amount of this item
 		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
 
-		valueEffectString += StringMethodsScript.NEWLINE + Effects[Stat.AP][0] + ".";
+		valueEffectString += StringMethodsScript.NEWLINE + InstantEffects[Stat.AP][0] + ".";
 		statString += StringMethodsScript.NEWLINE + EnumsToString.ConvertStatEnum(Stat.AP) + ".";
 
 		// Concatenate strings together and return the final string

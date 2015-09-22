@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -49,7 +49,7 @@ public class EffectPanelScript : MonoBehaviour {
 	 * Arguments
 	 * - TurnEffect newEffect - The effect to add
 	 */
-	public void AddTurnEffect(TurnEffect newEffect) {
+	public void AddTurnEffect(Effect newEffect) {
 		GameObject box; // Box to instantiate
 		EffectBoxScript boxScript; // The script attached to the box
 		box = Instantiate<GameObject>(BoxPrefab); // Instantiate UI element
@@ -70,10 +70,8 @@ public class EffectPanelScript : MonoBehaviour {
 	 * Arguments
 	 * - List<TurnEffect> newEffects - New effects to add
 	 */
-	public void AddTurnEffects(List<TurnEffect> newEffects) {
-		GameObject box; // Box to instantiate
-		EffectBoxScript boxScript; // The script attached to the box
-		foreach (TurnEffect effect in newEffects) AddTurnEffect(effect);
+	public void AddTurnEffects(List<Effect> newEffects) {
+		foreach (Effect effect in newEffects) AddTurnEffect(effect);
 	}
 
 	/**
@@ -82,7 +80,7 @@ public class EffectPanelScript : MonoBehaviour {
 	 * Arguments
 	 * - TurnEffect toRemove - The effect to be removed
 	 */
-	public void RemoveTurnEffect(TurnEffect toRemove) {
+	public void RemoveTurnEffect(Effect toRemove) {
 		EffectBoxScript boxScript; // The script attached to a box
 		foreach (GameObject box in boxes) {
 			boxScript = box.GetComponent<EffectBoxScript>();

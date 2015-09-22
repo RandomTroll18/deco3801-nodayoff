@@ -18,13 +18,29 @@ public class Pistol : ShortRangeWeapon {
 		ItemDescription = "Your standard issue pistol. Seven 9mm bullets effective " +
 			"against humans, but we can't say that it's tested on aliens";
 
-		Effects = null; // No stats being affected
+		InstantEffects = null; // No stats being affected
 
 		Damage = 10.0; // Let's say we do 10.0 damage per successful hit
 		Range = 4.0; // Let's say range is 4.0 - Not confirmed
 		Rounds = 7.0; // Only 7 rounds
 		CoolDown = 0; // No Cool down initially
 		CoolDownSetting = 1; // This item can only be used once per turn
+	}
+
+	/* Override abstract functions so that compiler doesn't whine */
+	public override void StartAfterInstantiate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Activate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Activate(Tile targetTile)
+	{
+		throw new System.NotImplementedException();
 	}
 
 	/**

@@ -14,9 +14,13 @@ public abstract class Item : MonoBehaviour {
 	public GameObject TestPrefab; // Prefab to show where Stun Gun is activated - MVP Purposes
 
 	protected string ItemDescription; // The description of this item
-	protected List<TurnEffect> TurnEffects; // The turn effects in this item
+	protected List<Effect> Effects; // The effects in this item
 	protected int CoolDown; // Cool down for activation. This is in terms of turns
 	protected int CoolDownSetting; // The amount of turns that this item should be cooling down for
+	protected int DefaultCoolDownSetting; // The default cooldown setting
+	protected int UsePerTurn = 1; // The number of uses for this item per turn
+	protected int DefaultUsePerTurn = 1; // The default number of uses per turn
+	protected int CurrentNumberOfUses; // The current number of uses
 	protected double Range = 1; // The range of this item's activation action
 	protected ActivationType ItemActivationType; // Activation Type of this item
 	protected RangeType ItemRangeType; // The range type of this item
@@ -30,7 +34,34 @@ public abstract class Item : MonoBehaviour {
 	 * double[1] => to be set (e.g. Stat.AP = double[1])
 	 * double[2] => to be multiplied (e.g. Stat.AP *= double[2])
 	 */
-	protected Dictionary<Stat, double[]> Effects;
+	protected Dictionary<Stat, double[]> InstantEffects;
+
+	/**
+	 * Set the current number of uses for this item
+	 * 
+	 * Arguments
+	 * - int newCurrentNumberOfUses - The new number of uses for this item
+	 */
+	public void SetCurrentNumberOfUses(int newCurrentNumberOfUses) {
+		CurrentNumberOfUses = newCurrentNumberOfUses;
+	}
+
+	/**
+	 * Reset the number of uses per turn
+	 */
+	public void ResetUsePerTurn() {
+		UsePerTurn = DefaultUsePerTurn;
+	}
+
+	/**
+	 * Set the number of uses per turn
+	 * 
+	 * Arguments
+	 * - int newUsePerTurn - The new number of uses per turn
+	 */
+	public void SetUsePerTurn(int newUsePerTurn) {
+		UsePerTurn = newUsePerTurn;
+	}
 
 	/**
 	 * Function for MVP purposes
@@ -85,6 +116,7 @@ public abstract class Item : MonoBehaviour {
 	 */
 	public void ReduceCoolDown() {
 		if (CoolDown != 0) CoolDown--;
+		if (CoolDown == 0) CurrentNumberOfUses = UsePerTurn;
 	}
 
 	/**
@@ -96,6 +128,23 @@ public abstract class Item : MonoBehaviour {
 	public int RemainingCoolDownTurns() {
 		return CoolDown;
 	}
+
+	/**
+	 * Set cool down setting
+	 * 
+	 * Arguments
+	 * - int newCoolDownSetting - The new cooldown setting
+	 */
+	public void SetCoolDownSetting(int newCoolDownSetting) {
+		CoolDownSetting = newCoolDownSetting;
+	}
+
+	/**
+	 * Reset cool down setting
+	 */
+	public void ResetCoolDownSetting() {
+		CoolDownSetting = DefaultCoolDownSetting;
+	}
 	
 	/**
 	 * Get the turn effects in this item
@@ -103,8 +152,8 @@ public abstract class Item : MonoBehaviour {
 	 * Returns
 	 * - A list of turn effects
 	 */
-	public List<TurnEffect> GetTurnEffects() {
-		return TurnEffects;
+	public List<Effect> GetTurnEffects() {
+		return Effects;
 	}
 
 	/**
@@ -114,16 +163,14 @@ public abstract class Item : MonoBehaviour {
 	 * - A dictionary of effects
 	 */
 	public Dictionary<Stat, double[]> GetEffects() {
-		return Effects;
+		return InstantEffects;
 	}
 
 	/**
 	 * Use this function when instantiating this object, which, 
 	 * apparently, bypasses the Start() function
 	 */
-	public virtual void StartAfterInstantiate() {
-		Debug.Log("Item: " + ItemName + " started after instantiation");
-	}
+	public abstract void StartAfterInstantiate();
 
 	/**
 	 * Function used to activate the item. 
@@ -132,9 +179,12 @@ public abstract class Item : MonoBehaviour {
 	 * Arguments
 	 * - Tile targetTile - The target tile 
 	 */
-	public virtual void Activate(Tile targetTile) {
-		Debug.Log(ItemName + " attempting to be activated");
-	}
+	public abstract void Activate(Tile targetTile);
+
+	/**
+	 * Activate the item. Has no target
+	 */
+	public abstract void Activate();
 
 	/**
 	 * Return if this item is activatable

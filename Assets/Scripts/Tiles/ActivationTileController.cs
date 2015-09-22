@@ -14,7 +14,6 @@ public class ActivationTileController : MonoBehaviour {
 	HashSet<Tile> conceptualTiles = new HashSet<Tile>((new Tile())); // Set of conceptual (Tile) tiles
 	HashSet<Tile> badActivationTiles = new HashSet<Tile>(new Tile()); // Container of bad activation tiles
 	List<GameObject> gameObjectTiles = new List<GameObject>(); // List of instantiated tiles
-	Player player; // Current calling player
 	Item item; // Current item
 	Ability ability; // Current calling ability
 	MovementController movementController; // The movement controller
@@ -58,8 +57,7 @@ public class ActivationTileController : MonoBehaviour {
 		conceptualTiles.Clear(); // Clear the set of activation tiles (Tile class)
 		badActivationTiles.Clear(); // Clear the list of bad activation tiles
 
-		/* Set referenes to null */
-		player = null;
+		/* Set references to null */
 		item = null;
 		ability = null;
 	}
@@ -84,8 +82,7 @@ public class ActivationTileController : MonoBehaviour {
 		// First, destroy previous activation tiles
 		DestroyActivationTiles();
 		
-		// Second, set references to player and item. Set ability to be null
-		player = newPlayer;
+		// Second, set reference item. Set ability to be null
 		item = null;
 		ability = newAbility;
 
@@ -114,8 +111,7 @@ public class ActivationTileController : MonoBehaviour {
 		// First, destroy previous activation tiles
 		DestroyActivationTiles();
 
-		// Second, set references to player and item. Set ability to be null
-		player = newPlayer;
+		// Second, set references to item. Set ability to be null
 		item = newItem;
 		ability = null;
 
@@ -141,10 +137,6 @@ public class ActivationTileController : MonoBehaviour {
 	void generateActivationTiles(double range, int initialX, int initialZ, RangeType rangeType, 
 			ActivationType activationType) {
 		Material tileMaterial; // The material to set
-		// Some debugging
-		Debug.Log("Generate Activation Tiles");
-		Debug.Log("Range: " + range);
-		Debug.Log("Centre: (" + initialX + ", 0, " + initialZ + ")");
 
 		// First, determine the tile colour
 		switch (activationType) {
@@ -229,29 +221,22 @@ public class ActivationTileController : MonoBehaviour {
 		Tile adjacentTileOne, adjacentTileTwo; // The tiles adjacent to the corner
 
 		if (cornerX > initialX && cornerZ > initialZ) { // This is the upper right corner
-			Debug.Log("Upper right corner");
 			adjacentTileOne = new Tile(Tile.TilePosition(cornerX - 2.0f), Tile.TilePosition(cornerZ));
 			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ - 2.0f));
 		} else if (cornerX > initialX && cornerZ < initialZ) { // This is the lower right corner
-			Debug.Log("Lower right corner");
 			adjacentTileOne = new Tile(Tile.TilePosition(cornerX - 2.0f), Tile.TilePosition(cornerZ));
 			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ + 2.0f));
 		} else if (cornerX < initialX && cornerZ > initialZ) { // This is the upper left corner
-			Debug.Log("Upper left corner");
 			adjacentTileOne = new Tile(Tile.TilePosition(cornerX + 2.0f), Tile.TilePosition(cornerZ));
 			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ - 2.0f));
 		} else { // This is the lower left corner
-			Debug.Log("Lower left corner");
 			adjacentTileOne = new Tile(Tile.TilePosition(cornerX + 2.0f), Tile.TilePosition(cornerZ));
 			adjacentTileTwo = new Tile(Tile.TilePosition(cornerX), Tile.TilePosition(cornerZ + 2.0f));
 		}
 
-		if (!movementController.IsTileBlocked(adjacentTileOne) && !movementController.IsTileBlocked(adjacentTileTwo)) {
-			Debug.Log("Both adjacent tiles are valid");
+		if (!movementController.IsTileBlocked(adjacentTileOne) && !movementController.IsTileBlocked(adjacentTileTwo))
 			return true; // Adjacent tiles are valid. Corner tile can be generated
-		}
 
-		Debug.Log("One of the adjacent tiles are invalid");
 		return false; // One adjacen tile is invalid. Corner tile can't be generated
 	}
 
@@ -296,17 +281,13 @@ public class ActivationTileController : MonoBehaviour {
 	 */
 	void generateCornerTile(float range, float currentX, float currentZ, float initialX, float initialZ, 
 			Material tileMaterial) {
-		Debug.Log("Corner range: " + range);
-		Debug.Log("Corner is supposed to be generated at: (" + currentX + ", " + currentZ + ")");
 		if (range <= 0.0f && range >= 0.0f) return; // Don't generate anything
 
 		// Generate centre tile
 		if (!checkCornerAdjacency(currentX, currentZ, initialX, initialZ)) return; // Can't generate centre
 		else if (!canGenerate(currentX, currentZ)) return; // Can't generate corner tile. Just don't do it
 
-		Debug.Log("Generating corner tile");
 		generateIndividualTile(currentX, currentZ, tileMaterial); // Generate the corner tile
-		Debug.Log("Generated corner tile at: (" + currentX + ", " + currentZ + ")");
 
 		if (range <= 2.0f && range >= 2.0f) return; // Only generate the corner tile
 

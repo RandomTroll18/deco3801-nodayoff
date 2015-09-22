@@ -20,23 +20,30 @@ public class KevlarVest : Armour {
 	 */
 	void Start() {
 		// The turn effect
-		TurnEffect effect = new TurnEffect(Stat.AP, 1.0, 0, "Increase AP", "Icons/Effects/DefaultEffect", -1,
-				TurnEffectType.STATEFFECT);
+		Effect effect = new StatusTurnEffect(Stat.AP, 1.0, 0, "Increase AP", "Icons/Effects/DefaultEffect", -1, true);
 		ItemDescription = "All-purpose vest. Probably won't " + StringMethodsScript.NEWLINE +
 				"do much against an alien, but it's better than nothing";
 
 		// Add turn effects
-		TurnEffects = new List<TurnEffect>();
-		TurnEffects.Add(effect);
+		Effects = new List<Effect>();
+		Effects.Add(effect);
 		Activatable = false; // This item can't be activated
 	}
 
-	/**
-	 * Override Activate Function
-	 */
-	public override void Activate(Tile targetTile) {
-		base.Activate(targetTile);
-		Debug.Log("Kevlar Vest Has No Activation Function");
+	/* Implement abstract functions so that compiler doesn't whine */
+	public override void StartAfterInstantiate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Activate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Activate(Tile targetTile)
+	{
+		throw new System.NotImplementedException();
 	}
 
 	/**
@@ -47,7 +54,7 @@ public class KevlarVest : Armour {
 	 */
 	public override string ToString() {
 		string turnEffectsString = "Turn Effects: "; // String of turn effects
-		int numberOfTurnEffects = TurnEffects.Count; // The number of turn effects
+		int numberOfTurnEffects = Effects.Count; // The number of turn effects
 		
 		// The string to return. Start with the name
 		string toReturn = "Item Name: " + name + StringMethodsScript.NEWLINE;
@@ -62,9 +69,9 @@ public class KevlarVest : Armour {
 		 * than one effect, then change the values below accordingly
 		 */
 		for (int i = 0; i < (numberOfTurnEffects - 1); ++i) {
-			turnEffectsString += StringMethodsScript.NEWLINE + TurnEffects[i] + ", ";
+			turnEffectsString += StringMethodsScript.NEWLINE + Effects[i] + ", ";
 		}
-		turnEffectsString += StringMethodsScript.NEWLINE + TurnEffects[numberOfTurnEffects - 1] + ".";
+		turnEffectsString += StringMethodsScript.NEWLINE + Effects[numberOfTurnEffects - 1] + ".";
 		
 		// Concatenate strings together and return the final string
 		toReturn += turnEffectsString + StringMethodsScript.NEWLINE;

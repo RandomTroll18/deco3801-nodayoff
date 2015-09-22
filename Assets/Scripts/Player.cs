@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
 	Item[] inventory = new Item[9]; // Inventory
 	List<GameObject> droppedItems; // Recently dropped items
-	List<TurnEffect> turnEffects; // The turn-based effects attached to this player
+	List<Effect> turnEffects; // The turn-based effects attached to this player
 
 	GameManager gameManagerScript; // The game manager script
 	ClassPanelScript classPanelScript; // The class panel script
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour {
 		stats = new Dictionary<Stat, double>();
 		InitializeStats();
 
-		turnEffects = new List<TurnEffect>();
+		turnEffects = new List<Effect>();
 		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
 		turnEffectsApplied = false;
 		noLongerActive = false;
@@ -226,11 +226,16 @@ public class Player : MonoBehaviour {
 	 * Arguments
 	 * - TurnEffect toAdd - Effect to add
 	 */
-	public void AttachTurnEffect(TurnEffect toAdd) {
+	public void AttachTurnEffect(Effect toAdd) {
 		switch (toAdd.GetTurnEffectType()) { // Apply turn effects immediately if needed
 		case TurnEffectType.STATEFFECT: goto default; // Only apply stat effects in the next turn
 		case TurnEffectType.MATERIALEFFECT:
 			PlayerObject.GetComponent<Renderer>().material = toAdd.GetMaterial();
+			break;
+		case TurnEffectType.ITEMEFFECT: // Apply item effects immediately
+			foreach (Item item in inventory) {
+				if (item != null) toAdd.ApplyEffectToItem(item);
+			}
 			break;
 		default: break; // Don't do anything
 		}
@@ -244,8 +249,8 @@ public class Player : MonoBehaviour {
 	 * Arguments
 	 * - List<TurnEffect> effects - Effects to attach
 	 */
-	public void AttachTurnEffects(List<TurnEffect> effects) {
-		foreach (TurnEffect effect in effects) AttachTurnEffect(effect);
+	public void AttachTurnEffects(List<Effect> effects) {
+		foreach (Effect effect in effects) AttachTurnEffect(effect);
 	}
 
 	/**
@@ -268,8 +273,11 @@ public class Player : MonoBehaviour {
 			uiSlotScript.InsertItem(item);
 			other.gameObject.SetActive(false); // Make object disappear
 
-			/* Get turn effects if they exist */
+			// Get turn effects if they exist
 			if (item.GetTurnEffects() != null) AttachTurnEffects(item.GetTurnEffects());
+
+			// Apply effects to item on pickup
+			applyItemEffect(item);
 
 			// Increment to the next available spot
 			while (availableSpot != 9 && inventory[availableSpot] != null) {
@@ -284,17 +292,43 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Apply item effects to the given item. For use when item is picked up
+	 * 
+	 * Arguments
+	 * Item itemToAffect - The item to affect
+	 */
+	void applyItemEffect(Item itemToAffect) {
+		foreach (Effect effect in turnEffects) {
+			if (!effect.GetTurnEffectType().Equals(TurnEffectType.ITEMEFFECT)) continue;
+			if (!itemToAffect.GetType().Equals(effect.GetAffectedItemType())) continue;
+			Debug.Log("Turn effect affects this item: " + itemToAffect.GetType().ToString());
+		}
+	}
+
+	/**
 	 * Remove a turn effect from this player and revert all its effects on this player
 	 * 
 	 * Arguments
 	 * - TurnEffect effect - The turn effect to remove
 	 */
-	void detachTurnEffect(TurnEffect effect) {
+	void detachTurnEffect(Effect effect) {
 		switch (effect.GetTurnEffectType()) { // Detach the effect on this player depending on type
-		case TurnEffectType.STATEFFECT: break; // Don't do anything yet
+		case TurnEffectType.STATEFFECT: goto default; // Don't do anything yet
+		case TurnEffectType.ITEMEFFECT: // Need to reset affected items
+			foreach (Item item in inventory) {
+				if (item != null && item.GetType().Equals(effect.GetAffectedItemType())) { 
+					// Reset item cool down and turn settings
+					item.ResetCoolDown();
+					item.ResetCoolDownSetting();
+					item.ResetUsePerTurn();
+					if (item.RemainingCoolDownTurns() == 0) item.ReduceCoolDown();
+				}
+			}
+			break;
 		case TurnEffectType.MATERIALEFFECT: 
 			PlayerObject.GetComponent<Renderer>().material = playerMaterial; // Reassign material
 			break;
+		default: break; // Unknown
 		}
 		effectPanelScript.RemoveTurnEffect(effect);
 		turnEffects.Remove(effect);
@@ -306,45 +340,51 @@ public class Player : MonoBehaviour {
 	 * Arguments
 	 * - TurnEffect effect - The turn effect to apply
 	 */
-	void applyTurnEffect(TurnEffect effect) {
+	void applyTurnEffect(Effect effect) {
 		Stat stat; // The stat to effect
 		int mode; // The mode of this turn effect
 
+		Debug.Log("Effect description: " + effect.GetDescription());
 		Debug.Log("Turn effect turns remaining: " + effect.TurnsRemaining());
 		if (effect.TurnsRemaining() == 0) { // Remove turn effect
 			detachTurnEffect(effect);
 			return;
 		}
-		stat = effect.GetStatAffected();
-		mode = effect.GetMode();
-		switch (effect.GetTurnEffectType()) {
-		case TurnEffectType.STATEFFECT: // Stat effect
-			switch (mode) {
-			case 0: // Increment to stat
+
+		if (effect.IsAppliedPerTurn()) { // Apply per turn
+			switch (effect.GetTurnEffectType()) {
+			case TurnEffectType.STATEFFECT: // Stat effect
+				stat = effect.GetStatAffected();
+				mode = effect.GetMode();
+				switch (mode) {
+				case 0: // Increment to stat
+					stats[stat] += effect.GetValue();
+					break;
+				case 1: // Set stat
+					stats[stat] = effect.GetValue();
+					break;
+				case 2: // Multiply stat
+					stats[stat] *= effect.GetValue();
+					break;
+				default: // Invalid mode. Do nothing
+					break;
+				}
 				stats[stat] += effect.GetValue();
+				if (stat == Stat.AP) { // Update AP Counter
+					if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
+					else APCounterText.text = "Player AP Count: " + stats[stat];
+				}
 				break;
-			case 1: // Set stat
-				stats[stat] = effect.GetValue();
-				break;
-			case 2: // Multiply stat
-				stats[stat] *= effect.GetValue();
-				break;
-			default: // Invalid mode. Do nothing
-				break;
+			case TurnEffectType.MATERIALEFFECT:
+				// Only replace material if not already set
+				if (!PlayerObject.GetComponent<Renderer>().material.Equals(effect.GetMaterial()))
+					PlayerObject.GetComponent<Renderer>().material = effect.GetMaterial();
+				break;// Change material
+				
+			default: break; // Unknown
 			}
-			stats[stat] += effect.GetValue();
-			if (stat == Stat.AP) { // Update AP Counter
-				if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
-				else APCounterText.text = "Player AP Count: " + stats[stat];
-			}
-			break;
-		case TurnEffectType.MATERIALEFFECT:
-			// Only replace material if not already set
-			if (!PlayerObject.GetComponent<Renderer>().material.Equals(effect.GetMaterial()))
-				PlayerObject.GetComponent<Renderer>().material = effect.GetMaterial();
-			break;// Change material
-		default: break; // Unknown
 		}
+
 		effect.ReduceTurnsRemaining();
 	}
 
@@ -498,7 +538,7 @@ public class Player : MonoBehaviour {
 
 		// Remove effects if the item has some turn effects
 		if (item.GetTurnEffects() != null) 
-			foreach (TurnEffect turnEffect in item.GetTurnEffects()) detachTurnEffect(turnEffect);
+			foreach (Effect turnEffect in item.GetTurnEffects()) detachTurnEffect(turnEffect);
 
 		// Remove the item from the ui slot
 		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();
@@ -507,6 +547,11 @@ public class Player : MonoBehaviour {
 		// Set inventory references to null
 		inventory[itemIndex] = null;
 		physicalItems[itemIndex] = null;
+
+		// Reset item to have default values
+		item.ResetCoolDownSetting();
+		item.ResetUsePerTurn();
+		item.ResetCoolDown();
 
 		// Find next available spot
 		availableSpot = 0;
@@ -537,10 +582,13 @@ public class Player : MonoBehaviour {
 	 * Apply turn effects attached to this object
 	 */
 	public void ApplyTurnEffects() {
+		Effect currentEffect; // The current effect being applied
 		if (turnEffectsApplied) return;
 
 		for (int i = 0; i < turnEffects.Count; ++i) {
+			currentEffect = turnEffects[i];
 			applyTurnEffect(turnEffects[i]);
+			if (!turnEffects.Contains(currentEffect)) --i; // Turn effect removed
 		}
 
 		turnEffectsApplied = true; // We have applied turn effects

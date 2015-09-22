@@ -77,8 +77,20 @@ public enum RangeType {
  * Enum for turn effect type
  * STATEFFECT - Affect stat
  * MATERIALEFFECT - Affect material
+ * ITEMEFFECT - Affect items
  */
 public enum TurnEffectType {
 	STATEFFECT, 
-	MATERIALEFFECT
+	MATERIALEFFECT,
+	ITEMEFFECT
+}
+
+/*
+ * Enum for item turn effect type
+ * EXTRAUSE - Extra use per turn
+ * COOLDOWNREDUCTION - Reduction in cooldown
+ */
+public enum ItemTurnEffectType {
+	EXTRAUSE, 
+	COOLDOWN
 }

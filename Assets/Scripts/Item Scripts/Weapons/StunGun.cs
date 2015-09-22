@@ -19,13 +19,15 @@ public class StunGun : ShortRangeWeapon {
 	void Start () {
 		ItemDescription = "Stun Gun to keep people/aliens in line";
 
-		Effects = null; // No turn based effects
+		InstantEffects = null; // No turn based effects
 
 		Rounds = -1.0;
 		Damage = 0.0;
 		Range = 1.0;
 		CoolDown = 0; // No cool down initially
 		CoolDownSetting = 3; // Item can only be used once per 3 turns
+		DefaultCoolDownSetting = 3; // Default cool down is 3
+		CurrentNumberOfUses = 0; // Item hasn't been used yet
 
 		ItemRangeType = RangeType.SQUARERANGE;
 		ItemActivationType = ActivationType.OFFENSIVE;
@@ -33,13 +35,16 @@ public class StunGun : ShortRangeWeapon {
 		Activatable = true; // Set this item to be activatable
 	}
 
-
+	/* Override abstract functions so that compiler doesn't whine */
+	public override void Activate()
+	{
+		throw new System.NotImplementedException();
+	}
 
 	/**
 	 * Override the StartAfterInstantiate function
 	 */
 	public override void StartAfterInstantiate() {
-		base.StartAfterInstantiate();
 		Start();
 	}
 
@@ -49,25 +54,23 @@ public class StunGun : ShortRangeWeapon {
 	public override void Activate(Tile targetTile) {
 		GameObject testActivate; // MVP purposes
 
-		base.Activate(targetTile);
-		if (CoolDown != 0) {
-			Debug.Log("Item still cooling down");
-			return;
+		if (CurrentNumberOfUses == 0) {
+			Debug.Log("Stun Gun has no more uses");
+			return; // No more uses
+		} else if (CoolDown != 0) {
+			Debug.Log("Stun Gun is cooling down");
+			return; // Still cooling down
 		}
-
-		Debug.Log("Target tile: (" + targetTile.X + ", " + targetTile.Z + ")");
-		Debug.Log("Middle of target tile: " + Tile.TileMiddle(targetTile).ToString());
 
 		// Show where Stun Gun was activated - MVP purposes
 		testActivate = Instantiate(TestPrefab);
 		testActivate.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
 		testActivate.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
 
-		Destroy(testActivate, (float)2.0); // Destroy tile after 2 seconds
+		Destroy(testActivate, (float)1.0); // Destroy tile after 2 seconds
 
-		Debug.Log("Stun Gun Done Activating");
-
-		CoolDown = CoolDownSetting; // Set Cool Down
+		CurrentNumberOfUses--;
+		if (CurrentNumberOfUses == 0) CoolDown = CoolDownSetting; // Set Cool Down
 	}
 	
 	/**

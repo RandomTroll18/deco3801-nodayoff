@@ -2,7 +2,7 @@
 /**
  * Class that is inherited by long range weapons (e.g. sniper rifle)
  */
-public class LongRangeWeapon : Weapon {
+public abstract class LongRangeWeapon : Weapon {
 
 	/**
 	 * Nothing yet. If this class is not needed, 

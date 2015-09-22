@@ -4,10 +4,11 @@ using System.Collections;
 public class MarinePrimaryAbility : Ability {
 
 	Player master; // Owning player
-	int extraCharge; // The number of extra charges in this turn
 	Material defaultPlayerMaterial; // The player's default material
 	Material abilityActivePlayerMaterial; // Material used when ability is active
-	TurnEffect materialEffect; // The material effect to add to the player
+	Effect materialEffect; // The material effect to add to the player
+	Effect stunGunEffect; // The stun gun effect to add to the player
+	Effect noCoolDownEffect; // Removal of stun gun cooldown effect
 
 	/**
 	 * Constructor
@@ -22,27 +23,14 @@ public class MarinePrimaryAbility : Ability {
 		AbilityActivationType = ActivationType.SUPPORTIVE;
 		RemainingTurns = 3; // Only 3 remaining turns
 		master = player;
-		extraCharge = 3; // 3 extra charges in this turn
 
 		// Create turn effects
-		materialEffect = new TurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
-		                                "Stimulus Debris: Immune To Stun", "Icons/Effects/DefaultEffect", 
-		                                2, TurnEffectType.MATERIALEFFECT);
-	}
-
-	/**
-	 * Apply class ability to this item
-	 * 
-	 * Arguments
-	 * - Item item - The item to apply the class ability to
-	 */
-	public void ApplyAbilityToItem(Item item) {
-		StunGun stunGun; // Stun gun object
-		if (item.GetType() != typeof(StunGun)) return; // Not stun gun
-		else if (extraCharge == 0) return; // No more extra charges this turn
-		stunGun = (StunGun)item;
-		stunGun.ResetCoolDown();
-		extraCharge--;
+		materialEffect = new MaterialTurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
+				"Stimulus Debris: Immune To Stun", "Icons/Effects/DefaultEffect", 2, false);
+		stunGunEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: Extra Stun Gun Charges", 
+				"Icons/Effects/DefaultEffect", 2, ItemTurnEffectType.EXTRAUSE, 3, false);
+		noCoolDownEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: No Stun Gun Cool Down", 
+				"Icons/Effects/DefaultEffect", 2, ItemTurnEffectType.COOLDOWN, 1, false);
 	}
 
 	/**
@@ -53,6 +41,8 @@ public class MarinePrimaryAbility : Ability {
 		base.Activate();
 		master.SetStunImmunity(true); // Player is now stunned
 		master.AttachTurnEffect(materialEffect);
+		master.AttachTurnEffect(stunGunEffect);
+		master.AttachTurnEffect(noCoolDownEffect);
 	}
 
 	/**
@@ -61,8 +51,8 @@ public class MarinePrimaryAbility : Ability {
 	public override void ReduceNumberOfTurns()
 	{
 		base.ReduceNumberOfTurns();
-		extraCharge = 3;
-		if (RemainingTurns == 0)
+		if (RemainingTurns == 0) {
 			master.SetStunImmunity(false); // No longer immune
+		}
 	}
 }
