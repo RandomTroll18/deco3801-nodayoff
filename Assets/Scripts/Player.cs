@@ -394,7 +394,7 @@ public class Player : MonoBehaviour {
 		if (stats[Stat.VISION] == 1) {
 			playerLight.intensity = 0;
 		} else if (stats[Stat.VISION] == 2) {
-			playerLight.intensity = 10;
+			playerLight.intensity =  2;
 		} else if (stats[Stat.VISION] == 3) {
 
 		}

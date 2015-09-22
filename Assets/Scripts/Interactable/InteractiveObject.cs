@@ -7,23 +7,21 @@ public class InteractiveObject : MonoBehaviour {
     
 	//check if player is interacting with object
 	//public bool IsInteracting = false;
+	public string SkillType;
+	public string StringInput;
+	public int Cost;
 
 	//the UICanvas
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
-	private GameObject Player;
-	private GameObject Panel;
-	public string SkillType;
-
-	private Text NameLabel;
-	public string StringInput;
-
-	private Slider APSlider;
+	GameObject player;
+	GameObject panel;
+	Text nameLabel;
+	Slider APSlider;
 	//public int APLimit;
+	Button button;
+	Tile position;
+	bool debugging = false;
 
-	private Button Button;
-	private Tile Position;
-
-	public int Cost;
 	protected int MinCost;
 	protected Player PlayerScript;
 	protected bool IsInactivated;
@@ -33,7 +31,7 @@ public class InteractiveObject : MonoBehaviour {
 
 	void Awake() {
 
-		this.Position = new Tile(
+		this.position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
 			Tile.TilePosition(this.transform.position.z)
 		);
@@ -47,18 +45,20 @@ public class InteractiveObject : MonoBehaviour {
 
 		IsInactivated = false;
 		MinCost = Cost;
-		Panel = GameObject.FindGameObjectWithTag("SkillPanel");
-		NameLabel = Panel.transform.FindChild("SkillCheckText").GetComponent<Text> ();
-		APSlider = Panel.transform.FindChild("Slider").GetComponent<Slider> ();
-		Button = Panel.transform.FindChild("Button").GetComponent<Button> ();
+		panel = GameObject.FindGameObjectWithTag("SkillPanel");
+		nameLabel = panel.transform.FindChild("SkillCheckText").GetComponent<Text> ();
+		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider> ();
+		button = panel.transform.FindChild("Button").GetComponent<Button> ();
 
 		MController = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<MovementController>();
-		Player = GameObject.Find ("Player");
-		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI").GetComponent<PrimaryObjectiveController> ();
-		PlayerScript = Player.GetComponent<Player>();
+		player = GameObject.Find ("Player");
+		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
+			.GetComponent<PrimaryObjectiveController> ();
+		PlayerScript = player.GetComponent<Player>();
 		MController.AddInteractable (this);
-		Debug.Log (this.Position.ToString());		
+
+		if (debugging) Debug.Log(this.position.ToString());		
 		
 	}
 
@@ -69,18 +69,21 @@ public class InteractiveObject : MonoBehaviour {
 	 * - GameObject playerObject - The game object of the player
 	 */
 	public void ChangeTrackedPlayer(GameObject playerObject) {
-		Player = playerObject;
+		player = playerObject;
 		PlayerScript = playerObject.GetComponent<Player>();
 	}
 	
 	public void Interact() {
-		Debug.Log ("Interacted with " + this.name + " at " + this.Position.ToString());
-		if (PlayerScript.IsSpawned) return; // A spawned player cannot interact with this object
+		if (debugging) Debug.Log ("Interacted with " + this.name + " at " + this.position.ToString());
+
+		if (PlayerScript.IsSpawned) 
+			return; // A spawned player cannot interact with this object
+
 		// TODO: Figure whats wrong with code below & add toggle Panel
 		// TODO: Change text
-		NameLabel.text = StringInput;
+		nameLabel.text = StringInput;
 		// TODO: Change Button function
-		Panel.GetComponent<SkillCheck>().SetCurrent(this);
+		panel.GetComponent<SkillCheck>().SetCurrent(this);
 		// TODO: Change Slider properties
 		APSlider.value = 0;
 		//APSlider.maxValue = this.APLimit;
@@ -105,13 +108,13 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	public void CloseEvent(){
-		Debug.Log ("Close Panel " + Panel.GetComponent<RectTransform>().anchoredPosition.ToString());
-		Panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-9999, (float)37.5);
+		Debug.Log ("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-9999, (float)37.5);
 	}
 
 	public void OpenEvent(){
-		Debug.Log ("Open Panel " + Panel.GetComponent<RectTransform>().anchoredPosition.ToString());
-		Panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-683, (float)37.5);
+		Debug.Log ("Open Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-683, (float)37.5);
 	}
 
 	
@@ -121,7 +124,7 @@ public class InteractiveObject : MonoBehaviour {
 
 
 	public Tile GetTile(){
-		return this.Position;
+		return this.position;
 	}
 
 	public void Open(Tile t){

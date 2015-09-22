@@ -191,7 +191,6 @@ public class MovementController : MonoBehaviour {
 		PathTile dest = FindPath(goal);
 
 		if (dest != null) {
-			// TODO: if the cost of movement is too much, spawn a different coloured path
 			SpawnHighlightedTile(goal);
 			clickedTile = goal;
 			moving = Moving.POSSIBLY;
