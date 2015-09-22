@@ -85,7 +85,6 @@ public abstract class Item : MonoBehaviour {
 	 */
 	public void ReduceCoolDown() {
 		if (CoolDown != 0) CoolDown--;
-		Debug.Log(ItemName + " Cool Down Remaining: " + CoolDown);
 	}
 
 	/**

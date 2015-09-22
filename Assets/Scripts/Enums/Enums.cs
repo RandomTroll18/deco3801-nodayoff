@@ -72,3 +72,13 @@ public enum RangeType {
 	STRAIGHTLINERANGE, 
 	GLOBALTARGETRANGE
 };
+
+/*
+ * Enum for turn effect type
+ * STATEFFECT - Affect stat
+ * MATERIALEFFECT - Affect material
+ */
+public enum TurnEffectType {
+	STATEFFECT, 
+	MATERIALEFFECT
+}

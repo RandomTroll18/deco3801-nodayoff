@@ -7,6 +7,7 @@ public class MarinePrimaryAbility : Ability {
 	int extraCharge; // The number of extra charges in this turn
 	Material defaultPlayerMaterial; // The player's default material
 	Material abilityActivePlayerMaterial; // Material used when ability is active
+	TurnEffect materialEffect; // The material effect to add to the player
 
 	/**
 	 * Constructor
@@ -23,9 +24,10 @@ public class MarinePrimaryAbility : Ability {
 		master = player;
 		extraCharge = 3; // 3 extra charges in this turn
 
-		// Load materials
-		defaultPlayerMaterial = Resources.Load<Material>("Cube Player Skin");
-		abilityActivePlayerMaterial = Resources.Load<Material>("AbilityMaterials/Marine/MarinePrimAbilityMaterial");
+		// Create turn effects
+		materialEffect = new TurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
+		                                "Stimulus Debris: Immune To Stun", "Icons/Effects/DefaultEffect", 
+		                                2, TurnEffectType.MATERIALEFFECT);
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class MarinePrimaryAbility : Ability {
 	{
 		base.Activate();
 		master.SetStunImmunity(true); // Player is now stunned
-		master.GetComponent<Renderer>().material = abilityActivePlayerMaterial; // Set material
+		master.AttachTurnEffect(materialEffect);
 	}
 
 	/**
@@ -60,9 +62,7 @@ public class MarinePrimaryAbility : Ability {
 	{
 		base.ReduceNumberOfTurns();
 		extraCharge = 3;
-		if (RemainingTurns == 0) {
-			master.GetComponent<Renderer>().material = defaultPlayerMaterial; // Set material
+		if (RemainingTurns == 0)
 			master.SetStunImmunity(false); // No longer immune
-		}
 	}
 }

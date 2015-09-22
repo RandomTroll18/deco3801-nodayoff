@@ -39,7 +39,8 @@ public class Player : MonoBehaviour {
 	bool noLongerActive; // Record if this player is still active
 	bool isStunned; // Record if this player is stunned
 	bool isImmuneToStun; // Recod if the player is immune to stun
-	Light playerLight;
+	Light playerLight; // Player's light
+	Material playerMaterial; // The material of the player
 
 	/*
 	 * Physics objects
@@ -78,7 +79,6 @@ public class Player : MonoBehaviour {
 
 		if (!IsSpawned && ChosenClass != null) ClassToSet = ChosenClass; // Assign chosen player class
 		SetPlayerClass(ClassToSet);
-		Debug.Log("Player Class: " + GetPlayerClass());
 
 		transformComponent = GetComponent<Transform>();
 		availableSpot = 0;
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour {
 		}
 
 		isImmuneToStun = false;
-
+		playerMaterial = Resources.Load<Material>("Cube Player Skin");
 	}
 	
 	/**
@@ -142,7 +142,6 @@ public class Player : MonoBehaviour {
 	 */
 	void Update() {
 		if (!gameManagerScript.IsValidTurn()) {
-			Debug.Log("Player is not in a valid turn");
 			turnEffectsApplied = false;
 			noLongerActive = false;
 		}
@@ -222,6 +221,34 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Attach a single turn effect to this player
+	 * 
+	 * Arguments
+	 * - TurnEffect toAdd - Effect to add
+	 */
+	public void AttachTurnEffect(TurnEffect toAdd) {
+		switch (toAdd.GetTurnEffectType()) { // Apply turn effects immediately if needed
+		case TurnEffectType.STATEFFECT: goto default; // Only apply stat effects in the next turn
+		case TurnEffectType.MATERIALEFFECT:
+			PlayerObject.GetComponent<Renderer>().material = toAdd.GetMaterial();
+			break;
+		default: break; // Don't do anything
+		}
+		turnEffects.Add(toAdd);
+		effectPanelScript.AddTurnEffect(toAdd);
+	}
+
+	/**
+	 * Attach a list of turn effects to this player
+	 * 
+	 * Arguments
+	 * - List<TurnEffect> effects - Effects to attach
+	 */
+	public void AttachTurnEffects(List<TurnEffect> effects) {
+		foreach (TurnEffect effect in effects) AttachTurnEffect(effect);
+	}
+
+	/**
 	 * Function handling collision with a trigger item
 	 */
 	void OnTriggerEnter(Collider other) {
@@ -234,25 +261,15 @@ public class Player : MonoBehaviour {
 			// Get the ui slot script
 			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
 
-			// We collided with an item. Pick it up
+			/* We collided with an item. Pick it up */
 			physicalItems[availableSpot] = other.gameObject;
 			item = other.GetComponent<Item>();
-			Debug.Log("Item just collided with: " + item.ItemName);
-			Debug.Log("Item toString: " + other.GetComponent<Item>());
 			inventory[availableSpot] = item;
-			Debug.Log("Item image: " + item.Image);
 			uiSlotScript.InsertItem(item);
 			other.gameObject.SetActive(false); // Make object disappear
 
-			// Get turn effects if they exist
-			if (item.GetTurnEffects() != null) {
-				turnEffects.AddRange(item.GetTurnEffects());
-				effectPanelScript.AddTurnEffects(item.GetTurnEffects());
-				for (int i = 0; i < turnEffects.Count; ++i) {
-					Debug.Log("Player effect " + i + ": " + turnEffects[i]);
-				}
-				Debug.Log("Added turn effects");
-			}
+			/* Get turn effects if they exist */
+			if (item.GetTurnEffects() != null) AttachTurnEffects(item.GetTurnEffects());
 
 			// Increment to the next available spot
 			while (availableSpot != 9 && inventory[availableSpot] != null) {
@@ -264,7 +281,23 @@ public class Player : MonoBehaviour {
 			TrapObject.Activated(this);
 
 		}
+	}
 
+	/**
+	 * Remove a turn effect from this player and revert all its effects on this player
+	 * 
+	 * Arguments
+	 * - TurnEffect effect - The turn effect to remove
+	 */
+	void detachTurnEffect(TurnEffect effect) {
+		switch (effect.GetTurnEffectType()) { // Detach the effect on this player depending on type
+		case TurnEffectType.STATEFFECT: break; // Don't do anything yet
+		case TurnEffectType.MATERIALEFFECT: 
+			PlayerObject.GetComponent<Renderer>().material = playerMaterial; // Reassign material
+			break;
+		}
+		effectPanelScript.RemoveTurnEffect(effect);
+		turnEffects.Remove(effect);
 	}
 
 	/**
@@ -276,26 +309,43 @@ public class Player : MonoBehaviour {
 	void applyTurnEffect(TurnEffect effect) {
 		Stat stat; // The stat to effect
 		int mode; // The mode of this turn effect
+
+		Debug.Log("Turn effect turns remaining: " + effect.TurnsRemaining());
+		if (effect.TurnsRemaining() == 0) { // Remove turn effect
+			detachTurnEffect(effect);
+			return;
+		}
 		stat = effect.GetStatAffected();
 		mode = effect.GetMode();
-		switch (mode) {
-		case 0: // Increment to stat
+		switch (effect.GetTurnEffectType()) {
+		case TurnEffectType.STATEFFECT: // Stat effect
+			switch (mode) {
+			case 0: // Increment to stat
+				stats[stat] += effect.GetValue();
+				break;
+			case 1: // Set stat
+				stats[stat] = effect.GetValue();
+				break;
+			case 2: // Multiply stat
+				stats[stat] *= effect.GetValue();
+				break;
+			default: // Invalid mode. Do nothing
+				break;
+			}
 			stats[stat] += effect.GetValue();
+			if (stat == Stat.AP) { // Update AP Counter
+				if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
+				else APCounterText.text = "Player AP Count: " + stats[stat];
+			}
 			break;
-		case 1: // Set stat
-			stats[stat] = effect.GetValue();
-			break;
-		case 2: // Multiply stat
-			stats[stat] *= effect.GetValue();
-			break;
-		default: // Invalid mode. Do nothing
-			break;
+		case TurnEffectType.MATERIALEFFECT:
+			// Only replace material if not already set
+			if (!PlayerObject.GetComponent<Renderer>().material.Equals(effect.GetMaterial()))
+				PlayerObject.GetComponent<Renderer>().material = effect.GetMaterial();
+			break;// Change material
+		default: break; // Unknown
 		}
-		stats[stat] += effect.GetValue();
-		if (stat == Stat.AP) { // Update AP Counter
-			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
-			else APCounterText.text = "Player AP Count: " + stats[stat];
-		}
+		effect.ReduceTurnsRemaining();
 	}
 
 	/**
@@ -391,11 +441,11 @@ public class Player : MonoBehaviour {
 	}
 
 	void UpdateVision() {
-		if (stats[Stat.VISION] == 1) {
+		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
 			playerLight.intensity = 0;
-		} else if (stats[Stat.VISION] == 2) {
+		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
 			playerLight.intensity =  2;
-		} else if (stats[Stat.VISION] == 3) {
+		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
 
 		}
 	}
@@ -434,16 +484,9 @@ public class Player : MonoBehaviour {
 		Item item = (Item)contextAwareBox.GetComponent<ContextAwareBoxScript>().GetAttachedObject();
 		int itemIndex; // The index of the given item
 		InventoryUISlotScript uiSlotScript; // The ui slot script
-		Debug.Log("Item to drop: " + item);
-		if (item == null) {
-			Debug.Log ("No item attached");
-			return;
-		}
+		if (item == null) return;
 		itemIndex = getIndex(item);
-		if (itemIndex == -1) {
-			Debug.Log ("Item not found");
-			return;
-		}
+		if (itemIndex == -1) return;
 		// Set game object to be behind the player and set it to active
 		physicalItems[itemIndex].SetActive(true);
 		physicalItems[itemIndex].transform.position = 
@@ -454,12 +497,8 @@ public class Player : MonoBehaviour {
 		droppedItems.Add(physicalItems[itemIndex]);
 
 		// Remove effects if the item has some turn effects
-		if (item.GetTurnEffects() != null) {
-			foreach (TurnEffect turnEffect in item.GetTurnEffects()) {
-				effectPanelScript.RemoveTurnEffect(turnEffect);
-				turnEffects.Remove(turnEffect);
-			}
-		}
+		if (item.GetTurnEffects() != null) 
+			foreach (TurnEffect turnEffect in item.GetTurnEffects()) detachTurnEffect(turnEffect);
 
 		// Remove the item from the ui slot
 		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();
@@ -474,7 +513,6 @@ public class Player : MonoBehaviour {
 		while (availableSpot != 9 && inventory[availableSpot] != null) {
 			availableSpot++;
 		}
-		Debug.Log ("Item: " + item.ItemName + " Dropped");
 	}
 
 	/**
@@ -489,7 +527,6 @@ public class Player : MonoBehaviour {
 	 */
 	int getIndex(object itemToGet) {
 		for (int i = 0; i < 9; ++i) {
-			Debug.Log("Getting index: " + inventory[i]);
 			if (inventory[i] == null) continue; // Nothing here
 			else if (inventory[i].Equals(itemToGet)) return i;
 		}
@@ -500,11 +537,7 @@ public class Player : MonoBehaviour {
 	 * Apply turn effects attached to this object
 	 */
 	public void ApplyTurnEffects() {
-		if (turnEffectsApplied) {
-			Debug.Log("Effects already applied");
-			return;
-		}
-		Debug.Log ("Start applying turn effects");
+		if (turnEffectsApplied) return;
 
 		for (int i = 0; i < turnEffects.Count; ++i) {
 			applyTurnEffect(turnEffects[i]);

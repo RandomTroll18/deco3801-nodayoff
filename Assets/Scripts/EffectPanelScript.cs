@@ -44,6 +44,26 @@ public class EffectPanelScript : MonoBehaviour {
 	}
 
 	/**
+	 * Add a single turn effect to this effect panel and update the UI
+	 * 
+	 * Arguments
+	 * - TurnEffect newEffect - The effect to add
+	 */
+	public void AddTurnEffect(TurnEffect newEffect) {
+		GameObject box; // Box to instantiate
+		EffectBoxScript boxScript; // The script attached to the box
+		box = Instantiate<GameObject>(BoxPrefab); // Instantiate UI element
+		box.GetComponent<RectTransform>().SetParent(panelTransform); // Set the parent
+		box.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+		box.GetComponent<RectTransform>().anchorMin = new Vector2(1, 1);
+		box.GetComponent<Image>().sprite = newEffect.GetIcon(); // Set the icon
+		boxes.Add(box); // Add this game object to the list of boxs
+		boxScript = box.GetComponent<EffectBoxScript>(); // Get Box Script
+		boxScript.AddEffect(newEffect); // Add the turn effect to the box
+		updateUI();
+	}
+
+	/**
 	 * Add the turn effects to this effect panel and 
 	 * update the UI
 	 * 
@@ -53,17 +73,7 @@ public class EffectPanelScript : MonoBehaviour {
 	public void AddTurnEffects(List<TurnEffect> newEffects) {
 		GameObject box; // Box to instantiate
 		EffectBoxScript boxScript; // The script attached to the box
-		foreach (TurnEffect effect in newEffects) {
-			box = Instantiate<GameObject>(BoxPrefab); // Instantiate UI element
-			box.GetComponent<RectTransform>().SetParent(panelTransform); // Set the parent
-			box.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
-			box.GetComponent<RectTransform>().anchorMin = new Vector2(1, 1);
-			box.GetComponent<Image>().sprite = effect.GetIcon(); // Set the icon
-			boxes.Add(box); // Add this game object to the list of boxs
-			boxScript = box.GetComponent<EffectBoxScript>(); // Get Box Script
-			boxScript.AddEffect(effect); // Add the turn effect to the box
-		}
-		updateUI();
+		foreach (TurnEffect effect in newEffects) AddTurnEffect(effect);
 	}
 
 	/**

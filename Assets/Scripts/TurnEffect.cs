@@ -1,12 +1,12 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class TurnEffect {
-
 
 	Sprite icon; // The icon for this turn effect
 	Stat statAffected; // The stat affected
 	string description; // Description of turn effect
+	Material material; // The material to be set from this effect
 	/*
 	 * How this turn effect is to be applied
 	 * - 0 => to be added (e.g. Stat.AP += value)
@@ -19,9 +19,27 @@ public class TurnEffect {
 	 * The value can be negative
 	 */
 	double value;
+	int turns; // The number of turns left for this turn effect
+	TurnEffectType type; // This turn effect's type
 
 	/**
-	 * The constructor
+	 * Set basic values. For constructor use only
+	 * 
+	 * Arguments
+	 * - string newDescription - The description of this turn effect
+	 * - string iconPath - The path to the icon of this turn effect
+	 * - int turnsActive - The number of turns for this turn effect
+	 * - TurnEffectType newType - The type of this turn effect
+	 */
+	void setBasicValues(string newDescription, string iconPath, int turnsActive, TurnEffectType newType) {
+		description = newDescription;
+		icon = Resources.Load<Sprite>(iconPath);
+		turns = turnsActive;
+		type = newType;
+	}
+
+	/**
+	 * The constructor for a stat effect
 	 * 
 	 * Arguments
 	 * - Stat statAffected - the stat to be affected
@@ -29,14 +47,74 @@ public class TurnEffect {
 	 * - int mode - The way the stat would be applied
 	 * - string newDescription - The description of this turn effect
 	 * - string iconPath - The path to the icon (with the Resources folder as the root)
+	 * - int turnsActive - Number of turns active
 	 */
 	public TurnEffect(Stat newStatAffected, double newValue, int newMode, 
-			string newDescription, string iconPath) {
+	                  string newDescription, string iconPath, int turnsActive, TurnEffectType newType) {
+		setBasicValues(newDescription, iconPath, turnsActive, newType);
 		statAffected = newStatAffected;
 		value = newValue;
 		mode = newMode;
-		description = newDescription;
-		icon  = Resources.Load<Sprite>(iconPath);
+		Debug.Log("Stat turn effect constructed");
+		Debug.Log("Value: " + newValue);
+		Debug.Log("Mode: " + newMode);
+		Debug.Log("Desc: " + newDescription);
+		Debug.Log("Turns Active: " + turnsActive);
+	}
+
+	/**
+	 * The constructor for a material effect
+	 * 
+	 * Arguments
+	 * - string materialPath - The path to the material of this effect
+	 * - string newDescription - The description of this turn effect
+	 * - string iconPath - The path to the icon (with the Resources folder as the root)
+	 * - int turnsActive - Number of turns active
+	 * - TurnEffectType newType - The type of this effect
+	 */
+	public TurnEffect(string materialPath, string newDescription, string iconPath, int turnsActive, 
+			TurnEffectType newType) {
+		setBasicValues(newDescription, iconPath, turnsActive, newType);
+		material = Resources.Load<Material>(materialPath);
+		Debug.Log("Material turn effect constructed");
+	}
+
+	/**
+	 * Get the material in this turn effect
+	 * 
+	 * Returns
+	 * - The material attached to this turn effect
+	 */
+	public Material GetMaterial() {
+		return material;
+	}
+
+	
+	/**
+	 * Get the type of this turn effect
+	 * 
+	 * Returns
+	 * - The type of this turn effect
+	 */
+	public TurnEffectType GetTurnEffectType() {
+		return type;
+	}
+
+	/**
+	 * Reduce the number of turns left for this turn effects
+	 */
+	public void ReduceTurnsRemaining() {
+		if (turns > 0) turns--;
+	}
+
+	/**
+	 * The number of turns left that this turn effect will be active
+	 * 
+	 * Returns
+	 * - The number of turns left for this effect
+	 */
+	public int TurnsRemaining() {
+		return turns;
 	}
 
 	/**
