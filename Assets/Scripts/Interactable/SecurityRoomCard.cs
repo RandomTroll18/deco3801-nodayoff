@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 public class SecurityRoomCard : EventCard {
 	
-	//Dictionary<String, Integer> Poll = new Dictionary<String, Integer>(); 
+	private int ListNumber = 0;
+	private int VoteCap = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -22,36 +23,55 @@ public class SecurityRoomCard : EventCard {
 		UnityAction KillOne = (() => Method1());
 		UnityAction KillTwo = (() => Method2());
 		UnityAction KillThree = (() => Method3());
+		UnityAction KillFour = (() => Method4());
 		
-		this.ChangeButton (2, "Player 1", KillOne);
+		this.ChangeButton (0, "Player 1", KillOne);
 		this.ChangeButton (1, "Player 2", KillTwo);
-		this.ChangeButton (0, "Player 3", KillThree);
-		this.ChangeImage("chopper");
-		this.ChangeText ("Didn't want to stray from the format I already had. So I put this OP, Not castable, Wrong Contexted Hearthstone card within another card.");
+		this.ChangeButton (2, "Player 3", KillThree);
+		this.ChangeButton (3, "Player 4", KillFour);
+		//this.ChangeImage("chopper");
+		//this.ChangeText ("Didn't want to stray from the format I already had. So I put this OP, Not castable, Wrong Contexted Hearthstone card within another card.");
 		return;
 	}
 	
 	void Method1(){
-		Poll Counter = GameObject.FindGameObjectWithTag("Poll").GetComponent<Poll>();
-		Counter.AddToPoll(0, 1);
-		Debug.Log(Counter.CheckPoll(0, 1));
+		Vote(1);
 		Destroy(card);
 	}
 	
 	void Method2(){
-		Poll Counter = GameObject.FindGameObjectWithTag("Poll").GetComponent<Poll>();
-		Counter.AddToPoll(0, 2);
-		Debug.Log(Counter.ReturnHighestCount(0));
+		Vote(2);
 		Destroy(card);
 	}
 	
 	void Method3(){
+		Vote(3);
 		Destroy(card);
 	}
 
 	void Method4(){
-		Debug.Log("PINK FLUFFY UNICORN RIDING ON RAINBOWS");
+		Vote(4);
 		Destroy(card);
+	}
+
+	private void Vote(int playerNumber) {
+		Poll Counter = GameObject.FindGameObjectWithTag("Poll").GetComponent<Poll>();
+		Counter.AddToPoll(ListNumber, playerNumber);
+		CheckKill(Counter, playerNumber);
+		Destroy(card);
+	}
+
+	private void CheckKill(Poll counter){
+		if (counter.CheckPoll(ListNumber, VoteCap)) {
+			Debug.Log("Kill player " + counter.ReturnHighestCount(ListNumber));
+		}
+	}
+
+	private void CheckKill(Poll counter, int player){
+		Debug.Log("Count now " + counter.CheckCount(ListNumber, player));
+		if (counter.CheckCount(ListNumber, player) == 2) {
+			Debug.Log("Kill player " + player);
+		}
 	}
 	
 	

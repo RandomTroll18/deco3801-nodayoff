@@ -37,6 +37,7 @@ public class Poll : MonoBehaviour {
 		List<int> a = BigList[number];
 		int count = 1, tempCount;
 		int popular = a[0];
+		int popularBack = a[-1];
 		int temp = 0;
 		for (int i = 0; i < (a.Count - 1); i++)
 		{
@@ -54,6 +55,18 @@ public class Poll : MonoBehaviour {
 			}
 		}
 		return popular;
+	}
+
+	public int CheckCount(int number, int check){
+		int Count = 0;
+		List<int> a = BigList[number];
+		for (int i = 0; i < (a.Count); i++)
+		{
+			if (a[i] == check){
+				Count++;
+			}
+		}
+		return Count;
 	}
 
 }

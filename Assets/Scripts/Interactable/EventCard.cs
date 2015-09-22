@@ -57,13 +57,13 @@ public class EventCard : MonoBehaviour
 	
 	public void ChangeText(string input)
 	{
-		GameObject Label = card.transform.GetChild(4).gameObject;
+		GameObject Label = card.transform.GetChild(5).gameObject;
 		Label.GetComponentInChildren<Text>().text = input;
 	}
 
 	public void ChangeImage(string input)
 	{
-		GameObject Label = card.transform.GetChild(3).gameObject;
+		GameObject Label = card.transform.GetChild(4).gameObject;
 		Label.GetComponentInChildren<Image>().overrideSprite = Resources.Load<Sprite>(input);
 	}
 
