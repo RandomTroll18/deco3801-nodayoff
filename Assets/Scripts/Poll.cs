@@ -37,7 +37,6 @@ public class Poll : MonoBehaviour {
 		List<int> a = BigList[number];
 		int count = 1, tempCount;
 		int popular = a[0];
-		int popularBack = a[-1];
 		int temp = 0;
 		for (int i = 0; i < (a.Count - 1); i++)
 		{

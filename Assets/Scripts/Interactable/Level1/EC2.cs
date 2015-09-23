@@ -15,11 +15,16 @@ public class EC2 : EventCard {
 	
 	public override void ChangeCard(){
 
-		this.ChangeButton (1, "OH... KAY..", null);
+		this.ChangeButton (1, "OH... KAY..");
 		this.ChangeImage("bicep");
 		this.ChangeText ("Oooooooooh~ Look at you and your biceps.");
 
 		return;
+	}
+
+	public override void CardEffect(int highestVote){
+		Debug.Log("JOHN CEEENAAA");
+
 	}
 	
 }

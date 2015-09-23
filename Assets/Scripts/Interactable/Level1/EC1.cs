@@ -19,31 +19,29 @@ public class EC1 : EventCard {
 
 	public override void ChangeCard(){
 
-		UnityAction Destroy = (() => Method1());
-		UnityAction Rainbows = (() => Method2());
-		UnityAction Explosions = (() => Method3());
+		ListNumber = 1;
 
-		this.ChangeButton (2, "DESTROY", Destroy);
-		this.ChangeButton (1, "EXPLOSIONS", Explosions);
-		this.ChangeButton (0, "RAINBOWS", Rainbows);
+		this.ChangeButton (1, "DESTROY");
+		this.ChangeButton (2, "EXPLOSIONS");
+		this.ChangeButton (3, "RAINBOWS");
 		this.ChangeImage("chopper");
 		this.ChangeText ("Didn't want to stray from the format I already had. So I put this OP, Not castable, Wrong Contexted Hearthstone card within another card.");
+
+		SetCap();
 		return;
 	}
 	 
-	void Method1(){
-		Debug.Log("I WILL DESTROY YOU");
-		Destroy(card);
-	}
-	
-	void Method2(){
-		Debug.Log("BOOOOOOOOOOOOOOM EXPLOOOOOOOSSSIIOOOOOOOOOOONS");
-		Destroy(card);
-	}
-	
-	void Method3(){
-		Debug.Log("PINK FLUFFY UNICORN RIDING ON RAINBOWS");
-		Destroy(card);
+	public override void CardEffect(int highestVote){
+		if (highestVote == 3) {
+			Debug.Log("D0u8Le R4iNBoow AlI th3 W4ay Acro55 Th3 SkY");
+		} else if (highestVote == 2) {
+			Debug.Log("DID YOU KNOW THAT NINETY-SEVEN PERCENT OF ALL LIVING THINGS ON " +
+			          "PANDORA AREN'T EXPLODING RIGHT NOW? THAT'S BULLSH*T, BUY TORGUE!");
+		} else if (highestVote == 1) {
+			Debug.Log("RIP");
+		} else {
+			Debug.Log("It's not suppose to get here. Value is: " + highestVote);
+		}
 	}
 
 

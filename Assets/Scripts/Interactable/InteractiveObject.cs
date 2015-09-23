@@ -122,7 +122,6 @@ public class InteractiveObject : MonoBehaviour {
 
 	}
 
-
 	public Tile GetTile(){
 		return this.position;
 	}
