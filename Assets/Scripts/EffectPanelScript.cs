@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class EffectPanelScript : MonoBehaviour {
 
 	public GameObject Panel; // The effect box panel
 	public GameObject BoxPrefab; // The prefab for a box
+	public GameObject EffectToolTipPanel; // The effect tool tip panel
+	public Text EffectToolTipPanelText; // The text for the tooltip
 	List<GameObject> boxes; // List of boxes
 	RectTransform panelTransform;  // The transform component of the panel
 	float boxWidth; // The width of the box
@@ -52,11 +56,16 @@ public class EffectPanelScript : MonoBehaviour {
 	public void AddTurnEffect(Effect newEffect) {
 		GameObject box; // Box to instantiate
 		EffectBoxScript boxScript; // The script attached to the box
+
 		box = Instantiate<GameObject>(BoxPrefab); // Instantiate UI element
 		box.GetComponent<RectTransform>().SetParent(panelTransform); // Set the parent
 		box.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
 		box.GetComponent<RectTransform>().anchorMin = new Vector2(1, 1);
 		box.GetComponent<Image>().sprite = newEffect.GetIcon(); // Set the icon
+		box.GetComponent<EffectToolTipScript>().EffectToolTipPanelObject = EffectToolTipPanel;
+		box.GetComponent<EffectToolTipScript>().EffectToolTipTextObject = EffectToolTipPanelText;
+		box.GetComponent<EffectToolTipScript>().AttachEffectText(newEffect.GetDescription()); // Give description
+
 		boxes.Add(box); // Add this game object to the list of boxs
 		boxScript = box.GetComponent<EffectBoxScript>(); // Get Box Script
 		boxScript.AddEffect(newEffect); // Add the turn effect to the box

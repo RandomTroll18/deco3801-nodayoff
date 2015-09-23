@@ -21,6 +21,7 @@ TagManager:
   - SkillPanel
   - SurveillanceCameras
   - Poll
+  - EffectToolTipPanel
   layers:
   - Default
   - TransparentFX
