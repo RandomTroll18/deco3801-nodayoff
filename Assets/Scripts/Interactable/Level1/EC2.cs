@@ -15,10 +15,13 @@ public class EC2 : EventCard {
 	
 	public override void ChangeCard(){
 
+		ListNumber = 2;
+
 		this.ChangeButton (1, "OH... KAY..");
 		this.ChangeImage("bicep");
 		this.ChangeText ("Oooooooooh~ Look at you and your biceps.");
 
+		SetCap();
 		return;
 	}
 
