@@ -654,7 +654,15 @@ Prefab:
     - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: TargettingTilePrefab
       value: 
-      objectReference: {fileID: 155234, guid: d12909909bee2ca4ea5338642e05a209, type: 2}
+      objectReference: {fileID: 119348, guid: bf5def92f63b9c644a44f2be8fe5fac6, type: 2}
+    - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: OffensiveTileMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: a7b074a23b5916d49aa39ea55689b6a0, type: 2}
+    - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: StunGunTestPrefab
+      value: 
+      objectReference: {fileID: 140246, guid: ad8fc977965e5fe428acbf4144d199d8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
   m_IsPrefabParent: 0
@@ -1882,7 +1890,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 481296, guid: 28ea787f09eb36a46acebbb442324710, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 180324, guid: 28ea787f09eb36a46acebbb442324710, type: 2}
       propertyPath: m_IsActive
@@ -5983,7 +5991,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 451324, guid: 5c8f0f58ca3d72a4eb1204bfd08d5c7e, type: 2}
       propertyPath: m_RootOrder
-      value: 20
+      value: 19
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c8f0f58ca3d72a4eb1204bfd08d5c7e, type: 2}
