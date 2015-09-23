@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour {
 	ActivationTileController actController; // Activation Controller script
 	/* Whether the player can control the camera */
 	bool locked = false;
+	bool IsTargetConfirmation = false; // Record if we are just confirming our target
 
 	void Start() {
 		//playerScript = Player.GetComponent<Player>();
@@ -71,11 +72,17 @@ public class CameraController : MonoBehaviour {
 				Tile goal = Tile.MouseToTile((LayerMask));
 				//Debug.Log("Clicked: " + goal.ToString());
 				if (actController.ActivationTiles().Contains(goal)) {
-					Debug.Log("Clicked Tile: (" + goal.X + ", " + goal.Z + ")");
-					if (actController == null) Debug.Log("Act Controller is null");
-					actController.Activate(goal);
+					if (!IsTargetConfirmation) {
+						actController.InitiateTargetConfirmation(goal); // Confirm target
+						IsTargetConfirmation = true;
+					}
+					else {
+						actController.Activate(goal); // Activate the item
+						IsTargetConfirmation = false;
+					}
 				} else if (goal != null) {
 					actController.DestroyActivationTiles(); // Stop targetting
+					IsTargetConfirmation = false;
 					movController.RequestMovement(goal);
 				}
 			}

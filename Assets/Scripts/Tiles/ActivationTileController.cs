@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class ActivationTileController : MonoBehaviour {
 
 	public GameObject ActivationTilePrefab; // Activation Tile Prefab
+	public GameObject TargettingTilePrefab; // Targetting Tile Prefab
 	public Material OffensiveTileMaterial; // Material for an offensive tile
 	public Material DefensiveTileMaterial; // Material for a defensive tile
 	public Material SupportiveTileMaterial; // Material for a supportive tile
@@ -19,21 +20,34 @@ public class ActivationTileController : MonoBehaviour {
 	MovementController movementController; // The movement controller
 
 	/**
+	 * Initiate Target Confirmation
+	 * 
+	 * Tile tileClicked - The tile that was clicked
+	 */
+	public void InitiateTargetConfirmation(Tile tileClicked) {
+		Tile intendedTile; // The intended tile to spawn
+		SoftDestroyActivationTiles(); // Destroy all tiles
+
+		intendedTile = new Tile(tileClicked.X, tileClicked.Z); // Create a new conceptual tile
+		conceptualTiles.Add(intendedTile);
+
+		generateIndividualTargetTile((float)(tileClicked.X * 2), (float)(tileClicked.Z * 2));
+	}
+
+	/**
 	 * Activate Item/Ability on the given tile
 	 * 
 	 * Tile tileClicked - The tile that was clicked
 	 */
 	public void Activate(Tile tileClicked) {
-
 		if (item != null) {
-			Debug.Log("Add Activation Tile Prefab To Stun Gun");
 			item.SetTestPrefab(ActivationTilePrefab);
 			item.Activate(tileClicked); // Second, determine what to activate. 
 		} else if (ability != null) {
 			ability.Activate(tileClicked); // Activate ability
 		}
 
-		DestroyActivationTiles(); // Destroy all visual tiles
+		DestroyActivationTiles(); // Destroy all tiles
 	}
 
 	/**
@@ -44,6 +58,18 @@ public class ActivationTileController : MonoBehaviour {
 	 */
 	public HashSet<Tile> ActivationTiles() {
 		return conceptualTiles;
+	}
+
+	/**
+	 * Destroy all activation tiles, but don't remove references
+	 */
+	public void SoftDestroyActivationTiles() {
+		foreach (GameObject activationTile in gameObjectTiles) {
+			Destroy(activationTile);
+		}
+		gameObjectTiles.Clear(); // Clear the activation tile list
+		conceptualTiles.Clear(); // Clear the set of activation tiles (Tile class)
+		badActivationTiles.Clear(); // Clear the list of bad activation tiles
 	}
 
 	/**
@@ -184,6 +210,22 @@ public class ActivationTileController : MonoBehaviour {
 
 		conceptualTiles.Add(intendedTile);
 		return true;
+	}
+
+	/**
+	 * Helper function to generate one target tile
+	 *
+	 * Arguments
+	 * - float x - The x coordinate
+	 * - float y - The y coordinate
+	 */
+	void generateIndividualTargetTile(float x, float z) {
+		GameObject tileGenerated; // The generated tile
+
+		tileGenerated = Instantiate<GameObject>(TargettingTilePrefab);
+		tileGenerated.GetComponent<Transform>().position = new Vector3(x, 0.1f, z);
+
+		gameObjectTiles.Add(tileGenerated);
 	}
 
 	/**
