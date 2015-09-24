@@ -27,7 +27,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.11999989, y: 0, z: 2.3499999}
+  m_LocalPosition: {x: -6, y: 0, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,7 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Kevlar Vest
-  Image: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed, type: 3}
+  Image: {fileID: 21300000, guid: 007d0242998cf934dba6aff77c3de362, type: 3}
+  TestPrefab: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -138,7 +139,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Image
       value: 
-      objectReference: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed,
+      objectReference: {fileID: 21300000, guid: 007d0242998cf934dba6aff77c3de362,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
