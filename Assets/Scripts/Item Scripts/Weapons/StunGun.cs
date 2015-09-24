@@ -64,10 +64,11 @@ public class StunGun : ShortRangeWeapon {
 
 		// Show where Stun Gun was activated - MVP purposes
 		testActivate = Instantiate(TestPrefab);
-		testActivate.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
+		testActivate.GetComponent<Transform>().position = new Vector3((float)(targetTile.X * 2), 0.001f, 
+				(float)(targetTile.Z * 2));
 		testActivate.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
 
-		Destroy(testActivate, (float)1.0); // Destroy tile after 2 seconds
+		Destroy(testActivate, 3f); // Destroy tile after 2 seconds
 
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) CoolDown = CoolDownSetting; // Set Cool Down

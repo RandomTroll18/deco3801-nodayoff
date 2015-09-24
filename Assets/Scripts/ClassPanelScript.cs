@@ -13,6 +13,7 @@ public class ClassPanelScript : MonoBehaviour {
 	public GameObject MainCamera; // The main camera
 	public GameObject GameManager; // The game manager
 	public GameObject PrimaryAbilityButton; // The primary ability button
+	public GameObject ClassPortrait; // The portrait for the class
 	public List<GameObject> Interactables; // Interactable objects
 	
 	CameraController cameraController; // The camera controller script

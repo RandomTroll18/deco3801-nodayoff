@@ -20,7 +20,7 @@ public class KevlarVest : Armour {
 	 */
 	void Start() {
 		// The turn effect
-		Effect effect = new StatusTurnEffect(Stat.AP, 1.0, 0, "Increase AP", "Icons/Effects/DefaultEffect", -1, true);
+		Effect effect = new StatusTurnEffect(Stat.AP, 1.0, 0, "Increase AP", "Icons/Effects/APup100px", -1, true);
 		ItemDescription = "All-purpose vest. Probably won't " + StringMethodsScript.NEWLINE +
 				"do much against an alien, but it's better than nothing";
 

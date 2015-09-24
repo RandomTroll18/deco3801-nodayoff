@@ -553,11 +553,11 @@ Prefab:
       objectReference: {fileID: 1294418743}
     - target: {fileID: 22423588, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22476096, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11408912, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_Color.r
@@ -662,7 +662,7 @@ Prefab:
     - target: {fileID: 11483226, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: StunGunTestPrefab
       value: 
-      objectReference: {fileID: 140246, guid: ad8fc977965e5fe428acbf4144d199d8, type: 2}
+      objectReference: {fileID: 192588, guid: 9b5b117c57ec60f4ba38a22d166046df, type: 2}
     - target: {fileID: 22433974, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.x
       value: .25
@@ -722,6 +722,38 @@ Prefab:
     - target: {fileID: 22444340, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476574, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_Color.a
+      value: .392156869
+      objectReference: {fileID: 0}
+    - target: {fileID: 22464740, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 102.333298
+      objectReference: {fileID: 0}
+    - target: {fileID: 22464740, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 46.8333015
+      objectReference: {fileID: 0}
+    - target: {fileID: 22410804, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 102.333298
+      objectReference: {fileID: 0}
+    - target: {fileID: 22410804, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 46.8333015
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
@@ -3865,7 +3897,7 @@ Light:
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.60000002
+  m_Intensity: 0
   m_Range: 31.3999996
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -11581,19 +11613,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 176242, guid: 3731eae1c7f3b624d97ff54b6b17bec0, type: 2}
-      propertyPath: m_Name
-      value: KevlarVest
-      objectReference: {fileID: 0}
-    - target: {fileID: 11492898, guid: 3731eae1c7f3b624d97ff54b6b17bec0, type: 2}
-      propertyPath: ItemName
-      value: Kevlar Vest
-      objectReference: {fileID: 0}
-    - target: {fileID: 11492898, guid: 3731eae1c7f3b624d97ff54b6b17bec0, type: 2}
-      propertyPath: Image
-      value: 
-      objectReference: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed,
-        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3731eae1c7f3b624d97ff54b6b17bec0, type: 2}
   m_IsPrefabParent: 0
