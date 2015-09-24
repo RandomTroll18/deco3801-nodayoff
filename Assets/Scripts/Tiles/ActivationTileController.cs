@@ -224,7 +224,7 @@ public class ActivationTileController : MonoBehaviour {
 		GameObject tileGenerated; // The generated tile
 
 		tileGenerated = Instantiate<GameObject>(TargettingTilePrefab);
-		tileGenerated.GetComponent<Transform>().position = new Vector3(x, 0.1f, z);
+		tileGenerated.GetComponent<Transform>().position = new Vector3(x, -0.49f, z);
 
 		gameObjectTiles.Add(tileGenerated);
 	}
@@ -242,7 +242,7 @@ public class ActivationTileController : MonoBehaviour {
 
 		tileGenerated = Instantiate<GameObject>(ActivationTilePrefab);
 		tileGenerated.GetComponent<Renderer>().material = tileMaterial;
-		tileGenerated.GetComponent<Transform>().position = new Vector3(x, 0.1f, z);
+		tileGenerated.GetComponent<Transform>().position = new Vector3(x, -0.49f, z);
 
 		gameObjectTiles.Add(tileGenerated);
 	}
