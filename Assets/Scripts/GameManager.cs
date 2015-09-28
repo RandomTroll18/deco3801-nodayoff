@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour {
 		TurnOnLighting();
 		validTurn = false;
 		playersLeft = PlayerList.Length;
-		Debug.Log("Valid turn is: " + validTurn + " by default");
-		Debug.Log("Number of players left: " + playersLeft);
+//		Debug.Log("Valid turn is: " + validTurn + " by default");
+//		Debug.Log("Number of players left: " + playersLeft);
 
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 	}
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour {
 			}
 			return;
 		} else {
-			Debug.Log ("Invalid turn. Game Manager doing stuff");
+//			Debug.Log ("Invalid turn. Game Manager doing stuff");
 			// Reset number of players left
 			playersLeft = PlayerList.Length;
 			// Initialize player stats - AP and apply player effects

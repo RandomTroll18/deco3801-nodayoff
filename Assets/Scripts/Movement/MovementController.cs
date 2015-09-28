@@ -344,7 +344,7 @@ public class MovementController : MonoBehaviour {
 		//c = i.GetComponent<InteractiveObject>();
 		InteractiveTiles.Add(ToAdd);
 		blockedTiles.Add(ToAdd.GetTile());
-		Debug.Log("int added: " + ToAdd.GetTile().ToString());
+//		Debug.Log("int added: " + ToAdd.GetTile().ToString());
 		// I can't see a reason why you need to call getTile() when this function exists:
 		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}

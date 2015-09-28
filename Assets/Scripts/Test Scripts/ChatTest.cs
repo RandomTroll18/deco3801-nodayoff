@@ -112,7 +112,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			this.GuiRect.height = Screen.height;
 		}
 		
-		Debug.Log(this.UserName);
+//		Debug.Log(this.UserName);
 	}
 	
 	/// <summary>To avoid the Editor becoming unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
@@ -350,7 +350,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	
 	public void DebugReturn(DebugLevel level, string message)
 	{
-		Debug.Log(message);
+//		Debug.Log(message);
 	}
 	
 	public void OnDisconnected()

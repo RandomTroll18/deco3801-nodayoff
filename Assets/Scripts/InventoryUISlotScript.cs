@@ -68,7 +68,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 		item = itemToInsert;
 		// Update icon to be the item's icon
 		UiSlot.GetComponent<Image>().sprite = item.Image;
-		Debug.Log ("Item inserted: " + item);
+//		Debug.Log ("Item inserted: " + item);
 		// If the slot is selected, update inventory context
 		if (selected) contextBoxScript.SetContextToInventory(item);
 	}
