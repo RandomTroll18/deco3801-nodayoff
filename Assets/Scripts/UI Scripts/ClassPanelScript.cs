@@ -105,8 +105,7 @@ public class ClassPanelScript : MonoBehaviour {
 				return;
 			case "Stimulus Debris": goto default; // Ability is already activated
 			case "Traps": goto default; // out of scout traps
-			default: // Unknown action
-				return;
+			default: return; // Unknown action
 			}
 		}
 	}
@@ -197,11 +196,8 @@ public class ClassPanelScript : MonoBehaviour {
 			// Set the individual ui slots to be unselected and set the inventory panel to be inactive
 			callingPlayer.InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(false);
 			for (int i = 0; i < 9; ++i) {
-				isSelected = 
-						callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().IsSelected();
-				if (isSelected) { // Toggle
-					callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().ToggleSelected();
-				}
+				isSelected = callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().IsSelected();
+				if (isSelected) callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().ToggleSelected();
 			}
 		} else { // Toggle to player
 			cameraController.Player = player;

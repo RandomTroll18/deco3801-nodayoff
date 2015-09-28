@@ -43,6 +43,7 @@ public class EngineerPrimaryAbility : Ability {
 		robotPrefab.GetComponent<Player>().StunGunPrefab = null;
 		robotPrefab.GetComponent<Player>().IsSpawned = true;
 		robotPrefab.GetComponent<Player>().GameManagerObject = master.GameManagerObject;
+		robotPrefab.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 
 		// Instantiate robot at correct position and get its reference
 		robotReference = Object.Instantiate<GameObject>(robotPrefab);

@@ -93,6 +93,8 @@ public class Player : MonoBehaviour {
 
 		isImmuneToStun = false;
 		playerMaterial = Resources.Load<Material>("Cube Player Skin");
+
+		if (IsSpawned) Debug.Log("Awaking spawn");
 	}
 	
 	/**
@@ -446,17 +448,11 @@ public class Player : MonoBehaviour {
 		 * Add any constraint checking to this switch
 		 */
 		switch(playerStat) {
-		case Stat.AP: goto default;
-			/*
-			if (IsSpawned) 
-				APCounterText.text = "Spawn AP Count: " + stats[playerStat];
-			else 
-				APCounterText.text = "Player AP Count: " + stats[playerStat];
-			break;*/
+		case Stat.AP: goto default; // Don't do anything yet
 		case Stat.VISION:
 			if (value < 1 || value > 3) {
 				Debug.LogError("You tried to change the vision stat to a value outside it's range" +
-			                   "of 1-3. Setting vision value to 2.");
+			                   " of 1-3. Setting vision value to 2.");
 				stats[Stat.VISION] = 2;
 			}
 			UpdateVision();
@@ -520,7 +516,6 @@ public class Player : MonoBehaviour {
 		SetStatValue(Stat.VISION, playerClass.GetDefaultStat(Stat.VISION));
 
 		isStunned = false;
-
 	}
 
 	/**
