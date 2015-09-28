@@ -36,26 +36,23 @@ public class EngineerPrimaryAbility : Ability {
 		base.Activate(targetTile);
 
 		// Set up references to stuff
-		robotPrefab.GetComponent<Player>().GameManagerObject = master.GameManagerObject;
 		robotPrefab.GetComponent<Player>().EffectBoxPanel = master.EffectBoxPanel;
 		robotPrefab.GetComponent<Player>().StunGunPrefab = master.StunGunPrefab;
-		robotPrefab.GetComponent<Player>().ClassPanel = master.ClassPanel;
 		robotPrefab.GetComponent<Player>().ClassToSet = "Engineer Robot";
 		robotPrefab.GetComponent<Player>().InventoryUI = null;
 		robotPrefab.GetComponent<Player>().StunGunPrefab = null;
-		robotPrefab.GetComponent<Player>().MainCanvas = master.MainCanvas;
-		robotPrefab.GetComponent<Player>().APCounterPanel = master.SpawnAPCounterPanel;
-		robotPrefab.GetComponent<Player>().APCounterText = master.SpawnAPCounterText;
-		robotPrefab.GetComponent<Player>().APCounterPanel.SetActive(true);
 		robotPrefab.GetComponent<Player>().IsSpawned = true;
+		robotPrefab.GetComponent<Player>().GameManagerObject = master.GameManagerObject;
 
 		// Instantiate robot at correct position and get its reference
 		robotReference = Object.Instantiate<GameObject>(robotPrefab);
 		robotReference.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
 		robotReference.GetComponent<Player>().PlayerObject = robotReference;
+		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 
-		// Set clas panel text to appropriate values
-		master.ClassPanel.GetComponent<ClassPanelScript>().SetPrimaryAbilityButtonText("Toggle To Robot");
+		// Set class panel text to appropriate values
+		ClassPanel.GetComponent<ClassPanelScript>().SetPrimaryAbilityButtonText("Toggle To Robot");
+		ClassPanel.GetComponent<ClassPanelScript>().AttachSpawnedToCounter(robotReference);
 	}
 
 	/**
@@ -67,11 +64,8 @@ public class EngineerPrimaryAbility : Ability {
 		if (robotReference != null) // Robot has been generated
 			robotReference.GetComponent<Player>().InitializeStats();
 		if (RemainingTurns == 0 && robotReference != null) { 
-			// Set UI elements of robot to be inactive
-			robotReference.GetComponent<Player>().APCounterPanel.SetActive(false);
-
 			// Reset class panel to refer to the master
-			master.ClassPanel.GetComponent<ClassPanelScript>().ResetToMaster(master.PlayerObject);
+			ClassPanel.GetComponent<ClassPanelScript>().ResetToMaster(master.PlayerObject);
 
 			// Destroy the robot and forget its existence
 			Object.Destroy(robotReference);

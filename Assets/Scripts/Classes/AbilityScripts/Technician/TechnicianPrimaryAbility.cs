@@ -6,7 +6,6 @@ public class TechnicianPrimaryAbility : Ability {
 
 	GameObject mainCamera; // The main camera for the player
 	GameObject[] surveillanceCameras; // The surveillance cameras
-	GameObject classPanel; // Player's class panel
 	GameObject nextCameraButton; // Next camera button
 	GameObject previousCameraButton; // Previous camera button
 	GameObject nextCameraButtonInstance; // Instantiated next camera button
@@ -34,20 +33,24 @@ public class TechnicianPrimaryAbility : Ability {
 			surveillanceCamera.SetActive(false);
 		numberOfSurveillanceCameras = surveillanceCameras.Length;
 
-		// Class panel reference
-		classPanel = player.ClassPanel;
-
 		// Get Prefabs for Next and Previous Camera Buttons and initialize them
 		nextCameraButton = Resources.Load<GameObject>("AbilityPrefabs/Technician/NextCameraButton");
 		previousCameraButton = Resources.Load<GameObject>("AbilityPrefabs/Technician/PreviousCameraButton");
 
+	}
+
+	/**
+	 * Extra initialization
+	 */
+	public override void ExtraInitializing()
+	{
 		// Instantiate camera buttons and set their anchors
 		nextCameraButtonInstance = Object.Instantiate(nextCameraButton);
 		previousCameraButtonInstance = Object.Instantiate(previousCameraButton);
 		nextCameraButtonInstance.SetActive(false);
 		previousCameraButtonInstance.SetActive(false);
-		nextCameraButtonInstance.transform.SetParent(classPanel.transform, false);
-		previousCameraButtonInstance.transform.SetParent(classPanel.transform, false);
+		nextCameraButtonInstance.transform.SetParent(ClassPanel.transform, false);
+		previousCameraButtonInstance.transform.SetParent(ClassPanel.transform, false);
 		nextCameraButtonInstance.GetComponent<Button>().onClick.AddListener(() => pickNextCamera());
 		previousCameraButtonInstance.GetComponent<Button>().onClick.AddListener(() => pickPreviousCamera());
 	}
@@ -80,7 +83,6 @@ public class TechnicianPrimaryAbility : Ability {
 		surveillanceCameras[currentCameraIndex].SetActive(false);
 		currentCameraIndex--;
 		if (currentCameraIndex == -1) currentCameraIndex = numberOfSurveillanceCameras - 1;
-		Debug.Log("Current index: " + currentCameraIndex);
 		surveillanceCameras[currentCameraIndex].SetActive(true);
 	}
 
@@ -91,7 +93,6 @@ public class TechnicianPrimaryAbility : Ability {
 		surveillanceCameras[currentCameraIndex].SetActive(false);
 		currentCameraIndex++;
 		currentCameraIndex %= numberOfSurveillanceCameras;
-		Debug.Log("Current index: " + currentCameraIndex);
 		surveillanceCameras[currentCameraIndex].SetActive(true);
 	}
 }

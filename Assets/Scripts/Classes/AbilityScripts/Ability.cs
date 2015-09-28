@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 /**
@@ -6,12 +7,37 @@ using System.Collections;
  */
 public abstract class Ability {
 
+	protected GameObject ClassPanel; // The class panel for this ability
+	protected GameObject SpawnAPCounterPanel; // The AP counter for a spawned object
+	protected Text SpawnAPCounterText; // AP Counter text for a spawned object
 	protected string AbilityName; // The name of this ability
 	protected double Range; // The range of this ability
 	protected int RemainingTurns = 3; // The number of turns left for this ability
 	protected bool IsActive = false; // Record if this ability is active
 	protected RangeType AbilityRangeType; // The range type of this ability
 	protected ActivationType AbilityActivationType; // The activation type of this ability
+
+	/**
+	 * Set the Spawn AP Counter and text for a spawned object
+	 * 
+	 * Arguments
+	 * - GameObject newSpawnAPCounterPanel - The new Spawn AP Counter Panel
+	 * - Text newSpawnAPCounterText - The new Spawn AP Counter Text
+	 */
+	public void SetSpawnAPCounterPanel(GameObject newSpawnAPCounterPanel, Text newSpawnAPCounterText) {
+		SpawnAPCounterPanel = newSpawnAPCounterPanel;
+		SpawnAPCounterText = newSpawnAPCounterText;
+	}
+
+	/**
+	 * Set the class panel of this ability
+	 * 
+	 * Arguments
+	 * - GameObject newClassPanel - The new class panel to attach this ability to
+	 */
+	public void SetClassPanel(GameObject newClassPanel) {
+		ClassPanel = newClassPanel;
+	}
 
 	/**
 	 * Get the activation type of this ability
@@ -88,8 +114,6 @@ public abstract class Ability {
 	 */
 	public virtual void Activate(Tile targetTile) {
 		IsActive = true; // This ability is now active
-		Debug.Log("Ability is now active");
-		Debug.Log("Ability is targetting: " + targetTile.ToString());
 	}
 
 	/**
@@ -103,7 +127,14 @@ public abstract class Ability {
 	 * Deactivate this ability
 	 */
 	public virtual void Deactivate() {
-		Debug.Log("Ability has been deactivated");
 		IsActive = false;
+	}
+
+	/**
+	 * Extra initialization. This should be extended if you need any initializations that 
+	 * can't be done on Start()
+	 */
+	public virtual void ExtraInitializing() {
+		return;
 	}
 }

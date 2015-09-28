@@ -9,16 +9,9 @@ public class Player : MonoBehaviour {
 
 	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
 	public GameObject GameManagerObject; // The game manager object
-	public GameObject EndTurnButton; // End turn button
 	public GameObject EffectBoxPanel; // The effect box panel
 	public GameObject StunGunPrefab; // Stun Gun Prefab
-	public GameObject ClassPanel; // The Class Panel
-	public GameObject MainCanvas; // The main canvas
-	public GameObject APCounterPanel; // The panel for counting AP
-	public GameObject SpawnAPCounterPanel; // The panel for counting a spawn's AP
 	public GameObject PlayerObject; // The game object that this script is attached to
-	public Text APCounterText; // The text for counting AP
-	public Text SpawnAPCounterText; // The text for counting a spawn's AP
 	public string ClassToSet; // The class to set
 	public static string ChosenClass; // The chosen class
 	public bool IsSpawned; // Record if this object is spawned
@@ -30,7 +23,6 @@ public class Player : MonoBehaviour {
 	List<Effect> turnEffects; // The turn-based effects attached to this player
 
 	GameManager gameManagerScript; // The game manager script
-	ClassPanelScript classPanelScript; // The class panel script
 	EffectPanelScript effectPanelScript; // The effect panel script
 	PlayerClass playerClass; // The class of this player
 	Transform transformComponent; // The transform component of this player
@@ -97,14 +89,6 @@ public class Player : MonoBehaviour {
 			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
 			stunGunObject.transform.position = 
 				new Vector3(transformComponent.position.x, (float)0.0, transformComponent.position.z);
-		}
-
-		classPanelScript = ClassPanel.GetComponent<ClassPanelScript>();
-		if (playerClass.GetPrimaryAbility() == null) {
-			classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), "No name");
-		} else {
-			classPanelScript.InitializeClassPanel(playerClass.GetPlayerClassType(), 
-					playerClass.GetPrimaryAbility().GetAbilityName());
 		}
 
 		isImmuneToStun = false;
@@ -344,8 +328,6 @@ public class Player : MonoBehaviour {
 		Stat stat; // The stat to effect
 		int mode; // The mode of this turn effect
 
-		Debug.Log("Effect description: " + effect.GetDescription());
-		Debug.Log("Turn effect turns remaining: " + effect.TurnsRemaining());
 		if (effect.TurnsRemaining() == 0) { // Remove turn effect
 			detachTurnEffect(effect);
 			return;
@@ -370,10 +352,11 @@ public class Player : MonoBehaviour {
 					break;
 				}
 				stats[stat] += effect.GetValue();
+				/*
 				if (stat == Stat.AP) { // Update AP Counter
 					if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
 					else APCounterText.text = "Player AP Count: " + stats[stat];
-				}
+				}*/
 				break;
 			case TurnEffectType.MATERIALEFFECT:
 				// Only replace material if not already set
@@ -389,15 +372,23 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
-	 * End this player's turn. Write everything that the 
-	 * player should do here when the player's turn ends
+	 * Set player's inactivity
+	 * 
+	 * Arguments
+	 * - bool newActivityState - boolean value for whether player is not active or not
 	 */
-	public void EndTurn() {
-		if (!noLongerActive) {
-			noLongerActive = true;
-			gameManagerScript.SetInactivePlayer();
-			EndTurnButton.SetActive(false);
-		}
+	public void SetActivity(bool newActivityState) {
+		noLongerActive = newActivityState;
+	}
+
+	/**
+	 * Check if this player is active or not
+	 * 
+	 * Returns
+	 * - true if this player is not active. false if otherwise
+	 */
+	public bool IsPlayerNoLongerActive() {
+		return noLongerActive;
 	}
 
 	/**
@@ -408,14 +399,6 @@ public class Player : MonoBehaviour {
 			inventory[i] = null;
 			physicalItems[i] = null;
 		}
-	}
-
-	/**
-	 * Initialize the following objects:
-	 * - End Turn Button
-	 */
-	public void InitializeAttachedObjects() {
-		EndTurnButton.SetActive(true);
 	}
 
 	/**
@@ -463,12 +446,13 @@ public class Player : MonoBehaviour {
 		 * Add any constraint checking to this switch
 		 */
 		switch(playerStat) {
-		case Stat.AP:
+		case Stat.AP: goto default;
+			/*
 			if (IsSpawned) 
 				APCounterText.text = "Spawn AP Count: " + stats[playerStat];
 			else 
 				APCounterText.text = "Player AP Count: " + stats[playerStat];
-			break;
+			break;*/
 		case Stat.VISION:
 			if (value < 1 || value > 3) {
 				Debug.LogError("You tried to change the vision stat to a value outside it's range" +
@@ -477,14 +461,39 @@ public class Player : MonoBehaviour {
 			}
 			UpdateVision();
 			break;
+		default: break; // Do nothing yet
 		}
 	}
 
+	/**
+	 * Set the light attached to this player
+	 * 
+	 * Arguments
+	 * - Light newPlayerLight - The new light for this player
+	 */
+	public void SetPlayerLight(Light newPlayerLight) {
+		playerLight = newPlayerLight;
+	}
+
+	/**
+	 * Get the light attached to this player
+	 * 
+	 * Returns
+	 * - The player's light
+	 */
+	public Light GetPlayerLight() {
+		return playerLight;
+	}
+
 	void UpdateVision() {
+		if (playerLight == null) {
+			Debug.Log("Darkness!");
+			return;
+		}
 		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
 			playerLight.intensity = 0;
 		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
-			playerLight.intensity =  2;
+			playerLight.intensity = 2;
 		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
 
 		}

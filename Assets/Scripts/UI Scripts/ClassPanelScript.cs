@@ -9,11 +9,14 @@ public class ClassPanelScript : MonoBehaviour {
 
 	public Text ClassTitle; // The Text Box for the Class Title
 	public Text PrimaryAbilityText; // The text for the primary ability button
+	public GameObject ClassPanel; // The class panel that this script is attached to
 	public GameObject ContextAwareBox; // The context aware box
 	public GameObject MainCamera; // The main camera
 	public GameObject GameManager; // The game manager
 	public GameObject PrimaryAbilityButton; // The primary ability button
 	public GameObject ClassPortrait; // The portrait for the class
+	public GameObject PlayerOwner; // The player that owns this class panel
+	public GameObject SpawnAPCounterPanel; // The spawn ap counter panel
 	public List<GameObject> Interactables; // Interactable objects
 	
 	CameraController cameraController; // The camera controller script
@@ -21,15 +24,27 @@ public class ClassPanelScript : MonoBehaviour {
 	ContextAwareBoxScript contextAwareBoxScript; // The context aware box script
 	ActivationTileController activationTileController; // Controller for generating activation tiles
 	GameObject currentPlayer; // The current player being tracked. For spawning use
+	Player playerOwnerScript; // Script of the player
 
 	/**
 	 * Start function
 	 */
 	void Start() {
+		PlayerClass ownerClass; // The class of the player owner
+
 		cameraController = MainCamera.GetComponent<CameraController>();
 		movementController = GameManager.GetComponent<MovementController>();
 		contextAwareBoxScript = ContextAwareBox.GetComponent<ContextAwareBoxScript>();
 		activationTileController = ContextAwareBox.GetComponent<ActivationTileController>();
+		playerOwnerScript = PlayerOwner.GetComponent<Player>();
+		ownerClass = playerOwnerScript.GetPlayerClassObject();
+		ClassTitle.text = ownerClass.GetPlayerClassType();
+		if (ownerClass.GetPrimaryAbility() == null) PrimaryAbilityText.text = "No name";
+		else {
+			PrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
+			ownerClass.GetPrimaryAbility().SetClassPanel(ClassPanel);
+			ownerClass.GetPrimaryAbility().ExtraInitializing();
+		}
 	}
 
 	/**
@@ -39,6 +54,17 @@ public class ClassPanelScript : MonoBehaviour {
 		foreach (GameObject interactable in Interactables) {
 			interactable.GetComponent<InteractiveObject>().ChangeTrackedPlayer(currentPlayer);
 		}
+	}
+
+	/**
+	 * Attach spawned object to the spawn ap counter panel
+	 * 
+	 * Arguments
+	 * - GameObject spawned - The game object that was spawned
+	 */
+	public void AttachSpawnedToCounter(GameObject spawned) {
+		SpawnAPCounterPanel.GetComponent<APCounterScript>().Owner = spawned;
+		SpawnAPCounterPanel.SetActive(true);
 	}
 
 	/**
@@ -54,8 +80,6 @@ public class ClassPanelScript : MonoBehaviour {
 		if (primaryAbility == null) return; // No abilities
 		else if (!primaryAbility.AbilityIsActive()) { 
 			// Only activate if ability hasn't been activated before
-			Debug.Log("Class Panel: ability is not active. Activate it");
-			Debug.Log("Primary ability: " + primaryAbility);
 			switch (primaryAbility.GetAbilityName()) { // Handle different kinds of abilities
 			case "Stimulus Debris":
 				primaryAbility.Activate();
@@ -94,9 +118,7 @@ public class ClassPanelScript : MonoBehaviour {
 	 * - string primAbilityText - The new text for the primary ability button
 	 */
 	public void SetPrimaryAbilityButtonText(string primAbilityText) {
-		Debug.Log("Publicly setting prim ability button text");
 		PrimaryAbilityText.text = primAbilityText;
-		Debug.Log("Publicly set prim text: " + PrimaryAbilityText.text);
 	}
 
 	/**
@@ -105,9 +127,7 @@ public class ClassPanelScript : MonoBehaviour {
 	 * String classPanelTitle - The title to set the class panel to
 	 */
 	public void SetClassPanelTitle(string classPanelTitle) {
-		Debug.Log("Publicly setting class panel title");
 		ClassTitle.text = classPanelTitle;
-		Debug.Log("Publicly set class title: " + ClassTitle.text);
 	}
 
 	/**
@@ -138,6 +158,9 @@ public class ClassPanelScript : MonoBehaviour {
 		// Make inventory active
 		master.GetComponent<Player>().InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
 		PrimaryAbilityButton.SetActive(false); // Set the primary ability button to be inactive
+
+		// Set the Spawn AP Counter Panel to be inactive
+		SpawnAPCounterPanel.SetActive(false);
 	}
 
 	/**
@@ -157,13 +180,8 @@ public class ClassPanelScript : MonoBehaviour {
 		if (robot == null) return; // Don't do anything
 
 		// Check what to toggle to
-		if (currentPlayer == player) {
-			Debug.Log("Toggle to robot");
-			whoToToggle = true; // Toggle to robot
-		} else {
-			Debug.Log("Toggle to player");
-			whoToToggle = false; // Toggle to player
-		}
+		if (currentPlayer == player) whoToToggle = true; // Toggle to robot
+		else whoToToggle = false; // Toggle to player
 
 		// Toggle
 		if (whoToToggle) { // Toggle to robot

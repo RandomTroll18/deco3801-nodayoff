@@ -1718,11 +1718,11 @@ GameObject:
   - 114: {fileID: 11491284}
   m_Layer: 5
   m_Name: EffectToolTipPanel
-  m_TagString: Untagged
+  m_TagString: EffectToolTipPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &172068
 GameObject:
   m_ObjectHideFlags: 1
@@ -1976,6 +1976,7 @@ GameObject:
   - 222: {fileID: 22240904}
   - 114: {fileID: 11404142}
   - 114: {fileID: 11423050}
+  - 114: {fileID: 11419422}
   m_Layer: 5
   m_Name: EndTurnButton
   m_TagString: Untagged
@@ -2935,7 +2936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .196078435, g: .196078435, b: .196078435, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
@@ -2946,7 +2947,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: New Text
 --- !u!114 &11409958
@@ -3424,6 +3425,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11419422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ad8d164b01d7d43aa7119f53cbbbf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerOwner: {fileID: 0}
+  EndTurnButton: {fileID: 179996}
+  GameManagerObject: {fileID: 0}
 --- !u!114 &11419930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3637,7 +3652,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 11419422}
         m_MethodName: EndTurn
         m_Mode: 1
         m_Arguments:
@@ -5160,6 +5175,7 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   GameManager: {fileID: 0}
   PrimaryAbilityButton: {fileID: 134776}
+  ClassPortrait: {fileID: 0}
   Interactables:
   - {fileID: 0}
   - {fileID: 0}
@@ -6481,7 +6497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: .0588235259, b: .0588235259, a: .392156869}
+  m_Color: {r: 1, g: 0, b: 0, a: .392156869}
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -6756,7 +6772,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc51c9eb30f3c12409b5638c50f7be85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StunGunTestPrefab: {fileID: 192588, guid: 9b5b117c57ec60f4ba38a22d166046df, type: 2}
   ActivationTilePrefab: {fileID: 197380, guid: 0de4ea29ff01d084c843e97f2b0ca826, type: 2}
+  TargettingTilePrefab: {fileID: 119348, guid: bf5def92f63b9c644a44f2be8fe5fac6, type: 2}
   OffensiveTileMaterial: {fileID: 2100000, guid: a7b074a23b5916d49aa39ea55689b6a0,
     type: 2}
   DefensiveTileMaterial: {fileID: 2100000, guid: 585b4a84d20b1ee4a82096cdd182d3e1,
@@ -7349,7 +7367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .39199999}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -7883,6 +7901,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Panel: {fileID: 198468}
   BoxPrefab: {fileID: 193662, guid: 00cc5036d902c81478ae45d4007ad6bc, type: 2}
+  EffectToolTipPanel: {fileID: 171746}
+  EffectToolTipPanelText: {fileID: 11408912}
 --- !u!114 &11498046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9377,12 +9397,12 @@ RectTransform:
   m_Children:
   - {fileID: 22407168}
   m_Father: {fileID: 22492538}
-  m_RootOrder: 4
-  m_AnchorMin: {x: 0, y: 0}
+  m_RootOrder: 6
+  m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 309, y: 255}
-  m_SizeDelta: {x: -1025, y: -813}
-  m_Pivot: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 355, y: 42}
+  m_Pivot: {x: 1, y: 1}
 --- !u!224 &22420010
 RectTransform:
   m_ObjectHideFlags: 1
@@ -10088,7 +10108,7 @@ RectTransform:
   - {fileID: 22433346}
   - {fileID: 22437872}
   m_Father: {fileID: 22492538}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -10611,7 +10631,7 @@ RectTransform:
   - {fileID: 22480404}
   - {fileID: 22472424}
   m_Father: {fileID: 22492538}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 1.64996338}
@@ -11233,9 +11253,9 @@ RectTransform:
   - {fileID: 22409348}
   - {fileID: 22486522}
   - {fileID: 22491434}
-  - {fileID: 22419594}
   - {fileID: 22444476}
   - {fileID: 22470908}
+  - {fileID: 22419594}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
