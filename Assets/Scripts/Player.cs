@@ -34,30 +34,10 @@ public class Player : MonoBehaviour {
 	Light playerLight; // Player's light
 	Material playerMaterial; // The material of the player
 
-	/*
-	 * Physics objects
-	 */
-	//private BoxCollider boxCollider; - Might not be needed
-	//private Rigidbody rb;
-
-	/**
-	 * Do the following to start the player:
-	 * - Get rigidbody component for movement purposes - not needed yet
-	 * - Set all values in inventory to null
-	 * - Set the player's class to the base class for now
-	 * - Get the transform component
-	 * - Initialize list of recently dropped items
-	 * - Initialize available spots
-	 * - Initialize stats
-	 * - Initialize array list of turn effects
-	 * - Get the Game Manager's script
-	 * - Set turn effects applied variable to be false
-	 * - Set that this player is not active
-	 * - Get the effect panel script
-	 * - Instantiate a Stun Gun for the player and have the player pick it up
-	 * - Get class panel script and initialize class panel
-	 */
 	void Awake() {
+		GatherScripts();
+		SetPublicVariables();
+
 		foreach (Transform child in transform) {
 			if (child.CompareTag("Lighting"))
 				playerLight = child.GetComponent<Light>();
@@ -69,7 +49,8 @@ public class Player : MonoBehaviour {
 
 		droppedItems = new List<GameObject>();
 
-		if (!IsSpawned && ChosenClass != null) ClassToSet = ChosenClass; // Assign chosen player class
+		if (!IsSpawned && ChosenClass != null) 
+			ClassToSet = ChosenClass; // Assign chosen player class
 		SetPlayerClass(ClassToSet);
 
 		transformComponent = GetComponent<Transform>();
@@ -79,10 +60,8 @@ public class Player : MonoBehaviour {
 		InitializeStats();
 
 		turnEffects = new List<Effect>();
-		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
 		turnEffectsApplied = false;
 		noLongerActive = false;
-		effectPanelScript = EffectBoxPanel.GetComponent<EffectPanelScript>();
 
 		if (StunGunPrefab != null) { // Generate stun gun 
 			stunGunObject = Instantiate(StunGunPrefab);
@@ -93,6 +72,34 @@ public class Player : MonoBehaviour {
 
 		isImmuneToStun = false;
 		playerMaterial = Resources.Load<Material>("Cube Player Skin");
+	}
+
+	/*
+	 * This is a really bad thing to do since it's so hard to understand why this needs to be done.
+	 * Understand that players need to be instantiated from a script, because of PUN, and so we 
+	 * can't assign public variables from the scene within the editor.
+	 */
+	void SetPublicVariables() {
+		InventoryUI = new GameObject[9];
+		InventoryUI[0] = GameObject.Find("Slot1");
+		InventoryUI[1] = GameObject.Find("Slot2");
+		InventoryUI[2] = GameObject.Find("Slot3");
+		InventoryUI[3] = GameObject.Find("Slot4");
+		InventoryUI[4] = GameObject.Find("Slot5");
+		InventoryUI[5] = GameObject.Find("Slot6");
+		InventoryUI[6] = GameObject.Find("Slot7");
+		InventoryUI[7] = GameObject.Find("Slot8");
+		InventoryUI[8] = GameObject.Find("Slot9");
+		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
+		EffectBoxPanel = GameObject.Find("EffectBoxPanel");
+		StunGunPrefab = Resources.Load("StunGun") as GameObject;
+		PlayerObject = gameObject;
+		ClassToSet = "Technician";
+	}
+
+	void GatherScripts() {
+		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
+		effectPanelScript = EffectBoxPanel.GetComponent<EffectPanelScript>();
 	}
 	
 	/**

@@ -108,7 +108,7 @@ public class InteractiveObject : MonoBehaviour {
 	}
 
 	public void CloseEvent(){
-		Debug.Log ("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+//		Debug.Log ("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
 		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-9999, (float)37.5);
 	}
 
