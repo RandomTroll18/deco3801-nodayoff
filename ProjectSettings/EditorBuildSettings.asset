@@ -27,3 +27,5 @@ EditorBuildSettings:
     path: Assets/Prototype/WinScreen.unity
   - enabled: 1
     path: Assets/Prototype/GameOver.unity
+  - enabled: 1
+    path: Assets/_Scenes/TestNetworkMenu1.unity
