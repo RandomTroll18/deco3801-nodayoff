@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour {
 	public GameObject ContextAwareBox; // The context aware box
 	GameManager gameManagerScript; // The game manager script
 
-	public GameObject Player;
 	public float CamSpeed;
 	/* The distance the mouse pointer needs to be from the edge before the 
 	 * screen moves.
@@ -24,15 +23,20 @@ public class CameraController : MonoBehaviour {
 	bool locked = false;
 	bool IsTargetConfirmation = false; // Record if we are just confirming our target
 
-	void Start() {
+	public void StartMe() {
+		SetPublicVariables();
 		//playerScript = Player.GetComponent<Player>();
-		movController = GameObject.FindGameObjectWithTag("GameController")
-			.GetComponent<MovementController>();
+		movController = GetComponentInParent<MovementController>();
 		actController = ContextAwareBox.GetComponent<ActivationTileController>();
 
 		ResetOffset();
 		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
 
+	}
+
+	void SetPublicVariables() {
+		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
+		ContextAwareBox = Object.FindObjectOfType<ContextAwareBox>().gameObject;
 	}
 
 	void Update() {
@@ -94,7 +98,7 @@ public class CameraController : MonoBehaviour {
 	 * game
 	 */ 
 	void ResetOffset() {
-		offset = transform.position - Player.transform.position;
+		offset = transform.position - gameObject.transform.position;
 		offset = new Vector3(0, offset.y, 0);
 	}
 
@@ -110,7 +114,7 @@ public class CameraController : MonoBehaviour {
 	 * Call this when the player moves.
 	 */
 	public void ResetCamera() {
-		transform.position = Player.transform.position + offset;
+		transform.position = gameObject.transform.position + offset;
 	}
 
 	/**

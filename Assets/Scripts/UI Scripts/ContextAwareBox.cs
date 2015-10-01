@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ContextAwareBoxScript : MonoBehaviour {
+public class ContextAwareBox : MonoBehaviour {
 
 	/*
 	 * Array containing various elements of inventory panel
@@ -21,7 +21,7 @@ public class ContextAwareBoxScript : MonoBehaviour {
 	 * - Initialize current context to be idle
 	 * - Initialize any other private variables
 	 */
-	void Start() {
+	public void StartMe() {
 		SetContextToIdle();
 
 		activationTileScript = GetComponent<ActivationTileController>();

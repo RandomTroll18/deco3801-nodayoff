@@ -15,6 +15,12 @@ public class Player : MonoBehaviour {
 	public string ClassToSet; // The class to set
 	public static string ChosenClass; // The chosen class
 	public bool IsSpawned; // Record if this object is spawned
+	/*
+	 * This is an important variable since we can no longer search for the player in the scene.
+	 * Make sure that if you need this variable, you wait for network connecting to finish so the
+	 * player has spawned.
+	 */
+	public static GameObject MyPlayer;
 
 	Dictionary<Stat, double> stats; // Dictionary of stats
 	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
@@ -35,8 +41,9 @@ public class Player : MonoBehaviour {
 	Material playerMaterial; // The material of the player
 
 	void Awake() {
-		GatherScripts();
 		SetPublicVariables();
+		GatherScripts();
+
 
 		foreach (Transform child in transform) {
 			if (child.CompareTag("Lighting"))
@@ -80,6 +87,7 @@ public class Player : MonoBehaviour {
 	 * can't assign public variables from the scene within the editor.
 	 */
 	void SetPublicVariables() {
+		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
 		InventoryUI = new GameObject[9];
 		InventoryUI[0] = GameObject.Find("Slot1");
 		InventoryUI[1] = GameObject.Find("Slot2");
@@ -537,7 +545,7 @@ public class Player : MonoBehaviour {
 	 * - GameObject contextAwareBox - The context aware box
 	 */
 	public void DropItem(GameObject contextAwareBox) {
-		Item item = (Item)contextAwareBox.GetComponent<ContextAwareBoxScript>().GetAttachedObject();
+		Item item = (Item)contextAwareBox.GetComponent<ContextAwareBox>().GetAttachedObject();
 		int itemIndex; // The index of the given item
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		if (item == null) return;

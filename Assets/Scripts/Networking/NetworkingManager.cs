@@ -4,6 +4,10 @@ using System.Collections;
 public class NetworkingManager : Photon.PunBehaviour {
 	SpawnPoint[] spawnPoints;
 
+	/*
+	 * This is like a main() function for our level. It's possible some other classes could use
+	 * Start() if they don't require networking or the main player in their Start or Update.
+	 */
 	void Start () {
 		spawnPoints = Object.FindObjectsOfType<SpawnPoint>();
 		Connect();
@@ -37,8 +41,18 @@ public class NetworkingManager : Photon.PunBehaviour {
 
 	void SpawnMyPlayer() {
 		SpawnPoint spawn = spawnPoints[0]; // TODO: pick spawn point based on class
-		PhotonNetwork.Instantiate("Player", spawn.transform.position, spawn.transform.rotation, 0);
-		// TODO: spawn light with player
+		GameObject myPlayer = PhotonNetwork.Instantiate(
+			"Player", 
+			spawn.transform.position, 
+			spawn.transform.rotation, 
+			0
+			);
+		Player.MyPlayer = myPlayer;
+		// TODO: spawn light with player / turn light on
+		Object.FindObjectOfType<GameManager>().PlayerList.Add(myPlayer.GetComponent<Player>()); // TODO: needs to be an RPC call so all client know about the player
+		Object.FindObjectOfType<GameManager>().StartMe();
+		myPlayer.GetComponent<MovementController>().enabled = true;
+		myPlayer.GetComponentInChildren<CameraController>().enabled = true;
 	}
 
 	void OnGUI() {

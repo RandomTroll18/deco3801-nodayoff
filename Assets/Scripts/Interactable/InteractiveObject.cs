@@ -29,7 +29,7 @@ public class InteractiveObject : MonoBehaviour {
 	protected MovementController MController;
 
 
-	void Awake() {
+	void Start() {
 
 		this.position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
@@ -55,8 +55,8 @@ public class InteractiveObject : MonoBehaviour {
 		player = GameObject.Find ("Player");
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
 			.GetComponent<PrimaryObjectiveController> ();
+		player = Player.MyPlayer; 
 		PlayerScript = player.GetComponent<Player>();
-		MController.AddInteractable (this);
 
 		if (debugging) Debug.Log(this.position.ToString());		
 		

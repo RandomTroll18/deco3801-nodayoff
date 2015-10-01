@@ -18,7 +18,7 @@ public class MainCanvasButton : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start() {
+	public void StartMe() {
 		//EscMenu.SetActive (false);
 		hideAll();
 		ChangeTab(1);

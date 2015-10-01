@@ -21,7 +21,7 @@ public class EffectPanelScript : MonoBehaviour {
 	 * - Get the RectTransform component of the panel
 	 * - Set the box's height and width (relative measurement)
 	 */
-	void Start() {
+	public void StartMe() {
 		boxes = new List<GameObject>();
 		panelTransform = Panel.GetComponent<RectTransform>();
 		boxWidth = (float)-47.8333;

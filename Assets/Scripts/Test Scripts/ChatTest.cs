@@ -88,7 +88,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	}
 	
 	
-	public void Start()
+	public void StartMe()
 	{
 		Application.runInBackground = true; // this must run in background or it will drop connection if not focussed.
 		

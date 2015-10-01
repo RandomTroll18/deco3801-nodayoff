@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11493398}
   - 54: {fileID: 5477830}
   - 114: {fileID: 11478706}
+  - 114: {fileID: 11457062}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -101,7 +102,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 177396}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
@@ -116,7 +117,7 @@ Camera:
   field of view: 81
   orthographic: 0
   orthographic size: 5
-  m_Depth: 1
+  m_Depth: 1.60000002
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -238,19 +239,33 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 177396}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c62b83eb2082bd468f4fdf50ef2bc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GameManagerObject: {fileID: 0}
   ContextAwareBox: {fileID: 0}
-  Player: {fileID: 156324}
   CamSpeed: 1
   GUISize: 25
   LayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &11457062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 156324}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e994ec8778d309c49a842c6fe290fdf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0
+  InvalidPathMarker: {fileID: 0}
+  ValidPathMarker: {fileID: 0}
+  HighlightedTile: {fileID: 0}
 --- !u!114 &11478706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,7 +297,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156324}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1705faf9a8694f46b619c9b4e8b0d9a, type: 3}
   m_Name: 
@@ -325,6 +340,14 @@ Prefab:
       propertyPath: ObservedComponents.Array.data[0]
       value: 
       objectReference: {fileID: 422500}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Depth
+      value: 1.60000002
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 156324}

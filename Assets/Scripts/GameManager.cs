@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 	 
 	public int RoundsLeftUntilLose;
-	public Player[] PlayerList; // List of players
+	public List<Player> PlayerList; // List of players
 	public GameObject[] OpenedDoors;
 	public Text RemainingTurnsText; // The text counter for the remaining turns
 
@@ -26,25 +26,56 @@ public class GameManager : MonoBehaviour {
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
 	MovementController movController; // Movement controller script
 
-	/**
-	 * Start function. Needs to be done:
-	 * - Initialize list of players
-	 * - Initialize valid turn. If there is some calculation required, 
-	 * at the start of the game, then set validTurn to be 0. 
-	 * - Initialize number of players still active.
-	 * - Initialize Text
+	/*
+	 * From now on, it's safer to replace Start with StartMe in all your classes and to 
+	 * call StartMe in StartScripts
 	 */
-	void Start() {
-		movController = gameObject.GetComponent<MovementController>();
+	public void StartMe() {
+		StartPlaying();
+	}
 
+	void StartScripts() {
+		Player.MyPlayer.GetComponent<MovementController>().StartMe();
+		Player.MyPlayer.GetComponentInChildren<CameraController>().StartMe();
+		Player.MyPlayer.GetComponentInChildren<Camera>().enabled = true;
+		Player.MyPlayer.GetComponent<Player>().enabled = true;
+		Object.FindObjectOfType<Poll>().StartMe();
+		Object.FindObjectOfType<MainCanvasButton>().StartMe();
+		Object.FindObjectOfType<ContextAwareBox>().StartMe();
+		Object.FindObjectOfType<InventoryUIScript>().StartMe();
+		/*
+		 * This is how you call StartMe for classes that aren't singletons
+		 */
+		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>()) {
+			script.StartMe();
+		}
+		Object.FindObjectOfType<ChatTest>().StartMe();
+		Object.FindObjectOfType<ClassPanelScript>().StartMe();
+		Object.FindObjectOfType<EffectPanelScript>().StartMe();
+		Object.FindObjectOfType<PrimaryObjectiveController>().StartMe();
+		Object.FindObjectOfType<EndTurnButtonScript>().enabled = true;
+		Object.FindObjectOfType<EndTurnButtonScript>().StartMe();
+		Object.FindObjectOfType<APCounterScript>().StartMe();
+		Object.FindObjectOfType<APCounterScript>().enabled = true;
+		Player.MyPlayer.GetComponent<MovementController>().enabled = true;
+	}
+
+	public void StartPlaying() {
+		StartScripts();
+
+		/*
+		 * This is where the old Start() started
+		 */
+		movController = Player.MyPlayer.GetComponent<MovementController>();
 		InitalizeDoors();
 		TurnOnLighting();
 		validTurn = false;
-		playersLeft = PlayerList.Length;
-//		Debug.Log("Valid turn is: " + validTurn + " by default");
-//		Debug.Log("Number of players left: " + playersLeft);
-
+		playersLeft = PlayerList.Count;
+		//		Debug.Log("Valid turn is: " + validTurn + " by default");
+		//		Debug.Log("Number of players left: " + playersLeft);
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
+
+		this.enabled = true; // Turns on the Update() function
 	}
 
 	void InitalizeDoors() {
@@ -80,27 +111,27 @@ public class GameManager : MonoBehaviour {
 				validTurn = false;
 			}
 			return;
-		} else {
-			//Debug.Log ("Invalid turn. Game Manager doing stuff");
-			// Reset number of players left
-			playersLeft = PlayerList.Length;
-			// Initialize player stats - AP and apply player effects
-			for (int i = 0; i < playersLeft; ++i) {
-				PlayerList[i].InitializeStats();
-				PlayerList[i].ApplyTurnEffects();
-				PlayerList[i].ReduceItemCoolDowns();
-				PlayerList[i].ReduceAbilityTurns();
-				PlayerList[i].SetActivity(false);
-			}
-
-			RoundsLeftUntilLose--;
-			RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
-			if (RoundsLeftUntilLose <= 0) {
-				Application.LoadLevel("GameOver");
-			}
-
-			validTurn = true;
 		}
+
+		//Debug.Log ("Invalid turn. Game Manager doing stuff");
+		// Reset number of players left
+		playersLeft = PlayerList.Count;
+		// Initialize player stats - AP and apply player effects
+		foreach (Player p in PlayerList) {
+			p.InitializeStats();
+			p.ApplyTurnEffects();
+			p.ReduceItemCoolDowns();
+			p.ReduceAbilityTurns();
+			p.SetActivity(false);
+		}
+
+		RoundsLeftUntilLose--;
+		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
+		if (RoundsLeftUntilLose <= 0) {
+			Application.LoadLevel("GameOver");
+		}
+
+		validTurn = true;
 	}
 
 	/**

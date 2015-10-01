@@ -8,7 +8,7 @@ public class Poll : MonoBehaviour {
 	private List<List<int>> BigList = new List<List<int>>();
 
 	// Use this for initialization
-	void Start () {
+	public void StartMe() {
 
 		for (int v = 0; v < NumberOfPolls; v++)
 		{

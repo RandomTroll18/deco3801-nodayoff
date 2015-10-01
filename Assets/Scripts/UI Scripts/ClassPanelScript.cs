@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -11,17 +11,15 @@ public class ClassPanelScript : MonoBehaviour {
 	public Text PrimaryAbilityText; // The text for the primary ability button
 	public GameObject ClassPanel; // The class panel that this script is attached to
 	public GameObject ContextAwareBox; // The context aware box
-	public GameObject MainCamera; // The main camera
 	public GameObject GameManager; // The game manager
 	public GameObject PrimaryAbilityButton; // The primary ability button
 	public GameObject ClassPortrait; // The portrait for the class
-	public GameObject PlayerOwner; // The player that owns this class panel
 	public GameObject SpawnAPCounterPanel; // The spawn ap counter panel
 	public List<GameObject> Interactables; // Interactable objects
 	
 	CameraController cameraController; // The camera controller script
 	MovementController movementController; // The movement controller script
-	ContextAwareBoxScript contextAwareBoxScript; // The context aware box script
+	ContextAwareBox contextAwareBoxScript; // The context aware box script
 	ActivationTileController activationTileController; // Controller for generating activation tiles
 	GameObject currentPlayer; // The current player being tracked. For spawning use
 	Player playerOwnerScript; // Script of the player
@@ -29,14 +27,14 @@ public class ClassPanelScript : MonoBehaviour {
 	/**
 	 * Start function
 	 */
-	void Start() {
+	public void StartMe() {
 		PlayerClass ownerClass; // The class of the player owner
 
-		cameraController = MainCamera.GetComponent<CameraController>();
+		cameraController = Camera.main.GetComponent<CameraController>();
 		movementController = GameManager.GetComponent<MovementController>();
-		contextAwareBoxScript = ContextAwareBox.GetComponent<ContextAwareBoxScript>();
+		contextAwareBoxScript = ContextAwareBox.GetComponent<ContextAwareBox>();
 		activationTileController = ContextAwareBox.GetComponent<ActivationTileController>();
-		playerOwnerScript = PlayerOwner.GetComponent<Player>();
+		playerOwnerScript = Player.MyPlayer.GetComponent<Player>();
 		ownerClass = playerOwnerScript.GetPlayerClassObject();
 		ClassTitle.text = ownerClass.GetPlayerClassType();
 		if (ownerClass.GetPrimaryAbility() == null) PrimaryAbilityText.text = "No name";
@@ -146,8 +144,8 @@ public class ClassPanelScript : MonoBehaviour {
 	 */
 	public void ResetToMaster(GameObject master) {
 		/* Reset camera controller and movement controller */
-		cameraController.Player = master;
-		movementController.Player = master;
+//		cameraController.FollowedPlayer = master; TODO
+//		movementController.FollowedPlayer = master; TODO
 		movementController.ChangePlayerScript();
 		cameraController.ResetCamera();
 
@@ -170,23 +168,31 @@ public class ClassPanelScript : MonoBehaviour {
 	 * - GameObject player - The player that clicked the primary ability button
 	 */
 	void handleEngineerPrimaryAbility(GameObject player) {
+		/* TODO
+		 		robot.AddComponent<MovementController>().StartMe();
+				robot.AddComponent<CameraController>();
+			the robot needs those component somewhere
+		 */
 		GameObject robot = GameObject.FindGameObjectWithTag("EngineerPrimAbilitySpawn"); // The robot
+		player.GetComponent<MovementController>().enabled = false;
+		player.GetComponent<CameraController>().enabled = false;
 		Player robotScript = robot.GetComponent<Player>(); // The robot's player script
 		Player callingPlayer = player.GetComponent<Player>(); // The calling player's script
 		bool whoToToggle; // Record who to toggle to
 		bool isSelected; // Store whether or not the ui slot was selected
 
 		// First, make sure robot still exists
-		if (robot == null) return; // Don't do anything
+		if (robot == null) 
+			return; // Don't do anything
 
 		// Check what to toggle to
-		if (currentPlayer == player) whoToToggle = true; // Toggle to robot
-		else whoToToggle = false; // Toggle to player
+		if (currentPlayer == player) 
+			whoToToggle = true; // Toggle to robot
+		else 
+			whoToToggle = false; // Toggle to player
 
 		// Toggle
 		if (whoToToggle) { // Toggle to robot
-			cameraController.Player = robot;
-			movementController.Player = robot;
 			currentPlayer = robot;
 			ClassTitle.text = robotScript.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Engineer";
@@ -204,8 +210,11 @@ public class ClassPanelScript : MonoBehaviour {
 				}
 			}
 		} else { // Toggle to player
-			cameraController.Player = player;
-			movementController.Player = player;
+			robot.GetComponent<MovementController>().enabled = false;
+			robot.GetComponent<CameraController>().enabled = false;
+			player.GetComponent<MovementController>().enabled = true;
+			player.GetComponent<CameraController>().enabled = true;
+
 			currentPlayer = player;
 			ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Robot";

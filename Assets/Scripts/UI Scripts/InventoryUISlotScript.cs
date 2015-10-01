@@ -13,7 +13,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 	bool selected; // Record whether ui element was clicked
 	Image uiSlotImage; // The image script of the ui slot
 	Item item; // The item contained in this slot
-	ContextAwareBoxScript contextBoxScript; // Script of context aware box
+	ContextAwareBox contextBoxScript; // Script of context aware box
 	InventoryUIScript containerScript; // Script of parent
 
 	/**
@@ -21,13 +21,13 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 * - Initialize variables only if the game objects have been set
 	 * - Get the default icon which is "Background"
 	 */
-	void Start() {
+	public void StartMe() {
 		selected = false;
 		if (UiSlot != null) {
 			uiSlotImage = UiSlot.GetComponent<Image>();
 		}
 		if (ContextAwareBox != null) {
-			contextBoxScript = ContextAwareBox.GetComponent<ContextAwareBoxScript>();
+			contextBoxScript = ContextAwareBox.GetComponent<ContextAwareBox>();
 		}
 		if (Container != null) {
 			containerScript = Container.GetComponent<InventoryUIScript>();

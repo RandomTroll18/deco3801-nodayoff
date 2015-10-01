@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 /**
  * Script used by the panel containing all the ui slots
@@ -10,14 +10,14 @@ public class InventoryUIScript : MonoBehaviour {
 	// The script of the currently selected ui slot
 	InventoryUISlotScript currentSelected;
 	// The script of the context aware box
-	ContextAwareBoxScript contextBoxScript;
+	ContextAwareBox contextBoxScript;
 
 	/**
 	 * Starting function
 	 */
-	void Start() {
+	public void StartMe() {
 		if (ContextAwareBox != null) {
-			contextBoxScript = ContextAwareBox.GetComponent<ContextAwareBoxScript>();
+			contextBoxScript = ContextAwareBox.GetComponent<ContextAwareBox>();
 		}
 	}
 

@@ -42,7 +42,7 @@ public class MovementController : MonoBehaviour {
 	public GameObject InvalidPathMarker;
 	public GameObject ValidPathMarker;
 	public GameObject HighlightedTile;
-	public GameObject Player;
+
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
 	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
 	/* Player's "moving" status */
@@ -59,10 +59,11 @@ public class MovementController : MonoBehaviour {
 	/* Whether debugging output is used */
 	bool debugging;
 	
-	void Awake() {
+	public void StartMe() {
+		SetPublicVariables();
 		debugging = false;
-		camController = Camera.main.GetComponent<CameraController>();
-		playerScript = Player.GetComponent<Player>();
+		camController = GetComponentInChildren<CameraController>();
+		playerScript = gameObject.GetComponent<Player>();
 		gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 
 		// TODO: WASD well it would have to be directional arrows now
@@ -117,6 +118,13 @@ public class MovementController : MonoBehaviour {
 	
 	}
 
+	void SetPublicVariables() {
+		Speed = 10;
+		InvalidPathMarker = Resources.Load("Invalid Path Marker") as GameObject;
+		ValidPathMarker = Resources.Load("Valid Path Marker") as GameObject;
+		HighlightedTile = Resources.Load("Highlighted Tile") as GameObject;
+	}
+
 	void Update() {
 		/* 
 		 * Note that right now this is shifting the transform but we could do it the physics way I 
@@ -127,7 +135,7 @@ public class MovementController : MonoBehaviour {
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
 				StopMoving();
-			} else if (Player.transform.position == Tile.TileMiddle(path.First.Value)) {
+			} else if (gameObject.transform.position == Tile.TileMiddle(path.First.Value)) {
 				path.RemoveFirst();
 				if (visualPath.Count > 0) { // Most of the time this condition is true
 					DestroyObject(visualPath.Last.Value);
@@ -142,8 +150,8 @@ public class MovementController : MonoBehaviour {
 			} else {
 				/* Moves the player */
 				float step = Speed * Time.deltaTime;
-				Player.transform.position = Vector3.MoveTowards(
-					Player.transform.position, 
+				gameObject.transform.position = Vector3.MoveTowards(
+					gameObject.transform.position, 
 					Tile.TileMiddle(path.First.Value), 
 					step
 				);
@@ -385,6 +393,6 @@ public class MovementController : MonoBehaviour {
 	 * Reassign the player script (once the Player GameObject changes)
 	 */
 	public void ChangePlayerScript() { 
-		playerScript = Player.GetComponent<Player>();
+		playerScript = gameObject.GetComponent<Player>();
 	}
 }
