@@ -42,9 +42,12 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void StartScripts() {
+		Player.MyPlayer.GetComponent<Player>().StartMe();
 		Player.MyPlayer.GetComponent<MovementController>().StartMe();
 		Player.MyPlayer.GetComponentInChildren<CameraController>().StartMe();
 		Player.MyPlayer.GetComponentInChildren<Camera>().enabled = true;
+		Player.MyPlayer.GetComponent<MovementController>().enabled = true;
+		Player.MyPlayer.GetComponentInChildren<CameraController>().enabled = true;
 		Player.MyPlayer.GetComponent<Player>().enabled = true;
 		Object.FindObjectOfType<Poll>().StartMe();
 		Object.FindObjectOfType<MainCanvasButton>().StartMe();
@@ -64,7 +67,6 @@ public class GameManager : MonoBehaviour {
 		Object.FindObjectOfType<EndTurnButtonScript>().StartMe();
 		Object.FindObjectOfType<APCounterScript>().StartMe();
 		Object.FindObjectOfType<APCounterScript>().enabled = true;
-		Player.MyPlayer.GetComponent<MovementController>().enabled = true;
 	}
 
 	public void StartPlaying() {

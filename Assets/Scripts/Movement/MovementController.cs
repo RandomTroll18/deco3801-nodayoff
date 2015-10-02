@@ -273,6 +273,15 @@ public class MovementController : MonoBehaviour {
 		return null;
 	}
 
+	/*
+	 * Returns the distance between this player and another position
+	 */
+	public int TileDistance(Vector3 position) {
+		PathTile path = FindPath(Tile.TilePosition(position));
+		Debug.Log("Path depth: " + path.Depth);
+		return path.Depth;
+	}
+	
 	/**
 	 * Returns a backwards PathTile path as a LinkedList.
 	 */

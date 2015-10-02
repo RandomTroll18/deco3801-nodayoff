@@ -40,7 +40,7 @@ public class Player : MonoBehaviour {
 	Light playerLight; // Player's light
 	Material playerMaterial; // The material of the player
 
-	void Awake() {
+	public void StartMe() {
 		SetPublicVariables();
 		GatherScripts();
 
@@ -140,6 +140,7 @@ public class Player : MonoBehaviour {
 	 * allow movement
 	 */
 	void Update() {
+		UpdateVision();
 		if (!gameManagerScript.IsValidTurn()) {
 			turnEffectsApplied = false;
 			noLongerActive = false;
@@ -497,6 +498,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void UpdateVision() {
+		int visionDistance = 2;
 		if (playerLight == null) {
 			Debug.Log("Darkness!");
 			return;
@@ -505,8 +507,22 @@ public class Player : MonoBehaviour {
 			playerLight.intensity = 0;
 		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
 			playerLight.intensity = 2;
+			visionDistance = 4;
 		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
+			playerLight.intensity = 2;
+			visionDistance = 6;
+		}
 
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
+			if (p.Equals(this.gameObject))
+				continue;
+
+			if (GetComponent<MovementController>().TileDistance(p.transform.position) 
+			                      <= visionDistance) {
+				p.GetComponent<MeshRenderer>().enabled = true;
+			} else {
+				p.GetComponent<MeshRenderer>().enabled = false;
+			}
 		}
 	}
 

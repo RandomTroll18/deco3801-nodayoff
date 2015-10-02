@@ -108,4 +108,8 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 
 		return goal;
 	}
+
+	public static object TileDistance(Tile t1, Tile t2) {
+		throw new System.NotImplementedException();
+	}
 }

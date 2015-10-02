@@ -17,7 +17,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 	void Connect() {
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
-		PhotonNetwork.ConnectUsingSettings("1.0");
+		PhotonNetwork.ConnectUsingSettings("ben");
 	}
 
 	public override void OnJoinedLobby() {
@@ -52,8 +52,6 @@ public class NetworkingManager : Photon.PunBehaviour {
 		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();
-		myPlayer.GetComponent<MovementController>().enabled = true;
-		myPlayer.GetComponentInChildren<CameraController>().enabled = true;
 	}
 
 	void OnGUI() {
