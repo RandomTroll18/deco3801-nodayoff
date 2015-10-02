@@ -31,7 +31,7 @@ public class ClassPanelScript : MonoBehaviour {
 		PlayerClass ownerClass; // The class of the player owner
 
 		cameraController = Camera.main.GetComponent<CameraController>();
-		movementController = GameManager.GetComponent<MovementController>();
+		movementController = Player.MyPlayer.GetComponent<MovementController>();
 		contextAwareBoxScript = ContextAwareBox.GetComponent<ContextAwareBox>();
 		activationTileController = ContextAwareBox.GetComponent<ActivationTileController>();
 		playerOwnerScript = Player.MyPlayer.GetComponent<Player>();
@@ -160,6 +160,9 @@ public class ClassPanelScript : MonoBehaviour {
 
 		// Set the Spawn AP Counter Panel to be inactive
 		SpawnAPCounterPanel.SetActive(false);
+
+		// Set the movement controller of the activation tile controller
+		activationTileController.SetMovementController(master.GetComponent<MovementController>());
 	}
 
 	/**
@@ -169,14 +172,9 @@ public class ClassPanelScript : MonoBehaviour {
 	 * - GameObject player - The player that clicked the primary ability button
 	 */
 	void handleEngineerPrimaryAbility(GameObject player) {
-		/* TODO
-		 		robot.AddComponent<MovementController>().StartMe();
-				robot.AddComponent<CameraController>();
-			the robot needs those component somewhere
-		 */
 		GameObject robot = GameObject.FindGameObjectWithTag("EngineerPrimAbilitySpawn"); // The robot
 		player.GetComponent<MovementController>().enabled = false;
-		player.GetComponent<CameraController>().enabled = false;
+		player.GetComponentInChildren<CameraController>().enabled = false;
 		Player robotScript = robot.GetComponent<Player>(); // The robot's player script
 		Player callingPlayer = player.GetComponent<Player>(); // The calling player's script
 		bool whoToToggle; // Record who to toggle to
@@ -212,9 +210,9 @@ public class ClassPanelScript : MonoBehaviour {
 			}
 		} else { // Toggle to player
 			robot.GetComponent<MovementController>().enabled = false;
-			robot.GetComponent<CameraController>().enabled = false;
+			robot.GetComponentInChildren<CameraController>().enabled = false;
 			player.GetComponent<MovementController>().enabled = true;
-			player.GetComponent<CameraController>().enabled = true;
+			player.GetComponentInChildren<CameraController>().enabled = true;
 
 			currentPlayer = player;
 			ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();
@@ -227,7 +225,9 @@ public class ClassPanelScript : MonoBehaviour {
 		changeInteractiveObjectTracker(); // Change the tracked player for interactive objects
 		movementController.ChangePlayerScript(); // Change player script of movement controller
 		cameraController.ResetCamera(); // Reset the camera to point at player object
-		ContextAwareBox.GetComponent<ActivationTileController>().DestroyActivationTiles(); // Destroy activation tiles
+		activationTileController.DestroyActivationTiles(); // Destroy activation tiles
+		// Set the movement controller
+		activationTileController.SetMovementController(currentPlayer.GetComponent<MovementController>()); 
 	}
 
 	/**

@@ -245,6 +245,7 @@ public class MovementController : MonoBehaviour {
 	 */
 	PathTile FindPath(Tile goal) {
 		HashSet<Tile> explored = new HashSet<Tile>();
+		Debug.Log(string.Format("Finding a path to: {0}, {1}", goal.X, goal.Z));
 		if (goal != null && !blockedTiles.Contains(goal)) {
 			Queue<PathTile> q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
@@ -278,7 +279,7 @@ public class MovementController : MonoBehaviour {
 	 */
 	public int TileDistance(Vector3 position) {
 		PathTile path = FindPath(Tile.TilePosition(position));
-		Debug.Log("Path depth: " + path.Depth);
+		//Debug.Log("Path depth: " + path.Depth);
 		return path.Depth;
 	}
 	

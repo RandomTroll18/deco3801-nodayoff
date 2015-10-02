@@ -49,6 +49,9 @@ public class EngineerPrimaryAbility : Ability {
 		robotReference.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
 		robotReference.GetComponent<Player>().PlayerObject = robotReference;
 		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
+		robotReference.AddComponent<MovementController>().StartMe();
+		robotReference.GetComponentInChildren<CameraController>().StartMe();
+		robotReference.GetComponent<Player>().StartMe(); // Initialize the player script of the robot
 
 		// Set class panel text to appropriate values
 		ClassPanel.GetComponent<ClassPanelScript>().SetPrimaryAbilityButtonText("Toggle To Robot");

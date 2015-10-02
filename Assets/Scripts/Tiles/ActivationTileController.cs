@@ -21,6 +21,23 @@ public class ActivationTileController : MonoBehaviour {
 	MovementController movementController; // The movement controller
 
 	/**
+	 * Set the movement controller
+	 * 
+	 * Arguments
+	 * - MovementController newMovementController
+	 */
+	public void SetMovementController(MovementController newMovementController) {
+		movementController = newMovementController;
+	}
+
+	/**
+	 * Start this activation tile controller script
+	 */
+	public void StartMe() {
+		movementController = Player.MyPlayer.GetComponent<MovementController>();
+	}
+
+	/**
 	 * Initiate Target Confirmation
 	 * 
 	 * Tile tileClicked - The tile that was clicked
@@ -113,10 +130,7 @@ public class ActivationTileController : MonoBehaviour {
 		item = null;
 		ability = newAbility;
 
-		// Third, get movement controller
-		movementController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
-		
-		// Fourth, start generating
+		// Third, start generating
 		generateActivationTiles(abilityRange, playerPositionX, playerPositionZ, rangeType, activationType);
 	}
 
@@ -142,11 +156,7 @@ public class ActivationTileController : MonoBehaviour {
 		item = newItem;
 		ability = null;
 
-		// Third, get movement controller
-		movementController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
-
-
-		// Fourth, start generating
+		// Third, start generating
 		generateActivationTiles(itemRange, playerPositionX, playerPositionZ, rangeType, activationType);
 	}
 

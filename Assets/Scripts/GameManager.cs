@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour {
 		Player.MyPlayer.GetComponent<MovementController>().enabled = true;
 		Player.MyPlayer.GetComponentInChildren<CameraController>().enabled = true;
 		Player.MyPlayer.GetComponent<Player>().enabled = true;
+		Player.MyPlayer.GetComponent<Player>().IsSpawned = false; // This isn't spawned
 		Object.FindObjectOfType<Poll>().StartMe();
 		Object.FindObjectOfType<MainCanvasButton>().StartMe();
 		Object.FindObjectOfType<ContextAwareBox>().StartMe();

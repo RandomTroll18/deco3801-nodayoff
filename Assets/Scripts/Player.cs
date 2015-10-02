@@ -40,10 +40,13 @@ public class Player : MonoBehaviour {
 	Light playerLight; // Player's light
 	Material playerMaterial; // The material of the player
 
+	/**
+	 * StartMe function for networking purposes
+	 */
 	public void StartMe() {
+
 		SetPublicVariables();
 		GatherScripts();
-
 
 		foreach (Transform child in transform) {
 			if (child.CompareTag("Lighting"))
@@ -70,7 +73,7 @@ public class Player : MonoBehaviour {
 		turnEffectsApplied = false;
 		noLongerActive = false;
 
-		if (StunGunPrefab != null) { // Generate stun gun 
+		if (StunGunPrefab != null && !IsSpawned) { // Generate stun gun 
 			stunGunObject = Instantiate(StunGunPrefab);
 			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
 			stunGunObject.transform.position = 
@@ -102,7 +105,8 @@ public class Player : MonoBehaviour {
 		EffectBoxPanel = GameObject.Find("EffectBoxPanel");
 		StunGunPrefab = Resources.Load("StunGun") as GameObject;
 		PlayerObject = gameObject;
-		ClassToSet = "Technician";
+		if (ClassToSet != null)
+			ClassToSet = "Technician";
 	}
 
 	void GatherScripts() {
@@ -514,7 +518,7 @@ public class Player : MonoBehaviour {
 		}
 
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
-			if (p.Equals(this.gameObject))
+			if (p.Equals(gameObject))
 				continue;
 
 			if (GetComponent<MovementController>().TileDistance(p.transform.position) 

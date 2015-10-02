@@ -20,11 +20,19 @@ public class ContextAwareBox : MonoBehaviour {
 	 * Start function. Needs the following: 
 	 * - Initialize current context to be idle
 	 * - Initialize any other private variables
+	 * - Create onclick listeners for buttons
 	 */
 	public void StartMe() {
+		Player playerScript = Player.MyPlayer.GetComponent<Player>();
+
 		SetContextToIdle();
+		InventoryContextPanel[2].GetComponent<Button>().onClick.AddListener(
+			() => ActivateAttachedItem(Player.MyPlayer));
+		InventoryContextPanel[3].GetComponent<Button>().onClick.AddListener(
+			() => playerScript.DropItem(gameObject));
 
 		activationTileScript = GetComponent<ActivationTileController>();
+		activationTileScript.StartMe();
 	}
 
 	/**
