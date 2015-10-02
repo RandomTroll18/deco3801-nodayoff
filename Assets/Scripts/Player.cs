@@ -149,10 +149,6 @@ public class Player : MonoBehaviour {
 				noLongerActive = true;
 				return;
 			}
-			if (noLongerActive) {
-				// Record that the this player is no longer active
-				gameManagerScript.SetInactivePlayer();
-			}
 			// Allow movement
 		}
 	}

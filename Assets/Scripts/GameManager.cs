@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 	 
 	public int RoundsLeftUntilLose;
-	public List<Player> PlayerList; // List of players
 	public GameObject[] OpenedDoors;
 	public Text RemainingTurnsText; // The text counter for the remaining turns
 
@@ -22,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	 */
 	bool validTurn;
 
+	int numPlayers;
 	int playersLeft; // The number of players still active
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
 	MovementController movController; // Movement controller script
@@ -35,9 +35,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	[PunRPC]
-	public void AddPlayer(Player p) {
-		this.PlayerList.Add(p);
-		this.playersLeft = PlayerList.Count;
+	public void AddPlayer() {
+		numPlayers++;
+		this.playersLeft++;
 		Debug.Log("Player list size: " + this.playersLeft);
 	}
 
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		//Debug.Log ("Invalid turn. Game Manager doing stuff");
-		playersLeft = PlayerList.Count;
+		playersLeft = numPlayers;
 
 		// Initialize player stats - AP and apply player effects
 		Player p = Player.MyPlayer.GetComponent<Player>();
@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour {
 	[PunRPC]
 	public void SetInactivePlayer() {
 		playersLeft--;
+		Debug.Log("Players left: " + playersLeft);
 	}
 
 	/**
