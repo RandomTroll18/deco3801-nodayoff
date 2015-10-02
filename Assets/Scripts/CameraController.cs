@@ -74,10 +74,8 @@ public class CameraController : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0)) {
 			if (!EventSystem.current.IsPointerOverGameObject()) {
 				Tile goal = Tile.MouseToTile((LayerMask));
-				if (GetComponentInParent<Player>().IsSpawned) Debug.Log("Robot tried to move");
-				//Debug.Log("Clicked: " + goal.ToString());
 				if (actController.ActivationTiles().Contains(goal)) {
-					destroyPathTiles();
+					movController.ClearPath();
 
 					if (!IsTargetConfirmation) {
 						actController.InitiateTargetConfirmation(goal); // Confirm target
@@ -94,19 +92,6 @@ public class CameraController : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Destroy path tiles, which include highlighted tiles, invalid and valid path markers
-	 */
-	void destroyPathTiles() {
-		GameObject tileToDestroy; // Tile to destroy
-		foreach (GameObject highlightedTile in GameObject.FindGameObjectsWithTag("Highlighted Tile"))
-			Destroy(highlightedTile);
-		while ((tileToDestroy = GameObject.Find("Valid Path Marker(Clone)")) != null)
-			Destroy(tileToDestroy);
-		while ((tileToDestroy = GameObject.Find("Invalid Path Marker(Clone)")) != null)
-			Destroy(tileToDestroy);
 	}
 
 	/*

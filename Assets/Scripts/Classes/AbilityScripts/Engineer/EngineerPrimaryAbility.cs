@@ -22,7 +22,6 @@ public class EngineerPrimaryAbility : Ability {
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
 		robotPrefab = Resources.Load<GameObject>("AbilityPrefabs/Engineer/EngineerRobot");
-		Debug.Log("Robot Prefab: " + robotPrefab.ToString());
 		master = newMaster;
 	}
 
@@ -51,6 +50,7 @@ public class EngineerPrimaryAbility : Ability {
 		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 		robotReference.AddComponent<MovementController>().StartMe();
 		robotReference.GetComponentInChildren<CameraController>().StartMe();
+		robotReference.GetComponentInChildren<CameraController>().ResetCamera();
 		robotReference.GetComponent<Player>().StartMe(); // Initialize the player script of the robot
 
 		// Set class panel text to appropriate values

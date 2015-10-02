@@ -301,7 +301,6 @@ public class Player : MonoBehaviour {
 		foreach (Effect effect in turnEffects) {
 			if (!effect.GetTurnEffectType().Equals(TurnEffectType.ITEMEFFECT)) continue;
 			if (!itemToAffect.GetType().Equals(effect.GetAffectedItemType())) continue;
-			Debug.Log("Turn effect affects this item: " + itemToAffect.GetType().ToString());
 		}
 	}
 
@@ -503,10 +502,9 @@ public class Player : MonoBehaviour {
 
 	void UpdateVision() {
 		int visionDistance = 2;
-		if (playerLight == null) {
-			Debug.Log("Darkness!");
+		int distanceToCharacter; // The distance to a character
+		if (playerLight == null) // No light exists
 			return;
-		}
 		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
 			playerLight.intensity = 0;
 		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
@@ -516,9 +514,12 @@ public class Player : MonoBehaviour {
 			playerLight.intensity = 2;
 			visionDistance = 6;
 		}
-
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
 			if (p.Equals(gameObject))
+				continue;
+			distanceToCharacter = GetComponent<MovementController>().TileDistance(p.transform.position);
+
+			if (distanceToCharacter == -1) // No path found
 				continue;
 
 			if (GetComponent<MovementController>().TileDistance(p.transform.position) 

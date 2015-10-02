@@ -76,6 +76,8 @@ public class ClassPanelScript : MonoBehaviour {
 		Player playerScript = player.GetComponent<Player>(); // Player script
 		Ability primaryAbility = playerScript.GetPlayerClassObject().GetPrimaryAbility(); // Primary ability
 
+		movementController.ClearPath(); // Clear the visual movement tiles
+
 		if (primaryAbility == null) return; // No abilities
 		else if (!primaryAbility.AbilityIsActive()) { 
 			// Only activate if ability hasn't been activated before
@@ -163,6 +165,11 @@ public class ClassPanelScript : MonoBehaviour {
 
 		// Set the movement controller of the activation tile controller
 		activationTileController.SetMovementController(master.GetComponent<MovementController>());
+
+		// Enable the disabled components in the master
+		master.GetComponent<MovementController>().enabled = true;
+		master.GetComponentInChildren<CameraController>().enabled = true;
+		master.GetComponentInChildren<Camera>().enabled = true;
 	}
 
 	/**
@@ -177,21 +184,14 @@ public class ClassPanelScript : MonoBehaviour {
 		player.GetComponentInChildren<CameraController>().enabled = false;
 		Player robotScript = robot.GetComponent<Player>(); // The robot's player script
 		Player callingPlayer = player.GetComponent<Player>(); // The calling player's script
-		bool whoToToggle; // Record who to toggle to
 		bool isSelected; // Store whether or not the ui slot was selected
 
 		// First, make sure robot still exists
 		if (robot == null) 
 			return; // Don't do anything
 
-		// Check what to toggle to
-		if (currentPlayer == player) 
-			whoToToggle = true; // Toggle to robot
-		else 
-			whoToToggle = false; // Toggle to player
-
 		// Toggle
-		if (whoToToggle) { // Toggle to robot
+		if (currentPlayer == player) { // Toggle to robot
 			currentPlayer = robot;
 			ClassTitle.text = robotScript.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Engineer";
@@ -208,11 +208,19 @@ public class ClassPanelScript : MonoBehaviour {
 					callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().ToggleSelected();
 				}
 			}
+			robot.GetComponent<MovementController>().enabled = true;
+			robot.GetComponentInChildren<CameraController>().enabled = true;
+			robot.GetComponentInChildren<Camera>().enabled = true;
+			player.GetComponent<MovementController>().enabled = false;
+			player.GetComponentInChildren<CameraController>().enabled = false;
+			player.GetComponentInChildren<Camera>().enabled = false;
 		} else { // Toggle to player
 			robot.GetComponent<MovementController>().enabled = false;
 			robot.GetComponentInChildren<CameraController>().enabled = false;
+			robot.GetComponentInChildren<Camera>().enabled = false;
 			player.GetComponent<MovementController>().enabled = true;
 			player.GetComponentInChildren<CameraController>().enabled = true;
+			player.GetComponentInChildren<Camera>().enabled = true;
 
 			currentPlayer = player;
 			ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();

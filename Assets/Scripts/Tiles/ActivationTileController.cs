@@ -115,7 +115,6 @@ public class ActivationTileController : MonoBehaviour {
 	 * - Ability ability - The ability being activated
 	 */
 	public void GeneratorInterface(Player newPlayer, Ability newAbility) {
-		Debug.Log("Ability Activation Interface");
 		double abilityRange = newAbility.GetRange();
 		/* The X and Z Coordinates of the calling player */
 		int playerPositionX = newPlayer.PlayerPosition().X * 2;

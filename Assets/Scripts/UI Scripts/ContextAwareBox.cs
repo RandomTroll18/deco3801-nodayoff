@@ -101,6 +101,7 @@ public class ContextAwareBox : MonoBehaviour {
 			if (item == null) return;
 			if (item.RemainingCoolDownTurns() != 0) return;
 			activationTileScript.GeneratorInterface(playerScript, item);
+			playerObject.GetComponent<MovementController>().ClearPath();
 		}
 	}
 

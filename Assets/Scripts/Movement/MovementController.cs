@@ -45,6 +45,7 @@ public class MovementController : MonoBehaviour {
 
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
 	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
+
 	/* Player's "moving" status */
 	Moving moving = Moving.NO;
 	/* The path of tiles the player is moving with */
@@ -143,7 +144,7 @@ public class MovementController : MonoBehaviour {
 				}
 
 				playerScript.ReduceStatValue(Stat.AP, 1);
-				if (playerScript.GetStatValue(Stat.AP) == 0) {
+				if (playerScript.GetStatValue(Stat.AP) <= 0f && playerScript.GetStatValue(Stat.AP) >= 0f) {
 					ClearPath();
 					StopMoving();
 				}
@@ -181,7 +182,7 @@ public class MovementController : MonoBehaviour {
 		}
 
 		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
-			if (playerScript.GetStatValue(Stat.AP) != 0)
+			if (playerScript.GetStatValue(Stat.AP) < 0f || playerScript.GetStatValue(Stat.AP) > 0f)
 				moving = Moving.YES;
 			return;
 		}
@@ -216,7 +217,10 @@ public class MovementController : MonoBehaviour {
 		}
 	}
 
-	void ClearPath() {
+	/**
+	 * Clearing the visual path
+	 */
+	public void ClearPath() {
 		foreach (Object obj in visualPath) {
 			DestroyObject(obj);
 		}
@@ -235,7 +239,7 @@ public class MovementController : MonoBehaviour {
 		Vector3 tilePos = Tile.TileMiddle(pos);
 		tilePos.y = tilePos.y - 0.49f;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
-		Instantiate(HighlightedTile, tilePos, tileRot);
+		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot));
 	}
 
 	/*
@@ -245,7 +249,6 @@ public class MovementController : MonoBehaviour {
 	 */
 	PathTile FindPath(Tile goal) {
 		HashSet<Tile> explored = new HashSet<Tile>();
-		Debug.Log(string.Format("Finding a path to: {0}, {1}", goal.X, goal.Z));
 		if (goal != null && !blockedTiles.Contains(goal)) {
 			Queue<PathTile> q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
@@ -275,12 +278,17 @@ public class MovementController : MonoBehaviour {
 	}
 
 	/*
-	 * Returns the distance between this player and another position
+	 * Returns the distance between this player and another position. -1 if no path found
 	 */
 	public int TileDistance(Vector3 position) {
 		PathTile path = FindPath(Tile.TilePosition(position));
-		//Debug.Log("Path depth: " + path.Depth);
-		return path.Depth;
+
+		if (path == null) // No path found. Unknown
+			return -1;
+		else { // Path found
+			Debug.Log("Path depth: " + path.Depth);
+			return path.Depth;
+		}
 	}
 	
 	/**
@@ -358,33 +366,33 @@ public class MovementController : MonoBehaviour {
 		return blockedTiles.Contains(tile);
 	}
 
-	public void AddInteractable(InteractiveObject ToAdd) {
+	public void AddInteractable(InteractiveObject toAdd) {
 		//c = i.GetComponent<InteractiveObject>();
-		InteractiveTiles.Add(ToAdd);
-		blockedTiles.Add(ToAdd.GetTile());
+		InteractiveTiles.Add(toAdd);
+		blockedTiles.Add(toAdd.GetTile());
 //		Debug.Log("int added: " + ToAdd.GetTile().ToString());
 		// I can't see a reason why you need to call getTile() when this function exists:
 		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
 	
-	public void RemoveInteractable(InteractiveObject ToRemove) {
+	public void RemoveInteractable(InteractiveObject toRemove) {
 		//c = i.GetComponent<InteractiveObject>();
-		InteractiveTiles.Remove(ToRemove);
-		blockedTiles.Remove(ToRemove.GetTile());
-		Debug.Log("int Remove: " + ToRemove.GetTile().ToString());
+		InteractiveTiles.Remove(toRemove);
+		blockedTiles.Remove(toRemove.GetTile());
+		Debug.Log("int Remove: " + toRemove.GetTile().ToString());
 		// I can't see a reason why you need to call getTile() when this function exists:
 		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
 
-	public void RemoveInteractable(Tile ToRemove) {
-		int index = GetInteractable (ToRemove);
+	public void RemoveInteractable(Tile toRemove) {
+		int index = GetInteractable(toRemove);
 		if (index == -1) {
 			Debug.Log("Can't find Tile");
 			return;
 		}
-		blockedTiles.Remove(ToRemove);
+		blockedTiles.Remove(toRemove);
 		InteractiveTiles.Remove(InteractiveTiles[index]);
-		Debug.Log("int Remove: " + ToRemove.ToString());
+		Debug.Log("int Remove: " + toRemove.ToString());
 	}
 
 	public bool UseInteractable(Tile goal, Player playerSCript) {
