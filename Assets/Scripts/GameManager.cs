@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -32,6 +32,13 @@ public class GameManager : MonoBehaviour {
 	 */
 	public void StartMe() {
 		StartPlaying();
+	}
+
+	[PunRPC]
+	public void AddPlayer(Player p) {
+		this.PlayerList.Add(p);
+		this.playersLeft = PlayerList.Count;
+		Debug.Log("Player list size: " + this.playersLeft);
 	}
 
 	void StartScripts() {
@@ -70,7 +77,6 @@ public class GameManager : MonoBehaviour {
 		InitalizeDoors();
 		TurnOnLighting();
 		validTurn = false;
-		playersLeft = PlayerList.Count;
 		//		Debug.Log("Valid turn is: " + validTurn + " by default");
 		//		Debug.Log("Number of players left: " + playersLeft);
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
@@ -107,23 +113,22 @@ public class GameManager : MonoBehaviour {
 	 */
 	void Update() {
 		if (validTurn) {
-			if (playersLeft == 0) { // No more active players
+			if (playersLeft <= 0) { // No more active players
 				validTurn = false;
 			}
 			return;
 		}
 
 		//Debug.Log ("Invalid turn. Game Manager doing stuff");
-		// Reset number of players left
 		playersLeft = PlayerList.Count;
+
 		// Initialize player stats - AP and apply player effects
-		foreach (Player p in PlayerList) {
-			p.InitializeStats();
-			p.ApplyTurnEffects();
-			p.ReduceItemCoolDowns();
-			p.ReduceAbilityTurns();
-			p.SetActivity(false);
-		}
+		Player p = Player.MyPlayer.GetComponent<Player>();
+		p.InitializeStats();
+		p.ApplyTurnEffects();
+		p.ReduceItemCoolDowns();
+		p.ReduceAbilityTurns();
+		p.SetActivity(false);
 
 		RoundsLeftUntilLose--;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
@@ -148,10 +153,9 @@ public class GameManager : MonoBehaviour {
 	/**
 	 * Record that a player is no longer active
 	 */
+	[PunRPC]
 	public void SetInactivePlayer() {
-		if (playersLeft != 0) {
-			playersLeft--;
-		}
+		playersLeft--;
 	}
 
 	/**

@@ -98,7 +98,7 @@ public class CameraController : MonoBehaviour {
 	 * game
 	 */ 
 	void ResetOffset() {
-		offset = transform.position - gameObject.transform.position;
+		offset = transform.position - transform.parent.position;
 		offset = new Vector3(0, offset.y, 0);
 	}
 
@@ -114,7 +114,7 @@ public class CameraController : MonoBehaviour {
 	 * Call this when the player moves.
 	 */
 	public void ResetCamera() {
-		transform.position = gameObject.transform.position + offset;
+		transform.position = transform.parent.position + offset;
 	}
 
 	/**

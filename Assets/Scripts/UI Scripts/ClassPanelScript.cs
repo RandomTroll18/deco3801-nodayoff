@@ -71,7 +71,8 @@ public class ClassPanelScript : MonoBehaviour {
 	 * Arguments
 	 * - GameObject player - The player whose ability is being activated
 	 */
-	public void ActivatePrimaryAbility(GameObject player) {
+	public void ActivatePrimaryAbility() {
+		GameObject player = Player.MyPlayer;
 		Player playerScript = player.GetComponent<Player>(); // Player script
 		Ability primaryAbility = playerScript.GetPlayerClassObject().GetPrimaryAbility(); // Primary ability
 

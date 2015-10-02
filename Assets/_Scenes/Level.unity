@@ -593,11 +593,11 @@ Prefab:
       objectReference: {fileID: 933542309}
     - target: {fileID: 22423588, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22476096, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11419422, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: GameManagerObject
@@ -1262,6 +1262,7 @@ GameObject:
   - 114: {fileID: 183795048}
   - 114: {fileID: 183795051}
   - 114: {fileID: 183795050}
+  - 114: {fileID: 183795049}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -1302,6 +1303,31 @@ MonoBehaviour:
   - {fileID: 960960068}
   - {fileID: 88128306}
   RemainingTurnsText: {fileID: 1603240293}
+--- !u!114 &183795049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 183795046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 1
+  instantiationId: 1
+  isRuntimeInstantiated: 0
 --- !u!114 &183795050
 MonoBehaviour:
   m_ObjectHideFlags: 0

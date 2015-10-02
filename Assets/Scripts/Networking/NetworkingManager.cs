@@ -49,7 +49,9 @@ public class NetworkingManager : Photon.PunBehaviour {
 			);
 		Player.MyPlayer = myPlayer;
 		// TODO: spawn light with player / turn light on
-		Object.FindObjectOfType<GameManager>().PlayerList.Add(myPlayer.GetComponent<Player>()); // TODO: needs to be an RPC call so all client know about the player
+		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
+		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, 
+		                                  myPlayer.GetComponent<Player>());
 		Object.FindObjectOfType<GameManager>().StartMe();
 		myPlayer.GetComponent<MovementController>().enabled = true;
 		myPlayer.GetComponentInChildren<CameraController>().enabled = true;
