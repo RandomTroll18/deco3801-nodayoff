@@ -26,8 +26,11 @@ public class NetworkingManager : Photon.PunBehaviour {
 	}
 
 	void OnPhotonRandomJoinFailed() {
+		RoomOptions roomOptions = new RoomOptions() { 
+			maxPlayers = 4 
+		}; // Options for the room we are creating
 		Debug.Log("OnPhotonRandomJoinFailed");
-		PhotonNetwork.CreateRoom(null);
+		PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
 	}
 
 	public override void OnCreatedRoom() {
