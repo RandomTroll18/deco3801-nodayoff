@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
 	bool turnEffectsApplied; // Record whether turn effects are applied
 	bool noLongerActive; // Record if this player is still active
 	bool isStunned; // Record if this player is stunned
+	int stunTimer;
 	bool isImmuneToStun; // Recod if the player is immune to stun
 	Light playerLight; // Player's light
 	Material playerMaterial; // The material of the player
@@ -109,6 +110,20 @@ public class Player : MonoBehaviour {
 			ClassToSet = "Technician";
 	}
 
+	/*
+	 * Returns the Player at the given tile or null if no player is at that tile.
+	 * If multiple players are on a tile, just returns one of those players.
+	 */
+	public static Player PlayerAtTile(Tile tile) {
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
+			if (Tile.TilePosition(p.transform.position).Equals(tile)) {
+				return p.GetComponent<Player>();
+			}
+		}
+		
+		return null;
+	}
+
 	void GatherScripts() {
 		gameManagerScript = GameManagerObject.GetComponent<GameManager>();
 		effectPanelScript = EffectBoxPanel.GetComponent<EffectPanelScript>();
@@ -150,12 +165,23 @@ public class Player : MonoBehaviour {
 			noLongerActive = false;
 		}
 		else {
-			if (isStunned) { // Player is currently stunned. Can't do anything
+			if (isStunned && stunTimer-- > 0) { // Player is currently stunned. Can't do anything
 				noLongerActive = true;
 				return;
+			} else if (isStunned) {
+				Debug.Log("Not stunned");
+				isStunned = false;
+				noLongerActive = false;
 			}
 			// Allow movement
 		}
+	}
+
+	[PunRPC]
+	public void Stun(int timer) {
+		Debug.Log("Player Stunned");
+		isStunned = true;
+		stunTimer = timer;
 	}
 
 	/**

@@ -286,7 +286,6 @@ public class MovementController : MonoBehaviour {
 		if (path == null) // No path found. Unknown
 			return -1;
 		else { // Path found
-			Debug.Log("Path depth: " + path.Depth);
 			return path.Depth;
 		}
 	}

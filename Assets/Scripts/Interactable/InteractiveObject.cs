@@ -50,15 +50,14 @@ public class InteractiveObject : MonoBehaviour {
 		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider> ();
 		button = panel.transform.FindChild("Button").GetComponent<Button> ();
 
-		MController = GameObject.FindGameObjectWithTag("GameController")
-			.GetComponent<MovementController>();
-		player = GameObject.Find ("Player");
+		player = Player.MyPlayer; 
+		MController = player.GetComponent<MovementController>();
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
 			.GetComponent<PrimaryObjectiveController> ();
-		player = Player.MyPlayer; 
 		PlayerScript = player.GetComponent<Player>();
 
-		if (debugging) Debug.Log(this.position.ToString());		
+		if (debugging) 
+			Debug.Log(this.position.ToString());		
 		
 	}
 

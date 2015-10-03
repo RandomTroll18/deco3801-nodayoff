@@ -15,6 +15,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	/**
 	 * Call this when the objective needs to change
 	 */
+	[PunRPC]
 	public void ChangeObjective(Objective objective) {
 		this.objective = objective;
 		transform.Find("Title").GetComponent<Text>().text = objective.Title;

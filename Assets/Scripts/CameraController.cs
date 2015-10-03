@@ -85,6 +85,7 @@ public class CameraController : MonoBehaviour {
 						actController.Activate(goal); // Activate the item
 						IsTargetConfirmation = false;
 					}
+
 				} else if (goal != null) {
 					actController.DestroyActivationTiles(); // Stop targetting
 					IsTargetConfirmation = false;

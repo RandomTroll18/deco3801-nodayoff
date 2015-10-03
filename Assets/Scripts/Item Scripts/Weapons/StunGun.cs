@@ -5,6 +5,7 @@ using System.Collections;
  * Class for a Stun Gun - Short Range Weapon
  */
 public class StunGun : ShortRangeWeapon {
+	const int STUN_DURATION = 2;
 
 	/**
 	 * Stun Gun is simply a weapon that inflicts stun on the target.
@@ -52,7 +53,6 @@ public class StunGun : ShortRangeWeapon {
 	 * Override the Activate function
 	 */
 	public override void Activate(Tile targetTile) {
-		GameObject testActivate; // MVP purposes
 
 		if (CurrentNumberOfUses == 0) {
 			Debug.Log("Stun Gun has no more uses");
@@ -62,17 +62,27 @@ public class StunGun : ShortRangeWeapon {
 			return; // Still cooling down
 		}
 
-		// Show where Stun Gun was activated - MVP purposes
-		testActivate = Instantiate(TestPrefab);
-		testActivate.GetComponent<Transform>().position = new Vector3((float)(targetTile.X * 2), 0.001f, 
-				(float)(targetTile.Z * 2));
-		testActivate.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+		Player target = Player.PlayerAtTile(targetTile);
+		target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION);
 
-		Destroy(testActivate, 3f); // Destroy tile after 2 seconds
+		ShowEffect(targetTile.X * 2, 0.001f, targetTile.Z * 2);
 
 		CurrentNumberOfUses--;
-		if (CurrentNumberOfUses == 0) CoolDown = CoolDownSetting; // Set Cool Down
+		if (CurrentNumberOfUses == 0) 
+			CoolDown = CoolDownSetting; // Set Cool Down
 	}
+
+	[PunRPC]
+	void ShowEffect(float x, float y, float z) {
+		GameObject testActivate; // MVP purposes
+
+		// Show where Stun Gun was activated - MVP purposes
+		Vector3 pos = new Vector3(x, y, z);
+		testActivate = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
+		testActivate.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+		Destroy(testActivate, 3f); // TODO: fix so the anim is destroyed for all clients
+	}
+	// Destroy tile after 2 seconds
 	
 	/**
 	 * Override toString function

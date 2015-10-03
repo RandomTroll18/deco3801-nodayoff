@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour {
 	 * Opens the door at the given position. This means the door will start its animation and will
 	 * no longer block that tile.
 	 */
+	[PunRPC]
 	public void OpenDoor(Tile position) {
 		GameObject door;
 		if (!doors.TryGetValue(position, out door)) {

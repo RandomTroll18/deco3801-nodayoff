@@ -38,4 +38,8 @@ MonoBehaviour:
   - EndTurn
   - AddPlayer
   - SetInactivePlayer
+  - ChangeObjective
+  - OpenDoor
+  - ShowEffect
+  - Stun
   DisableAutoOpenWizard: 1

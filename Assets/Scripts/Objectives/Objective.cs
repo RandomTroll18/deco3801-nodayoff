@@ -46,5 +46,6 @@ public abstract class Objective
 		}
 	}
 
+	[PunRPC]
 	public abstract void OnComplete();
 }
