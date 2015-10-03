@@ -29,7 +29,9 @@ public class InteractiveObject : MonoBehaviour {
 	protected MovementController MController;
 
 
-	void Start() {
+	public void StartMe(GameManager g) {
+
+		Debug.Log("Started");
 
 		this.position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
@@ -50,14 +52,18 @@ public class InteractiveObject : MonoBehaviour {
 		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider> ();
 		button = panel.transform.FindChild("Button").GetComponent<Button> ();
 
-		player = Player.MyPlayer; 
-		MController = player.GetComponent<MovementController>();
+		//MController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
+		MController = g.GetPlayerControllers();
+		//MController = Player.MyPlayer.GetComponent<MovementController>();
+		player = GameObject.Find ("Player");
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
 			.GetComponent<PrimaryObjectiveController> ();
+		player = Player.MyPlayer; 
 		PlayerScript = player.GetComponent<Player>();
 
-		if (debugging) 
-			Debug.Log(this.position.ToString());		
+		MController.AddInteractable(this);
+
+		if (debugging) Debug.Log(this.position.ToString());		
 		
 	}
 

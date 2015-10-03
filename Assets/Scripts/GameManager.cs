@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour {
 		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>()) {
 			script.StartMe();
 		}
+		
 		Object.FindObjectOfType<ChatTest>().StartMe();
 		Object.FindObjectOfType<ClassPanelScript>().StartMe();
 		Object.FindObjectOfType<EffectPanelScript>().StartMe();
@@ -77,6 +78,12 @@ public class GameManager : MonoBehaviour {
 		 * This is where the old Start() started
 		 */
 		movController = Player.MyPlayer.GetComponent<MovementController>();
+
+		//TODO : Still in thinking of a better way to do it. -Ken
+		foreach (InteractiveObject script in Object.FindObjectsOfType<InteractiveObject>()) {
+			script.StartMe(this);
+		}
+
 		InitalizeDoors();
 		TurnOnLighting();
 		validTurn = false;
@@ -166,7 +173,6 @@ public class GameManager : MonoBehaviour {
 	 * Opens the door at the given position. This means the door will start its animation and will
 	 * no longer block that tile.
 	 */
-	[PunRPC]
 	public void OpenDoor(Tile position) {
 		GameObject door;
 		if (!doors.TryGetValue(position, out door)) {
@@ -176,5 +182,9 @@ public class GameManager : MonoBehaviour {
 
 		door.GetComponent<Animator>().enabled = true;
 		movController.UnblockTile(position);
+	}
+
+	public MovementController GetPlayerControllers(){
+		return movController;
 	}
 }
