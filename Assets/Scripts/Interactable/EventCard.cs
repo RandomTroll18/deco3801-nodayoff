@@ -106,7 +106,7 @@ public class EventCard : MonoBehaviour
 	}
 
 	private void Vote(int playerNumber) {
-		Poll Counter = GameObject.FindGameObjectWithTag("Poll").GetComponent<Poll>();
+		Poll Counter = GameObject.FindGameObjectWithTag("GameController").GetComponent<Poll>();
 		Counter.AddToPoll(ListNumber, playerNumber);
 		ResolveCard(Counter, playerNumber);
 		Destroy(card);
