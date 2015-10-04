@@ -26,7 +26,6 @@ public class L1I1 : InteractiveObject {
 			return;
 		}
 
-
 		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
 			IsInactivated = true;
 			MController.UnblockTile(Tile.TilePosition(Door.transform.position));
@@ -41,9 +40,9 @@ public class L1I1 : InteractiveObject {
 		}
 
 
-		//TODO: Class interaction
-		//TODO: Toggle Door?
-		//TODO: Door animation?
+
+		//TODO: Sync others in game... 
+		//TODO: Check game state if same??? do we need that?
 
 	}
 }

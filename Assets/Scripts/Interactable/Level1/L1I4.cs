@@ -28,9 +28,10 @@ public class L1I4 : InteractiveObject {
 		}
 
 		if (SpendAP(input, MinCost, Stat.MARINEMULTIPLIER)) {
-			IsInactivated = true;
+			//IsInactivated = true;
 			MController.RemoveInteractable(this.GetTile());
-			Destroy(Door);
+			//Destroy(Door);
+			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
 			this.CloseEvent();
@@ -39,10 +40,23 @@ public class L1I4 : InteractiveObject {
 		} else {
 			Debug.Log("Failed");
 		}
-		
+
+
+
 		
 		//TODO: Class 
 		//TODO: Fix To not destroy door, and fix to destroy Interactable
 
 	}
+
+	public void InteractablSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+	
+	[PunRPC]
+	void Sync() {
+		Destroy(Door);
+	}
+
+
 }
