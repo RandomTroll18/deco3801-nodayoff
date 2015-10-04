@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void StartScripts() {
+		PlayerClass classOfPlayer; // The player's class
+		AlienClass alienClass; // The alien's class
+
 		Player.MyPlayer.GetComponent<Player>().StartMe();
 		Player.MyPlayer.GetComponent<MovementController>().StartMe();
 		Player.MyPlayer.GetComponentInChildren<CameraController>().StartMe();
@@ -63,6 +66,12 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		Object.FindObjectOfType<ChatTest>().StartMe();
+		// TODO: Before initializing the class panel, need to check if the player is an alien
+		classOfPlayer = Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject();
+		if (classOfPlayer.GetPlayerClassType().Equals("Alien Class")) { // Alien class
+			alienClass = (AlienClass)classOfPlayer;
+			alienClass.SetHumanClass(Classes.SCOUT);
+		}
 		Object.FindObjectOfType<ClassPanelScript>().StartMe();
 		Object.FindObjectOfType<EffectPanelScript>().StartMe();
 		Object.FindObjectOfType<PrimaryObjectiveController>().StartMe();

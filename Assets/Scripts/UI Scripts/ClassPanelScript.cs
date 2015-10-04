@@ -9,10 +9,12 @@ public class ClassPanelScript : MonoBehaviour {
 
 	public Text ClassTitle; // The Text Box for the Class Title
 	public Text PrimaryAbilityText; // The text for the primary ability button
+	public Text AlienPrimaryAbilityText; // The text for the alien primary ability button
 	public GameObject ClassPanel; // The class panel that this script is attached to
 	public GameObject ContextAwareBox; // The context aware box
 	public GameObject GameManager; // The game manager
 	public GameObject PrimaryAbilityButton; // The primary ability button
+	public GameObject AlienPrimaryAbilityButton; // The Alien mode ability button
 	public GameObject ClassPortrait; // The portrait for the class
 	public GameObject SpawnAPCounterPanel; // The spawn ap counter panel
 	public List<GameObject> Interactables; // Interactable objects
@@ -29,6 +31,7 @@ public class ClassPanelScript : MonoBehaviour {
 	 */
 	public void StartMe() {
 		PlayerClass ownerClass; // The class of the player owner
+		AlienClass alienClass; // Container for the alien class, if it is true
 
 		cameraController = Camera.main.GetComponent<CameraController>();
 		movementController = Player.MyPlayer.GetComponent<MovementController>();
@@ -37,11 +40,22 @@ public class ClassPanelScript : MonoBehaviour {
 		playerOwnerScript = Player.MyPlayer.GetComponent<Player>();
 		ownerClass = playerOwnerScript.GetPlayerClassObject();
 		ClassTitle.text = ownerClass.GetPlayerClassType();
-		if (ownerClass.GetPrimaryAbility() == null) PrimaryAbilityText.text = "No name";
-		else {
-			PrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
-			ownerClass.GetPrimaryAbility().SetClassPanel(ClassPanel);
-			ownerClass.GetPrimaryAbility().ExtraInitializing();
+		if (ownerClass.GetPrimaryAbility() == null) 
+			PrimaryAbilityText.text = "No name";
+		else { // Set button text and abilities
+			if (ownerClass.GetPlayerClassType().Equals("Alien Class")) { // Alien
+				alienClass = (AlienClass)ownerClass;
+				AlienPrimaryAbilityButton.SetActive(true);
+				PrimaryAbilityText.text = alienClass.GetHumanClass().GetPlayerClassType();
+				AlienPrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
+
+				alienClass.GetHumanClass().GetPrimaryAbility().SetClassPanel(ClassPanel);
+				alienClass.GetHumanClass().GetPrimaryAbility().ExtraInitializing();
+			} else { // Ordinary human class
+				PrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
+				ownerClass.GetPrimaryAbility().SetClassPanel(ClassPanel);
+				ownerClass.GetPrimaryAbility().ExtraInitializing();
+			}
 		}
 	}
 
@@ -66,10 +80,14 @@ public class ClassPanelScript : MonoBehaviour {
 	}
 
 	/**
+	 * Activate alien ability
+	 */
+	public void ActivateAlienAbility() {
+		Debug.Log("It's morphing time!");
+	}
+
+	/**
 	 * Activate primary ability
-	 * 
-	 * Arguments
-	 * - GameObject player - The player whose ability is being activated
 	 */
 	public void ActivatePrimaryAbility() {
 		GameObject player = Player.MyPlayer;

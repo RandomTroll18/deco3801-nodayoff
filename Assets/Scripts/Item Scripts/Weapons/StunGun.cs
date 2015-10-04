@@ -63,7 +63,11 @@ public class StunGun : ShortRangeWeapon {
 		}
 
 		Player target = Player.PlayerAtTile(targetTile);
-		target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION);
+		if (target == null) { // No target
+			Debug.Log("StunGun: No Target Found");
+			return;
+		} else // Target found
+			target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION);
 
 		ShowEffect(targetTile.X * 2, 0.001f, targetTile.Z * 2);
 

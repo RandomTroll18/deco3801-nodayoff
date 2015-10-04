@@ -197,7 +197,7 @@ public class Player : MonoBehaviour {
 			playerClass = new EngineerClass(this);
 			return;
 		case "Alien": // Create Alien Class
-			playerClass = new AlienClass();
+			playerClass = new AlienClass(this);
 			return;
 		case "Marine": // Create Marine Class
 			playerClass = new MarineClass(this);
