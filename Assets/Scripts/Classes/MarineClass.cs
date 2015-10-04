@@ -13,6 +13,7 @@ public class MarineClass : BaseClass {
 		DefaultStats[Stat.AP] = 10.0;
 
 		PrimaryAbility = new MarinePrimaryAbility(player);
+		ClassTypeEnum = Classes.MARINE;
 	}
 
 	/**

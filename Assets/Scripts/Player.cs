@@ -336,7 +336,7 @@ public class Player : MonoBehaviour {
 	 * Arguments
 	 * - TurnEffect effect - The turn effect to remove
 	 */
-	void detachTurnEffect(Effect effect) {
+	public void DetachTurnEffect(Effect effect) {
 		switch (effect.GetTurnEffectType()) { // Detach the effect on this player depending on type
 		case TurnEffectType.STATEFFECT: goto default; // Don't do anything yet
 		case TurnEffectType.ITEMEFFECT: // Need to reset affected items
@@ -370,7 +370,7 @@ public class Player : MonoBehaviour {
 		int mode; // The mode of this turn effect
 
 		if (effect.TurnsRemaining() == 0) { // Remove turn effect
-			detachTurnEffect(effect);
+			DetachTurnEffect(effect);
 			return;
 		}
 
@@ -605,7 +605,7 @@ public class Player : MonoBehaviour {
 
 		// Remove effects if the item has some turn effects
 		if (item.GetTurnEffects() != null) 
-			foreach (Effect turnEffect in item.GetTurnEffects()) detachTurnEffect(turnEffect);
+			foreach (Effect turnEffect in item.GetTurnEffects()) DetachTurnEffect(turnEffect);
 
 		// Remove the item from the ui slot
 		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();

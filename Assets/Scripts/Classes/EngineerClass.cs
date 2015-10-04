@@ -19,6 +19,7 @@ public class EngineerClass : PlayerClass {
 		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 		
 		PrimaryAbility = new EngineerPrimaryAbility(player); // This class has no primary ability
+		ClassTypeEnum = Classes.ENGINEER;
 	}
 
 

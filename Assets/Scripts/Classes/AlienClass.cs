@@ -18,6 +18,7 @@ public class AlienClass : BaseClass {
 		DefaultStats[Stat.TECHMULTIPLIER] = 1.5;
 
 		PrimaryAbility = new AlienPrimaryAbility(player);
+		ClassTypeEnum = Classes.BETRAYER;
 	}
 
 	/**

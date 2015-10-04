@@ -43,10 +43,10 @@ public class ClassPanelScript : MonoBehaviour {
 		if (ownerClass.GetPrimaryAbility() == null) 
 			PrimaryAbilityText.text = "No name";
 		else { // Set button text and abilities
-			if (ownerClass.GetPlayerClassType().Equals("Alien Class")) { // Alien
+			if (ownerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
 				alienClass = (AlienClass)ownerClass;
 				AlienPrimaryAbilityButton.SetActive(true);
-				PrimaryAbilityText.text = alienClass.GetHumanClass().GetPlayerClassType();
+				PrimaryAbilityText.text = alienClass.GetHumanClass().GetPrimaryAbility().GetAbilityName();
 				AlienPrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
 
 				alienClass.GetHumanClass().GetPrimaryAbility().SetClassPanel(ClassPanel);
@@ -83,7 +83,16 @@ public class ClassPanelScript : MonoBehaviour {
 	 * Activate alien ability
 	 */
 	public void ActivateAlienAbility() {
-		Debug.Log("It's morphing time!");
+		Player alien = Player.MyPlayer.GetComponent<Player>();
+		AlienClass alienClass = (AlienClass)alien.GetPlayerClassObject();
+		Ability alienAbility = alienClass.GetPrimaryAbility(); // The alien's ability
+		if (!alienClass.GetPrimaryAbility().AbilityIsActive()) { // We are turning into an alien
+			alienAbility.Activate();
+			AlienPrimaryAbilityText.text = "Human Mode";
+		} else { // We are turning back into human
+			alienAbility.Deactivate();
+			AlienPrimaryAbilityText.text = alienAbility.GetAbilityName();
+		}
 	}
 
 	/**
@@ -92,7 +101,15 @@ public class ClassPanelScript : MonoBehaviour {
 	public void ActivatePrimaryAbility() {
 		GameObject player = Player.MyPlayer;
 		Player playerScript = player.GetComponent<Player>(); // Player script
-		Ability primaryAbility = playerScript.GetPlayerClassObject().GetPrimaryAbility(); // Primary ability
+		PlayerClass classOfPlayer = playerScript.GetPlayerClassObject(); // The player's class
+		Ability primaryAbility; // The primary ability
+		AlienClass alienClass; // Container for alien class
+
+		if (classOfPlayer.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
+			alienClass = (AlienClass)classOfPlayer;
+			primaryAbility = alienClass.GetHumanClass().GetPrimaryAbility(); // Human ability
+		} else // Human player
+			primaryAbility = playerScript.GetPlayerClassObject().GetPrimaryAbility();
 
 		movementController.ClearPath(); // Clear the visual movement tiles
 

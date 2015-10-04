@@ -14,6 +14,7 @@ public class TechnicianClass : BaseClass {
 		DefaultStats[Stat.TECHMULTIPLIER] = 2.0;
 
 		PrimaryAbility = new TechnicianPrimaryAbility(player);
+		ClassTypeEnum = Classes.TECHNICIAN;
 	}
 
 	/**

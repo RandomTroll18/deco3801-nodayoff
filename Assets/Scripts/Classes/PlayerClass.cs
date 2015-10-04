@@ -9,6 +9,7 @@ public abstract class PlayerClass {
 
 	protected Dictionary<Stat, double> DefaultStats; // Default stats
 	protected Ability PrimaryAbility; // This class' primary ability
+	protected Classes ClassTypeEnum; // The enum representing this class' type
 
 	/**
 	 * Return the primary ability of this class
@@ -40,4 +41,14 @@ public abstract class PlayerClass {
 	 * - The string form of this type of player class
 	 */
 	public abstract string GetPlayerClassType();
+
+	/**
+	 * Return the type of this class as an enum
+	 * 
+	 * Returns
+	 * - A Classes Enum representing the type of this class
+	 */
+	public Classes GetClassTypeEnum() {
+		return ClassTypeEnum;
+	}
 }

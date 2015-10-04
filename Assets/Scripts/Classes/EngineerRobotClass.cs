@@ -15,6 +15,7 @@ public class EngineerRobotClass : BaseClass {
 		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 
 		PrimaryAbility = new EngineerRobotPrimaryAbility();
+		ClassTypeEnum = Classes.ENGINEER;
 	}
 
 	/**

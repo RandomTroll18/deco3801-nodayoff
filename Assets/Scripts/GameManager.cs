@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 	 
 	public int RoundsLeftUntilLose;
+	public int InitialNumberOfTurns; // The initial number of turns
 	public GameObject[] OpenedDoors;
 	public Text RemainingTurnsText; // The text counter for the remaining turns
 
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour {
 	 */
 	public void StartMe() {
 		StartPlaying();
+		InitialNumberOfTurns = RoundsLeftUntilLose;
 	}
 
 	[PunRPC]
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour {
 		Object.FindObjectOfType<ChatTest>().StartMe();
 		// TODO: Before initializing the class panel, need to check if the player is an alien
 		classOfPlayer = Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject();
-		if (classOfPlayer.GetPlayerClassType().Equals("Alien Class")) { // Alien class
+		if (classOfPlayer.GetClassTypeEnum() == Classes.BETRAYER) { // Alien class
 			alienClass = (AlienClass)classOfPlayer;
 			alienClass.SetHumanClass(Classes.SCOUT);
 		}

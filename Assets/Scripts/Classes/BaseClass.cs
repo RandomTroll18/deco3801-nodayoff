@@ -16,6 +16,7 @@ public class BaseClass : PlayerClass {
 		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 
 		PrimaryAbility = null; // This class has no primary ability
+		ClassTypeEnum = Classes.BETRAYER; // Base class is a betrayer
 	}
 
 	/**

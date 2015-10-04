@@ -14,6 +14,7 @@ public class ScoutClass : BaseClass {
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
 
 		PrimaryAbility = new ScoutPrimaryAbility(player);
+		ClassTypeEnum = Classes.SCOUT;
 	}
 
 	/**
