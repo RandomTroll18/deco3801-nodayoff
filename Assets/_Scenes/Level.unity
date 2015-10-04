@@ -1318,6 +1318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RoundsLeftUntilLose: 15
+  InitialNumberOfTurns: 0
   OpenedDoors:
   - {fileID: 0}
   - {fileID: 643092008}

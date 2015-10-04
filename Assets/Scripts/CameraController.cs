@@ -71,7 +71,7 @@ public class CameraController : MonoBehaviour {
 
 
 		// Mouse click detection
-		if (Input.GetMouseButtonUp(0)) {
+		if (Input.GetMouseButtonUp(0) && !GetComponentInParent<Player>().IsPlayerNoLongerActive()) {
 			if (!EventSystem.current.IsPointerOverGameObject()) {
 				Tile goal = Tile.MouseToTile((LayerMask));
 				if (actController.ActivationTiles().Contains(goal)) {

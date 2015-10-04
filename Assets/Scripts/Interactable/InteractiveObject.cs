@@ -83,6 +83,8 @@ public class InteractiveObject : MonoBehaviour {
 
 		if (PlayerScript.IsSpawned) 
 			return; // A spawned player cannot interact with this object
+		else if (IsInactivated) // Already activated
+			return;
 
 		// TODO: Figure whats wrong with code below & add toggle Panel
 		// TODO: Change text
