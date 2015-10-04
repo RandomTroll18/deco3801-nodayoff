@@ -15,7 +15,6 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	/**
 	 * Call this when the objective needs to change
 	 */
-	[PunRPC]
 	public void ChangeObjective(Objective objective) {
 		this.objective = objective;
 		transform.Find("Title").GetComponent<Text>().text = objective.Title;
@@ -24,8 +23,12 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	}
 
 	public void OnComplete() {
-		objective.OnComplete();
+		GetComponent<PhotonView>().RPC("OnCompleteNetwork", PhotonTargets.All, null);
+	}
 
+	[PunRPC]
+	void OnCompleteNetwork() {
+		objective.OnComplete();
 	}
 
 	public Objective GetObjective() {

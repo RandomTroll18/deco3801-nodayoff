@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
 		Player.MyPlayer.GetComponentInChildren<CameraController>().enabled = true;
 		Player.MyPlayer.GetComponent<Player>().enabled = true;
 		Player.MyPlayer.GetComponent<Player>().IsSpawned = false; // This isn't spawned
+		Player.MyPlayer.GetComponent<BoxCollider>().enabled = true;
 		Object.FindObjectOfType<Poll>().StartMe();
 		Object.FindObjectOfType<MainCanvasButton>().StartMe();
 		Object.FindObjectOfType<ContextAwareBox>().StartMe();
@@ -143,10 +144,15 @@ public class GameManager : MonoBehaviour {
 		RoundsLeftUntilLose--;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 		if (RoundsLeftUntilLose <= 0) {
-			Application.LoadLevel("GameOver");
+			GetComponent<PhotonView>().RPC("LoseGame", PhotonTargets.All, null);
 		}
 
 		validTurn = true;
+	}
+
+	[PunRPC]
+	void LoseGame() {
+		Application.LoadLevel("GameOver");
 	}
 
 	/**

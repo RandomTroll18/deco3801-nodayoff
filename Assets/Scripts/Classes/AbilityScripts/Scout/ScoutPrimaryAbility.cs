@@ -4,8 +4,9 @@ using System.Collections;
 public class ScoutPrimaryAbility : Ability {
 
 	Player master; // The owner of this ability
-	GameObject trapPrefab; // Prefab for a trap
+	string trapPrefab; // Prefab for a trap
 	int trapCount; // The number of traps that can be made
+	const int MAX_TRAPS = 3;
 
 	/**
 	 * Constructor
@@ -18,9 +19,8 @@ public class ScoutPrimaryAbility : Ability {
 		Range = 3.0;
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.DEFENSIVE;
-		trapPrefab = Resources.Load<GameObject>("AbilityPrefabs/Scout/ScoutTrap");
+		trapPrefab = "AbilityPrefabs/Scout/ScoutTrap";
 		master = player;
-		trapCount = 3; // Only 3 traps for now
 	}
 
 	/**
@@ -29,18 +29,26 @@ public class ScoutPrimaryAbility : Ability {
 	 * Arguments
 	 * - Tile targetTile - The tile being targetted
 	 */
-	public override void Activate(Tile targetTile)
-	{
-		GameObject generatedTrap; // The generated trap
+	public override void Activate(Tile targetTile) {
+		trapCount = MAX_TRAPS;
+		foreach (Trap t in Object.FindObjectsOfType<Trap>()) {
+			PhotonView pv = t.GetComponent<PhotonView>();
+			if (pv != null && pv.isMine) {
+				trapCount--;
+			}
+		}
 
-		if (trapCount == 0) return; // Don't do anything. Out of traps
-		trapCount--;
-		if (trapCount == 0) IsActive = true; // No more traps
+		if (trapCount == 0) 
+			return; // Don't do anything. Out of traps
 
-		generatedTrap = Object.Instantiate<GameObject>(trapPrefab);
-		generatedTrap.GetComponent<ScoutTrapScript>().SetOwner(master); // Set the owner
-		generatedTrap.GetComponent<ScoutTrapScript>().SetReference(generatedTrap);
-		generatedTrap.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
+		SpawnTrap(Tile.TileMiddle(targetTile).x, 0, Tile.TileMiddle(targetTile).z);
+	}
+
+	void SpawnTrap(float x, float y, float z) {
+		GameObject generatedTrap;
+		Vector3 pos = new Vector3(x, y, z);
+		generatedTrap = PhotonNetwork.Instantiate(trapPrefab, pos, Quaternion.identity, 0);
+		generatedTrap.GetComponent<MeshRenderer>().enabled = true;
 	}
 
 }

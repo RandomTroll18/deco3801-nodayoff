@@ -23,9 +23,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/CreateRoom.unity
   - enabled: 0
     path: Assets/_Scenes/GameRoom.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Prototype/WinScreen.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Prototype/GameOver.unity
   - enabled: 0
     path: Assets/_Scenes/TestNetworkMenu1.unity

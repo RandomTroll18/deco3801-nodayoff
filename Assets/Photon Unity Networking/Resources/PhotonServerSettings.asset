@@ -42,4 +42,8 @@ MonoBehaviour:
   - OpenDoor
   - ShowEffect
   - Stun
+  - OnComplete
+  - OnCompleteNetwork
+  - LoseGame
+  - Destroy
   DisableAutoOpenWizard: 1
