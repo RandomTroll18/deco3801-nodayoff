@@ -26,7 +26,7 @@ public class L1I5 : InteractiveObject {
 		}
 
 		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
-			IsInactivated = true;
+			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
 			this.CloseEvent();
@@ -35,7 +35,17 @@ public class L1I5 : InteractiveObject {
 		}
 
 		//TODO: Class interaction
-		
 
 	}
+
+	public void InteractablSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+	
+	[PunRPC]
+	void Sync() {
+		IsInactivated = true;
+	}
+	
+
 }

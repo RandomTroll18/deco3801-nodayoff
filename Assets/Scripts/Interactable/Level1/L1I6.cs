@@ -29,7 +29,16 @@ public class L1I6 : InteractiveObject {
 		//TODO: Class interaction
 		
 		
-		IsInactivated = true;
+		InteractablSync();
 		PrimaryO.OnComplete ();
+	}
+
+	public void InteractablSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+	
+	[PunRPC]
+	void Sync() {
+		IsInactivated = true;
 	}
 }

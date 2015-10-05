@@ -28,9 +28,7 @@ public class L1I4 : InteractiveObject {
 		}
 
 		if (SpendAP(input, MinCost, Stat.MARINEMULTIPLIER)) {
-			//IsInactivated = true;
-			MController.RemoveInteractable(this.GetTile());
-			//Destroy(Door);
+			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
@@ -41,9 +39,6 @@ public class L1I4 : InteractiveObject {
 			Debug.Log("Failed");
 		}
 
-
-
-		
 		//TODO: Class 
 		//TODO: Fix To not destroy door, and fix to destroy Interactable
 
@@ -56,6 +51,8 @@ public class L1I4 : InteractiveObject {
 	[PunRPC]
 	void Sync() {
 		Destroy(Door);
+		IsInactivated = true;
+		MController.RemoveInteractable(this.GetTile());
 	}
 
 

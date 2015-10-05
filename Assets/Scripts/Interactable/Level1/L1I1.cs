@@ -27,8 +27,8 @@ public class L1I1 : InteractiveObject {
 		}
 
 		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
+			InteractablSync();
 			IsInactivated = true;
-			MController.UnblockTile(Tile.TilePosition(Door.transform.position));
 			PrimaryO.OnComplete();
 			Debug.Log("Opened");
 			this.CloseEvent();		
@@ -39,10 +39,21 @@ public class L1I1 : InteractiveObject {
 			this.CloseEvent();	
 		}
 
-
-
 		//TODO: Sync others in game... 
 		//TODO: Check game state if same??? do we need that?
 
 	}
+
+	public void InteractablSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+	
+	[PunRPC]
+	void Sync() {
+		//Destroy(Door);
+		MController.UnblockTile(Tile.TilePosition(Door.transform.position));
+		IsInactivated = true;
+	}
+
+
 }

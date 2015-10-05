@@ -26,7 +26,7 @@ public class L1I2 : InteractiveObject {
 		}
 
 		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
-			//IsInactivated = true;
+			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
 			this.CloseEvent();
@@ -34,8 +34,17 @@ public class L1I2 : InteractiveObject {
 			Debug.Log("Failed");
 		}
 
-		
 		//TODO: Class interaction
 
 	}
+
+	public void InteractablSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+	
+	[PunRPC]
+	void Sync() {
+		IsInactivated = true;
+	}
+
 }
