@@ -165,8 +165,15 @@ public class Player : MonoBehaviour {
 			noLongerActive = false;
 		}
 		else {
-			if (isStunned && stunTimer-- > 0) { // Player is currently stunned. Can't do anything
+			if (noLongerActive) // Don't do anything
+				return;
+			else if (isStunned && stunTimer-- > 0) { // Player is currently stunned. Can't do anything
 				noLongerActive = true;
+				// Player can't do anything anymore so need to tell Game manager player is done
+				GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", 
+				                                                 PhotonTargets.All, null);
+				Debug.Log("Game Manager Turns Remaining: " + gameManagerScript.RoundsLeftUntilLose);
+				Debug.Log("Stun timer: " + stunTimer);
 				return;
 			} else if (isStunned) {
 				Debug.Log("Not stunned");
@@ -418,7 +425,7 @@ public class Player : MonoBehaviour {
 	 * Arguments
 	 * - bool newActivityState - boolean value for whether player is not active or not
 	 */
-	public void SetActivity(bool newActivityState) {
+	public void SetInActivity(bool newActivityState) {
 		noLongerActive = newActivityState;
 	}
 
@@ -576,9 +583,6 @@ public class Player : MonoBehaviour {
 	public void InitializeStats() {
 		SetStatValue(Stat.AP, playerClass.GetDefaultStat(Stat.AP));
 		SetStatValue(Stat.VISION, playerClass.GetDefaultStat(Stat.VISION));
-
-		isStunned = false;
-
 	}
 
 	/**

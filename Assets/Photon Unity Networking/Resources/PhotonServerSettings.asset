@@ -46,4 +46,5 @@ MonoBehaviour:
   - OnCompleteNetwork
   - LoseGame
   - Destroy
+  - Sync
   DisableAutoOpenWizard: 1

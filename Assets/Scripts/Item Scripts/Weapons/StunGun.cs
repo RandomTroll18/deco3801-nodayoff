@@ -66,7 +66,7 @@ public class StunGun : ShortRangeWeapon {
 		if (target == null) { // No target
 			Debug.Log("StunGun: No Target Found");
 			return;
-		} else // Target found
+		} else if (target != Player.MyPlayer) // Target found that isn't myself
 			target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION);
 
 		ShowEffect(targetTile.X * 2, 0.001f, targetTile.Z * 2);

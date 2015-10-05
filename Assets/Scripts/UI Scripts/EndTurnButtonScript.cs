@@ -30,7 +30,7 @@ public class EndTurnButtonScript : MonoBehaviour {
 	public void EndTurn() {
 		Player playerScript = playerOwner.GetComponent<Player>();
 		if (!playerScript.IsPlayerNoLongerActive()) {
-			playerScript.SetActivity(true);
+			playerScript.SetInActivity(true);
 			GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", 
 			                                                 PhotonTargets.All, null);
 		}

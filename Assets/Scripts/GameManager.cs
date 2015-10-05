@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour {
 		p.ApplyTurnEffects();
 		p.ReduceItemCoolDowns();
 		p.ReduceAbilityTurns();
-		p.SetActivity(false);
+		p.SetInActivity(false);
 
 		RoundsLeftUntilLose--;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
