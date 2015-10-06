@@ -57,7 +57,7 @@ public class ScoutPrimaryAbility : Ability {
 		GameObject generatedTrap;
 		Vector3 pos = new Vector3(x, y, z);
 		generatedTrap = PhotonNetwork.Instantiate(trapPrefab, pos, Quaternion.identity, 0);
-		generatedTrap.GetComponent<MeshRenderer>().enabled = true;
+		generatedTrap.GetComponent<MeshRenderer>().enabled = false;
 	}
 
 }
