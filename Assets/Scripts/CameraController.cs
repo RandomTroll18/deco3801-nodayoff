@@ -74,6 +74,7 @@ public class CameraController : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0) && !GetComponentInParent<Player>().IsPlayerNoLongerActive()) {
 			if (!EventSystem.current.IsPointerOverGameObject()) {
 				Tile goal = Tile.MouseToTile((LayerMask));
+				Debug.Log("Clicked tile at: " + Tile.TileMiddle(goal).ToString());
 				if (actController.ActivationTiles().Contains(goal)) {
 					movController.ClearPath();
 
@@ -121,11 +122,9 @@ public class CameraController : MonoBehaviour {
 
 	/**
 	 * Moves the camera to the given location.
-	 * 
-	 * At the moment this teleports the camera but in the future we 
-	 * could make it pan.
 	 */
 	public void MoveCamera(Tile location) {
+		// TODO: lerp camera to new position in Update
 		Vector3 dest = Tile.TileMiddle(location);
 		dest.y = transform.position.y;
 		transform.position = dest;

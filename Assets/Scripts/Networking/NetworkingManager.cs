@@ -17,7 +17,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 	void Connect() {
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
-		PhotonNetwork.ConnectUsingSettings("ben");
+		PhotonNetwork.ConnectUsingSettings("a");
 	}
 
 	public override void OnJoinedLobby() {
@@ -51,10 +51,38 @@ public class NetworkingManager : Photon.PunBehaviour {
 			0
 			);
 		Player.MyPlayer = myPlayer;
-		// TODO: spawn light with player / turn light on
 		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();
+
+		Classes pClass;
+		switch (myPlayer.GetComponent<Player>().GetPlayerClass()) {
+		case "Engineer Class":
+			pClass = Classes.ENGINEER;
+			break;
+		case "Marine Class":
+			pClass = Classes.MARINE;
+			break;
+		case "Technician Class":
+			pClass = Classes.TECHNICIAN;
+			break;
+		case "Scout Class":
+			pClass = Classes.SCOUT;
+			break;
+		default:
+			pClass = Classes.MARINE;
+			Debug.LogWarning("The player class isn't what it's expected to be: " + 
+			    	myPlayer.GetComponent<Player>().GetPlayerClass());
+			break;
+		}
+		foreach (SpawnPoint thisPoint in spawnPoints) {
+			if (thisPoint.Class == pClass) {
+				spawn = thisPoint;
+			}
+		}
+		myPlayer.transform.position = spawn.transform.position;
+
+		myPlayer.GetComponent<Player>().GenerateStunGun();
 	}
 
 	void OnGUI() {

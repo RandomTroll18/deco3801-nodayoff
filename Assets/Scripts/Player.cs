@@ -54,7 +54,6 @@ public class Player : MonoBehaviour {
 				playerLight = child.GetComponent<Light>();
 		}
 
-		GameObject stunGunObject; // The stun gun object
 		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
 
@@ -74,15 +73,21 @@ public class Player : MonoBehaviour {
 		turnEffectsApplied = false;
 		noLongerActive = false;
 
-		if (StunGunPrefab != null && !IsSpawned) { // Generate stun gun 
-			stunGunObject = Instantiate(StunGunPrefab);
-			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
-			stunGunObject.transform.position = 
-				new Vector3(transformComponent.position.x, (float)0.0, transformComponent.position.z);
-		}
-
 		isImmuneToStun = false;
 		playerMaterial = Resources.Load<Material>("Cube Player Skin");
+	}
+
+	/*
+	 * I put this hear since NetworkManager moves the player after its StartMe() is called.
+	 */
+	public void GenerateStunGun() {
+		GameObject stunGunObject;
+		if (StunGunPrefab != null && !IsSpawned) {
+			stunGunObject = Instantiate(StunGunPrefab);
+			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
+			stunGunObject.transform.position = new Vector3(transformComponent.position.x, 
+					(float) 0.0, transformComponent.position.z);
+		}
 	}
 
 	/*
