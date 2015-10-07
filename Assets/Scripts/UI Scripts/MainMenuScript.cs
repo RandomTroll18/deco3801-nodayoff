@@ -11,10 +11,8 @@ public class MainMenuScript : MonoBehaviour {
 	 * - string level - The level to load
 	 */
 	public void LoadLevel(string level) {
-		if (level.Equals("MainMenu")) {
+		if (level.Equals("MainMenu"))
 			Player.ChosenClass = null; // Player has not chosen a class
-			PhotonNetwork.Disconnect(); // Disconnect from room
-		}
 		Application.LoadLevel(level);
 	}
 
@@ -33,8 +31,8 @@ public class MainMenuScript : MonoBehaviour {
 	 */
 	public void LoadLevelWithClass(string chosenClass) {
 		Player.ChosenClass = chosenClass;
-		if (LevelToLoad == null) Application.LoadLevel("Level");
-		else Application.LoadLevel(LevelToLoad);
+		if (LevelToLoad == null) Application.LoadLevel("Main Level");
+		else Application.LoadLevel("Main Level");
 	}
 
 

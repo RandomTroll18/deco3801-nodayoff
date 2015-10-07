@@ -8,7 +8,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	// Use this for initialization
 	public void StartMe() {
-		ChangeObjective(new FirstObjective());
+		ChangeObjective(new FirstObjectiveMain());
 		cam = Camera.main.GetComponent<CameraController>();
 	}
 

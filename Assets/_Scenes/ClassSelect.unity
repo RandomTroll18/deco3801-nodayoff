@@ -239,6 +239,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11406812, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 22484836, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -335,6 +339,26 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1859869211}
+    - target: {fileID: 11406812, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11406812, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11406812, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1859869216}
+    - target: {fileID: 11406812, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DisconnectClient
+      objectReference: {fileID: 0}
+    - target: {fileID: 11406812, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 378b60109ee2e6e4eaa80e998c94b6a5, type: 2}
   m_IsPrefabParent: 0
@@ -350,6 +374,7 @@ GameObject:
   - 114: {fileID: 1859869213}
   - 114: {fileID: 1859869212}
   - 114: {fileID: 1859869211}
+  - 114: {fileID: 1859869216}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -424,3 +449,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1859869216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1859869210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625f07666ae27c24e9dbd0e32932e5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
