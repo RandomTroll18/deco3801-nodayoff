@@ -11,21 +11,21 @@ EditorBuildSettings:
     path: Assets/_Scenes/MainMenu.unity
   - enabled: 1
     path: Assets/_Scenes/Level.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/TestScene1.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/TestScene2.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/TestTutorial.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/JoinRoom.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/CreateRoom.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/GameRoom.unity
   - enabled: 1
     path: Assets/Prototype/WinScreen.unity
   - enabled: 1
     path: Assets/Prototype/GameOver.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/TestNetworkMenu1.unity
