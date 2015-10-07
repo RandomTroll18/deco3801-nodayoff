@@ -13,7 +13,7 @@ public class MainMenuScript : MonoBehaviour {
 	public void LoadLevel(string level) {
 		if (level.Equals("MainMenu"))
 			Player.ChosenClass = null; // Player has not chosen a class
-		Application.LoadLevel("Main Level");
+		Application.LoadLevel(level);
 	}
 
 	/*

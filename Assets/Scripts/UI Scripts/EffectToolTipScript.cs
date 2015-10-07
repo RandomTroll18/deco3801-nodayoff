@@ -44,8 +44,6 @@ public class EffectToolTipScript : MonoBehaviour, IPointerEnterHandler, IPointer
 	 * - PointerEventData eventData - The data of the on pointer enter event
 	 */
 	public void OnPointerEnter(PointerEventData eventData) {
-		Debug.Log("Effect Box Hovered Over");
-		Debug.Log("Effect Box Hover Over Event Data: " + eventData.ToString());
 		EffectToolTipPanelObject.GetComponent<Transform>().position = eventData.position;
 		MakeEffectToolTipVisible(attachedEffectText);
 	}
@@ -57,8 +55,6 @@ public class EffectToolTipScript : MonoBehaviour, IPointerEnterHandler, IPointer
 	 * - PointerEventData eventData - The data of the on pointer exit event
 	 */
 	public void OnPointerExit(PointerEventData eventData) {
-		Debug.Log("Effect Box Exited");
-		Debug.Log("Effect Box Exit Event Data: " + eventData.ToString());
 		MakeEffectToolTipInvisible();
 	}
 }
