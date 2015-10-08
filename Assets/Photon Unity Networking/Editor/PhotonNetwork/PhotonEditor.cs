@@ -23,7 +23,7 @@ public class PunWizardText
     public string SetupWizardWarningMessage = "You have not yet run the Photon setup wizard! Your game won't be able to connect. See Windows -> Photon Unity Networking.";
     public string MainMenuButton = "Main Menu";
     public string SetupWizardTitle = "PUN Setup";
-    public string SetupWizardInfo = "Thanks for importing Photon Unity Networking.\nThis window should set you up.\n\n<b>•</b> To use an existing Photon Cloud App, enter your AppId.\n<b>•</b> To register an account or access an existing one, enter the account’s mail address.\n<b>•</b> To use Photon OnPremise, skip this step.";
+    public string SetupWizardInfo = "Thanks for importing Photon Unity Networking.\nThis window should set you up.\n\n<b>�</b> To use an existing Photon Cloud App, enter your AppId.\n<b>�</b> To register an account or access an existing one, enter the account�s mail address.\n<b>�</b> To use Photon OnPremise, skip this step.";
     public string EmailOrAppIdLabel = "AppId or Email";
     public string AlreadyRegisteredInfo = "The email is registered so we can't fetch your AppId (without password).\n\nPlease login online to get your AppId and paste it above.";
     public string SkipRegistrationInfo = "Skipping? No problem:\nEdit your server settings in the PhotonServerSettings file.";
