@@ -26,7 +26,7 @@ public class L1I1 : InteractiveObject {
 			return;
 		}
 
-		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
+		if (SpendAP(input, MinCost)) {
 			InteractablSync();
 			IsInactivated = true;
 			PrimaryO.OnComplete();

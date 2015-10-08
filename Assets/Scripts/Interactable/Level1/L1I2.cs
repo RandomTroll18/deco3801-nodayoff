@@ -25,7 +25,7 @@ public class L1I2 : InteractiveObject {
 			return;
 		}
 
-		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
+		if (SpendAP(input, MinCost)) {
 			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
@@ -45,6 +45,8 @@ public class L1I2 : InteractiveObject {
 	[PunRPC]
 	void Sync() {
 		IsInactivated = true;
+		EC3 Nasty = gameObject.AddComponent<EC3>();
+		GameObject NastyUI = Nasty.CreateCard ();
 	}
 
 }
