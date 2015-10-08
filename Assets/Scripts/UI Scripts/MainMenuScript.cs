@@ -32,7 +32,7 @@ public class MainMenuScript : MonoBehaviour {
 	public void LoadLevelWithClass(string chosenClass) {
 		Player.ChosenClass = chosenClass;
 		if (LevelToLoad == null) Application.LoadLevel("Main Level");
-		else Application.LoadLevel("Main Level");
+		else Application.LoadLevel(LevelToLoad);
 	}
 
 
