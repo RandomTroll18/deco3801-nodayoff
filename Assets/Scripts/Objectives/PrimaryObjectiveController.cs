@@ -8,15 +8,15 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	// Use this for initialization
 	public void StartMe() {
-		ChangeObjective(new FirstObjectiveMain());
+		ChangeObjective(new FirstObjective());
 		cam = Camera.main.GetComponent<CameraController>();
 	}
 
 	/**
 	 * Call this when the objective needs to change
 	 */
-	public void ChangeObjective(Objective objective) {
-		this.objective = objective;
+	public void ChangeObjective(Objective newObjective) {
+		this.objective = newObjective;
 		transform.Find("Title").GetComponent<Text>().text = objective.Title;
 		transform.Find("Description").GetComponent<Text>().text = objective.Description;
 

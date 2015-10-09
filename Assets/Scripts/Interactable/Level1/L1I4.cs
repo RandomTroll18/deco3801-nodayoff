@@ -27,7 +27,7 @@ public class L1I4 : InteractiveObject {
 			return;
 		}
 
-		if (SpendAP(input, MinCost, Stat.MARINEMULTIPLIER)) {
+		if (SpendAP(input, MinCost)) {
 			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
 			PrimaryO.OnComplete ();

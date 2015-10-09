@@ -24,7 +24,7 @@ public class L1I3 : InteractiveObject {
 			return;
 		}
 
-		if (SpendAP(input, MinCost, Stat.TECHMULTIPLIER)) {
+		if (SpendAP(input, MinCost)) {
 			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");

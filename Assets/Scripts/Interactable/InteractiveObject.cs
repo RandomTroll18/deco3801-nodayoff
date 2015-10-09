@@ -7,9 +7,9 @@ public class InteractiveObject : MonoBehaviour {
     
 	//check if player is interacting with object
 	//public bool IsInteracting = false;
-	public string SkillType;
 	public string StringInput;
 	public int Cost;
+	public Stat ClassMultiplier;
 
 	//the UICanvas
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
@@ -27,7 +27,7 @@ public class InteractiveObject : MonoBehaviour {
 	protected bool IsInactivated;
 	protected PrimaryObjectiveController PrimaryO;
 	protected MovementController MController;
-
+	public bool InstantInteract;
 
 	public void StartMe(GameManager g) {
 
@@ -60,7 +60,6 @@ public class InteractiveObject : MonoBehaviour {
 			.GetComponent<PrimaryObjectiveController> ();
 		player = Player.MyPlayer; 
 		PlayerScript = player.GetComponent<Player>();
-
 		MController.AddInteractable(this);
 
 		if (debugging) Debug.Log(this.position.ToString());		
@@ -94,20 +93,24 @@ public class InteractiveObject : MonoBehaviour {
 		// TODO: Change Slider properties
 		APSlider.value = 0;
 		//APSlider.maxValue = this.APLimit;
-		if (!this.IsInactivated) {
+		if (InstantInteract) {
+			TakeAction(0);
+		} else {
 			OpenEvent();
 		}
 		return;
 	}
 
-	public bool SpendAP(int input, int cost, Stat x) {
+	public bool SpendAP(int input, int cost) {
 		double Multiplier = 1;
-		Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(x);
+		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER)) {
+			Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(ClassMultiplier);
+		}
 		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float)input / 100f));
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
 		int multipliedAP = (int)Mathf.Floor((float)actualAP * (float)Multiplier); // TODO: add character class element
 		int rng = Random.Range(1, multipliedAP);
-		Debug.Log("Rolled " + rng);
+		Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
 		if (rng >= cost) {
 			return true;
 		}
