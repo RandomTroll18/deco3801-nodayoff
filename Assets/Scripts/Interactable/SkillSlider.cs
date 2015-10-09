@@ -9,7 +9,7 @@ public class SkillSlider : MonoBehaviour {
 
 	public void TextUpdate (){
 
-		GameObject Player = GameObject.Find ("Player");
+		GameObject Player = GameObject.Find ("Player(Clone)");
 		Player PlayerScript = Player.GetComponent<Player>();
 
 		double Multiplier = 1;
