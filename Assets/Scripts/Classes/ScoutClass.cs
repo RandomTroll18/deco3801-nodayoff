@@ -10,7 +10,6 @@ public class ScoutClass : BaseClass {
 	 * - Player player - The player that belongs to this class
 	 */
 	public ScoutClass(Player player) : base() {
-		DefaultStats[Stat.AP] = 10.0;
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
 
 		PrimaryAbility = new ScoutPrimaryAbility(player);

@@ -546,10 +546,10 @@ public class Player : MonoBehaviour {
 		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
 			playerLight.intensity = 0;
 		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
-			playerLight.intensity = 2;
+			playerLight.intensity = 4;
 			visionDistance = 4;
 		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
-			playerLight.intensity = 2;
+			playerLight.intensity = 8;
 			visionDistance = 6;
 		}
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {

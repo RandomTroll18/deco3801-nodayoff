@@ -119,7 +119,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void TurnOnLighting() {
-		RenderSettings.ambientLight = Color.black;
+		Color color;
+		Color.TryParseHexString("323232FF", out color);
+		RenderSettings.ambientLight = color;
+		RenderSettings.fog = true;
 		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Lighting")) {
 			g.GetComponent<Light>().enabled = true;
 		}

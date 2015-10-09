@@ -50,5 +50,6 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	public void GoToLocation() {
 		cam.MoveCamera(objective.Location);
+		cam.HighlightTile(objective.Location);
 	}
 }

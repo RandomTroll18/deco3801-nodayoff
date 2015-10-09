@@ -10,7 +10,6 @@ public class MarineClass : BaseClass {
 	 * - Player player - The calling player
 	 */
 	public MarineClass(Player player) : base(){
-		DefaultStats[Stat.AP] = 10.0;
 
 		PrimaryAbility = new MarinePrimaryAbility(player);
 		ClassTypeEnum = Classes.MARINE;

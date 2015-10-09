@@ -392,6 +392,7 @@ public class MovementController : MonoBehaviour {
 		blockedTiles.Remove(toRemove);
 		InteractiveTiles.Remove(InteractiveTiles[index]);
 		Debug.Log("int Remove: " + toRemove.ToString());
+		Object.FindObjectOfType<GameManager>().OpenDoor(toRemove);
 	}
 
 	public bool UseInteractable(Tile goal, Player playerSCript) {
