@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ContextAwareBox : MonoBehaviour {
@@ -29,7 +29,7 @@ public class ContextAwareBox : MonoBehaviour {
 		InventoryContextPanel[2].GetComponent<Button>().onClick.AddListener(
 			() => ActivateAttachedItem(Player.MyPlayer));
 		InventoryContextPanel[3].GetComponent<Button>().onClick.AddListener(
-			() => playerScript.DropItem(gameObject));
+			() => playerScript.RemoveItem(gameObject));
 
 		activationTileScript = GetComponent<ActivationTileController>();
 		activationTileScript.StartMe();

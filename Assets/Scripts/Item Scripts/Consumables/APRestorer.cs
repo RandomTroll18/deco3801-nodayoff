@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /**
@@ -26,19 +24,33 @@ public class APRestorer : RecoveryConsumables {
 		apEffect[1] = -1;
 		apEffect[2] = 1.0;
 		InstantEffects[Stat.AP] = apEffect;
+		Activatable = true; // Can be activated
 	}
 
 	/**
 	 * Override Activate function
 	 */
 	public override void Activate(Tile targetTile) {
-		Debug.Log("AP Restorer activation");
+		Debug.Log("APRestorer to activate");
+		Player target; // The target
+
+		target = Player.PlayerAtTile(targetTile); // Get target
+
+		if (target == null)
+			return; // No target found
+
+		target.IncreaseStatValue(Stat.AP, InstantEffects[Stat.AP][0]);
+		if (--Amount == 0) { // Destroy this item
+			Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
+			Destroy(gameObject);
+		}
 	}
 
 	/* Override abstract functions so that compiler doesn't whine */
 	public override void Activate()
 	{
 		throw new System.NotImplementedException();
+		
 	}
 
 	public override void StartAfterInstantiate()

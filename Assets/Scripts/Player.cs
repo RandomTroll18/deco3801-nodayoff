@@ -7,7 +7,7 @@ using UnityEngine.UI;
  */
 public class Player : MonoBehaviour {
 
-	public GameObject[] InventoryUI = new GameObject[9]; // UI Slots
+	public GameObject[] InventoryUI = new GameObject[8]; // UI Slots
 	public GameObject GameManagerObject; // The game manager object
 	public GameObject EffectBoxPanel; // The effect box panel
 	public GameObject StunGunPrefab; // Stun Gun Prefab
@@ -23,8 +23,8 @@ public class Player : MonoBehaviour {
 	public static GameObject MyPlayer;
 
 	Dictionary<Stat, double> stats; // Dictionary of stats
-	GameObject[] physicalItems = new GameObject[9]; // Items' Game Objects
-	Item[] inventory = new Item[9]; // Inventory
+	GameObject[] physicalItems = new GameObject[8]; // Items' Game Objects
+	Item[] inventory = new Item[8]; // Inventory
 	List<GameObject> droppedItems; // Recently dropped items
 	List<Effect> turnEffects; // The turn-based effects attached to this player
 
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour {
 	 */
 	void SetPublicVariables() {
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
-		InventoryUI = new GameObject[9];
+		InventoryUI = new GameObject[8];
 		InventoryUI[0] = GameObject.Find("Slot1");
 		InventoryUI[1] = GameObject.Find("Slot2");
 		InventoryUI[2] = GameObject.Find("Slot3");
@@ -106,7 +106,6 @@ public class Player : MonoBehaviour {
 		InventoryUI[5] = GameObject.Find("Slot6");
 		InventoryUI[6] = GameObject.Find("Slot7");
 		InventoryUI[7] = GameObject.Find("Slot8");
-		InventoryUI[8] = GameObject.Find("Slot9");
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
 		EffectBoxPanel = GameObject.Find("EffectBoxPanel");
 		StunGunPrefab = Resources.Load("StunGun") as GameObject;
@@ -298,7 +297,7 @@ public class Player : MonoBehaviour {
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {
-			if (availableSpot == 9) return; // No more room
+			if (availableSpot == 8) return; // No more room
 			if (droppedItems.Contains(other.gameObject)) return; // Just recently dropped
 			if (InventoryUI == null || InventoryUI.Length == 0) return; // Don't do anything
 			// Get the ui slot script
@@ -318,7 +317,7 @@ public class Player : MonoBehaviour {
 			applyItemEffect(item);
 
 			// Increment to the next available spot
-			while (availableSpot != 9 && inventory[availableSpot] != null) {
+			while (availableSpot != 8 && inventory[availableSpot] != null) {
 				availableSpot++;
 			}
 		} else if (other.gameObject.CompareTag("Trap")) {
@@ -448,7 +447,7 @@ public class Player : MonoBehaviour {
 	 * Function used to initialize inventory array
 	 */
 	void initializeInventory() {
-		for (int i = 0; i < 9; ++i) { 
+		for (int i = 0; i < 8; ++i) { 
 			inventory[i] = null;
 			physicalItems[i] = null;
 		}
@@ -591,23 +590,77 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Remove the given item
+	 * 
+	 * Arguments
+	 * - Item item - The item to be removed/dropped
+	 * - bool toSetActive - check if this item was meant to be set active
+	 */
+	public void RemoveItem(Item item, bool toSetActive) {
+		int itemIndex; // The index of the given item
+		InventoryUISlotScript uiSlotScript; // The ui slot script
+
+		if (item == null)
+			return; // No item given
+
+		itemIndex = getIndex(item);
+		if (itemIndex == -1) 
+			return; // This player doesn't have the item
+
+		// Set game object to be behind the player and set it to active
+		if (toSetActive) {
+			physicalItems[itemIndex].SetActive(true);
+			physicalItems[itemIndex].transform.position = 
+				new Vector3(transformComponent.position.x, (float)0.0, 
+				            transformComponent.position.z);
+
+			// Add item to list of recently dropped items
+			droppedItems.Add(physicalItems[itemIndex]);
+		}
+
+		// Remove effects if the item has some turn effects
+		if (item.GetTurnEffects() != null) 
+			foreach (Effect turnEffect in item.GetTurnEffects()) DetachTurnEffect(turnEffect);
+		
+		// Remove the item from the ui slot
+		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();
+		uiSlotScript.RemoveItem();
+		
+		// Set inventory references to null
+		inventory[itemIndex] = null;
+		physicalItems[itemIndex] = null;
+		
+		// Reset item to have default values
+		item.ResetCoolDownSetting();
+		item.ResetUsePerTurn();
+		item.ResetCoolDown();
+		
+		// Find next available spot
+		availableSpot = 0;
+		while (availableSpot != 8 && inventory[availableSpot] != null) {
+			availableSpot++;
+		}
+	}
+
+	/**
 	 * Function used to drop the given item
 	 * 
 	 * Arguments
 	 * - GameObject contextAwareBox - The context aware box
 	 */
-	public void DropItem(GameObject contextAwareBox) {
+	public void RemoveItem(GameObject contextAwareBox) {
 		Item item = (Item)contextAwareBox.GetComponent<ContextAwareBox>().GetAttachedObject();
 		int itemIndex; // The index of the given item
 		InventoryUISlotScript uiSlotScript; // The ui slot script
+
 		if (item == null) return;
 		itemIndex = getIndex(item);
 		if (itemIndex == -1) return;
 		// Set game object to be behind the player and set it to active
-		physicalItems[itemIndex].SetActive(true);
 		physicalItems[itemIndex].transform.position = 
 				new Vector3(transformComponent.position.x, (float)0.0, 
 			    transformComponent.position.z);
+		physicalItems[itemIndex].SetActive(true);
 
 		// Add item to list of recently dropped items
 		droppedItems.Add(physicalItems[itemIndex]);
@@ -631,7 +684,7 @@ public class Player : MonoBehaviour {
 
 		// Find next available spot
 		availableSpot = 0;
-		while (availableSpot != 9 && inventory[availableSpot] != null) {
+		while (availableSpot != 8 && inventory[availableSpot] != null) {
 			availableSpot++;
 		}
 	}
@@ -647,7 +700,7 @@ public class Player : MonoBehaviour {
 	 * - -1 otherwise
 	 */
 	int getIndex(object itemToGet) {
-		for (int i = 0; i < 9; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			if (inventory[i] == null) continue; // Nothing here
 			else if (inventory[i].Equals(itemToGet)) return i;
 		}
