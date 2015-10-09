@@ -3,13 +3,19 @@ using System.Collections;
 
 public class DoorLight : MonoBehaviour {
 
-	// Use this for initialization
+	Light doorLight;
+	Animator animator;
+
 	void Start () {
-	
+		doorLight = GetComponentInChildren<Light>();
+		animator = GetComponent<Animator>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	
+		if (!animator.enabled) {
+			doorLight.color = Color.red;
+		} else {
+			doorLight.color = Color.green;
+		}
 	}
 }
