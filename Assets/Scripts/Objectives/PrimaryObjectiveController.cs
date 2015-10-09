@@ -8,7 +8,19 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 	// Use this for initialization
 	public void StartMe() {
-		ChangeObjective(new FirstObjective());
+		Objective firstObjective = null;
+		switch (Application.loadedLevelName) {
+		case "Main Level":
+			firstObjective = new FirstObjectiveMain();
+			break;
+		case "Level":
+			firstObjective = new FirstObjective();
+			break;
+		default:
+			Debug.LogError("Scene name is unknown");
+			break;
+		}
+		ChangeObjective(firstObjective);
 		cam = Camera.main.GetComponent<CameraController>();
 	}
 
