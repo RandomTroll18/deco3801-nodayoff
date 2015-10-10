@@ -5,19 +5,13 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: openDoor
+  m_Name: Trap
   serializedVersion: 5
-  m_AnimatorParameters:
-  - m_Name: Open
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+  m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: frontRightOpen
-    m_StateMachine: {fileID: 110746394}
+    m_Name: Big North
+    m_StateMachine: {fileID: 110728456}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -26,10 +20,10 @@ AnimatorController:
     m_DefaultWeight: 0
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - serializedVersion: 5
-    m_Name: frontLeftOpen
-    m_StateMachine: {fileID: 110780686}
+    m_Name: Big South
+    m_StateMachine: {fileID: 110721160}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -38,10 +32,10 @@ AnimatorController:
     m_DefaultWeight: 1
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - serializedVersion: 5
-    m_Name: backRightOpen
-    m_StateMachine: {fileID: 110764604}
+    m_Name: Small North
+    m_StateMachine: {fileID: 110743618}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -50,10 +44,10 @@ AnimatorController:
     m_DefaultWeight: 1
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - serializedVersion: 5
-    m_Name: backLeftOpen
-    m_StateMachine: {fileID: 110781982}
+    m_Name: Small South
+    m_StateMachine: {fileID: 110715808}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -62,54 +56,8 @@ AnimatorController:
     m_DefaultWeight: 1
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
---- !u!1102 &110200062
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: frontRightOpen
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400002, guid: ce0109385b8a1e747ba4b03d2ffbc9df, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
---- !u!1102 &110207954
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: frontLeftOpen
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400014, guid: ce0109385b8a1e747ba4b03d2ffbc9df, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
---- !u!1102 &110215668
+    m_Controller: {fileID: 0}
+--- !u!1102 &110227360
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
@@ -127,18 +75,18 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ccf4622303df42f47820e1a8388f54a1, type: 2}
+  m_Motion: {fileID: 0}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1102 &110224278
+--- !u!1102 &110236304
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: backRightOpen
+  m_Name: Cylinder.004|Cylinder.004Action
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -150,18 +98,18 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400026, guid: ce0109385b8a1e747ba4b03d2ffbc9df, type: 3}
+  m_Motion: {fileID: 7400044, guid: 81bc773be5df9114d85f4387aa604c60, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1102 &110228880
+--- !u!1102 &110244900
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: New Animation
+  m_Name: Cylinder.005|Cylinder.005Action
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -173,18 +121,18 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ccf4622303df42f47820e1a8388f54a1, type: 2}
+  m_Motion: {fileID: 7400006, guid: 81bc773be5df9114d85f4387aa604c60, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1102 &110278564
+--- !u!1102 &110274418
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: frontLeftOpen
+  m_Name: Cylinder.001|Cylinder.001Action
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -196,18 +144,18 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400014, guid: ce0109385b8a1e747ba4b03d2ffbc9df, type: 3}
+  m_Motion: {fileID: 7400032, guid: 81bc773be5df9114d85f4387aa604c60, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1102 &110280024
+--- !u!1102 &110298218
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: backLeftOpen
+  m_Name: Cylinder.002|Cylinder.002Action
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -219,123 +167,104 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400038, guid: ce0109385b8a1e747ba4b03d2ffbc9df, type: 3}
+  m_Motion: {fileID: 7400010, guid: 81bc773be5df9114d85f4387aa604c60, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1107 &110746394
+--- !u!1107 &110715808
 AnimatorStateMachine:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: frontRightOpen
+  m_Name: Small South
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 110200062}
-    m_Position: {x: -96, y: -144, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 110228880}
-    m_Position: {x: -61, y: -79, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 110215668}
-    m_Position: {x: -26, y: -14, z: 0}
+    m_State: {fileID: 110274418}
+    m_Position: {x: 321, y: 178, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
     data:
-      first: {fileID: 110746394}
-      second: []
-  m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 48, y: 24, z: 0}
-  m_EntryPosition: {x: 24, y: -36, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
-  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 110200062}
---- !u!1107 &110764604
-AnimatorStateMachine:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: backRightOpen
-  m_ChildStates:
-  - serializedVersion: 1
-    m_State: {fileID: 110224278}
-    m_Position: {x: 353, y: -18, z: 0}
-  m_ChildStateMachines: []
-  m_AnyStateTransitions: []
-  m_EntryTransitions: []
-  m_StateMachineTransitions:
-    data:
-      first: {fileID: 110764604}
+      first: {fileID: 110715808}
       second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 110224278}
---- !u!1107 &110780686
+  m_DefaultState: {fileID: 110274418}
+--- !u!1107 &110721160
 AnimatorStateMachine:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: frontLeftOpen
+  m_Name: Big South
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 110207954}
-    m_Position: {x: 346, y: -55, z: 0}
+    m_State: {fileID: 110236304}
+    m_Position: {x: 281, y: 73, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
     data:
-      first: {fileID: 110780686}
+      first: {fileID: 110721160}
       second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 110207954}
---- !u!1107 &110781982
+  m_DefaultState: {fileID: 110236304}
+--- !u!1107 &110728456
 AnimatorStateMachine:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: backLeftOpen
+  m_Name: Big North
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 110280024}
-    m_Position: {x: 407, y: 65, z: 0}
+    m_State: {fileID: 110244900}
+    m_Position: {x: 240, y: 48, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
     data:
-      first: {fileID: 110781982}
+      first: {fileID: 110728456}
+      second: []
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 48, y: 120, z: 0}
+  m_ExitPosition: {x: 312, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 110244900}
+--- !u!1107 &110743618
+AnimatorStateMachine:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Small North
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: 110298218}
+    m_Position: {x: 294, y: 126, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions:
+    data:
+      first: {fileID: 110743618}
       second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 110280024}
---- !u!1109 &110920400
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 110278564}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 1
+  m_DefaultState: {fileID: 110298218}
