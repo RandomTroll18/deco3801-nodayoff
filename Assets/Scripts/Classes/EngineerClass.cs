@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class EngineerClass : PlayerClass {
+public class EngineerClass : BaseClass {
 	
 	/**
 	 * Constructor
@@ -9,7 +9,7 @@ public class EngineerClass : PlayerClass {
 	 * Arguments
 	 * - The player object
 	 */
-	public EngineerClass(Player player) {
+	public EngineerClass(Player player) : base() {
 		DefaultStats[Stat.ENGMULTIPLIER] = 2.0;
 		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
