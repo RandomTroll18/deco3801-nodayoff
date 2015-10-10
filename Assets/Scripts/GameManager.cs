@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
 	int playersLeft; // The number of players still active
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
 	MovementController movController; // Movement controller script
+	int roundsLost = 1;
 
 	/*
 	 * From now on, it's safer to replace Start with StartMe in all your classes and to 
@@ -155,7 +156,7 @@ public class GameManager : MonoBehaviour {
 		p.ReduceAbilityTurns();
 		p.SetInActivity(false);
 
-		RoundsLeftUntilLose--;
+		RoundsLeftUntilLose -= roundsLost;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 		if (RoundsLeftUntilLose <= 0) {
 			GetComponent<PhotonView>().RPC("LoseGame", PhotonTargets.All, null);
@@ -206,5 +207,19 @@ public class GameManager : MonoBehaviour {
 
 	public MovementController GetPlayerControllers(){
 		return movController;
+	}
+
+	/*
+	 * Increases the number of rounds lost after a turn.
+	 */
+	public void IncreaseRoundsLost(int roundsLost) {
+		this.roundsLost += roundsLost;
+	}
+
+	/*
+	 * Decreases the number of rounds lost after a turn.
+	 */
+	public void DecreaseRoundsLost(int roundsLost) {
+		this.roundsLost -= roundsLost;
 	}
 }

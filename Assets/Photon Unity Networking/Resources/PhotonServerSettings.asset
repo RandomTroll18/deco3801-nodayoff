@@ -47,4 +47,6 @@ MonoBehaviour:
   - LoseGame
   - Destroy
   - Sync
+  - DecreaseRoundsLost
+  - IncreaseRoundsLost
   DisableAutoOpenWizard: 1

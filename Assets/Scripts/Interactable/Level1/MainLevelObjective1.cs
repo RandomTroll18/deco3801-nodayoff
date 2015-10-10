@@ -2,16 +2,8 @@
 using System.Collections;
 
 public class MainLevelObjective1 : InteractiveObject {
-	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public const int ROUNDS_LOST = 1;
+
 	public override void TakeAction(int input){
 		
 		if (IsInactivated) {

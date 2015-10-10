@@ -8,7 +8,7 @@ public class BaseClass : PlayerClass {
 	 */
 	public BaseClass() {
 		DefaultStats = new Dictionary<Stat, double>();
-		DefaultStats[Stat.AP] = 30.0; // Default AP is 20
+		DefaultStats[Stat.AP] = 100.0; // Default AP is 20
 		DefaultStats[Stat.VISION] = 2.0; // Vision of base class is medium
 		DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
 		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
