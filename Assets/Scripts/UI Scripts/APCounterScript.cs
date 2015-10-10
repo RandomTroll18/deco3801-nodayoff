@@ -23,9 +23,9 @@ public class APCounterScript : MonoBehaviour {
 		if (playerScript == null) 
 			return; // Not a player
 		if (playerScript.IsSpawned) 
-			APCounterTextObject.text = "Spawn AP Count: " + playerScript.GetStatValue(Stat.AP);
+			APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
 		else 
-			APCounterTextObject.text = "Player AP Count: " + playerScript.GetStatValue(Stat.AP);
+			APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
 	}
 
 }
