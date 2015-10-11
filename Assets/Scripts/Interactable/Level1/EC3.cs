@@ -11,7 +11,9 @@ public class EC3 : EventCard {
 		
 		this.ChangeButton (1, "OK");
 		this.ChangeImage("chopper");
-		this.ChangeText ("DESCRIPTION");
+		this.ChangeText ("Auxiallry power activated. Several doors have now been unlocked.\n" +
+			"A Versipellis boarding party is destroying our life support. Take them" +
+			"out.");
 		
 		SetCap();
 		return;

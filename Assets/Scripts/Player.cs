@@ -548,9 +548,10 @@ public class Player : MonoBehaviour {
 			playerLight.intensity = 4;
 			visionDistance = 4;
 		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
-			playerLight.intensity = 8;
+			playerLight.intensity = 100; // the power of the sun
 			visionDistance = 6;
 		}
+
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
 			if (p.Equals(gameObject))
 				continue;

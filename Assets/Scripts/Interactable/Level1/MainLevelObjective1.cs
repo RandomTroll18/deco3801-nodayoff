@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MainLevelObjective1 : InteractiveObject {
 	public const int ROUNDS_LOST = 1;
+	public GameObject[] DoorsToUnlock;
 
 	public override void TakeAction(int input){
 		
@@ -40,6 +41,11 @@ public class MainLevelObjective1 : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
+		foreach (GameObject door in DoorsToUnlock) {
+			Object.FindObjectOfType<GameManager>()
+				.OpenDoor(Tile.TilePosition(door.transform.position));
+		}
+
 		IsInactivated = true;
 		EC3 Nasty = gameObject.AddComponent<EC3>();
 		GameObject NastyUI = Nasty.CreateCard ();

@@ -32,10 +32,18 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		transform.Find("Title").GetComponent<Text>().text = objective.Title;
 		transform.Find("Description").GetComponent<Text>().text = objective.Description;
 
+		if (objective.Location == null) {
+			DeactivateLocationButton();
+		}
+
 	}
 
 	public void OnComplete() {
 		GetComponent<PhotonView>().RPC("OnCompleteNetwork", PhotonTargets.All, null);
+	}
+
+	void DeactivateLocationButton() {
+		GetComponentInChildren<Button>().interactable = false;
 	}
 
 	[PunRPC]

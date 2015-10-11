@@ -19,7 +19,7 @@ public class I1BoardingParty : InteractiveObject {
 		}
 		
 		if (SpendAP(input, MinCost)) {
-			InteractablSync();
+			Sync();
 			IsInactivated = true;
 			Debug.Log("Opened");
 			this.CloseEvent();		
@@ -30,15 +30,11 @@ public class I1BoardingParty : InteractiveObject {
 		
 	}
 
-	public void InteractablSync() {
-		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
-	}
-	
 	[PunRPC]
 	void Sync() {
 		Object.FindObjectOfType<GameManager>().DecreaseRoundsLost(MainLevelObjective1.ROUNDS_LOST);
 		IsInactivated = true;
-		Destroy(gameObject);
+		PhotonNetwork.Destroy(GetComponent<PhotonView>());
 		// TODO unblock the tile this interactable was on
 	}
 }

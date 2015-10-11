@@ -23,6 +23,8 @@ TagManager:
   - Poll
   - EffectToolTipPanel
   - Objective
+  - Boarding Party
+  - Markers
   layers:
   - Default
   - TransparentFX

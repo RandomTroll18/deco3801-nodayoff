@@ -5,7 +5,8 @@ public class FirstObjectiveMain : PrimaryObjective {
 
 	public FirstObjectiveMain() {
 		Title = "Activate Auxillary Power";
-		Description = "First objective description";
+		Description = "Main power sources have taken heavy damage.\n" +
+			"A Technician is needed.";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
 			if (objective.name == "Objective 1") {
@@ -13,7 +14,7 @@ public class FirstObjectiveMain : PrimaryObjective {
 			}
 		}
 
-//		NextObjective = new SecondObjective();
+		NextObjective = new SecondObjectiveMain();
 //		Door = Tile.TilePosition(-10f, -4.3f);
 	}
 }
