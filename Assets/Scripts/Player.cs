@@ -15,7 +15,6 @@ public class Player : MonoBehaviour {
 	public string ClassToSet; // The class to set
 	public static string ChosenClass; // The chosen class
 	public bool IsSpawned; // Record if this object is spawned
-	public PhotonPlayer NetworkPlayer; // The network player that owns this script
 	/*
 	 * This is an important variable since we can no longer search for the player in the scene.
 	 * Make sure that if you need this variable, you wait for network connecting to finish so the
