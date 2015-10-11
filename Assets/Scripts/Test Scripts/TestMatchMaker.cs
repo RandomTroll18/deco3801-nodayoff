@@ -22,7 +22,9 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		if (PhotonNetwork.playerList.Length == 4) { // We have enough players
 			Debug.LogError("We have enough players!");
 			gameObject.SetActive(false);
-			Application.LoadLevel("TestScene2");
+			if (!string.IsNullOrEmpty(MainMenuScript.LevelToLoad))
+				MainMenuScript.LevelToLoad = "TestScene2";
+			Application.LoadLevel("ClassSelect");
 		}
 		for (int i = 0; i < PhotonNetwork.playerList.Length; ++i) {
 			PlayerNamesLabel[i].text = PhotonNetwork.playerList[i].name;
