@@ -11,7 +11,7 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	static int randomRoomID = 0; // The id for the random room
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		PhotonNetwork.ConnectUsingSettings("0.1");
 		RoomNameLabel.text = "Room Name: " + RoomName;
 		PhotonNetwork.playerName = PlayerName;

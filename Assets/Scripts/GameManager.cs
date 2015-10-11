@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour {
 
 		//Debug.Log ("Invalid turn. Game Manager doing stuff");
 		//playersLeft = numPlayers; Doesn't take into account players disconnected mid-game
-		playersLeft = GameObject.FindGameObjectsWithTag("Player").Length;
+		playersLeft = PhotonNetwork.playerList.Length; // Need to check photons list of players, not models
 
 		// Initialize player stats - AP and apply player effects
 		Player p = Player.MyPlayer.GetComponent<Player>();

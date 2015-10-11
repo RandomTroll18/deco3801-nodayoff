@@ -15,6 +15,9 @@ public class NetworkingManager : Photon.PunBehaviour {
 	}
 
 	void Connect() {
+		if (PhotonNetwork.connected) // Disconnect if we are already connected
+			PhotonNetwork.Disconnect();
+
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.ConnectUsingSettings("c");

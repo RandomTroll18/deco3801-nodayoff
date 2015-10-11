@@ -124,7 +124,7 @@ RectTransform:
   - {fileID: 1193174047}
   - {fileID: 385757143}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -262,7 +262,7 @@ GameObject:
   - 114: {fileID: 385757145}
   - 114: {fileID: 385757144}
   m_Layer: 5
-  m_Name: Join Another Room
+  m_Name: JoinAnotherRoomButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -988,7 +988,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &1332628951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,9 +1114,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Join Another Room
-
-'
+  m_Text: Join Another Room
 --- !u!222 &1440100351
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1350,6 +1348,9 @@ MonoBehaviour:
   - {fileID: 1831613694}
   - {fileID: 1332628953}
   - {fileID: 1151326666}
+  NavigationButtons:
+  - {fileID: 1193174048}
+  - {fileID: 385757144}
 --- !u!4 &2027170638
 Transform:
   m_ObjectHideFlags: 0
@@ -1512,4 +1513,4 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
