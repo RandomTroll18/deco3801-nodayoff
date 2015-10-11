@@ -4,9 +4,21 @@ using System.Collections;
 public class TestSetupScript : MonoBehaviour {
 	SpawnPoint[] spawnPoints;
 	// Use this for initialization
-	void Start () {
+	void Start() {
+		GameObject[] playerCameras = GameObject.FindGameObjectsWithTag("MainCamera");
 		spawnPoints = Object.FindObjectsOfType<SpawnPoint>();
 		SpawnMyPlayer();
+		foreach (GameObject playerCamera in playerCameras) // Make sure player cameras are disabled
+			playerCamera.SetActive(false);
+	}
+
+	void Update() {
+		GameObject[] playerCameras = GameObject.FindGameObjectsWithTag("MainCamera");
+		if (GameObject.FindGameObjectsWithTag("Player").Length == PhotonNetwork.playerList.Length) {
+			foreach (GameObject playerCamera in playerCameras)
+				playerCamera.SetActive(true);
+			gameObject.SetActive(false);
+		}
 	}
 
 	void SpawnMyPlayer() {

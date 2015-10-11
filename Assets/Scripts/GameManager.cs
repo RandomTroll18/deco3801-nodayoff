@@ -146,7 +146,8 @@ public class GameManager : MonoBehaviour {
 		}
 
 		//Debug.Log ("Invalid turn. Game Manager doing stuff");
-		playersLeft = numPlayers;
+		//playersLeft = numPlayers; Doesn't take into account players disconnected mid-game
+		playersLeft = GameObject.FindGameObjectsWithTag("Player").Length;
 
 		// Initialize player stats - AP and apply player effects
 		Player p = Player.MyPlayer.GetComponent<Player>();
