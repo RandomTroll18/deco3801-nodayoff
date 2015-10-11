@@ -443,7 +443,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Network Test Level
+  m_Text: Lobby Test
 --- !u!222 &651252009
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1614,7 +1614,7 @@ GameObject:
   - 114: {fileID: 1986079869}
   - 114: {fileID: 1986079868}
   m_Layer: 5
-  m_Name: NetworkTest
+  m_Name: LobbyTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
