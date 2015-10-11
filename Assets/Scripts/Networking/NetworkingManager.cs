@@ -54,6 +54,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 			0
 			);
 		Player.MyPlayer = myPlayer;
+		myPlayer.GetComponent<Player>().NetworkPlayer = PhotonNetwork.player;
 		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();

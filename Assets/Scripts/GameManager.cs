@@ -213,8 +213,8 @@ public class GameManager : MonoBehaviour {
 	/*
 	 * Increases the number of rounds lost after a turn.
 	 */
-	public void IncreaseRoundsLost(int roundsLost) {
-		this.roundsLost += roundsLost;
+	public void IncreaseRoundsLost(int newRoundsLost) {
+		this.roundsLost += newRoundsLost;
 	}
 
 	/*

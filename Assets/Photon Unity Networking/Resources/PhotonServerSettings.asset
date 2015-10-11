@@ -49,4 +49,5 @@ MonoBehaviour:
   - Sync
   - DecreaseRoundsLost
   - IncreaseRoundsLost
+  - DestroyObject
   DisableAutoOpenWizard: 1

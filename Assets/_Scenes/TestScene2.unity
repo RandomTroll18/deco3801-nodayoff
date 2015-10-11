@@ -5846,11 +5846,11 @@ Prefab:
     - target: {fileID: 11488020, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1282605211}
+      objectReference: {fileID: 1282605210}
     - target: {fileID: 11488020, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1282605210}
+      objectReference: {fileID: 1282605211}
     - target: {fileID: 11450810, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: GameManager
       value: 
@@ -5881,11 +5881,11 @@ Prefab:
       objectReference: {fileID: 2086170133}
     - target: {fileID: 22423588, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22476096, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22433974, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.x
@@ -7371,6 +7371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625f07666ae27c24e9dbd0e32932e5a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameManagerObject: {fileID: 733826909}
 --- !u!114 &1282605211
 MonoBehaviour:
   m_ObjectHideFlags: 0
