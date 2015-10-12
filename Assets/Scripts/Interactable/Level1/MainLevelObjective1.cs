@@ -12,7 +12,7 @@ public class MainLevelObjective1 : InteractiveObject {
 			return;
 		}
 		
-		if (!PrimaryO.GetObjective().Title.Equals(new FirstObjectiveMain().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<FirstObjectiveMain>().Title)) {
 			Debug.Log("Wrong part of the story");
 			return;
 		}
@@ -41,6 +41,8 @@ public class MainLevelObjective1 : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
+		GiveSecondaryObjectives();
+
 		foreach (GameObject door in DoorsToUnlock) {
 			Object.FindObjectOfType<GameManager>()
 				.OpenDoor(Tile.TilePosition(door.transform.position));
@@ -49,7 +51,19 @@ public class MainLevelObjective1 : InteractiveObject {
 		IsInactivated = true;
 		EC3 Nasty = gameObject.AddComponent<EC3>();
 		GameObject NastyUI = Nasty.CreateCard ();
+
 	}
 	
 	
+	void GiveSecondaryObjectives() {
+		Player p = Player.MyPlayer.GetComponent<Player>();
+		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+
+		if (p.GetPlayerClass().Equals("Scout Class")) {
+			Debug.Log("Adding scout secondary");
+			secondaries.AddComponent<ScoutSecondaryOne>();
+		} else {
+			Debug.Log("Not scout");
+		}
+	}
 }

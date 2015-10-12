@@ -3,13 +3,19 @@ using System.Collections;
 
 public class ScoutSecondaryOne : SecondaryObjective {
 
-	public ScoutSecondaryOne() {
-		Title = "Find the night vision goggles.";
-		Description = "REWARD: extra vision";
+	void Start() {
+		ObjectiveName = "ScoutSecondaryOne";
+		Title = "Find the night vision goggles";
+		Description = "REWARD: extra vision.\n" +
+			"An Engineer will be helpful";
+
+		GameObject.Find("Scout Secondary One").AddComponent<ScoutSecondaryOneInteractable>().StartMe();
 	}
 
-	public void ApplyReward() {
+	public override void OnComplete() {
 		// not really tested
-		Player.MyPlayer.GetComponent<Player>().IncreaseStatValue(Stat.VISION, 3);
+		// applying a turn effect would be nicer
+		Player.MyPlayer.GetComponent<Player>().SetStatValue(Stat.VISION, 3);
+		Destroy(this);
 	}
 }

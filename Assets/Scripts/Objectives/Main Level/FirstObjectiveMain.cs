@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FirstObjectiveMain : PrimaryObjective {
 
-	public FirstObjectiveMain() {
+	void Start() {
 		Title = "Activate Auxillary Power";
 		Description = "Main power sources have taken heavy damage.\n" +
 			"A Technician is needed.";
@@ -14,7 +14,7 @@ public class FirstObjectiveMain : PrimaryObjective {
 			}
 		}
 
-		NextObjective = new SecondObjectiveMain();
+		NextObjective = Object.FindObjectOfType<SecondObjectiveMain>();
 //		Door = Tile.TilePosition(-10f, -4.3f);
 	}
 }

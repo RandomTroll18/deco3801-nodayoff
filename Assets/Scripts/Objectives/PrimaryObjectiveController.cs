@@ -11,7 +11,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		Objective firstObjective = null;
 		switch (Application.loadedLevelName) {
 		case "Main Level":
-			firstObjective = new FirstObjectiveMain();
+			firstObjective = Object.FindObjectOfType<FirstObjectiveMain>();;
 			break;
 		case "Level":
 			firstObjective = new FirstObjective();
