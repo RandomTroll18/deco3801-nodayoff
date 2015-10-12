@@ -9,7 +9,7 @@ public class FirstObjectiveMain : PrimaryObjective {
 			"A Technician is needed.";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
-			if (objective.name == "Objective 1") {
+			if (objective.name == "LockDoor1") {
 				Location = Tile.TilePosition(objective.transform.position);
 			}
 		}

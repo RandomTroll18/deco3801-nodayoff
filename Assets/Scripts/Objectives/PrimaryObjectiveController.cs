@@ -11,13 +11,13 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		Objective firstObjective = null;
 		switch (Application.loadedLevelName) {
 		case "Main Level":
-			firstObjective = Object.FindObjectOfType<FirstObjectiveMain>();;
+			firstObjective = Object.FindObjectOfType<FirstObjectiveMain>();
 			break;
 		case "Level":
 			firstObjective = new FirstObjective();
 			break;
 		case "Tutorial":
-			firstObjective = new TutorialFirstObjective();
+			firstObjective = Object.FindObjectOfType<TutorialFirstObjective>();
 			break;
 		case "TestScene2": goto case "Level";
 		default:

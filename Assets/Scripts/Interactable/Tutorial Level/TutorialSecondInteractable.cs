@@ -6,7 +6,7 @@ public class TutorialSecondInteractable : Trap {
 
 	public override void Activate() {
 
-		if (!PrimaryO.GetObjective().Title.Equals(new TutorialSecondObjective().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<TutorialSecondObjective>().Title)) {
 			Debug.Log("Wrong part of the story");
 			return;
 		}

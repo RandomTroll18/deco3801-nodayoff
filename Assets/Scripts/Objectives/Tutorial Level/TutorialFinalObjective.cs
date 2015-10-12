@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class TutorialFinalObjective : PrimaryObjective {
-	public TutorialFinalObjective() {
+
+	void Start() {
 		Title = "Final Objective";
 		Description = 
 			"Find the others";
