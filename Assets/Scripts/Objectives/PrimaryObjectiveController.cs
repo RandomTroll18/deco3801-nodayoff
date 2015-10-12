@@ -47,7 +47,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	}
 
 	void DeactivateLocationButton() {
-		GetComponentInChildren<Button>().interactable = false;
+		GetComponentInChildren<Button>().gameObject.SetActive(false);
 	}
 
 	[PunRPC]
