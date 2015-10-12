@@ -31,3 +31,5 @@ EditorBuildSettings:
     path: Assets/Prototype/GameOver.unity
   - enabled: 1
     path: Assets/_Scenes/TestNetworkMenu1.unity
+  - enabled: 1
+    path: Assets/_Scenes/Tutorial.unity
