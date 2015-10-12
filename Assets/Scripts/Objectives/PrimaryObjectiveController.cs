@@ -16,6 +16,9 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		case "Level":
 			firstObjective = new FirstObjective();
 			break;
+		case "Tutorial":
+			firstObjective = new TutorialFirstObjective();
+			break;
 		case "TestScene2": goto case "Level";
 		default:
 			Debug.LogError("Scene name is unknown");

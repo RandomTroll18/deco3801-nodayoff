@@ -1,17 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LockDoor : InteractiveObject {
-	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class TutorialThirdInteractable : InteractiveObject {
 	
 	public override void TakeAction(int input){
 		
@@ -20,17 +10,21 @@ public class LockDoor : InteractiveObject {
 			return;
 		}
 		
+		if (!PrimaryO.GetObjective().Title.Equals(new TutorialThirdObjective().Title)) {
+			Debug.Log("Wrong part of the story");
+			return;
+		}
+		
 		if (SpendAP(input, MinCost)) {
 			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
+			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
 			this.CloseEvent();
 		} else {
 			Debug.Log("Failed");
 		}
-		
-		//TODO: Class 
-		//TODO: Fix To not destroy door, and fix to destroy Interactable
+
 		
 	}
 	
@@ -40,11 +34,6 @@ public class LockDoor : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		try {
-			transform.GetChild(8).GetComponent<Light>().color = Color.red;
-		} catch (UnityException e){
-			Debug.Log(e);
-		}
 		IsInactivated = true;
 		MController.RemoveInteractable(this.GetTile());
 	}

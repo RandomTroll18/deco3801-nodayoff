@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LockDoor : InteractiveObject {
+public class TutorialFourthInteractable : InteractiveObject {
+
+	
+	public GameObject Door;
 	
 	// Use this for initialization
 	void Start () {
@@ -20,9 +23,15 @@ public class LockDoor : InteractiveObject {
 			return;
 		}
 		
+		if (!PrimaryO.GetObjective().Title.Equals(new TutorialFourthObjective().Title)) {
+			Debug.Log("Wrong part of the story");
+			return;
+		}
+		
 		if (SpendAP(input, MinCost)) {
 			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
+			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
 			this.CloseEvent();
 		} else {
@@ -40,13 +49,13 @@ public class LockDoor : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		try {
-			transform.GetChild(8).GetComponent<Light>().color = Color.red;
-		} catch (UnityException e){
-			Debug.Log(e);
-		}
 		IsInactivated = true;
-		MController.RemoveInteractable(this.GetTile());
+		Tile DT = new Tile(
+			Tile.TilePosition(Door.transform.position.x), 
+			Tile.TilePosition(Door.transform.position.z)
+			);
+		MController.RemoveInteractable(DT);
+		Debug.Log(DT.ToString());
 	}
 	
 }

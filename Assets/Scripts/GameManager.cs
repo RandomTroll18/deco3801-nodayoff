@@ -96,6 +96,9 @@ public class GameManager : MonoBehaviour {
 		foreach (InteractiveObject script in Object.FindObjectsOfType<InteractiveObject>()) {
 			script.StartMe(this);
 		}
+		foreach (Trap script in Object.FindObjectsOfType<Trap>()) {
+			script.StartMe(this);
+		}
 
 		InitalizeDoors();
 		TurnOnLighting();
