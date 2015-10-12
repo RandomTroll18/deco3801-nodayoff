@@ -7,7 +7,13 @@ public class TutorialThirdObjective : PrimaryObjective {
 		Title = "Third Objective";
 		Description = "Oh god I don't remember a door here..." +
 			" But I do remember how to force it open.";
-		Location = Tile.TilePosition(-12f, -1.65f);
+
+		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Door")) {
+			if (objective.name == "Broken Door") {
+				Location = Tile.TilePosition(objective.transform.position);
+			}
+		}
+
 		NextObjective = Object.FindObjectOfType<TutorialFourthObjective>();
 	}
 }

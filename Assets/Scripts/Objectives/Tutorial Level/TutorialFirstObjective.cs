@@ -8,8 +8,8 @@ public class TutorialFirstObjective : PrimaryObjective {
 		Description = "Ughhh ... What happened? I don't know what is going on but lets find the others. " +
 			"I got to get out of this room...";
 
-		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
-			if (objective.name == "Objective 1") {
+		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Door")) {
+			if (objective.name == "LockDoor1") {
 				Location = Tile.TilePosition(objective.transform.position);
 			}
 		}
