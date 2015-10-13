@@ -10,6 +10,8 @@ public class ScoutSecondaryOne : SecondaryObjective {
 		Title = "Find the night vision goggles";
 		Description = "REWARD: extra vision.\n" +
 			"An Engineer will be helpful";
+		GameObject objective = GameObject.Find("Scout Secondary One");
+		Location = Tile.TilePosition(objective.transform.position);
 
 		GameObject.Find("Scout Secondary One").AddComponent<ScoutSecondaryOneInteractable>().StartMe();
 
