@@ -24,8 +24,8 @@ public class EffectPanelScript : MonoBehaviour {
 	public void StartMe() {
 		boxes = new List<GameObject>();
 		panelTransform = Panel.GetComponent<RectTransform>();
-		boxWidth = (float)-47.8333;
-		boxHeight = (float)-45.8333;
+		boxWidth = -BoxPrefab.GetComponent<RectTransform>().rect.width;
+		boxHeight = -BoxPrefab.GetComponent<RectTransform>().rect.height;
 	}
 
 	/**
