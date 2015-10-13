@@ -13,7 +13,10 @@ public class ScoutSecondaryOne : SecondaryObjective {
 		GameObject objective = GameObject.Find("Scout Secondary One");
 		Location = Tile.TilePosition(objective.transform.position);
 
-		GameObject.Find("Scout Secondary One").AddComponent<ScoutSecondaryOneInteractable>().StartMe();
+		ScoutSecondaryOneInteractable i = 
+			GameObject.Find("Scout Secondary One").AddComponent<ScoutSecondaryOneInteractable>();
+		i.InstantInteract = true;
+		i.StartMe();
 
 		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
 				"Night Vision Goggles", "Icons/Effects/DefaultEffect", -1, true);

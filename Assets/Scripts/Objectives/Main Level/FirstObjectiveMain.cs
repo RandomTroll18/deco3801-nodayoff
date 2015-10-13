@@ -17,4 +17,9 @@ public class FirstObjectiveMain : PrimaryObjective {
 		NextObjective = Object.FindObjectOfType<SecondObjectiveMain>();
 //		Door = Tile.TilePosition(-10f, -4.3f);
 	}
+
+	public override void OnComplete() {
+		NextObjective = gameObject.AddComponent<SecondObjectiveMain>();
+		base.OnComplete();
+	}
 }

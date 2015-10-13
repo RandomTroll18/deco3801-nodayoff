@@ -562,9 +562,9 @@ public class Player : MonoBehaviour {
 
 			if (GetComponent<MovementController>().TileDistance(p.transform.position) 
 			                      <= visionDistance) {
-				p.GetComponent<MeshRenderer>().enabled = true;
+				p.GetComponentInChildren<MeshRenderer>().enabled = true;
 			} else {
-				p.GetComponent<MeshRenderer>().enabled = false;
+				p.GetComponentInChildren<MeshRenderer>().enabled = false;
 			}
 		}
 	}
