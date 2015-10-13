@@ -22,7 +22,7 @@ public class ScoutSecondaryOne : SecondaryObjective {
 		// applying a turn effect would be nicer.  
 		// Yes it would. Here you go: - Josh
 		Player.MyPlayer.GetComponent<Player>().AttachTurnEffect(visionEffect);
-		//Player.MyPlayer.GetComponent<Player>().SetStatValue(Stat.VISION, 3);
+		Player.MyPlayer.GetComponent<Player>().SetStatValue(Stat.VISION, 3);
 		Destroy(this);
 	}
 }
