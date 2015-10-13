@@ -5,8 +5,7 @@ public class TutorialFinalInteractable : Trap {
 	
 	
 	public override void Activate() {
-		
-		if (!PrimaryO.GetObjective().Title.Equals(new TutorialFinalObjective().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<TutorialFinalObjective>().Title)) {
 			Debug.Log("Wrong part of the story");
 			return;
 		}

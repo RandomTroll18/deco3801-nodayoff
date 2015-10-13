@@ -10,7 +10,7 @@ public class TutorialThirdInteractable : InteractiveObject {
 			return;
 		}
 		
-		if (!PrimaryO.GetObjective().Title.Equals(new TutorialThirdObjective().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<TutorialThirdObjective>().Title)) {
 			Debug.Log("Wrong part of the story");
 			return;
 		}

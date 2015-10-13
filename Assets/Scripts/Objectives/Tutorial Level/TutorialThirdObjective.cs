@@ -1,14 +1,19 @@
-﻿//using System;
+﻿using System.Collections;
 using UnityEngine;
 
 public class TutorialThirdObjective : PrimaryObjective {
 	
-	public TutorialThirdObjective () {
+	void Start() {
 		Title = "Third Objective";
 		Description = "Oh god I don't remember a door here..." +
 			" But I do remember how to force it open.";
-		Location = Tile.TilePosition(-12f, -1.65f);
-		NextObjective = new TutorialFourthObjective();
-		Door = Tile.TilePosition(-10f, -4.3f);
+
+		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Door")) {
+			if (objective.name == "Broken Door") {
+				Location = Tile.TilePosition(objective.transform.position);
+			}
+		}
+
+		NextObjective = Object.FindObjectOfType<TutorialFourthObjective>();
 	}
 }

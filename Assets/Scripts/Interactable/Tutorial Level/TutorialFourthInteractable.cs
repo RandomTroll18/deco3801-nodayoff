@@ -23,7 +23,7 @@ public class TutorialFourthInteractable : InteractiveObject {
 			return;
 		}
 		
-		if (!PrimaryO.GetObjective().Title.Equals(new TutorialFourthObjective().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<TutorialFourthObjective>().Title)) {
 			Debug.Log("Wrong part of the story");
 			return;
 		}

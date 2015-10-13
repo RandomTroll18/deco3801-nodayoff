@@ -17,8 +17,10 @@ public class Trap : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
 		Debug.Log("Collided");
-		Activate();
-		TrapSync();
+		if (col.gameObject.name == "Player(Clone)") {
+			Activate();
+			TrapSync();
+		}
 	}
 
 	public void StartMe(GameManager g) {
