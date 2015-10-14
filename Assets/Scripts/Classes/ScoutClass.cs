@@ -12,7 +12,7 @@ public class ScoutClass : BaseClass {
 	public ScoutClass(Player player) : base() {
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
 
-		PrimaryAbility = new ScoutPrimaryAbility(player);
+		PrimaryAbility = new ScoutPrimaryAbility();
 		ClassTypeEnum = Classes.SCOUT;
 	}
 

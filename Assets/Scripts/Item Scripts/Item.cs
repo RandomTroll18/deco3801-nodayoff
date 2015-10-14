@@ -25,6 +25,7 @@ public abstract class Item : MonoBehaviour {
 	protected ActivationType ItemActivationType; // Activation Type of this item
 	protected RangeType ItemRangeType; // The range type of this item
 	protected bool Activatable; // Record if this item can be activated
+	protected bool Droppable = true; // Record if this item can be dropped
 	
 	/*
 	 * The effects in this item.
@@ -197,4 +198,38 @@ public abstract class Item : MonoBehaviour {
 		return Activatable;
 	}
 
+	/**
+	 * Return if this item is droppable
+	 * 
+	 * Returns
+	 * - true if item is droppable. false otherwise
+	 */
+	public bool IsDroppable() {
+		return Droppable;
+	}
+
+	/**
+	 * Make this item appear/disappear
+	 * 
+	 * Arguments
+	 * - bool appearFlag - set to true if item is to appear. false 
+	 * otherwise
+	 */
+	[PunRPC]
+	public void SetActive(bool appearFlag) {
+		gameObject.SetActive(appearFlag);
+	}
+
+	/**
+	 * Set position of this item
+	 * 
+	 * Arguments
+	 * - float x - The x coordinate
+	 * - float z - The z coordinate
+	 */
+	[PunRPC]
+	public void SetPosition(float x, float z) {
+		transform.position = new Vector3(x, 0f, z);
+	}
+	
 }

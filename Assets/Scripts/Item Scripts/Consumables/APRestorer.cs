@@ -43,6 +43,7 @@ public class APRestorer : RecoveryConsumables {
 		if (--Amount == 0) { // Destroy this item
 			Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 			Destroy(gameObject);
+			PhotonNetwork.Destroy(gameObject);
 		}
 	}
 

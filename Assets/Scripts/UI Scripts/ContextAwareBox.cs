@@ -54,21 +54,17 @@ public class ContextAwareBox : MonoBehaviour {
 			InventoryContextPanel[1].GetComponent<Text>().text = "No Item In Slot" + StringMethodsScript.NEWLINE;
 			/* Change text position */
 			InventoryContextPanel[1].GetComponent<RectTransform>().anchoredPosition3D = 
-				new Vector3((float)116, (float)-129.5);
+				new Vector3(0f, 0f);
 			/* Set buttons to be inactive */
 			InventoryContextPanel[2].SetActive(false);
 			InventoryContextPanel[3].SetActive(false);
 		} else { // Item given. Set everything to be active
 			InventoryContextPanel[1].GetComponent<Text>().text = attachedObject.ToString();
 			InventoryContextPanel[1].GetComponent<RectTransform>().anchoredPosition3D = 
-					new Vector3((float)0, (float)0);
+					new Vector3(0f, 0f);
 			/* Set buttons to be active, but if not activatable, don't activate the "Activate" button */
-			if (item.IsActivatable()) { // Generate activate button
-				InventoryContextPanel[2].SetActive(true);
-			} else { // Don't generate activate button
-				InventoryContextPanel[2].SetActive(false);
-			}
-			InventoryContextPanel[3].SetActive(true);
+			InventoryContextPanel[2].SetActive(item.IsActivatable());
+			InventoryContextPanel[3].SetActive(item.IsDroppable());
 		}
 	}
 

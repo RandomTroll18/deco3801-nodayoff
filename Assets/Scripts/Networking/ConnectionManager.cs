@@ -9,9 +9,6 @@ public class ConnectionManager : Photon.PunBehaviour {
 	 * Disconnect this client
 	 */
 	public void DisconnectClient() {
-		GameObject eventSystem = GameObject.Find("EventSystem"); // The event system
-		MainMenuScript navigationScript; // The navigation script
-
 		if (PhotonNetwork.connected) { // Only disconnect if we were connected
 			Debug.Log("Player is connected. Need to disconnect");
 			PhotonNetwork.Disconnect();

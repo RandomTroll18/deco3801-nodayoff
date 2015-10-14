@@ -23,15 +23,12 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 */
 	public void StartMe() {
 		selected = false;
-		if (UiSlot != null) {
+		if (UiSlot != null)
 			uiSlotImage = UiSlot.GetComponent<Image>();
-		}
-		if (ContextAwareBox != null) {
+		if (ContextAwareBox != null)
 			contextBoxScript = ContextAwareBox.GetComponent<ContextAwareBox>();
-		}
-		if (Container != null) {
+		if (Container != null)
 			containerScript = Container.GetComponent<InventoryUIScript>();
-		}
 	}
 
 	/**
@@ -45,16 +42,19 @@ public class InventoryUISlotScript : MonoBehaviour {
 	public int ToggleSelected() {
 		Color iconColour = uiSlotImage.color; // Colour of the ui slot
 
-		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return -1; // Do nothing
-		if (!selected) { // Make ui slot image opaque
+		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) 
+			return -1; // Do nothing
+		if (!selected) // Make ui slot image opaque
 			iconColour.a += 155;
-		} else { // Make ui slot image transluscent
+		else // Make ui slot image transluscent
 			iconColour.a -= 155;
-		}
+
 		UiSlot.GetComponent<Image>().color = iconColour;
 		selected = !selected;
-		if (selected) return 1;
-		else return 0;
+		if (selected) 
+			return 1;
+		else 
+			return 0;
 	}
 
 	/**
@@ -64,24 +64,28 @@ public class InventoryUISlotScript : MonoBehaviour {
 	 * - Item item - The item to insert
 	 */
 	public void InsertItem(Item itemToInsert) {
-		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return; // Do nothing
+		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) 
+			return; // Do nothing
 		item = itemToInsert;
 		// Update icon to be the item's icon
 		UiSlot.GetComponent<Image>().sprite = item.Image;
 //		Debug.Log ("Item inserted: " + item);
 		// If the slot is selected, update inventory context
-		if (selected) contextBoxScript.SetContextToInventory(item);
+		if (selected) 
+			contextBoxScript.SetContextToInventory(item);
 	}
 
 	/**
 	 * Remove item from this slot
 	 */
 	public void RemoveItem() {
-		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) return; // Do nothing
+		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) 
+			return; // Do nothing
 		item = null;
 		UiSlot.GetComponent<Image>().sprite = DefaultIcon;
 		// If the slot is selected, update inventory context
-		if (selected) contextBoxScript.SetContextToInventory(item);
+		if (selected) 
+			contextBoxScript.SetContextToInventory(item);
 	}
 
 	/**
