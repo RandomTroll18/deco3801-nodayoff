@@ -555,18 +555,39 @@ public class Player : MonoBehaviour {
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
 			if (p.Equals(gameObject))
 				continue;
-			distanceToCharacter = GetComponent<MovementController>().TileDistance(p.transform.position);
+			distanceToCharacter = DistanceToTile(Tile.TilePosition(p.transform.position));
 
 			if (distanceToCharacter == -1) // No path found
 				continue;
 
-			if (GetComponent<MovementController>().TileDistance(p.transform.position) 
-			                      <= visionDistance) {
+			if (distanceToCharacter <= visionDistance) {
 				p.GetComponentInChildren<MeshRenderer>().enabled = true;
 			} else {
 				p.GetComponentInChildren<MeshRenderer>().enabled = false;
 			}
 		}
+	}
+
+	public int GetVisionDistance() {
+		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
+			return 2;
+		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
+			playerLight.intensity = 4;
+			return 4;
+		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
+			playerLight.intensity = 100;
+			return 6;
+		} else {
+			Debug.LogError("Vision stat is wrong");
+			return 2;
+		}
+	}
+
+	/* 
+	 * Returns the distance between this player and a tile.
+	 */
+	public int DistanceToTile(Tile tile) {
+		return GetComponent<MovementController>().TileDistance(tile);
 	}
 
 	/**

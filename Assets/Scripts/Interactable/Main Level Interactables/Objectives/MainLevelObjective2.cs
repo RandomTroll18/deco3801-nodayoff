@@ -10,7 +10,7 @@ public class MainLevelObjective2 : InteractiveObject {
 			return;
 		}
 		
-		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<FirstObjectiveMain>().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<SecondObjectiveMain>().Title)) {
 			Debug.Log("Wrong part of the story");
 			return;
 		}

@@ -283,11 +283,17 @@ public class MovementController : MonoBehaviour {
 	public int TileDistance(Vector3 position) {
 		PathTile path = FindPath(Tile.TilePosition(position));
 
-		if (path == null) // No path found. Unknown
+		if (path == null) {// No path found. Unknown
+			Debug.LogWarning("No path found");
 			return -1;
+		}
 		else { // Path found
 			return path.Depth;
 		}
+	}
+
+	public int TileDistance(Tile position) {
+		return TileDistance(Tile.TileMiddle(position));
 	}
 	
 	/**

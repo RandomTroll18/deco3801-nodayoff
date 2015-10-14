@@ -19,7 +19,9 @@ public class FirstObjectiveMain : PrimaryObjective {
 	}
 
 	public override void OnComplete() {
-		NextObjective = gameObject.AddComponent<SecondObjectiveMain>();
+		SecondObjectiveMain obj = gameObject.AddComponent<SecondObjectiveMain>();
+		obj.StartMe();
+		NextObjective = obj;
 		base.OnComplete();
 	}
 }

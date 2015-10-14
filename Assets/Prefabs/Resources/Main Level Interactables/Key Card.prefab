@@ -12,6 +12,8 @@ GameObject:
   - 65: {fileID: 6508946}
   - 23: {fileID: 2349318}
   - 114: {fileID: 11421360}
+  - 114: {fileID: 11452868}
+  - 114: {fileID: 11405840}
   m_Layer: 0
   m_Name: Key Card
   m_TagString: Untagged
@@ -74,6 +76,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11405840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11421360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,18 +106,38 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11452868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891152c73c7875743a271ad5c3578e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StringInput: 
+  Cost: 0
+  ClassMultiplier: 0
+  InstantInteract: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: InstantInteract
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 125950}
