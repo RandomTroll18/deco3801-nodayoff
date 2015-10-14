@@ -50,4 +50,6 @@ MonoBehaviour:
   - DecreaseRoundsLost
   - IncreaseRoundsLost
   - DestroyObject
+  - SetActive
+  - SetPosition
   DisableAutoOpenWizard: 1

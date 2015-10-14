@@ -4,7 +4,6 @@ using System.Collections;
 
 public class ScoutPrimaryAbility : Ability {
 
-	Player master; // The owner of this ability
 	string trapPrefab; // Prefab for a trap
 	int trapCount; // The number of traps that can be made
 	const int MAX_TRAPS = 3;
@@ -15,13 +14,12 @@ public class ScoutPrimaryAbility : Ability {
 	 * Arguments
 	 * - Player player - The calling player
 	 */
-	public ScoutPrimaryAbility(Player player) {
+	public ScoutPrimaryAbility() {
 		AbilityName = "Traps";
 		Range = 3.0;
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.DEFENSIVE;
 		trapPrefab = "AbilityPrefabs/Scout/ScoutTrap";
-		master = player;
 	}
 
 	/**

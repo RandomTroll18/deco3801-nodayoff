@@ -34,6 +34,7 @@ public class StunGun : ShortRangeWeapon {
 		ItemActivationType = ActivationType.OFFENSIVE;
 
 		Activatable = true; // Set this item to be activatable
+		Droppable = false; // Set this item to be droppable
 	}
 
 	/* Override abstract functions so that compiler doesn't whine */

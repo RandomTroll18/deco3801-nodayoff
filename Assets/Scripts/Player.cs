@@ -83,10 +83,13 @@ public class Player : MonoBehaviour {
 	public void GenerateStunGun() {
 		GameObject stunGunObject;
 		if (StunGunPrefab != null && !IsSpawned) {
-			stunGunObject = Instantiate(StunGunPrefab);
+			stunGunObject = PhotonNetwork.Instantiate(
+				"StunGun",
+				new Vector3(transformComponent.position.x, 0f, transformComponent.position.z),
+				transformComponent.rotation,
+				0
+			);
 			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
-			stunGunObject.transform.position = new Vector3(transformComponent.position.x, 
-					(float) 0.0, transformComponent.position.z);
 		}
 	}
 
@@ -252,9 +255,8 @@ public class Player : MonoBehaviour {
 	 * Function handling event when we exit a trigger
 	 */
 	void OnTriggerExit(Collider other) {
-		if (other.gameObject.CompareTag("Item")) { // Remove item from list of dropped items
+		if (other.gameObject.CompareTag("Item")) // Remove item from list of dropped items
 			droppedItems.Remove(other.gameObject);
-		}
 	}
 
 	/**
@@ -271,7 +273,8 @@ public class Player : MonoBehaviour {
 			break;
 		case TurnEffectType.ITEMEFFECT: // Apply item effects immediately
 			foreach (Item item in inventory) {
-				if (item != null) toAdd.ApplyEffectToItem(item);
+				if (item != null) 
+					toAdd.ApplyEffectToItem(item);
 			}
 			break;
 		default: break; // Don't do anything
@@ -297,9 +300,12 @@ public class Player : MonoBehaviour {
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {
-			if (availableSpot == 8) return; // No more room
-			if (droppedItems.Contains(other.gameObject)) return; // Just recently dropped
-			if (InventoryUI == null || InventoryUI.Length == 0) return; // Don't do anything
+			if (availableSpot == 8) 
+				return; // No more room
+			if (droppedItems.Contains(other.gameObject)) 
+				return; // Just recently dropped
+			if (InventoryUI == null || InventoryUI.Length == 0) 
+				return; // Don't do anything
 			// Get the ui slot script
 			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
 
@@ -308,7 +314,14 @@ public class Player : MonoBehaviour {
 			item = other.GetComponent<Item>();
 			inventory[availableSpot] = item;
 			uiSlotScript.InsertItem(item);
-			other.gameObject.SetActive(false); // Make object disappear
+
+			// Make objects disappear
+			other.gameObject.GetComponent<PhotonView>().RPC(
+					"SetActive", 
+					PhotonTargets.All, 
+					new object[] {false}
+			);
+			//other.gameObject.SetActive(false); // Make object disappear
 
 			// Get turn effects if they exist
 			if (item.GetTurnEffects() != null) AttachTurnEffects(item.GetTurnEffects());
@@ -462,12 +475,6 @@ public class Player : MonoBehaviour {
 	 */
 	public void IncreaseStatValue(Stat playerStat, double value) {
 		SetStatValue(playerStat, GetStatValue(playerStat) + value);
-		// stats can go beyond the default value - Ben
-//		if (stats[playerStat] >= playerClass.GetDefaultStat(playerStat)) 
-//			stats[playerStat] = playerClass.GetDefaultStat(playerStat);
-//		if (playerStat == Stat.AP) // Update AP Counter
-//			if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[playerStat];
-//			else APCounterText.text = "Player AP Count: " + stats[playerStat];
 	}
 
 	/**
@@ -542,9 +549,9 @@ public class Player : MonoBehaviour {
 		int distanceToCharacter; // The distance to a character
 		if (playerLight == null) // No light exists
 			return;
-		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
+		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f)
 			playerLight.intensity = 0;
-		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
+		else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
 			playerLight.intensity = 4;
 			visionDistance = 4;
 		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
@@ -561,11 +568,10 @@ public class Player : MonoBehaviour {
 				continue;
 
 			if (GetComponent<MovementController>().TileDistance(p.transform.position) 
-			                      <= visionDistance) {
+			                      <= visionDistance)
 				p.GetComponentInChildren<MeshRenderer>().enabled = true;
-			} else {
+			else
 				p.GetComponentInChildren<MeshRenderer>().enabled = false;
-			}
 		}
 	}
 
@@ -610,7 +616,17 @@ public class Player : MonoBehaviour {
 
 		// Set game object to be behind the player and set it to active
 		if (toSetActive) {
-			physicalItems[itemIndex].SetActive(true);
+			physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
+					"SetActive", 
+					PhotonTargets.All, 
+					new object[] {true}
+			);
+			physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
+					"SetPosition",
+					PhotonTargets.All,
+					new object[] {transformComponent.position.x, transformComponent.position.z}
+			);
+			//physicalItems[itemIndex].SetActive(true);
 			physicalItems[itemIndex].transform.position = 
 				new Vector3(transformComponent.position.x, (float)0.0, 
 				            transformComponent.position.z);
@@ -638,56 +654,19 @@ public class Player : MonoBehaviour {
 		
 		// Find next available spot
 		availableSpot = 0;
-		while (availableSpot != 8 && inventory[availableSpot] != null) {
+		while (availableSpot != 8 && inventory[availableSpot] != null)
 			availableSpot++;
-		}
 	}
 
 	/**
-	 * Function used to drop the given item
+	 * Function used to drop the given item currently in the context aware box
 	 * 
 	 * Arguments
 	 * - GameObject contextAwareBox - The context aware box
 	 */
 	public void RemoveItem(GameObject contextAwareBox) {
 		Item item = (Item)contextAwareBox.GetComponent<ContextAwareBox>().GetAttachedObject();
-		int itemIndex; // The index of the given item
-		InventoryUISlotScript uiSlotScript; // The ui slot script
-
-		if (item == null) return;
-		itemIndex = getIndex(item);
-		if (itemIndex == -1) return;
-		// Set game object to be behind the player and set it to active
-		physicalItems[itemIndex].transform.position = 
-				new Vector3(transformComponent.position.x, (float)0.0, 
-			    transformComponent.position.z);
-		physicalItems[itemIndex].SetActive(true);
-
-		// Add item to list of recently dropped items
-		droppedItems.Add(physicalItems[itemIndex]);
-
-		// Remove effects if the item has some turn effects
-		if (item.GetTurnEffects() != null) 
-			foreach (Effect turnEffect in item.GetTurnEffects()) DetachTurnEffect(turnEffect);
-
-		// Remove the item from the ui slot
-		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();
-		uiSlotScript.RemoveItem();
-
-		// Set inventory references to null
-		inventory[itemIndex] = null;
-		physicalItems[itemIndex] = null;
-
-		// Reset item to have default values
-		item.ResetCoolDownSetting();
-		item.ResetUsePerTurn();
-		item.ResetCoolDown();
-
-		// Find next available spot
-		availableSpot = 0;
-		while (availableSpot != 8 && inventory[availableSpot] != null) {
-			availableSpot++;
-		}
+		RemoveItem(item, true);
 	}
 
 	/**
@@ -702,8 +681,10 @@ public class Player : MonoBehaviour {
 	 */
 	int getIndex(object itemToGet) {
 		for (int i = 0; i < 8; ++i) {
-			if (inventory[i] == null) continue; // Nothing here
-			else if (inventory[i].Equals(itemToGet)) return i;
+			if (inventory[i] == null) 
+				continue; // Nothing here
+			else if (inventory[i].Equals(itemToGet)) 
+				return i;
 		}
 		return -1; // Item not found
 	}
@@ -713,12 +694,14 @@ public class Player : MonoBehaviour {
 	 */
 	public void ApplyTurnEffects() {
 		Effect currentEffect; // The current effect being applied
-		if (turnEffectsApplied) return;
+		if (turnEffectsApplied) 
+			return;
 
 		for (int i = 0; i < turnEffects.Count; ++i) {
 			currentEffect = turnEffects[i];
 			applyTurnEffect(turnEffects[i]);
-			if (!turnEffects.Contains(currentEffect)) --i; // Turn effect removed
+			if (!turnEffects.Contains(currentEffect)) 
+				--i; // Turn effect removed
 		}
 
 		turnEffectsApplied = true; // We have applied turn effects
@@ -728,7 +711,8 @@ public class Player : MonoBehaviour {
 	 * Reduce the number of turns this player's ability is still active
 	 */
 	public void ReduceAbilityTurns() {
-		if (playerClass.GetPrimaryAbility() == null) return; // No ability
+		if (playerClass.GetPrimaryAbility() == null) 
+			return; // No ability
 		playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
 	}
 
@@ -737,7 +721,8 @@ public class Player : MonoBehaviour {
 	 */
 	public void ReduceItemCoolDowns() {
 		foreach (Item item in inventory) {
-			if (item == null) continue;
+			if (item == null) 
+				continue;
 			item.ReduceCoolDown();
 		}
 	}

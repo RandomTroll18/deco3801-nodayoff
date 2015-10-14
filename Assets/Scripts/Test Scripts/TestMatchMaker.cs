@@ -8,7 +8,6 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	public Text RoomNameLabel; // The label for the room name
 	public Text PlayerCountLabel; // The label for the player count
 	public Text[] PlayerNamesLabel; // The labels for each player's name
-	static int randomRoomID = 0; // The id for the random room
 
 	// Use this for initialization
 	void Start() {
