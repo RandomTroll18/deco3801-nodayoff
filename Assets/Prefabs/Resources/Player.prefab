@@ -344,7 +344,6 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 422500}
-  - {fileID: 11493398}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -393,7 +392,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: ObservedComponents.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: synchronization
@@ -426,7 +425,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ObservedComponents.Array.data[1]
       value: 
-      objectReference: {fileID: 11493398}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 156324}
