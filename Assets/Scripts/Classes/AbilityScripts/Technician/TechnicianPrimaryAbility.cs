@@ -12,7 +12,7 @@ public class TechnicianPrimaryAbility : Ability {
 	GameObject previousCameraButtonInstance; // Instantiated previous camera button
 	int currentCameraIndex; // The current camera we are looking at
 	int numberOfSurveillanceCameras; // The number of surveillance cameras
-
+	
 	/**
 	 * Constructor
 	 * 
@@ -63,6 +63,11 @@ public class TechnicianPrimaryAbility : Ability {
 		mainCamera.SetActive(false);
 		nextCameraButtonInstance.SetActive(true);
 		previousCameraButtonInstance.SetActive(true);
+		surveillanceCameras = GameObject.FindGameObjectsWithTag("SurveillanceCameras");
+		foreach (GameObject surveillanceCamera in surveillanceCameras)
+			surveillanceCamera.SetActive(false);
+		numberOfSurveillanceCameras = surveillanceCameras.Length;
+		Debug.Log("Number of surveillance cameras: " + numberOfSurveillanceCameras);
 		surveillanceCameras[currentCameraIndex].SetActive(true);
 	}
 

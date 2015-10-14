@@ -80,15 +80,14 @@ public class StunGun : ShortRangeWeapon {
 
 	[PunRPC]
 	void ShowEffect(float x, float y, float z) {
-		GameObject testActivate; // MVP purposes
+		GameObject effectAnimation; // MVP purposes
 
 		// Show where Stun Gun was activated - MVP purposes
 		Vector3 pos = new Vector3(x, y, z);
-		testActivate = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
-		testActivate.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-		Destroy(testActivate, 3f); // TODO: fix so the anim is destroyed for all clients
+		effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
+		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
 	}
-	// Destroy tile after 2 seconds
 	
 	/**
 	 * Override toString function

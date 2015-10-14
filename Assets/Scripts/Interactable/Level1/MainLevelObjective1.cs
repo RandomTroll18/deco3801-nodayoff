@@ -23,8 +23,6 @@ public class MainLevelObjective1 : InteractiveObject {
 			PrimaryO.OnComplete();
 			Debug.Log("Opened");
 			this.CloseEvent();		
-			EC1 Chopper = gameObject.AddComponent<EC1>();
-			GameObject ChopperUI = Chopper.CreateCard ();
 		} else {
 			Debug.Log("Failed with " + input);
 			this.CloseEvent();	

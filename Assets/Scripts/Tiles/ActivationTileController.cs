@@ -216,7 +216,8 @@ public class ActivationTileController : MonoBehaviour {
 
 		intendedTile = new Tile(Tile.TilePosition(tileX), Tile.TilePosition(tileZ));
 
-		if (movementController.IsTileBlocked(intendedTile)) return false;  // Tile is blocked
+		if (movementController.IsTileBlocked(intendedTile)) 
+			return false;  // Tile is blocked
 
 		conceptualTiles.Add(intendedTile);
 		return true;
@@ -234,7 +235,6 @@ public class ActivationTileController : MonoBehaviour {
 
 		tileGenerated = Instantiate<GameObject>(TargettingTilePrefab);
 		tileGenerated.GetComponent<Transform>().position = new Vector3(x, -0.49f, z);
-
 		gameObjectTiles.Add(tileGenerated);
 	}
 
@@ -252,7 +252,6 @@ public class ActivationTileController : MonoBehaviour {
 		tileGenerated = Instantiate<GameObject>(ActivationTilePrefab);
 		tileGenerated.GetComponent<Renderer>().material = tileMaterial;
 		tileGenerated.GetComponent<Transform>().position = new Vector3(x, -0.49f, z);
-
 		gameObjectTiles.Add(tileGenerated);
 	}
 
@@ -306,17 +305,21 @@ public class ActivationTileController : MonoBehaviour {
 	void generateStraightFromCorner(float range, float currentX, float currentZ, float initialX, float initialZ, 
 			Material tileMaterial) {
 		if (currentX > initialX && currentZ > initialZ) { // This is the upper right corner
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "right");
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "up");
+			Debug.Log("Generating straight from upper right corner");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "right");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "up");
 		} else if (currentX > initialX && currentZ < initialZ) { // This is the lower right corner
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "right");
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "down");
-		} else if (currentX < initialZ && currentZ > initialZ) { // This is the upper left corner
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "left");
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "up");
+			Debug.Log("Generating straight from lower right corner");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "right");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "down");
+		} else if (currentX < initialX && currentZ > initialZ) { // This is the upper left corner
+			Debug.Log("Generating straight from upper left corner");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "left");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "up");
 		} else { // This is the lower left corner
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "left");
-			generateStraightLine(range, currentX, currentZ, tileMaterial, "down");
+			Debug.Log("Generating straight from lower left corner");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "left");
+			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "down");
 		}
 	}
 
@@ -333,20 +336,25 @@ public class ActivationTileController : MonoBehaviour {
 	 */
 	void generateCornerTile(float range, float currentX, float currentZ, float initialX, float initialZ, 
 			Material tileMaterial) {
-		if (range <= 0.0f && range >= 0.0f) return; // Don't generate anything
+		if (range <= 0.0f && range >= 0.0f) 
+			return; // Don't generate anything
 
 		// Generate centre tile
-		if (!checkCornerAdjacency(currentX, currentZ, initialX, initialZ)) return; // Can't generate centre
-		else if (!canGenerate(currentX, currentZ)) return; // Can't generate corner tile. Just don't do it
+		if (!checkCornerAdjacency(currentX, currentZ, initialX, initialZ)) 
+			return; // Can't generate centre
+		else if (!canGenerate(currentX, currentZ)) 
+			return; // Can't generate corner tile. Just don't do it
 
 		generateIndividualTile(currentX, currentZ, tileMaterial); // Generate the corner tile
 
-		if (range <= 2.0f && range >= 2.0f) return; // Only generate the corner tile
+		if (range <= 2.0f && range >= 2.0f) 
+			return; // Only generate the corner tile
 
 		// Generate tiles in a straight line from the corner
 		generateStraightFromCorner(range, currentX, currentZ, initialX, initialZ, tileMaterial);
 
-		if (range <= 4.0f && range >= 4.0f) return; // We only want to generate the tiles straight from the corner
+		if (range <= 4.0f && range >= 4.0f) 
+			return; // We only want to generate the tiles straight from the corner
 
 		// Generate the next corner tile based on the position of this corner tile
 		if (currentX > initialX && currentZ >= initialZ) { // Upper right corner 
