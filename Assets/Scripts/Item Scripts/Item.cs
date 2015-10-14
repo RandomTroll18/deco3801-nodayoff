@@ -217,6 +217,7 @@ public abstract class Item : MonoBehaviour {
 	 */
 	[PunRPC]
 	public void SetActive(bool appearFlag) {
+		Debug.Log("RPC Call: Item Set Active: " + appearFlag);
 		gameObject.SetActive(appearFlag);
 	}
 
@@ -229,6 +230,7 @@ public abstract class Item : MonoBehaviour {
 	 */
 	[PunRPC]
 	public void SetPosition(float x, float z) {
+		Debug.Log("RPC Call: Item Set Position To: " + x + ", " + z);
 		transform.position = new Vector3(x, 0f, z);
 	}
 	

@@ -52,4 +52,5 @@ MonoBehaviour:
   - DestroyObject
   - SetActive
   - SetPosition
+  - ChangeMaterial
   DisableAutoOpenWizard: 1

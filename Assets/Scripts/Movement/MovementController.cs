@@ -277,6 +277,52 @@ public class MovementController : MonoBehaviour {
 		return null;
 	}
 
+	/**
+	 * Static method for finding the distance between 2 positions
+	 * 
+	 * Arguments
+	 * - Vector3 startPosition - The starting position
+	 * - Vector3 endPosition - The destination
+	 * - HashSet<Tile> blockedTiles - The blocked tiles
+	 * 
+	 * Returns
+	 * - The distance between the start and destination. -1 if no path found
+	 */
+	public static int TileDistance(Vector3 startPosition, Vector3 endPosition, HashSet<Tile> blockedTiles) {
+		PathTile pathFound = null; // The path that was found
+		Tile startTile = Tile.TilePosition(startPosition); // The starting tile
+		Tile endTile = Tile.TilePosition(endPosition); // The destination
+		HashSet<Tile> explored = new HashSet<Tile>(); // The set of explored tiles
+		if (endTile != null && !blockedTiles.Contains(endTile)) {
+			Queue<PathTile> q = new Queue<PathTile>();
+			q.Enqueue(new PathTile(startTile));
+			while (q.Count != 0) {
+				PathTile current = q.Dequeue();
+				if (current.Equals(endTile)) {
+					pathFound = current;
+				}
+				/* I like duplicate code :} */
+				for (int z = 1; z >= -1; z -= 2) {
+					Tile neighbour = new Tile(current.X + 0, current.Z + z);
+					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
+						explored.Add(neighbour);
+						q.Enqueue(new PathTile(current, neighbour));
+					}
+				}
+				for (int x = 1; x >= -1; x -= 2) {
+					Tile neighbour = new Tile(current.X + x, current.Z + 0);
+					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
+						explored.Add(neighbour);
+						q.Enqueue(new PathTile(current, neighbour));
+					}
+				}
+			}
+		}
+		if (pathFound == null)
+			return -1;
+		return pathFound.Depth;
+	}
+
 	/*
 	 * Returns the distance between this player and another position. -1 if no path found
 	 */
@@ -418,5 +464,15 @@ public class MovementController : MonoBehaviour {
 	 */
 	public void ChangePlayerScript() { 
 		playerScript = gameObject.GetComponent<Player>();
+	}
+
+	/**
+	 * Return the hash set of blocked tiles
+	 * 
+	 * Return
+	 * - The hash set of blocked tiles
+	 */
+	public HashSet<Tile> GetBlockedTiles() {
+		return blockedTiles;
 	}
 }

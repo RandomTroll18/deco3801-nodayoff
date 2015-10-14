@@ -64,9 +64,8 @@ public class GameManager : MonoBehaviour {
 		/*
 		 * This is how you call StartMe for classes that aren't singletons
 		 */
-		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>()) {
+		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>())
 			script.StartMe();
-		}
 		
 		Object.FindObjectOfType<ChatTest>().StartMe();
 		// TODO: Before initializing the class panel, need to check if the player is an alien
@@ -162,9 +161,8 @@ public class GameManager : MonoBehaviour {
 
 		RoundsLeftUntilLose -= roundsLost;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
-		if (RoundsLeftUntilLose <= 0) {
+		if (RoundsLeftUntilLose <= 0)
 			GetComponent<PhotonView>().RPC("LoseGame", PhotonTargets.All, null);
-		}
 
 		validTurn = true;
 	}
@@ -223,7 +221,7 @@ public class GameManager : MonoBehaviour {
 	/*
 	 * Decreases the number of rounds lost after a turn.
 	 */
-	public void DecreaseRoundsLost(int roundsLost) {
-		this.roundsLost -= roundsLost;
+	public void DecreaseRoundsLost(int newRoundsLost) {
+		this.roundsLost -= newRoundsLost;
 	}
 }

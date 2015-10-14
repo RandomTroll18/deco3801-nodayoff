@@ -23,23 +23,20 @@ public class DeployableStunTurret : SupportConsumables {
 	
 	public override void Activate(Tile targetTile)
 	{
-		GameObject instantiatedTurret; // The instantiated camera
+		GameObject instantiatedStunTurret;
 		Vector3 instantiatePosition; // Where to instantiate
-		Quaternion cameraQuaternion; // The quaternion of this object
-		if (Amount == 0) { // Out of cameras
+		if (Amount == 0) // Out of turrets
 			return;
-		} else { // Instantiate camera
+		else { // Instantiate Turret
 			Amount--;
 			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 0f, Tile.TileMiddle(targetTile).z);
-			instantiatedTurret = PhotonNetwork.Instantiate(
-				"DeployableStunTurret", 
-				instantiatePosition, 
-				Quaternion.identity, 
-				0
-				);
-			instantiatedTurret.transform.LookAt(Player.MyPlayer.transform.position);
-			cameraQuaternion = instantiatedTurret.transform.rotation;
-			instantiatedTurret.transform.Rotate(-cameraQuaternion.x + 3.0f, 0f, 0f);
+			instantiatedStunTurret = PhotonNetwork.Instantiate(
+					"DeployableStunTurret", 
+					instantiatePosition, 
+					Quaternion.identity, 
+					0
+			);
+			instantiatedStunTurret.GetComponent<DeployableStunTurretActionScript>().enabled = true; // Enable script
 			if (Amount == 0) { // Remove the item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 				Destroy(gameObject);

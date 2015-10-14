@@ -47903,6 +47903,7 @@ Transform:
   - {fileID: 1040664881}
   - {fileID: 506258409}
   - {fileID: 738111283}
+  - {fileID: 1079058441}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!1001 &961943681
@@ -53585,6 +53586,64 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1078817560}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1079058440
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 961897487}
+    m_Modifications:
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 140048, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: m_Name
+      value: DeployableStunTurret (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 11410196, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11410196, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+      propertyPath: instantiationId
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1079058441 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 484412, guid: 2b3b7446645122c49bfc5766a6e73290, type: 2}
+  m_PrefabInternal: {fileID: 1079058440}
 --- !u!1001 &1079682319
 Prefab:
   m_ObjectHideFlags: 0

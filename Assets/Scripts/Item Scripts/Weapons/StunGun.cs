@@ -78,6 +78,33 @@ public class StunGun : ShortRangeWeapon {
 			CoolDown = CoolDownSetting; // Set Cool Down
 	}
 
+	/**
+	 * Static function for showing the stun gun animation
+	 * 
+	 * Arguments
+	 * - float x - x coordinate
+	 * - float y - y coordinate
+	 * - float z - z coordinate
+	 */
+	public static void StaticShowEffect(float x, float y, float z) {
+		GameObject effectAnimation; // MVP purposes
+		
+		// Show where Stun Gun was activated - MVP purposes
+		Vector3 pos = new Vector3(x, y, z);
+		effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
+		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
+	}
+
+
+	/**
+	 * Show the stun gun animation
+	 * 
+	 * Arguments
+	 * - float x - x coordinate
+	 * - float y - y coordinate
+	 * - float z - z coordinate
+	 */
 	[PunRPC]
 	void ShowEffect(float x, float y, float z) {
 		GameObject effectAnimation; // MVP purposes

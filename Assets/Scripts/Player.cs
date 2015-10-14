@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
 	public string ClassToSet; // The class to set
 	public static string ChosenClass; // The chosen class
 	public bool IsSpawned; // Record if this object is spawned
+	public bool IsStunned; // Record if this player is stunned
 	/*
 	 * This is an important variable since we can no longer search for the player in the scene.
 	 * Make sure that if you need this variable, you wait for network connecting to finish so the
@@ -35,8 +36,7 @@ public class Player : MonoBehaviour {
 	int availableSpot; // Earliest available spot in inventory
 	bool turnEffectsApplied; // Record whether turn effects are applied
 	bool noLongerActive; // Record if this player is still active
-	bool isStunned; // Record if this player is stunned
-	int stunTimer;
+	int stunTimer = 0; // The stun timer
 	bool isImmuneToStun; // Recod if the player is immune to stun
 	Light playerLight; // Player's light
 	Material playerMaterial; // The material of the player
@@ -83,12 +83,11 @@ public class Player : MonoBehaviour {
 	public void GenerateStunGun() {
 		GameObject stunGunObject;
 		if (StunGunPrefab != null && !IsSpawned) {
-			stunGunObject = PhotonNetwork.Instantiate(
-				"StunGun",
-				new Vector3(transformComponent.position.x, 0f, transformComponent.position.z),
-				transformComponent.rotation,
-				0
-			);
+			stunGunObject = Instantiate(StunGunPrefab);
+			stunGunObject.transform.position = new Vector3(
+					transformComponent.position.x, 
+					0f, 
+					transformComponent.position.z);
 			stunGunObject.GetComponent<StunGun>().StartAfterInstantiate();
 		}
 	}
@@ -174,7 +173,7 @@ public class Player : MonoBehaviour {
 		else {
 			if (noLongerActive) // Don't do anything
 				return;
-			else if (isStunned && stunTimer-- > 0) { // Player is currently stunned. Can't do anything
+			else if (IsStunned && stunTimer-- > 0) { // Player is currently stunned. Can't do anything
 				noLongerActive = true;
 				// Player can't do anything anymore so need to tell Game manager player is done
 				GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", 
@@ -182,19 +181,36 @@ public class Player : MonoBehaviour {
 				Debug.Log("Game Manager Turns Remaining: " + gameManagerScript.RoundsLeftUntilLose);
 				Debug.Log("Stun timer: " + stunTimer);
 				return;
-			} else if (isStunned) {
+			} else if (IsStunned) {
 				Debug.Log("Not stunned");
-				isStunned = false;
+				IsStunned = false;
 				noLongerActive = false;
 			}
 			// Allow movement
 		}
 	}
 
+	/**
+	 * Return whether or not this player is stunned
+	 * 
+	 * Returns
+	 * - true if player is stunned. false if otherwise
+	 */
+	public bool IsPlayerStunned() {
+		return IsStunned;
+	}
+
+
+	/**
+	 * Stun the player
+	 * 
+	 * Arguments
+	 * - int timer - The amount of turns to stun the player for
+	 */
 	[PunRPC]
 	public void Stun(int timer) {
 		Debug.Log("Player Stunned");
-		isStunned = true;
+		IsStunned = true;
 		stunTimer = timer;
 	}
 
@@ -315,13 +331,16 @@ public class Player : MonoBehaviour {
 			inventory[availableSpot] = item;
 			uiSlotScript.InsertItem(item);
 
-			// Make objects disappear
-			other.gameObject.GetComponent<PhotonView>().RPC(
+			/* Make objects disappear */
+			if (other.gameObject.GetComponent<PhotonView>() == null) // No Photon View
+				other.gameObject.SetActive(false);
+			else {
+				other.gameObject.GetComponent<PhotonView>().RPC(
 					"SetActive", 
 					PhotonTargets.All, 
 					new object[] {false}
-			);
-			//other.gameObject.SetActive(false); // Make object disappear
+				);
+			}
 
 			// Get turn effects if they exist
 			if (item.GetTurnEffects() != null) AttachTurnEffects(item.GetTurnEffects());
@@ -638,20 +657,23 @@ public class Player : MonoBehaviour {
 
 		// Set game object to be behind the player and set it to active
 		if (toSetActive) {
-			physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
+			if (physicalItems[itemIndex].GetComponent<PhotonView>() == null) { // No Photon View
+				physicalItems[itemIndex].SetActive(true);
+				physicalItems[itemIndex].transform.position = 
+					new Vector3(transformComponent.position.x, (float)0.0, 
+					            transformComponent.position.z);
+			} else {
+				physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
 					"SetActive", 
 					PhotonTargets.All, 
 					new object[] {true}
-			);
-			physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
+				);
+				physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
 					"SetPosition",
 					PhotonTargets.All,
 					new object[] {transformComponent.position.x, transformComponent.position.z}
-			);
-			//physicalItems[itemIndex].SetActive(true);
-			physicalItems[itemIndex].transform.position = 
-				new Vector3(transformComponent.position.x, (float)0.0, 
-				            transformComponent.position.z);
+				);
+			}
 
 			// Add item to list of recently dropped items
 			droppedItems.Add(physicalItems[itemIndex]);

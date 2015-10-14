@@ -61,9 +61,8 @@ public class ActivationTileController : MonoBehaviour {
 		if (item != null) {
 			item.SetTestPrefab(StunGunTestPrefab);
 			item.Activate(tileClicked); // Second, determine what to activate. 
-		} else if (ability != null) {
+		} else if (ability != null)
 			ability.Activate(tileClicked); // Activate ability
-		}
 
 		DestroyActivationTiles(); // Destroy all tiles
 	}
@@ -82,9 +81,8 @@ public class ActivationTileController : MonoBehaviour {
 	 * Destroy all activation tiles, but don't remove references
 	 */
 	public void SoftDestroyActivationTiles() {
-		foreach (GameObject activationTile in gameObjectTiles) {
+		foreach (GameObject activationTile in gameObjectTiles)
 			Destroy(activationTile);
-		}
 		gameObjectTiles.Clear(); // Clear the activation tile list
 		conceptualTiles.Clear(); // Clear the set of activation tiles (Tile class)
 		badActivationTiles.Clear(); // Clear the list of bad activation tiles
@@ -94,9 +92,8 @@ public class ActivationTileController : MonoBehaviour {
 	 * Destroy all activation tiles
 	 */
 	public void DestroyActivationTiles() {
-		foreach (GameObject activationTile in gameObjectTiles) {
+		foreach (GameObject activationTile in gameObjectTiles)
 			Destroy(activationTile);
-		}
 		gameObjectTiles.Clear(); // Clear the activation tile list
 		conceptualTiles.Clear(); // Clear the set of activation tiles (Tile class)
 		badActivationTiles.Clear(); // Clear the list of bad activation tiles
@@ -305,19 +302,15 @@ public class ActivationTileController : MonoBehaviour {
 	void generateStraightFromCorner(float range, float currentX, float currentZ, float initialX, float initialZ, 
 			Material tileMaterial) {
 		if (currentX > initialX && currentZ > initialZ) { // This is the upper right corner
-			Debug.Log("Generating straight from upper right corner");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "right");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "up");
 		} else if (currentX > initialX && currentZ < initialZ) { // This is the lower right corner
-			Debug.Log("Generating straight from lower right corner");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "right");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "down");
 		} else if (currentX < initialX && currentZ > initialZ) { // This is the upper left corner
-			Debug.Log("Generating straight from upper left corner");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "left");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "up");
 		} else { // This is the lower left corner
-			Debug.Log("Generating straight from lower left corner");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "left");
 			generateStraightLine(range - 2.0f, currentX, currentZ, tileMaterial, "down");
 		}
@@ -357,15 +350,14 @@ public class ActivationTileController : MonoBehaviour {
 			return; // We only want to generate the tiles straight from the corner
 
 		// Generate the next corner tile based on the position of this corner tile
-		if (currentX > initialX && currentZ >= initialZ) { // Upper right corner 
+		if (currentX > initialX && currentZ >= initialZ) // Upper right corner 
 			generateCornerTile(range - 2.0f, currentX + 2.0f, currentZ + 2.0f, currentX, currentZ, tileMaterial);
-		} else if (currentX > initialX && currentZ <= initialZ) { // Lower right corner 
+		else if (currentX > initialX && currentZ <= initialZ) // Lower right corner 
 			generateCornerTile(range - 2.0f, currentX + 2.0f, currentZ - 2.0f, currentX, currentZ, tileMaterial);
-		} else if (currentX < 0.0f && currentZ > 0.0f) { // Upper left corner
+		else if (currentX < 0.0f && currentZ > 0.0f) // Upper left corner
 			generateCornerTile(range - 2.0f, currentX - 2.0f, currentZ + 2.0f, currentX, currentZ, tileMaterial);
-		} else { // Lower left corner
+		else // Lower left corner
 			generateCornerTile(range - 2.0f, currentX - 2.0f, currentZ - 2.0f, currentX, currentZ, tileMaterial);
-		}
 	}
 
 	/**
@@ -386,7 +378,8 @@ public class ActivationTileController : MonoBehaviour {
 		generateStraightLineTiles(range, initialX, initialZ, tileMaterial);
 
 		// Secondly, check if the range is just 1. 
-		if (range <= 1.0f && range >= 1.0f) return; // No need to generate more. 
+		if (range <= 1.0f && range >= 1.0f) 
+			return; // No need to generate more. 
 
 		// Generate the corner tiles pseudo-recursively, if the corner's adjacent tiles are valid
 		generateCornerTile(trueRange - 2.0f, trueX - 2.0f, trueZ + 2.0f, trueX, trueZ, tileMaterial);
@@ -417,7 +410,8 @@ public class ActivationTileController : MonoBehaviour {
 		generateStraightLine(trueRange, trueX, trueZ, tileMaterial, "down");
 
 		// Generate the centre tile only if the centre tile is not blocked
-		if (!canGenerate(trueX, trueZ)) return; // Centre tile is blocked
+		if (!canGenerate(trueX, trueZ)) 
+			return; // Centre tile is blocked
 		generateIndividualTile(trueX, trueZ, tileMaterial);
 	}
 
@@ -435,25 +429,29 @@ public class ActivationTileController : MonoBehaviour {
 		switch (direction) { // Only generate based on the given direction 
 		case "left": // Towards the left
 			for (float currentX = (initialX - 2.0f); currentX >= (initialX - range); currentX -= 2.0f) {
-				if (!canGenerate(currentX, initialZ)) return; // Blocked. Just stop
+				if (!canGenerate(currentX, initialZ)) 
+					return; // Blocked. Just stop
 				generateIndividualTile(currentX, initialZ, tileMaterial);
 			}
 			return;
 		case "right": // Towards the right
 			for (float currentX = (initialX + 2.0f); currentX <= (initialX + range); currentX += 2.0f) {
-				if (!canGenerate(currentX, initialZ)) return; // Blocked. Just stop
+				if (!canGenerate(currentX, initialZ)) 
+					return; // Blocked. Just stop
 				generateIndividualTile(currentX, initialZ, tileMaterial);
 			}
 			return;
 		case "up": // Upwards
 			for (float currentZ = (initialZ + 2.0f); currentZ <= (initialZ + range); currentZ += 2.0f) {
-				if (!canGenerate(initialX, currentZ)) return; // Blocked. Just stop
+				if (!canGenerate(initialX, currentZ)) 
+					return; // Blocked. Just stop
 				generateIndividualTile(initialX, currentZ, tileMaterial);
 			}
 			return;
 		case "down": // Downwards
 			for (float currentZ = (initialZ - 2.0f); currentZ >= (initialZ - range); currentZ -= 2.0f) {
-				if (!canGenerate(initialX, currentZ)) return; // Blocked. Just stop
+				if (!canGenerate(initialX, currentZ)) 
+					return; // Blocked. Just stop
 				generateIndividualTile(initialX, currentZ, tileMaterial);
 			}
 			return;

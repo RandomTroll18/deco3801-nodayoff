@@ -344,6 +344,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 422500}
+  - {fileID: 11493398}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -375,6 +376,7 @@ MonoBehaviour:
   PlayerObject: {fileID: 156324}
   ClassToSet: 
   IsSpawned: 0
+  IsStunned: 0
 --- !u!124 &12438424
 Behaviour:
   m_ObjectHideFlags: 1
@@ -390,6 +392,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: ObservedComponents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: synchronization
       value: 3
       objectReference: {fileID: 0}
@@ -399,7 +405,7 @@ Prefab:
       objectReference: {fileID: 422500}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Depth
@@ -417,6 +423,10 @@ Prefab:
       propertyPath: orthographic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ObservedComponents.Array.data[1]
+      value: 
+      objectReference: {fileID: 11493398}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 156324}
