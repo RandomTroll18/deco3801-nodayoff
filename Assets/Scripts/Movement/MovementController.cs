@@ -197,7 +197,7 @@ public class MovementController : MonoBehaviour {
 			return;
 		}
 		
-		PathTile dest = FindPath(goal);
+		PathTile dest = FindPath(goal, false);
 
 		if (dest != null) {
 			SpawnHighlightedTile(goal);
@@ -247,9 +247,11 @@ public class MovementController : MonoBehaviour {
 	 * Note that this returns the path as a link list and the front of the list
 	 * is the end of the path.
 	 */
-	PathTile FindPath(Tile goal) {
+	PathTile FindPath(Tile goal, bool AllowBlockedGoal) {
+		Debug.Log(Tile.TileMiddle(goal));
 		HashSet<Tile> explored = new HashSet<Tile>();
-		if (goal != null && !blockedTiles.Contains(goal)) {
+		if (goal != null && (AllowBlockedGoal || !blockedTiles.Contains(goal))) {
+			Debug.Log("a");
 			Queue<PathTile> q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
 			while (q.Count != 0) {
@@ -260,6 +262,9 @@ public class MovementController : MonoBehaviour {
 				/* I like duplicate code :} */
 				for (int z = 1; z >= -1; z -= 2) {
 					Tile neighbour = new Tile(current.X + 0, current.Z + z);
+					if (neighbour.Equals(goal)) {
+						return new PathTile(current, neighbour);
+					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
@@ -267,6 +272,9 @@ public class MovementController : MonoBehaviour {
 				}
 				for (int x = 1; x >= -1; x -= 2) {
 					Tile neighbour = new Tile(current.X + x, current.Z + 0);
+					if (neighbour.Equals(goal)) {
+						return new PathTile(current, neighbour);
+					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
@@ -327,7 +335,7 @@ public class MovementController : MonoBehaviour {
 	 * Returns the distance between this player and another position. -1 if no path found
 	 */
 	public int TileDistance(Vector3 position) {
-		PathTile path = FindPath(Tile.TilePosition(position));
+		PathTile path = FindPath(Tile.TilePosition(position), true);
 
 		if (path == null) {// No path found. Unknown
 			Debug.LogWarning("No path found");
