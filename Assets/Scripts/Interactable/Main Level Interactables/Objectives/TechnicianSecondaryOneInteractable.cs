@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoutSecondaryOneInteractable : InteractiveObject {
+public class TechnicianSecondaryOneInteractable : InteractiveObject {
 
 	public override void StartMe() {
 		base.StartMe(Object.FindObjectOfType<GameManager>());
@@ -17,10 +17,10 @@ public class ScoutSecondaryOneInteractable : InteractiveObject {
 		if (SpendAP(input, MinCost)) {
 			Sync();
 			IsInactivated = true;
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
@@ -28,9 +28,9 @@ public class ScoutSecondaryOneInteractable : InteractiveObject {
 	[PunRPC]
 	void Sync() {
 		// activate objective
-		ScoutSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<ScoutSecondaryOne>();
+		TechnicianSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<TechnicianSecondaryOne>();
 		if (tmp != null)
-				tmp.OnComplete();
+			tmp.OnComplete();
 		else
 			Debug.Log("Player does not have this objective");
 	}

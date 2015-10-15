@@ -29,7 +29,7 @@ public class InteractiveObject : MonoBehaviour {
 	protected MovementController MController;
 	public bool InstantInteract;
 
-	public void StartMe() {
+	public virtual void StartMe() {
 		StartMe(Object.FindObjectOfType<GameManager>());
 	}
 

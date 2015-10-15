@@ -27,7 +27,6 @@ public class UsableSurveillanceCam : SupportConsumables {
 	{
 		GameObject instantiatedCamera; // The instantiated camera
 		Vector3 instantiatePosition; // Where to instantiate
-		Quaternion cameraQuaternion; // The quaternion of this object
 		if (Amount == 0) { // Out of cameras
 			return;
 		} else { // Instantiate camera
