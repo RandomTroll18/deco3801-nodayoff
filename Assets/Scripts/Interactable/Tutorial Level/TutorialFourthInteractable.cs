@@ -42,7 +42,7 @@ public class TutorialFourthInteractable : InteractiveObject {
 		//TODO: Fix To not destroy door, and fix to destroy Interactable
 		
 	}
-	
+
 	public void InteractablSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
@@ -50,12 +50,10 @@ public class TutorialFourthInteractable : InteractiveObject {
 	[PunRPC]
 	void Sync() {
 		IsInactivated = true;
-		Tile DT = new Tile(
-			Tile.TilePosition(Door.transform.position.x), 
-			Tile.TilePosition(Door.transform.position.z)
-			);
-		MController.RemoveInteractable(DT);
-		Debug.Log(DT.ToString());
+		Tile x = Tile.TilePosition(Door.transform.position);
+		MController.UnblockTile(x);
+		Debug.Log(x.ToString() + "Here");
+
 	}
 	
 }

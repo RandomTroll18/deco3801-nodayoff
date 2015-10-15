@@ -3,31 +3,39 @@ using System.Collections;
 
 public class Popup : MonoBehaviour {
 
+	public int x;
+	public int y;
+	public int width;
+	public int height;
+
 	public GameObject MainPanel;
 	public int CurrentPanel;
 	public GameObject[] Panels;
+
+	protected Popup NextPopup;
 	//panels = new GameObject[totalPanel];
 
 
-	// Use this for initialization
-	void Start() {
-		
-	}
-	
-	// Update is called once per frame
-	void Update() {
-	
+	public GameObject Create() {
+
+		GameObject PopupGameObject = Instantiate(Resources.Load("EventCard")) as GameObject;
+		GameObject Canvas = GameObject.Find("Main_Canvas");
+		PopupGameObject.transform.SetParent(Canvas.transform, false);
+		ChangeContent();
+		return PopupGameObject;
+
 	}
 
-	public void NextPanel() {
-		Panels[CurrentPanel].SetActive(false);
-		CurrentPanel++;
-		if (CurrentPanel < Panels.Length) {
-			Panels[CurrentPanel].SetActive(true);
+	public void ClosePopup() {
+		Destroy(this);
+		if (!NextPopup.Equals(null)) {
+			NextPopup.Create();
 		}
+
 	}
 
-	public void ToggleVisibility() {
-		
+	public virtual void ChangeContent() {
+
 	}
+	
 }

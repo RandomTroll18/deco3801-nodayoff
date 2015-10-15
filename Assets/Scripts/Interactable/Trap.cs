@@ -17,10 +17,7 @@ public class Trap : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
 		Debug.Log("Collided");
-		if (col.gameObject.name == "Player(Clone)") {
-			Activate();
-			TrapSync();
-		}
+		TrapToDo(col);
 	}
 
 	public void StartMe(GameManager g) {
@@ -33,18 +30,27 @@ public class Trap : MonoBehaviour {
 
 	}
 
+	public virtual void TrapToDo(Collision col) {
+		if (col.gameObject.name == "Player(Clone)") {
+			Activate();
+			TrapSync();
+		}
+	}
+
 	/**
 	 * Activate function 
 	 * 
 	 * Arguments
 	 * - Player p - The player that activated this trap
+	 * 
+	 * *Depricated*
 	 */
 	public virtual void Activated(Player p) {
 
 		EventCard test = gameObject.AddComponent<EventCard>();
 		GameObject UI = test.CreateCard();
 		Debug.Log("Sorry Yugi, but you've triggered my trap card!");
-		Destroy(this.gameObject);
+		//Destroy(this.gameObject);
 
 	}
 
@@ -52,7 +58,7 @@ public class Trap : MonoBehaviour {
 		
 	}
 
-	public void TrapSync() {
+	public virtual void TrapSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
 	
