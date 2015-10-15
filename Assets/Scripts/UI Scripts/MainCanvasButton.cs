@@ -46,11 +46,40 @@ public class MainCanvasButton : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Enable/disable camera controller of controllable characters
+	 * 
+	 * Arguments
+	 * - bool enable - The flag for enabling/disabling camera controllers
+	 */
+	void toggleCameraControllers(bool enable) {
+		GameObject playerObject = Player.MyPlayer; // The game object of the player
+		GameObject spawnedCharacter = null; // The spawned character
+		Player playerScript = Player.MyPlayer.GetComponent<Player>(); // The player script
+
+		// Toggle the camera controller of the player
+		playerObject.GetComponentInChildren<CameraController>().enabled = enable;
+
+		/* Toggle the camera controller of any spawned characters */
+		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
+		case Classes.ENGINEER: // Engineer robot
+			spawnedCharacter = GameObject.FindGameObjectWithTag("EngineerPrimAbilitySpawn");
+			break;
+		default: // No spawn
+			break;
+		}
+
+		if (spawnedCharacter != null)
+			spawnedCharacter.GetComponentInChildren<CameraController>().enabled = enable;
+	}
+
 	public void Back() {
 		if (EscMenu.activeInHierarchy){
 			Toggle(EscMenu);
+			toggleCameraControllers(true);
 			PopupPanel.SetActive(true);
 		} else {
+			toggleCameraControllers(false);
 			if (TutorialMenu.activeInHierarchy) {
 				Toggle(TutorialMenu);
 				ChangeTab(1);

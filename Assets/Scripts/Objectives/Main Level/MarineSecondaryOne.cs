@@ -18,7 +18,7 @@ public class MarineSecondaryOne : SecondaryObjective {
 	
 	public override void OnComplete() {
 		PhotonNetwork.Instantiate(
-				"Prefabs/DeployableStunTurret", 
+				"Prefabs/ItemPrefabs/DeployableStunTurret(1)", 
 				Player.MyPlayer.transform.position, 
 				Quaternion.identity, 
 				0
