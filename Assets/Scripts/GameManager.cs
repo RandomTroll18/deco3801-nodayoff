@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
 	public int InitialNumberOfTurns; // The initial number of turns
 	public GameObject[] OpenedDoors;
 	public Text RemainingTurnsText; // The text counter for the remaining turns
+	public List<AudioClip> DoorOpeningSfx; // The door opening sound effects
 
 	/*
 	 * Remember whether the current turn is a valid turn. 
@@ -205,6 +206,9 @@ public class GameManager : MonoBehaviour {
 
 		door.GetComponent<Animator>().enabled = true;
 		movController.UnblockTile(position);
+
+		if (SoundManagerScript.Singleton != null)
+			SoundManagerScript.Singleton.PlaySingle(DoorOpeningSfx);
 	}
 
 	public MovementController GetPlayerControllers(){

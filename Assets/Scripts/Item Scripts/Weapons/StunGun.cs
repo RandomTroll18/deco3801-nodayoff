@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /**
  * Class for a Stun Gun - Short Range Weapon
@@ -72,7 +73,8 @@ public class StunGun : ShortRangeWeapon {
 		target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION); // Found a valid target
 
 		ShowEffect(targetTile.X * 2, 0.001f, targetTile.Z * 2);
-
+		if (SoundEfx.Count > 0 && SoundManagerScript.Singleton != null) // Play sound effects
+			SoundManagerScript.Singleton.PlaySingle(SoundEfx);
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) 
 			CoolDown = CoolDownSetting; // Set Cool Down

@@ -122,6 +122,12 @@ MonoBehaviour:
   ItemName: Stun Gun
   Image: {fileID: 21300000, guid: 791ad83dfba2ffd43a4c220652d7a857, type: 3}
   TestPrefab: {fileID: 0}
+  SoundEfx:
+  - {fileID: 8300000, guid: da1fbc7647f4be84bb294e1821689f88, type: 3}
+  - {fileID: 8300000, guid: f011129bcda9c784cadb850afec0d6ee, type: 3}
+  - {fileID: 8300000, guid: a45c091abc2d47044b9087bc2eaee94d, type: 3}
+  - {fileID: 8300000, guid: 6557cd0539aa89a41b35e68385f138b3, type: 3}
+  - {fileID: 8300000, guid: 676fe55edea5f944dac765b11d0f0bc6, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -129,6 +135,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: SoundEfx.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Image
       value: 

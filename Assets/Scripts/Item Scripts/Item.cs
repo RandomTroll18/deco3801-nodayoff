@@ -12,6 +12,7 @@ public abstract class Item : MonoBehaviour {
 	public string ItemName; // The name of this item
 	public Sprite Image; // The icon for this image
 	public GameObject TestPrefab; // Prefab to show where Stun Gun is activated - MVP Purposes
+	public List<AudioClip> SoundEfx; // The sound effects for this item
 
 	protected string ItemDescription; // The description of this item
 	protected List<Effect> Effects; // The effects in this item

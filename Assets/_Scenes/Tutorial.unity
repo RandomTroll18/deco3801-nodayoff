@@ -801,6 +801,8 @@ MonoBehaviour:
   InitialNumberOfTurns: 0
   OpenedDoors: []
   RemainingTurnsText: {fileID: 1562276558}
+  DoorOpeningSfx:
+  - {fileID: 8300000, guid: 1cd42c183c4eac448be7aa4c0411b3e2, type: 3}
 --- !u!114 &183795049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3300,11 +3302,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22423588, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22476096, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11417410, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: viewIdField

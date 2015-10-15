@@ -722,6 +722,7 @@ GameObject:
   - 114: {fileID: 9696801}
   - 114: {fileID: 9696800}
   - 114: {fileID: 9696799}
+  - 81: {fileID: 9696804}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -795,6 +796,8 @@ MonoBehaviour:
   - {fileID: 48995018}
   - {fileID: 503284180}
   RemainingTurnsText: {fileID: 12112662}
+  DoorOpeningSfx:
+  - {fileID: 8300000, guid: 1cd42c183c4eac448be7aa4c0411b3e2, type: 3}
 --- !u!4 &9696803
 Transform:
   m_ObjectHideFlags: 0
@@ -807,6 +810,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!81 &9696804
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9696798}
+  m_Enabled: 1
 --- !u!1001 &9870582
 Prefab:
   m_ObjectHideFlags: 0
