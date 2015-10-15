@@ -34,14 +34,15 @@ public class UsableSurveillanceCam : SupportConsumables {
 			Amount--;
 			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 5f, Tile.TileMiddle(targetTile).z);
 			instantiatedCamera = PhotonNetwork.Instantiate(
-					"SurveillanceCamera", 
+					"Prefabs/SurveillanceCamera", 
 					instantiatePosition, 
 					Quaternion.identity, 
 			        0
 			);
-			instantiatedCamera.transform.LookAt(Player.MyPlayer.transform.position);
-			cameraQuaternion = instantiatedCamera.transform.rotation;
-			instantiatedCamera.transform.Rotate(-cameraQuaternion.x + 3.0f, 0f, 0f);
+			instantiatedCamera.transform.Rotate(new Vector3(90f, 0, 0));
+			instantiatedCamera.transform.SetParent(
+				GameObject.FindGameObjectWithTag("SurveillanceCameraContainer").transform);
+			instantiatedCamera.SetActive(false);
 			if (Amount == 0) { // Remove the item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 				Destroy(gameObject);

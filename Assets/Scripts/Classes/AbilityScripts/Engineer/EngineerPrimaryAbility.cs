@@ -21,7 +21,7 @@ public class EngineerPrimaryAbility : Ability {
 		Range = 2.0;
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
-		robotPrefab = Resources.Load<GameObject>("AbilityPrefabs/Engineer/EngineerRobot");
+		robotPrefab = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Engineer/EngineerRobot");
 		master = newMaster;
 	}
 

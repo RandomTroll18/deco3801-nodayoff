@@ -31,7 +31,7 @@ public class DeployableStunTurret : SupportConsumables {
 			Amount--;
 			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 0f, Tile.TileMiddle(targetTile).z);
 			instantiatedStunTurret = PhotonNetwork.Instantiate(
-					"DeployableStunTurret", 
+					"Prefabs/DeployableStunTurret", 
 					instantiatePosition, 
 					Quaternion.identity, 
 					0

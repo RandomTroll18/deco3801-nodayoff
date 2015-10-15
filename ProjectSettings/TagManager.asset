@@ -25,6 +25,7 @@ TagManager:
   - Objective
   - Boarding Party
   - Markers
+  - SurveillanceCameraContainer
   layers:
   - Default
   - TransparentFX

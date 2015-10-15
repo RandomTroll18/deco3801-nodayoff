@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class TechnicianPrimaryAbility : Ability {
 
 	GameObject mainCamera; // The main camera for the player
-	GameObject[] surveillanceCameras; // The surveillance cameras
+	GameObject surveillanceCameraContainer; // The surveillance camera container
+	List<GameObject> surveillanceCameras; // List of surveillance cameras
 	GameObject nextCameraButton; // Next camera button
 	GameObject previousCameraButton; // Previous camera button
 	GameObject nextCameraButtonInstance; // Instantiated next camera button
@@ -28,14 +29,17 @@ public class TechnicianPrimaryAbility : Ability {
 
 		// Get cameras and set surveillance cameras to inactive
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-		surveillanceCameras = GameObject.FindGameObjectsWithTag("SurveillanceCameras");
-		foreach (GameObject surveillanceCamera in surveillanceCameras)
-			surveillanceCamera.SetActive(false);
-		numberOfSurveillanceCameras = surveillanceCameras.Length;
+		surveillanceCameraContainer = GameObject.FindGameObjectWithTag("SurveillanceCameraContainer");
+		surveillanceCameras = new List<GameObject>();
+		foreach (Transform surveillanceCamera in surveillanceCameraContainer.transform) {
+			surveillanceCamera.gameObject.SetActive(false);
+			surveillanceCameras.Add(surveillanceCamera.gameObject);
+		}
+		numberOfSurveillanceCameras = surveillanceCameras.Count;
 
 		// Get Prefabs for Next and Previous Camera Buttons and initialize them
-		nextCameraButton = Resources.Load<GameObject>("AbilityPrefabs/Technician/NextCameraButton");
-		previousCameraButton = Resources.Load<GameObject>("AbilityPrefabs/Technician/PreviousCameraButton");
+		nextCameraButton = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Technician/NextCameraButton");
+		previousCameraButton = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Technician/PreviousCameraButton");
 
 	}
 
@@ -63,10 +67,13 @@ public class TechnicianPrimaryAbility : Ability {
 		mainCamera.SetActive(false);
 		nextCameraButtonInstance.SetActive(true);
 		previousCameraButtonInstance.SetActive(true);
-		surveillanceCameras = GameObject.FindGameObjectsWithTag("SurveillanceCameras");
-		foreach (GameObject surveillanceCamera in surveillanceCameras)
-			surveillanceCamera.SetActive(false);
-		numberOfSurveillanceCameras = surveillanceCameras.Length;
+		foreach (Transform surveillanceCamera in surveillanceCameraContainer.transform) {
+			surveillanceCamera.gameObject.SetActive(false);
+			if (!surveillanceCameras.Contains(surveillanceCamera.gameObject)) { // Add new surveillance camera
+				surveillanceCameras.Add(surveillanceCamera.gameObject);
+			}
+		}
+		numberOfSurveillanceCameras = surveillanceCameras.Count;
 		Debug.Log("Number of surveillance cameras: " + numberOfSurveillanceCameras);
 		surveillanceCameras[currentCameraIndex].SetActive(true);
 	}

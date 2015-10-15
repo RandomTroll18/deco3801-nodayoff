@@ -19,7 +19,7 @@ public class ScoutPrimaryAbility : Ability {
 		Range = 3.0;
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.DEFENSIVE;
-		trapPrefab = "AbilityPrefabs/Scout/ScoutTrap";
+		trapPrefab = "Prefabs/AbilityPrefabs/Scout/ScoutTrap";
 	}
 
 	/**
@@ -55,7 +55,6 @@ public class ScoutPrimaryAbility : Ability {
 		GameObject generatedTrap;
 		Vector3 pos = new Vector3(x, y, z);
 		generatedTrap = PhotonNetwork.Instantiate(trapPrefab, pos, Quaternion.identity, 0);
-		generatedTrap.GetComponent<MeshRenderer>().enabled = false;
 	}
 
 }
