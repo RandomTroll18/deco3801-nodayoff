@@ -64,17 +64,18 @@ public class TechnicianPrimaryAbility : Ability {
 	 */
 	public override void Activate() {
 		base.Activate();
-		mainCamera.SetActive(false);
-		nextCameraButtonInstance.SetActive(true);
-		previousCameraButtonInstance.SetActive(true);
 		foreach (Transform surveillanceCamera in surveillanceCameraContainer.transform) {
 			surveillanceCamera.gameObject.SetActive(false);
-			if (!surveillanceCameras.Contains(surveillanceCamera.gameObject)) { // Add new surveillance camera
+			if (!surveillanceCameras.Contains(surveillanceCamera.gameObject)) // Add new surveillance camera
 				surveillanceCameras.Add(surveillanceCamera.gameObject);
-			}
 		}
 		numberOfSurveillanceCameras = surveillanceCameras.Count;
 		Debug.Log("Number of surveillance cameras: " + numberOfSurveillanceCameras);
+		if (numberOfSurveillanceCameras <= 0)
+			return;
+		mainCamera.SetActive(false);
+		nextCameraButtonInstance.SetActive(true);
+		previousCameraButtonInstance.SetActive(true);
 		surveillanceCameras[currentCameraIndex].SetActive(true);
 	}
 
@@ -94,7 +95,8 @@ public class TechnicianPrimaryAbility : Ability {
 	void pickPreviousCamera() {
 		surveillanceCameras[currentCameraIndex].SetActive(false);
 		currentCameraIndex--;
-		if (currentCameraIndex == -1) currentCameraIndex = numberOfSurveillanceCameras - 1;
+		if (currentCameraIndex == -1) 
+			currentCameraIndex = numberOfSurveillanceCameras - 1;
 		surveillanceCameras[currentCameraIndex].SetActive(true);
 	}
 

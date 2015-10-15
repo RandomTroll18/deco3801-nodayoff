@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
 		noLongerActive = false;
 
 		isImmuneToStun = false;
-		playerMaterial = Resources.Load<Material>("Cube Player Skin");
+		playerMaterial = PlayerObject.GetComponentInChildren<Renderer>().material;
 	}
 
 	/*
@@ -285,7 +285,7 @@ public class Player : MonoBehaviour {
 		switch (toAdd.GetTurnEffectType()) { // Apply turn effects immediately if needed
 		case TurnEffectType.STATEFFECT: goto default; // Only apply stat effects in the next turn
 		case TurnEffectType.MATERIALEFFECT:
-			PlayerObject.GetComponent<Renderer>().material = toAdd.GetMaterial();
+			PlayerObject.GetComponentInChildren<Renderer>().material = toAdd.GetMaterial();
 			break;
 		case TurnEffectType.ITEMEFFECT: // Apply item effects immediately
 			foreach (Item item in inventory) {
@@ -394,7 +394,7 @@ public class Player : MonoBehaviour {
 			}
 			break;
 		case TurnEffectType.MATERIALEFFECT: 
-			PlayerObject.GetComponent<Renderer>().material = playerMaterial; // Reassign material
+			PlayerObject.GetComponentInChildren<Renderer>().material = playerMaterial; // Reassign material
 			break;
 		default: break; // Unknown
 		}
@@ -444,8 +444,8 @@ public class Player : MonoBehaviour {
 				break;
 			case TurnEffectType.MATERIALEFFECT:
 				// Only replace material if not already set
-				if (!PlayerObject.GetComponent<Renderer>().material.Equals(effect.GetMaterial()))
-					PlayerObject.GetComponent<Renderer>().material = effect.GetMaterial();
+				if (!PlayerObject.GetComponentInChildren<Renderer>().material.Equals(effect.GetMaterial()))
+					PlayerObject.GetComponentInChildren<Renderer>().material = effect.GetMaterial();
 				break;// Change material
 				
 			default: break; // Unknown
