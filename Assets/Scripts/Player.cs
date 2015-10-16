@@ -607,13 +607,12 @@ public class Player : MonoBehaviour {
 		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
 			return 2;
 		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
-			playerLight.intensity = 4;
 			return 4;
 		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
-			playerLight.intensity = 100;
+			Debug.Log("6");
 			return 6;
 		} else {
-			Debug.LogError("Vision stat is wrong");
+			Debug.LogError("Vision stat is wrong:" + stats[Stat.VISION]);
 			return 2;
 		}
 	}
