@@ -25,8 +25,7 @@ public class ScoutTrapScript : Trap {
 	 */
 	[PunRPC]
 	void Destroy() {
-		if (GetComponent<PhotonView>().isMine) {
+		if (GetComponent<PhotonView>().isMine)
 			PhotonNetwork.Destroy(gameObject);
-		}
 	}
 }

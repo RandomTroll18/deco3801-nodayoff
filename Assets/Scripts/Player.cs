@@ -293,6 +293,9 @@ public class Player : MonoBehaviour {
 					toAdd.ApplyEffectToItem(item);
 			}
 			break;
+		case TurnEffectType.COMPONENTEFFECT: // Need a complex attach routine
+			toAdd.ExtraAttachActions();
+			break;
 		default: break; // Don't do anything
 		}
 		turnEffects.Add(toAdd);
@@ -396,6 +399,9 @@ public class Player : MonoBehaviour {
 		case TurnEffectType.MATERIALEFFECT: 
 			PlayerObject.GetComponentInChildren<Renderer>().material = playerMaterial; // Reassign material
 			break;
+		case TurnEffectType.COMPONENTEFFECT: // Need complex detaching actions
+			effect.ExtraDetachActions();
+			break;
 		default: break; // Unknown
 		}
 		effectPanelScript.RemoveTurnEffect(effect);
@@ -447,7 +453,8 @@ public class Player : MonoBehaviour {
 				if (!PlayerObject.GetComponentInChildren<Renderer>().material.Equals(effect.GetMaterial()))
 					PlayerObject.GetComponentInChildren<Renderer>().material = effect.GetMaterial();
 				break;// Change material
-				
+			case TurnEffectType.COMPONENTEFFECT: // Component effect. Handled by component
+				break;
 			default: break; // Unknown
 			}
 		}
@@ -681,7 +688,8 @@ public class Player : MonoBehaviour {
 
 		// Remove effects if the item has some turn effects
 		if (item.GetTurnEffects() != null) 
-			foreach (Effect turnEffect in item.GetTurnEffects()) DetachTurnEffect(turnEffect);
+			foreach (Effect turnEffect in item.GetTurnEffects()) 
+				DetachTurnEffect(turnEffect);
 		
 		// Remove the item from the ui slot
 		uiSlotScript = InventoryUI[itemIndex].GetComponent<InventoryUISlotScript>();

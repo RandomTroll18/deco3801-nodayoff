@@ -57,6 +57,20 @@ public abstract class Effect {
 	}
 
 	/**
+	 * Additional attaching routines. For more complex effects
+	 */
+	public virtual void ExtraAttachActions() {
+		return;
+	}
+
+	/**
+	 * Additional detaching routines. For more complex effects
+	 */
+	public virtual void ExtraDetachActions() {
+		return;
+	}
+
+	/**
 	 * Get the icon of this turn effect
 	 * 
 	 * Return

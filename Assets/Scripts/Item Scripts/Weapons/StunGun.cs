@@ -18,7 +18,7 @@ public class StunGun : ShortRangeWeapon {
 	 * This is an Offensive type weapon whose range will take the 
 	 * form of a square
 	 */
-	void Start () {
+	void Start() {
 		ItemDescription = "Stun Gun to keep people/aliens in line";
 
 		InstantEffects = null; // No turn based effects
@@ -29,7 +29,7 @@ public class StunGun : ShortRangeWeapon {
 		CoolDown = 0; // No cool down initially
 		CoolDownSetting = 3; // Item can only be used once per 3 turns
 		DefaultCoolDownSetting = 3; // Default cool down is 3
-		CurrentNumberOfUses = 0; // Item hasn't been used yet
+		CurrentNumberOfUses = 1; // Item hasn't been used yet
 
 		ItemRangeType = RangeType.SQUARERANGE;
 		ItemActivationType = ActivationType.OFFENSIVE;
@@ -130,18 +130,13 @@ public class StunGun : ShortRangeWeapon {
 		
 		// Next, add item description
 		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
-		
-		// Next, add the amount of damage this weapon does
-		toReturn += "Damage: " + Damage + StringMethodsScript.NEWLINE;
-		
+
 		// Next, add the range of this weapon
 		toReturn += "Range: " + Range + StringMethodsScript.NEWLINE;
 		
-		// Next, add the number of rounds left and return the final string
-		toReturn += "Rounds Left: " + Rounds + StringMethodsScript.NEWLINE;
-		
 		// Next, add the number of turns this item can be used at a time
 		toReturn += "Cool Down Turns: " + CoolDownSetting + StringMethodsScript.NEWLINE;
+		toReturn += "Rounds Left For Cooling Down: " + CoolDown + StringMethodsScript.NEWLINE;
 
 		// Next, add range type and activation type
 		toReturn += "Range Type: " + EnumsToString.ConvertRangeTypeEnum(ItemRangeType) + StringMethodsScript.NEWLINE;

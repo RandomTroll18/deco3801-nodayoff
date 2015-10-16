@@ -6,7 +6,7 @@ using System.Collections;
  */
 public class UsableSurveillanceCam : SupportConsumables {
 
-	void Start () {
+	void Start() {
 		ItemDescription = "Deployable Surveillance Cameras. For when you need to " +
 			"watch over things while you're gone";
 
@@ -27,9 +27,9 @@ public class UsableSurveillanceCam : SupportConsumables {
 	{
 		GameObject instantiatedCamera; // The instantiated camera
 		Vector3 instantiatePosition; // Where to instantiate
-		if (Amount == 0) { // Out of cameras
+		if (Amount == 0) // Out of cameras
 			return;
-		} else { // Instantiate camera
+		else { // Instantiate camera
 			Amount--;
 			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 5f, Tile.TileMiddle(targetTile).z);
 			instantiatedCamera = PhotonNetwork.Instantiate(

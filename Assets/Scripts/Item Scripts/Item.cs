@@ -116,9 +116,11 @@ public abstract class Item : MonoBehaviour {
 	 * Reduce the amount of turns before this item can be used again.
 	 * Simply decrement.
 	 */
-	public void ReduceCoolDown() {
-		if (CoolDown != 0) CoolDown--;
-		if (CoolDown == 0) CurrentNumberOfUses = UsePerTurn;
+	public virtual void ReduceCoolDown() {
+		if (CoolDown != 0) 
+			CoolDown--;
+		if (CoolDown == 0) 
+			CurrentNumberOfUses = UsePerTurn;
 	}
 
 	/**

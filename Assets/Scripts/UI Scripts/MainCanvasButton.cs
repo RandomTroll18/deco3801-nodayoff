@@ -16,6 +16,10 @@ public class MainCanvasButton : MonoBehaviour {
 	public GameObject text8;
 	public GameObject testText; */
 
+	/* The states for camera controllers */
+	bool playerCameraControllerState;
+	bool spawnedCameraControllerState;
+
 
 	// Use this for initialization
 	public void StartMe() {
@@ -57,10 +61,7 @@ public class MainCanvasButton : MonoBehaviour {
 		GameObject spawnedCharacter = null; // The spawned character
 		Player playerScript = Player.MyPlayer.GetComponent<Player>(); // The player script
 
-		// Toggle the camera controller of the player
-		playerObject.GetComponentInChildren<CameraController>().enabled = enable;
-
-		/* Toggle the camera controller of any spawned characters */
+		/* Get the player's spawned character, if it exists */
 		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
 		case Classes.ENGINEER: // Engineer robot
 			spawnedCharacter = GameObject.FindGameObjectWithTag("EngineerPrimAbilitySpawn");
@@ -69,8 +70,20 @@ public class MainCanvasButton : MonoBehaviour {
 			break;
 		}
 
-		if (spawnedCharacter != null)
-			spawnedCharacter.GetComponentInChildren<CameraController>().enabled = enable;
+		if (!enable) { // Pausing. Save state of camera controllers and set them to inactive
+			playerCameraControllerState = playerObject.GetComponentInChildren<CameraController>().enabled;
+			playerObject.GetComponentInChildren<CameraController>().enabled = enable;
+			if (spawnedCharacter != null) { // There is a spawned character
+				spawnedCameraControllerState = spawnedCharacter.GetComponentInChildren<CameraController>().enabled;
+				spawnedCharacter.GetComponentInChildren<CameraController>().enabled = enable;
+			}
+				
+		} else { // Resuming. Restore state
+			playerObject.GetComponentInChildren<CameraController>().enabled = playerCameraControllerState;
+			if (spawnedCharacter != null) { // There is a spawned character
+				spawnedCharacter.GetComponentInChildren<CameraController>().enabled = spawnedCameraControllerState;
+			}
+		}
 	}
 
 	public void Back() {

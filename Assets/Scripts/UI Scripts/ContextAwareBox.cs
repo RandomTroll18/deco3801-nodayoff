@@ -94,9 +94,15 @@ public class ContextAwareBox : MonoBehaviour {
 		if (currentContext == Context.INVENTORY) {
 			// We are in the inventory context
 			item = (Item)attachedObject;
-			if (item == null) return;
-			if (item.RemainingCoolDownTurns() != 0) return;
-			activationTileScript.GeneratorInterface(playerScript, item);
+			if (item == null) 
+				return;
+			if (item.RemainingCoolDownTurns() != 0) 
+				return;
+
+			if (item.GetRange() > 0) // Need activation tiles
+				activationTileScript.GeneratorInterface(playerScript, item);
+			else // Just activate item
+				item.Activate();
 			playerObject.GetComponent<MovementController>().ClearPath();
 		}
 	}

@@ -79,11 +79,13 @@ public enum RangeType {
  * STATEFFECT - Affect stat
  * MATERIALEFFECT - Affect material
  * ITEMEFFECT - Affect items
+ * COMPONENTEFFECT - Effect applied from component
  */
 public enum TurnEffectType {
 	STATEFFECT, 
 	MATERIALEFFECT,
-	ITEMEFFECT
+	ITEMEFFECT,
+	COMPONENTEFFECT
 }
 
 /*
@@ -94,4 +96,16 @@ public enum TurnEffectType {
 public enum ItemTurnEffectType {
 	EXTRAUSE, 
 	COOLDOWN
+}
+
+/*
+ * Enum for component effects
+ * STEALTH - Stealth Component
+ * TRAPDETECTOR - Trap Detector Component
+ * INVISIBILITYDETECTOR - Invisibility Detector Component
+ */
+public enum ComponentEffectType {
+	STEALTH,
+	TRAPDETECTOR,
+	INVISIBILITYDETECTOR
 }
