@@ -432,23 +432,17 @@ public class Player : MonoBehaviour {
 				mode = effect.GetMode();
 				switch (mode) {
 				case 0: // Increment to stat
-					stats[stat] += effect.GetValue();
+					IncreaseStatValue(stat, effect.GetValue());
 					break;
 				case 1: // Set stat
-					stats[stat] = effect.GetValue();
+					SetStatValue(stat, effect.GetValue());
 					break;
 				case 2: // Multiply stat
-					stats[stat] *= effect.GetValue();
+					SetStatValue(stat, stats[stat] * effect.GetValue());
 					break;
 				default: // Invalid mode. Do nothing
 					break;
 				}
-				stats[stat] += effect.GetValue();
-				/*
-				if (stat == Stat.AP) { // Update AP Counter
-					if (IsSpawned) APCounterText.text = "Spawn AP Count: " + stats[stat];
-					else APCounterText.text = "Player AP Count: " + stats[stat];
-				}*/
 				break;
 			case TurnEffectType.MATERIALEFFECT:
 				// Only replace material if not already set
@@ -604,16 +598,15 @@ public class Player : MonoBehaviour {
 	}
 
 	public int GetVisionDistance() {
-		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f) {
+		if (stats[Stat.VISION] <= 1.0 && stats[Stat.VISION] >= 1.0) {
 			return 2;
-		} else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
-			playerLight.intensity = 4;
+		} else if (stats[Stat.VISION] <= 2.0 && stats[Stat.VISION] >= 2.0) {
 			return 4;
-		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
-			playerLight.intensity = 100;
+		} else if (stats[Stat.VISION] <= 3.0 && stats[Stat.VISION] >= 3.0) {
+			Debug.Log("6");
 			return 6;
 		} else {
-			Debug.LogError("Vision stat is wrong");
+			Debug.LogError("Vision stat is wrong:" + stats[Stat.VISION]);
 			return 2;
 		}
 	}
