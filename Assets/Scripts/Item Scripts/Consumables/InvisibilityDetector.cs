@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class InvisibilityDetector : SupportConsumables {
 
-	ComponentTurnEffect invisibilityDetectingEffect; // Trap detecting effect
+	Effect invisibilityDetectingEffect; // Trap detecting effect
 	
 	void Start() {
 		ItemDescription = "Invisibility Detector. Makes cowards visible";
@@ -28,10 +29,20 @@ public class InvisibilityDetector : SupportConsumables {
 	
 	public override void Activate()
 	{
+		Player playerScript = Player.MyPlayer.GetComponent<Player>(); // The player's script
+		int indexOfEffect; // The index of the effect if it is already attached
+		List<Effect> turnEffects; // The turn effects in the player
+
 		if (Amount == 0) // We are out cameras
 			return;
 		else {
-			Player.MyPlayer.GetComponent<Player>().AttachTurnEffect(invisibilityDetectingEffect);
+			turnEffects = playerScript.GetTurnEffects();
+			if (turnEffects.Contains(invisibilityDetectingEffect)) { // Effect exists
+				indexOfEffect = turnEffects.IndexOf(invisibilityDetectingEffect);
+				turnEffects[indexOfEffect].IncreaseTurnsRemaining(invisibilityDetectingEffect.TurnsRemaining());
+			} else // Attach the effect
+				playerScript.AttachTurnEffect(invisibilityDetectingEffect);
+			Amount--;
 			if (Amount == 0) { // Destroy this item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 				Destroy(gameObject);

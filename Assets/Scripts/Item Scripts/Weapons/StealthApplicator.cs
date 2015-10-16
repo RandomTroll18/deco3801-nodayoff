@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StealthApplicator : ShortRangeWeapon {
 	const int STEALTH_DURATION = 3; // Duration of the stealth
-	ComponentTurnEffect stealthEffect; // The stealth effect
+	Effect stealthEffect; // The stealth effect
 
 	void Start() {
 		ItemDescription = "Stealth Applicator. Make yourself invisible";
@@ -34,12 +34,17 @@ public class StealthApplicator : ShortRangeWeapon {
 	 */
 	public override void Activate()
 	{
+		Player playerScript = Player.MyPlayer.GetComponent<Player>(); // The player's script
+
 		if (CoolDown != 0) {
 			Debug.Log("Stealth Applicator is cooling down");
 			return; // Still cooling down
 		}
 
-		Player.MyPlayer.GetComponent<Player>().AttachTurnEffect(stealthEffect);
+		if (playerScript.GetTurnEffects().Contains(stealthEffect)) // Already contains it. don't do anything
+			return;
+
+		playerScript.AttachTurnEffect(stealthEffect);
 
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) 
@@ -92,4 +97,5 @@ public class StealthApplicator : ShortRangeWeapon {
 		
 		return toReturn;
 	}
+	
 }

@@ -109,7 +109,35 @@ public abstract class Effect {
 		return Turns;
 	}
 
+	/**
+	 * Set the turns remaining
+	 * 
+	 * Arguments
+	 * - int newTurnsRemaining - The new number of turns
+	 */
+	public void SetTurnsRemaining(int newTurnsRemaining) {
+		Turns = newTurnsRemaining;
+	}
 
+	/**
+	 * Increase the number of turns remaining
+	 * 
+	 * Arguments
+	 * - int additionalTurns - the additional turns
+	 */
+	public void IncreaseTurnsRemaining(int additionalTurns) {
+		SetTurnsRemaining(Turns + additionalTurns);
+	}
+
+	/**
+	 * Decrease the number of turns remaining
+	 * 
+	 * Arguments
+	 * - int removeTurns - the turns to remove
+	 */
+	public void DecreaseTurnsRemaining(int removeTurns) {
+		SetTurnsRemaining(Turns - removeTurns);
+	}
 
 	/**
 	 * Sets the description of this turn effect
@@ -141,6 +169,41 @@ public abstract class Effect {
 		string finalString = "Turn Effect: " + StringMethodsScript.NEWLINE;
 		finalString += "Description: " + Description + StringMethodsScript.NEWLINE;
 		return finalString;
+	}
+
+	/**
+	 * Override hashcode for implementing equals
+	 */
+	public override int GetHashCode()
+	{
+		int prime = 23; // Prime number
+		int hashCode = 0;
+
+		hashCode += prime * Description.GetHashCode();
+		hashCode += prime * Type.GetHashCode();
+		hashCode += prime * ApplyPerTurn.GetHashCode();
+
+		return hashCode;
+	}
+
+	/**
+	 * Override Equals
+	 */
+	public override bool Equals(object obj)
+	{
+		Effect toCompare = obj as Effect; // The effect to compare
+
+		if (obj == null)
+			return false;
+
+		if (!toCompare.Description.Equals(Description))
+		    return false;
+		else if (!toCompare.Type.Equals(Type))
+			return false;
+		else if (!toCompare.ApplyPerTurn.Equals(ApplyPerTurn))
+			return false;
+
+		return true;
 	}
 
 	/* Abstract functions to implement */

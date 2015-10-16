@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TrapDetector : SupportConsumables {
 
-	ComponentTurnEffect trapDetectingEffect; // Trap detecting effect
+	Effect trapDetectingEffect; // Trap detecting effect
 
 	void Start() {
 		ItemDescription = "Trap Detector. Safeguard yourself against pranks";
@@ -28,10 +29,20 @@ public class TrapDetector : SupportConsumables {
 
 	public override void Activate()
 	{
+		Player playerScript = Player.MyPlayer.GetComponent<Player>(); // The player's script
+		int indexOfEffect; // The index of the effect if it is already attached
+		List<Effect> turnEffects; // The turn effects in the player
+
 		if (Amount == 0) // We are out cameras
 			return;
 		else {
-			Player.MyPlayer.GetComponent<Player>().AttachTurnEffect(trapDetectingEffect);
+			turnEffects = playerScript.GetTurnEffects();
+			if (turnEffects.Contains(trapDetectingEffect)) { // Effect exists
+				indexOfEffect = turnEffects.IndexOf(trapDetectingEffect);
+				turnEffects[indexOfEffect].IncreaseTurnsRemaining(trapDetectingEffect.TurnsRemaining());
+			} else // Attach the effect
+				playerScript.AttachTurnEffect(trapDetectingEffect);
+			Amount--;
 			if (Amount == 0) { // Destroy this item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 				Destroy(gameObject);

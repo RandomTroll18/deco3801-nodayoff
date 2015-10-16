@@ -211,7 +211,9 @@ public class Player : MonoBehaviour {
 	public void Stun(int timer) {
 		Debug.Log("Player Stunned");
 		IsStunned = true;
-		stunTimer = timer;
+		if (stunTimer < 0) // Invalid stun timer
+			stunTimer = 0;
+		stunTimer += timer;
 	}
 
 	/**
@@ -739,6 +741,16 @@ public class Player : MonoBehaviour {
 				return i;
 		}
 		return -1; // Item not found
+	}
+
+	/**
+	 * Get the list of turn effects
+	 * 
+	 * Returns
+	 * - the list of turn effects in this player
+	 */
+	public List<Effect> GetTurnEffects() {
+		return turnEffects;
 	}
 
 	/**
