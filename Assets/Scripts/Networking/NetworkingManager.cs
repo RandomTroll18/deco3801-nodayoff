@@ -46,6 +46,8 @@ public class NetworkingManager : Photon.PunBehaviour {
 	}
 
 	void SpawnMyPlayer() {
+		AlienClass alienClassContainer; // Container for the alien class
+		Player playerScript; // The player script
 		SpawnPoint spawn = spawnPoints[0]; // TODO: pick spawn point based on class
 		GameObject myPlayer = PhotonNetwork.Instantiate(
 			"Player", 
@@ -59,25 +61,19 @@ public class NetworkingManager : Photon.PunBehaviour {
 		Object.FindObjectOfType<GameManager>().StartMe();
 
 		Classes pClass;
-		switch (myPlayer.GetComponent<Player>().GetPlayerClass()) {
-		case "Engineer Class":
-			pClass = Classes.ENGINEER;
+		playerScript = myPlayer.GetComponent<Player>();
+		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
+		case Classes.BETRAYER: // Alien
+			alienClassContainer = (AlienClass)playerScript.GetPlayerClassObject();
+			pClass = alienClassContainer.GetHumanClassType();
 			break;
-		case "Marine Class":
-			pClass = Classes.MARINE;
-			break;
-		case "Technician Class":
-			pClass = Classes.TECHNICIAN;
-			break;
-		case "Scout Class":
-			pClass = Classes.SCOUT;
-			break;
-		default:
-			pClass = Classes.MARINE;
-			Debug.LogWarning("The player class isn't what it's expected to be: " + 
-			    	myPlayer.GetComponent<Player>().GetPlayerClass());
+		default: // Human class
+			pClass = playerScript.GetPlayerClassObject().GetClassTypeEnum();
+			if (pClass == Classes.BETRAYER) // Something horrible has gone wrong
+				throw new UnityException("How did you get past that case up there!");
 			break;
 		}
+
 		foreach (SpawnPoint thisPoint in spawnPoints) {
 			if (thisPoint.Class == pClass) {
 				spawn = thisPoint;

@@ -58,6 +58,16 @@ public class AlienClass : BaseClass {
 	}
 
 	/**
+	 * Get human class type of the alien
+	 * 
+	 * Returns
+	 * - The human class type of this alien
+	 */
+	public Classes GetHumanClassType() {
+		return humanClassType;
+	}
+
+	/**
 	 * Set the human class of the alien
 	 * 
 	 * Arguments
