@@ -45,7 +45,7 @@ public class L1I2 : InteractiveObject {
 	[PunRPC]
 	void Sync() {
 		IsInactivated = true;
-		EC3 Nasty = gameObject.AddComponent<EC3>();
+		ChangeRoundsPerTurn Nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
 		GameObject NastyUI = Nasty.CreateCard ();
 	}
 
