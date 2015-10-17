@@ -12,8 +12,7 @@ public abstract class PrimaryObjective : Objective {
 		GameObject UI = GameObject.FindGameObjectWithTag("Objective UI");
 		UI.GetComponent<PrimaryObjectiveController>().ChangeObjective(NextObjective);
 
-		if (Door != null) {
+		if (Door != null)
 			gameManager.OpenDoor(Door);
-		}
 	}
 }

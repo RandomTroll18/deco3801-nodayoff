@@ -17,10 +17,21 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	}
 
 	void Update() {
+		int alienIndex; // The index of the player that is to be the alien
 		PlayerCountLabel.text = "Number of Players: " + PhotonNetwork.playerList.Length.ToString();
 		if (PhotonNetwork.playerList.Length == 4) { // We have enough players
 			Debug.LogError("We have enough players!");
 			gameObject.SetActive(false);
+			if (PhotonNetwork.player.isMasterClient) { // Assign teams
+				alienIndex = Random.Range(0, 4); // Get index of player to be the alien
+				PlayerNamesLabel[alienIndex].text += " (Alien";
+				for (int i = 0; i < PhotonNetwork.playerList.Length; ++i) {
+					if (i == alienIndex) // Alien
+						PhotonNetwork.playerList[i].SetTeam(PunTeams.Team.red);
+					else
+						PhotonNetwork.playerList[i].SetTeam(PunTeams.Team.blue);
+				}
+			}
 			if (!string.IsNullOrEmpty(MainMenuScript.LevelToLoad))
 				MainMenuScript.LevelToLoad = "TestScene2";
 			Application.LoadLevel("ClassSelect");
@@ -68,5 +79,10 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	void OnPhotonRandomJoinFailed() {
 		Debug.Log("Can't join random room");
 		PhotonNetwork.CreateRoom(null);
+	}
+
+	public override void OnCreatedRoom()
+	{
+		// This player is the master client
 	}
 }

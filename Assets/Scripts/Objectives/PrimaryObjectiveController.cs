@@ -32,13 +32,19 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	 * Call this when the objective needs to change
 	 */
 	public void ChangeObjective(Objective newObjective) {
-		this.objective = newObjective;
-		transform.Find("Title").GetComponent<Text>().text = objective.Title;
-		transform.Find("Description").GetComponent<Text>().text = objective.Description;
+		objective = newObjective;
 
-		if (objective.Location == null) {
-			DeactivateLocationButton();
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien
+			transform.Find("Title").GetComponent<Text>().text = "Destroy The Ship";
+			transform.Find("Description").GetComponent<Text>().text = "No one must escape. Your " +
+				"sacrifice will not be in vain";
+		} else { // Human
+			transform.Find("Title").GetComponent<Text>().text = objective.Title;
+			transform.Find("Description").GetComponent<Text>().text = objective.Description;
 		}
+
+		if (objective.Location == null || PhotonNetwork.player.GetTeam() == PunTeams.Team.red)
+			DeactivateLocationButton();
 
 	}
 

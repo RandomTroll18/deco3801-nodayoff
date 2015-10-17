@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
 		classOfPlayer = Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject();
 		if (classOfPlayer.GetClassTypeEnum() == Classes.BETRAYER) { // Alien class
 			alienClass = (AlienClass)classOfPlayer;
-			alienClass.SetHumanClass(Classes.SCOUT);
+			alienClass.SetHumanClass();
 		}
 		Object.FindObjectOfType<ClassPanelScript>().StartMe();
 		Object.FindObjectOfType<EffectPanelScript>().StartMe();
@@ -170,7 +170,10 @@ public class GameManager : MonoBehaviour {
 
 	[PunRPC]
 	void LoseGame() {
-		Application.LoadLevel("GameOver");
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Aliens win
+			Application.LoadLevel("WinScreen");
+		else // Humans lose
+			Application.LoadLevel("GameOver");
 	}
 
 	/**

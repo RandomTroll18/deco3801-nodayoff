@@ -63,6 +63,8 @@ public class TechnicianPrimaryAbility : Ability {
 	 * Activate this ability
 	 */
 	public override void Activate() {
+		if (numberOfSurveillanceCameras <= 0)
+			return;
 		base.Activate();
 		foreach (Transform surveillanceCamera in surveillanceCameraContainer.transform) {
 			surveillanceCamera.gameObject.SetActive(false);
@@ -71,12 +73,11 @@ public class TechnicianPrimaryAbility : Ability {
 		}
 		numberOfSurveillanceCameras = surveillanceCameras.Count;
 		Debug.Log("Number of surveillance cameras: " + numberOfSurveillanceCameras);
-		if (numberOfSurveillanceCameras <= 0)
-			return;
 		mainCamera.SetActive(false);
 		nextCameraButtonInstance.SetActive(true);
 		previousCameraButtonInstance.SetActive(true);
 		surveillanceCameras[currentCameraIndex].SetActive(true);
+		surveillanceCameras[currentCameraIndex].GetComponent<AudioListener>().enabled = true;
 	}
 
 	/**
@@ -87,6 +88,8 @@ public class TechnicianPrimaryAbility : Ability {
 		mainCamera.SetActive(true);
 		nextCameraButtonInstance.SetActive(false);
 		previousCameraButtonInstance.SetActive(false);
+		foreach (GameObject surveillanceCamera in surveillanceCameras)
+			surveillanceCamera.GetComponent<AudioListener>().enabled = false;
 	}
 
 	/**
@@ -94,10 +97,12 @@ public class TechnicianPrimaryAbility : Ability {
 	 */
 	void pickPreviousCamera() {
 		surveillanceCameras[currentCameraIndex].SetActive(false);
+		surveillanceCameras[currentCameraIndex].GetComponent<AudioListener>().enabled = false;
 		currentCameraIndex--;
 		if (currentCameraIndex == -1) 
 			currentCameraIndex = numberOfSurveillanceCameras - 1;
 		surveillanceCameras[currentCameraIndex].SetActive(true);
+		surveillanceCameras[currentCameraIndex].GetComponent<AudioListener>().enabled = true;
 	}
 
 	/**
@@ -105,8 +110,10 @@ public class TechnicianPrimaryAbility : Ability {
 	 */
 	void pickNextCamera() {
 		surveillanceCameras[currentCameraIndex].SetActive(false);
+		surveillanceCameras[currentCameraIndex].GetComponent<AudioListener>().enabled = false;
 		currentCameraIndex++;
 		currentCameraIndex %= numberOfSurveillanceCameras;
 		surveillanceCameras[currentCameraIndex].SetActive(true);
+		surveillanceCameras[currentCameraIndex].GetComponent<AudioListener>().enabled = true;
 	}
 }

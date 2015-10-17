@@ -223,29 +223,50 @@ public class Player : MonoBehaviour {
 	 * - string playerClass - The class to give to this player
 	 */
 	public void SetPlayerClass(string newPlayerClass) {
-		switch (newPlayerClass) {
-		case "Base": goto default;
-		case "Engineer": // Create Engineer Class
-			playerClass = new EngineerClass(this);
-			return;
-		case "Alien": // Create Alien Class
-			playerClass = new AlienClass(this);
-			return;
-		case "Marine": // Create Marine Class
-			playerClass = new MarineClass(this);
-			return;
-		case "Scout": // Create Scout Class
-			playerClass = new ScoutClass(this);
-			return;
-		case "Technician": // Create Technician Class
-			playerClass = new TechnicianClass(this);
-			return;
-		case "Engineer Robot": // Create Class for an Engineer Robot
-			playerClass = new EngineerRobotClass();
-			return;
-		default: // The default class will be the base
-			playerClass = new BaseClass();
-			return;
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.blue) { // Human
+			switch (newPlayerClass) {
+			case "Base": goto default;
+			case "Alien": goto default;
+			case "Engineer": // Create Engineer Class
+				playerClass = new EngineerClass(this);
+				return;
+			case "Marine": // Create Marine Class
+				playerClass = new MarineClass(this);
+				return;
+			case "Scout": // Create Scout Class
+				playerClass = new ScoutClass(this);
+				return;
+			case "Technician": // Create Technician Class
+				playerClass = new TechnicianClass(this);
+				return;
+			case "Engineer Robot": // Create Class for an Engineer Robot
+				playerClass = new EngineerRobotClass();
+				return;
+			default: // The default class will be the base
+				throw new System.NotSupportedException("Wrong class for human");
+			}
+		} else {
+			switch (newPlayerClass) {
+			case "Base": goto default;
+			case "Alien": goto default;
+			case "Engineer": // Create Engineer Class
+				playerClass = new AlienClass(this, Classes.ENGINEER);
+				return;
+			case "Marine": // Create Marine Class
+				playerClass = new AlienClass(this, Classes.MARINE);
+				return;
+			case "Scout": // Create Scout Class
+				playerClass = new AlienClass(this, Classes.SCOUT);
+				return;
+			case "Technician": // Create Technician Class
+				playerClass = new AlienClass(this, Classes.TECHNICIAN);
+				return;
+			case "Engineer Robot": // Create Class for an Engineer Robot
+				playerClass = new EngineerRobotClass();
+				return;
+			default: // The default class will be the base
+				throw new System.NotSupportedException("Wrong class for an alien");
+			}
 		}
 	}
 
