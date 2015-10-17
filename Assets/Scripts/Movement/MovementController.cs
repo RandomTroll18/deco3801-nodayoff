@@ -245,6 +245,7 @@ public class MovementController : MonoBehaviour {
 		tilePos.y = tilePos.y - 0.49f;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot));
+
 		ShowAPCost(pos);
 	}
 
@@ -253,6 +254,9 @@ public class MovementController : MonoBehaviour {
 		GameObject counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
 		counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
 		counter.GetComponentInChildren<Text>().text = "value goes here";
+		counter.GetComponent<RectTransform>().localPosition = Input.mousePosition;
+//		counter.transform.position.x = tilePos.x;
+//		counter.transform.position.y = tilePos.y;
 		/* TODO:
 		 * position counter properly
 		 * delete counter when path is deleted
