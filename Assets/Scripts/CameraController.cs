@@ -16,6 +16,10 @@ public class CameraController : MonoBehaviour {
 	public float GUISize;
 	public LayerMask LayerMask;
 
+	const float MAX_Z = 114f;
+	const float MIN_Z = -56f;
+	const float MAX_X = 86f;
+	const float MIN_X = -70f;
 	Vector3 offset;
 	//Player playerScript;
 	MovementController movController;
@@ -73,19 +77,34 @@ public class CameraController : MonoBehaviour {
 			}
 
 			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
-				transform.Translate(0, 0, -CamSpeed, Space.World);
+				if (transform.position.z >= MIN_Z) {
+					Debug.Log(transform.position.z);
+
+					transform.Translate(0, 0, -CamSpeed, Space.World);
+				}
 			}
 			
 			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) {
-				transform.Translate(0, 0, CamSpeed, Space.World);
+				if (transform.position.z <= MAX_Z) {
+					Debug.Log(transform.position.z);
+
+					transform.Translate(0, 0, CamSpeed, Space.World);
+				}
 			}
 			
 			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) {
-				transform.Translate(-CamSpeed, 0, 0, Space.World);
+				if (transform.position.x >= MIN_X) {
+					Debug.Log(transform.position.x);
+					transform.Translate(-CamSpeed, 0, 0, Space.World);
+				}
 			}
 			
 			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) {
-				transform.Translate(CamSpeed, 0, 0, Space.World);
+				if (transform.position.x <= MAX_X) {
+					Debug.Log(transform.position.x);
+
+					transform.Translate(CamSpeed, 0, 0, Space.World);
+				}
 			}
 		}
 
