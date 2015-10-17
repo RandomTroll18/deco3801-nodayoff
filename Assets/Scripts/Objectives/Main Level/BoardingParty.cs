@@ -8,6 +8,18 @@ public class BoardingParty : SecondaryObjective {
 	void Start() {
 		teamObjective = true;
 
+		/*
+		 * Only the master needs to spawn in the boarding photon.
+		 */
+		if (PhotonNetwork.isMasterClient) {
+			Vector3 pos = Tile.TileMiddle(
+				Tile.TilePosition(GameObject.Find("Boarding Party").transform.position));
+			PhotonNetwork.Instantiate("Main Level Interactables/Boarding Party",
+			                          pos,
+			                          Quaternion.identity,
+			                          0);
+		}
+
 		ObjectiveName = "Boarding";
 		Title = "Boarding Party";
 		Description = "Take out the boarding party.";

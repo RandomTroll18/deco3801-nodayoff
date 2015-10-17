@@ -590,9 +590,11 @@ public class Player : MonoBehaviour {
 				continue;
 
 			if (distanceToCharacter <= visionDistance) {
-				p.GetComponentInChildren<MeshRenderer>().enabled = true;
+//				p.GetComponentInChildren<MeshRenderer>().enabled = true;
+				// TODO
 			} else {
-				p.GetComponentInChildren<MeshRenderer>().enabled = false;
+//				p.GetComponentInChildren<MeshRenderer>().enabled = false;
+				// TODO
 			}
 		}
 	}

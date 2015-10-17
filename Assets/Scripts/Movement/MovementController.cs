@@ -267,10 +267,8 @@ public class MovementController : MonoBehaviour {
 	 * is the end of the path.
 	 */
 	PathTile FindPath(Tile goal, bool AllowBlockedGoal) {
-		Debug.Log(Tile.TileMiddle(goal));
 		HashSet<Tile> explored = new HashSet<Tile>();
 		if (goal != null && (AllowBlockedGoal || !blockedTiles.Contains(goal))) {
-			Debug.Log("a");
 			Queue<PathTile> q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
 			while (q.Count != 0) {

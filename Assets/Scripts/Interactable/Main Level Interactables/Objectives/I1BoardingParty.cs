@@ -3,6 +3,10 @@ using System.Collections;
 
 public class I1BoardingParty : InteractiveObject {
 
+	void Start() {
+		StartMe();
+	}
+
 	/* 
 	 * So I want this interactable to have a cost and when it's activated it should just call
 	 * DecreaseRoundsLeft. Don't worry about deactivating the interactable - I'll destroy it when
@@ -19,7 +23,7 @@ public class I1BoardingParty : InteractiveObject {
 		}
 		
 		if (SpendAP(input, MinCost)) {
-			Sync();
+			InteractablSync();
 			IsInactivated = true;
 			Debug.Log("Opened");
 			this.CloseEvent();		
@@ -28,6 +32,9 @@ public class I1BoardingParty : InteractiveObject {
 			this.CloseEvent();	
 		}
 		
+	}
+	public void InteractablSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
 
 	[PunRPC]
