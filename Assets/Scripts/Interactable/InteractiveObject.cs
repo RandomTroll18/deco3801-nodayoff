@@ -97,27 +97,24 @@ public class InteractiveObject : MonoBehaviour {
 		// TODO: Change Slider properties
 		APSlider.value = 0;
 		//APSlider.maxValue = this.APLimit;
-		if (InstantInteract) {
+		if (InstantInteract)
 			TakeAction(0);
-		} else {
+		else
 			OpenEvent();
-		}
 		return;
 	}
 
 	public bool SpendAP(int input, int cost) {
 		double Multiplier = 1;
-		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER)) {
+		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER))
 			Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(ClassMultiplier);
-		}
 		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float)input / 100f));
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
 		int multipliedAP = (int)Mathf.Floor((float)actualAP * (float)Multiplier); // TODO: add character class element
 		int rng = Random.Range(1, multipliedAP);
 		Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
-		if (rng >= cost) {
+		if (rng >= cost)
 			return true;
-		}
 		return false;
 	}
 

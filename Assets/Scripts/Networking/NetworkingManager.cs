@@ -42,6 +42,11 @@ public class NetworkingManager : Photon.PunBehaviour {
 
 	public override void OnJoinedRoom() {
 		Debug.Log("OnJoinedRoom. Player ID: " + PhotonNetwork.player.ID);
+		/* Test. Randomly assign player to be an alien */
+		if (Random.Range(1, 5) == 4) // Player must be an alien
+			PhotonNetwork.player.SetTeam(PunTeams.Team.red);
+		else // Player must be a human
+			PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 		SpawnMyPlayer();
 	}
 
@@ -61,6 +66,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 		Object.FindObjectOfType<GameManager>().StartMe();
 
 		Classes pClass;
+
 		playerScript = myPlayer.GetComponent<Player>();
 		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
 		case Classes.BETRAYER: // Alien
@@ -81,11 +87,6 @@ public class NetworkingManager : Photon.PunBehaviour {
 		}
 		myPlayer.transform.position = spawn.transform.position;
 
-		/* Test. Randomly assign player to be an alien */
-		if (Random.Range(1, 5) == 4) // Player must be an alien
-			PhotonNetwork.player.SetTeam(PunTeams.Team.red);
-		else // Player must be a human
-			PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 		myPlayer.GetComponent<Player>().GenerateStunGun();
 	}
 

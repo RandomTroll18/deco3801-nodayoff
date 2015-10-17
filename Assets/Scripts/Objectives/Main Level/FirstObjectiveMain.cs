@@ -5,13 +5,12 @@ public class FirstObjectiveMain : PrimaryObjective {
 
 	void Start() {
 		Title = "Activate Auxillary Power";
-		Description = "Main power sources have taken heavy damage.\n" +
+		Description = "Main power sources have taken heavy damage." + StringMethodsScript.NEWLINE +
 			"A Technician is needed.";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
-			if (objective.name == "Objective 1") {
+			if (objective.name == "Objective 1")
 				Location = Tile.TilePosition(objective.transform.position);
-			}
 		}
 
 		NextObjective = Object.FindObjectOfType<SecondObjectiveMain>();

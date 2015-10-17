@@ -170,7 +170,10 @@ public class GameManager : MonoBehaviour {
 
 	[PunRPC]
 	void LoseGame() {
-		Application.LoadLevel("GameOver");
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Aliens win
+			Application.LoadLevel("WinScreen");
+		else // Humans lose
+			Application.LoadLevel("GameOver");
 	}
 
 	/**
