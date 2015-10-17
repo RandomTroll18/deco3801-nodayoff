@@ -9,6 +9,9 @@ using UnityEngine;
 /**
  * Controls the player's movement within the game.
  */
+using UnityEngine.UI;
+
+
 public class MovementController : MonoBehaviour {
 	enum Moving {
 		NO,			/* Player has not clicked a tile to move to */
@@ -42,6 +45,7 @@ public class MovementController : MonoBehaviour {
 	public GameObject InvalidPathMarker;
 	public GameObject ValidPathMarker;
 	public GameObject HighlightedTile;
+	public GameObject APCounter;
 
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
 	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
@@ -124,6 +128,7 @@ public class MovementController : MonoBehaviour {
 		InvalidPathMarker = Resources.Load("Invalid Path Marker") as GameObject;
 		ValidPathMarker = Resources.Load("Valid Path Marker") as GameObject;
 		HighlightedTile = Resources.Load("Highlighted Tile") as GameObject;
+		APCounter = Resources.Load("UI/AP Cost") as GameObject;
 	}
 
 	void Update() {
@@ -240,6 +245,20 @@ public class MovementController : MonoBehaviour {
 		tilePos.y = tilePos.y - 0.49f;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot));
+		ShowAPCost(pos);
+	}
+
+	void ShowAPCost(Tile pos) {
+		Vector3 tilePos = Tile.TileMiddle(pos);
+		GameObject counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
+		counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
+		counter.GetComponentInChildren<Text>().text = "value goes here";
+		/* TODO:
+		 * position counter properly
+		 * delete counter when path is deleted
+		 * have counter show proper value
+		 * 
+		 */
 	}
 
 	/*
