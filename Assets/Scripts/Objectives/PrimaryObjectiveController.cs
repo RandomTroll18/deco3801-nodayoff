@@ -11,12 +11,15 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		Objective firstObjective = null;
 		switch (Application.loadedLevelName) {
 		case "Main Level":
+			Debug.Log("Load Main Level 1st Objective");
 			firstObjective = Object.FindObjectOfType<FirstObjectiveMain>();
 			break;
 		case "Level":
+			Debug.Log("Load Test Level 1st Objective");
 			firstObjective = new FirstObjective();
 			break;
 		case "Tutorial":
+			Debug.Log("Load Tutorial 1st Objective");
 			firstObjective = Object.FindObjectOfType<TutorialFirstObjective>();
 			break;
 		case "TestScene2": goto case "Level";
@@ -24,6 +27,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 			Debug.LogError("Scene name is unknown");
 			break;
 		}
+		firstObjective.InitializeObjective();
 		ChangeObjective(firstObjective);
 		cam = Camera.main.GetComponent<CameraController>();
 	}
@@ -35,13 +39,20 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		objective = newObjective;
 
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien
+			Debug.Log("Setting text of alien objectives");
 			transform.Find("Title").GetComponent<Text>().text = "Destroy The Ship";
 			transform.Find("Description").GetComponent<Text>().text = "No one must escape. Your " +
 				"sacrifice will not be in vain";
 		} else { // Human
+			Debug.Log("Setting text of human objectives");
+			Debug.Log("Human objective title: " + objective.Title);
+			Debug.Log("Human objective desc.: " + objective.Description);
 			transform.Find("Title").GetComponent<Text>().text = objective.Title;
 			transform.Find("Description").GetComponent<Text>().text = objective.Description;
 		}
+
+		Debug.Log("Objective title: " + transform.Find("Title").GetComponent<Text>().text);
+		Debug.Log("Objective desc: " + transform.Find("Description").GetComponent<Text>().text);
 
 		if (objective.Location == null || PhotonNetwork.player.GetTeam() == PunTeams.Team.red)
 			DeactivateLocationButton();

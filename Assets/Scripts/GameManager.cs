@@ -65,8 +65,10 @@ public class GameManager : MonoBehaviour {
 		/*
 		 * This is how you call StartMe for classes that aren't singletons
 		 */
-		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>())
+		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>()) {
+			Debug.Log("Start inventory ui slots");
 			script.StartMe();
+		}
 		
 		Object.FindObjectOfType<ChatTest>().StartMe();
 		// TODO: Before initializing the class panel, need to check if the player is an alien
@@ -94,9 +96,11 @@ public class GameManager : MonoBehaviour {
 
 		//TODO : Still in thinking of a better way to do it. -Ken
 		foreach (InteractiveObject script in Object.FindObjectsOfType<InteractiveObject>()) {
+			Debug.LogError("Start interactive objects");
 			script.StartMe(this);
 		}
 		foreach (Trap script in Object.FindObjectsOfType<Trap>()) {
+			Debug.LogError("Start Traps");
 			script.StartMe(this);
 		}
 

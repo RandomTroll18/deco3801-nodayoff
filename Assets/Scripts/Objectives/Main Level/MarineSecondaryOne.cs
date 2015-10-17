@@ -3,6 +3,12 @@ using System.Collections;
 
 public class MarineSecondaryOne : SecondaryObjective {
 
+	public override void InitializeObjective()
+	{
+		base.InitializeObjective();
+		Start();
+	}
+
 	void Start() {
 		ObjectiveName = "MarineSecondaryOne";
 		Title = "Find the deployable stun turrets";

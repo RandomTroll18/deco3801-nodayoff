@@ -78,6 +78,7 @@ public class MainLevelObjective1 : InteractiveObject {
 			Debug.Log("Adding alien secondary");
 			break;
 		default: // Unknown
+			throw new System.NotSupportedException("Unknown secondary class objects");
 			Debug.Log("Unknown secondary objective");
 			break;
 		}

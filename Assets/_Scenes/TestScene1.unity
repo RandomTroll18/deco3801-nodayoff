@@ -671,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625f07666ae27c24e9dbd0e32932e5a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameManagerObject: {fileID: 0}
 --- !u!1 &1118931363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1324,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2027170638}
   - 114: {fileID: 2027170637}
+  - 114: {fileID: 2027170639}
   m_Layer: 0
   m_Name: NetworkingScriptManager
   m_TagString: Untagged
@@ -1348,9 +1350,6 @@ MonoBehaviour:
   - {fileID: 1831613694}
   - {fileID: 1332628953}
   - {fileID: 1151326666}
-  NavigationButtons:
-  - {fileID: 1193174048}
-  - {fileID: 385757144}
 --- !u!4 &2027170638
 Transform:
   m_ObjectHideFlags: 0
@@ -1363,6 +1362,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &2027170639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2027170636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 1
+  instantiationId: 1
+  isRuntimeInstantiated: 0
 --- !u!1 &2041379130
 GameObject:
   m_ObjectHideFlags: 0

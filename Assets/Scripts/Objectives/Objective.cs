@@ -12,6 +12,10 @@ public abstract class Objective : MonoBehaviour {
 	protected Tile location;
 	protected GameManager gameManager;
 
+	public virtual void InitializeObjective() {
+		Start();
+	}
+
 	void Start() {
 		gameManager = GameObject.FindGameObjectWithTag("GameController")
 			.GetComponent<GameManager>();

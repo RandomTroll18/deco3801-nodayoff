@@ -4,6 +4,12 @@ using System.Collections;
 public class BoardingParty : SecondaryObjective {
 
 	Effect visionEffect; // The vision effect
+
+	public override void InitializeObjective()
+	{
+		base.InitializeObjective();
+		Start();
+	}
 	
 	void Start() {
 		teamObjective = true;

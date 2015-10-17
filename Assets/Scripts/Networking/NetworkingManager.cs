@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class NetworkingManager : Photon.PunBehaviour {
+	
 	SpawnPoint[] spawnPoints;
 
 	/*
@@ -10,14 +11,14 @@ public class NetworkingManager : Photon.PunBehaviour {
 	 */
 	void Start () {
 		spawnPoints = Object.FindObjectsOfType<SpawnPoint>();
-		Connect();
+		if (PhotonNetwork.connected)
+			SpawnMyPlayer();
+		else
+			Connect();
 //		PhotonNetwork.logLevel = PhotonLogLevel.Full;
 	}
 
 	void Connect() {
-		if (PhotonNetwork.connected) // Disconnect if we are already connected
-			PhotonNetwork.Disconnect();
-
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.ConnectUsingSettings("f");
@@ -61,6 +62,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 			0
 			);
 		Player.MyPlayer = myPlayer;
+		myPlayer.GetComponentInChildren<AudioListener>().enabled = true;
 		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();

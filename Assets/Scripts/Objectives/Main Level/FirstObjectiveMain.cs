@@ -3,6 +3,12 @@ using System.Collections;
 
 public class FirstObjectiveMain : PrimaryObjective {
 
+	public override void InitializeObjective()
+	{
+		base.InitializeObjective();
+		Start();
+	}
+
 	void Start() {
 		Title = "Activate Auxillary Power";
 		Description = "Main power sources have taken heavy damage." + StringMethodsScript.NEWLINE +

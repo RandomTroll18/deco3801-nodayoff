@@ -20,9 +20,9 @@ public class ConnectionManager : Photon.PunBehaviour {
 	 */
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
+		GameManagerObject = GameObject.FindGameObjectWithTag("GameController");
+
 		base.OnPhotonPlayerDisconnected(otherPlayer);
-		/* Don't use RPC call because this is called on all clients */
-		GameManagerObject.GetComponent<GameManager>().SetInactivePlayer();
 		Debug.Log("Other player's id: " + otherPlayer.ID);
 		/* Destroy the model belonging to the disconnected player */
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
@@ -30,6 +30,9 @@ public class ConnectionManager : Photon.PunBehaviour {
 			Debug.Log("Player object id: " + player.GetComponent<PhotonView>().ownerId);
 			if (player.GetComponent<PhotonView>().ownerId == otherPlayer.ID) { // Found the player
 				Debug.Log("Found player model");
+				if (Player.MyPlayer != null && !player.GetComponent<Player>().IsPlayerNoLongerActive()
+						&& GameManagerObject != null)
+					GameManagerObject.GetComponent<GameManager>().SetInactivePlayer();
 				PhotonNetwork.Destroy(player);
 				Destroy(player);
 				return;

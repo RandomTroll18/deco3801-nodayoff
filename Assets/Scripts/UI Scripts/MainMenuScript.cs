@@ -31,8 +31,13 @@ public class MainMenuScript : MonoBehaviour {
 	 */
 	public void LoadLevelWithClass(string chosenClass) {
 		Player.ChosenClass = chosenClass;
-		if (LevelToLoad == null) Application.LoadLevel("Main Level");
-		else Application.LoadLevel(LevelToLoad);
+		if (LevelToLoad == null) {
+			Debug.Log("No level to load");
+			Application.LoadLevel("Main Level");
+		} else { 
+			Debug.Log("There is a level to load");
+			Application.LoadLevel(LevelToLoad);
+		}
 	}
 
 

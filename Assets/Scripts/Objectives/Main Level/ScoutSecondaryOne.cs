@@ -5,6 +5,12 @@ public class ScoutSecondaryOne : SecondaryObjective {
 
 	Effect visionEffect; // The vision effect
 
+	public override void InitializeObjective()
+	{
+		base.InitializeObjective();
+		Start();
+	}
+
 	void Start() {
 		ObjectiveName = "ScoutSecondaryOne";
 		Title = "Find the night vision goggles";

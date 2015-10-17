@@ -3,6 +3,12 @@ using System.Collections;
 
 public class TechnicianSecondaryOne : SecondaryObjective {
 
+	public override void InitializeObjective()
+	{
+		base.InitializeObjective();
+		Start();
+	}
+
 	void Start() {
 		GameObject objective = GameObject.Find("Technician Secondary One");
 		ObjectiveName = "TechnicianSecondaryOne";
