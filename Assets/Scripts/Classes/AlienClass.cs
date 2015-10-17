@@ -4,14 +4,16 @@ using System.Collections.Generic;
 public class AlienClass : BaseClass {
 
 	PlayerClass humanClass; // The contained human class
+	Classes humanClassType; // The human class type
 
 	/**
 	 * Constructor for Alien Class
 	 * 
 	 * Arguments
 	 * - Player player - The player that owns this class
+	 * - Classes humanClassTypeToSet - The human class to set
 	 */
-	public AlienClass(Player player) : base(){
+	public AlienClass(Player player, Classes humanClassTypeToSet) : base() {
 		DefaultStats[Stat.ENGMULTIPLIER] = 1.5;
 		DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
 		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.5;
@@ -19,6 +21,7 @@ public class AlienClass : BaseClass {
 
 		PrimaryAbility = new AlienPrimaryAbility(player);
 		ClassTypeEnum = Classes.BETRAYER;
+		humanClassType = humanClassTypeToSet;
 	}
 
 	/**
@@ -33,11 +36,8 @@ public class AlienClass : BaseClass {
 
 	/**
 	 * Set the human class of the alien
-	 * 
-	 * Arguments
-	 * - Classes humanClassType - The human class to assign
 	 */
-	public void SetHumanClass(Classes humanClassType) {
+	public void SetHumanClass() {
 		Player playerScript = Player.MyPlayer.GetComponent<Player>();
 		switch (humanClassType) {
 		case Classes.ENGINEER:
@@ -55,6 +55,17 @@ public class AlienClass : BaseClass {
 		default:
 			throw new System.NotSupportedException("Need to assign a valid human class to alien");
 		}
+	}
+
+	/**
+	 * Set the human class of the alien
+	 * 
+	 * Arguments
+	 * - Classes newHumanClassType - The human class to assign
+	 */
+	public void SetHumanClass(Classes newHumanClassType) {
+		humanClassType = newHumanClassType;
+		SetHumanClass();
 	}
 
 	/**

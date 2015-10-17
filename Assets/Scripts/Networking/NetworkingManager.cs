@@ -85,6 +85,11 @@ public class NetworkingManager : Photon.PunBehaviour {
 		}
 		myPlayer.transform.position = spawn.transform.position;
 
+		/* Test. Randomly assign player to be an alien */
+		if (Random.Range(1, 5) == 4) // Player must be an alien
+			PhotonNetwork.player.SetTeam(PunTeams.Team.red);
+		else // Player must be a human
+			PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 		myPlayer.GetComponent<Player>().GenerateStunGun();
 	}
 
