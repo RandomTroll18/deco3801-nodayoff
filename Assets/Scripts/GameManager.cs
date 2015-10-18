@@ -24,10 +24,94 @@ public class GameManager : MonoBehaviour {
 	bool validTurn;
 
 	int numPlayers;
+	int roundsLost = 1;
 	int playersLeft; // The number of players still active
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
 	MovementController movController; // Movement controller script
-	int roundsLost = 1;
+
+
+	/**
+	 * Wait for other players to join before starting the game
+	 */
+	void waitForPlayers() {
+		// The canvas for waiting
+		GameObject waitingCanvas = Resources.Load<GameObject>("Prefabs/UIPrefabs/WaitingCanvas");
+		GameObject instantiatedCanvas; // The instantiated canvas
+		// The players that have already instantiated their player models
+		HashSet<PhotonPlayer> readyPlayers = new HashSet<PhotonPlayer>();
+		// Set of players that haven't instantiated their player models
+		HashSet<PhotonPlayer> unseenPlayers = new HashSet<PhotonPlayer>();
+		// Instantiated players
+		HashSet<GameObject> playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player")); 
+		NetworkingManager networkingManager = Object.FindObjectOfType<NetworkingManager>(); // Networking manager
+
+		instantiatedCanvas = Instantiate(waitingCanvas); // Create UI to block player from doing anything
+		readyPlayers.Add(PhotonNetwork.player); // We have already instantiated our player
+
+		while (readyPlayers.Count < PhotonNetwork.playerList.Length) { // Wait until all players are ready
+			instantiatedCanvas.GetComponentInChildren<Text>().text = 
+					"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players";
+			/* Reinitialize sets and get player models */
+			unseenPlayers.Clear();
+			playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+
+			Debug.Log("Number of ready players: " + readyPlayers.Count);
+			Debug.Log("Number of instantiated player models: " + playerModels.Count);
+			Debug.Log("Number of photon players: " + PhotonNetwork.playerList.Length);
+			Debug.LogError("For error pausing");
+
+			foreach (PhotonPlayer networkPlayer in PhotonNetwork.playerList) { // Check every player
+				if (networkPlayer == PhotonNetwork.player)
+					continue; // We know for sure that we've instantiated our player model
+				else if (readyPlayers.Contains(networkPlayer))
+					continue; // This player has already instantiated their player model
+
+				foreach (GameObject playerModel in playerModels) { // Look at all the player models
+					if (playerModel.GetComponent<PhotonView>().ownerId == networkPlayer.ID) { 
+						Debug.Log(networkPlayer.name + " is ready");
+						readyPlayers.Add(networkPlayer); // We can see the player's model
+						break;
+					}
+				}
+				if (!readyPlayers.Contains(networkPlayer)) { // Tell player to re-instantiate their model
+					if ((bool)(networkPlayer.customProperties["waiting"])) {
+						// Player has supposedly instantiated their player
+						Debug.Log(networkPlayer.name + " is waiting. Ask to re-instantiate their player");
+						networkingManager.gameObject.GetComponent<PhotonView>().RPC(
+								"RequestInitializingOfPlayer",
+								networkPlayer,
+								new object[] {PhotonNetwork.player}
+						);
+					} else
+						Debug.Log(networkPlayer.name + " is still selecting their class");
+				}
+			}
+			break;
+		}
+
+		Destroy(instantiatedCanvas); // Destroy the waiting canvas
+	}
+
+	/**
+	 * Response from a player to re-instantiate a player
+	 * 
+	 * Arguments
+	 * - Vector3 positionToSpawn - The position to spawn
+	 * - Quaternion rotationToSpawn - The rotation of object upon being spawned
+	 * - PhotonPlayer trueOwner - The true owner of the player object
+	 */
+	[PunRPC]
+	public void InstantiateResponse(Vector3 positionToSpawn, Quaternion rotationToSpawn, PhotonPlayer trueOwner) {
+		GameObject playerObject = Resources.Load<GameObject>("Prefabs/Resources/Player"); // Player prefab
+		GameObject instantiatedPlayer; // The instantiated player
+
+		/* Instantiate the player and change the ownership */
+		instantiatedPlayer = Instantiate(playerObject);
+		instantiatedPlayer.transform.position = positionToSpawn;
+		instantiatedPlayer.transform.rotation = rotationToSpawn;
+		instantiatedPlayer.GetComponent<PhotonView>().TransferOwnership(trueOwner);
+		instantiatedPlayer.GetComponent<PhotonView>().ownerId = trueOwner.ID;
+	}
 
 	/*
 	 * From now on, it's safer to replace Start with StartMe in all your classes and to 
@@ -35,14 +119,21 @@ public class GameManager : MonoBehaviour {
 	 */
 	public void StartMe() {
 		StartPlaying();
+		// Set custom properties for ourselves
+		PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+				{"waiting", true}
+		});
+		waitForPlayers();
 		InitialNumberOfTurns = RoundsLeftUntilLose;
 	}
 
 	[PunRPC]
 	public void AddPlayer() {
 		numPlayers++;
-		this.playersLeft++;
-		Debug.Log("Player list size: " + this.playersLeft);
+		playersLeft++;
+		Debug.Log("Player list size: " + playersLeft);
+		playersLeft = PhotonNetwork.playerList.Length;
+		Debug.Log("Player list size (after checking photon): " + playersLeft);
 	}
 
 	void StartScripts() {
@@ -95,14 +186,10 @@ public class GameManager : MonoBehaviour {
 		movController = Player.MyPlayer.GetComponent<MovementController>();
 
 		//TODO : Still in thinking of a better way to do it. -Ken
-		foreach (InteractiveObject script in Object.FindObjectsOfType<InteractiveObject>()) {
-			Debug.LogError("Start interactive objects");
+		foreach (InteractiveObject script in Object.FindObjectsOfType<InteractiveObject>())
 			script.StartMe(this);
-		}
-		foreach (Trap script in Object.FindObjectsOfType<Trap>()) {
-			Debug.LogError("Start Traps");
+		foreach (Trap script in Object.FindObjectsOfType<Trap>())
 			script.StartMe(this);
-		}
 
 		InitalizeDoors();
 		TurnOnLighting();
@@ -111,7 +198,7 @@ public class GameManager : MonoBehaviour {
 		//		Debug.Log("Number of players left: " + playersLeft);
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 
-		this.enabled = true; // Turns on the Update() function
+		enabled = true; // Turns on the Update() function
 	}
 
 	void InitalizeDoors() {
@@ -131,9 +218,8 @@ public class GameManager : MonoBehaviour {
 		Color.TryParseHexString("323232FF", out color);
 		RenderSettings.ambientLight = color;
 		RenderSettings.fog = true;
-		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Lighting")) {
+		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Lighting"))
 			g.GetComponent<Light>().enabled = true;
-		}
 	}
 
 	/**
