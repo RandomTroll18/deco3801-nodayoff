@@ -63,6 +63,7 @@ public class MovementController : MonoBehaviour {
 	Player playerScript;
 	/* Whether debugging output is used */
 	bool debugging;
+	const float HIGHLIGHTED_TILE_ELEVATION = 0.45f;
 	
 	public void StartMe() {
 		SetPublicVariables();
@@ -235,14 +236,14 @@ public class MovementController : MonoBehaviour {
 	Object SpawnPathTile(Tile pos, GameObject pathMarker) {
 		// I could add direction to the spawned path. But maybe another day
 		Vector3 tilePos = Tile.TileMiddle(pos);
-		tilePos.y = tilePos.y - 0.49f;
+		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		return Instantiate(pathMarker, tilePos, tileRot);
 	}
 
 	void SpawnHighlightedTile(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos);
-		tilePos.y = tilePos.y - 0.49f;
+		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot));
 
