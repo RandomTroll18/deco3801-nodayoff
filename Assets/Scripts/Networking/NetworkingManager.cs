@@ -18,6 +18,49 @@ public class NetworkingManager : Photon.PunBehaviour {
 //		PhotonNetwork.logLevel = PhotonLogLevel.Full;
 	}
 
+	/**
+	 * RPC call for requesting initialization of player
+	 * 
+	 * Arguments
+	 * - PhotonPlayer requestingPlayer - The player requesting
+	 */
+	[PunRPC]
+	public void RequestInitializingOfPlayer(PhotonPlayer requestingPlayer) {
+		AlienClass alienClassContainer; // The alien class container
+		Classes pClass; // Class of this player
+		Player playerScript; // Our player's script
+		SpawnPoint spawn = spawnPoints[0]; // The spawn point of our player
+		GameManager gameManager = Object.FindObjectOfType<GameManager>(); // Our game manager
+
+		if (Player.MyPlayer != null) { // Only re-initialize if we haven't initialized our character yet
+			playerScript = Player.MyPlayer.GetComponent<Player>();
+			switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
+			case Classes.BETRAYER: // Alien
+				alienClassContainer = (AlienClass)playerScript.GetPlayerClassObject();
+				pClass = alienClassContainer.GetHumanClassType();
+				break;
+			default: // Human class
+				pClass = playerScript.GetPlayerClassObject().GetClassTypeEnum();
+				if (pClass == Classes.BETRAYER) // Something horrible has gone wrong
+					throw new UnityException("How did you get past that case up there!");
+				break;
+			}
+			
+			foreach (SpawnPoint thisPoint in spawnPoints) {
+				if (thisPoint.Class == pClass) {
+					spawn = thisPoint;
+					break;
+				}
+			}
+
+			gameManager.gameObject.GetComponent<PhotonView>().RPC(
+					"InstantiateResponse",
+					requestingPlayer,
+					new object[] {spawn.transform.position, spawn.transform.rotation, PhotonNetwork.player}
+			);
+		}
+	}
+
 	void Connect() {
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
@@ -56,13 +99,19 @@ public class NetworkingManager : Photon.PunBehaviour {
 		Player playerScript; // The player script
 		SpawnPoint spawn = spawnPoints[0]; // TODO: pick spawn point based on class
 		GameObject myPlayer = PhotonNetwork.Instantiate(
-			"Player", 
-			spawn.transform.position, 
-			spawn.transform.rotation, 
-			0
-			);
+				"Player", 
+				spawn.transform.position, 
+				spawn.transform.rotation, 
+				0
+		);
+		/* Enable player components */
 		Player.MyPlayer = myPlayer;
 		myPlayer.GetComponentInChildren<AudioListener>().enabled = true;
+		myPlayer.GetComponentInChildren<Animator>().enabled = true;
+		myPlayer.GetComponentInChildren<Light>().enabled = true;
+		myPlayer.GetComponentInChildren<Camera>().enabled = true;
+		myPlayer.GetComponentInChildren<CameraController>().enabled = true;
+
 		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();
@@ -70,6 +119,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 		Classes pClass;
 
 		playerScript = myPlayer.GetComponent<Player>();
+		playerScript.enabled = true;
 		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
 		case Classes.BETRAYER: // Alien
 			alienClassContainer = (AlienClass)playerScript.GetPlayerClassObject();
@@ -85,6 +135,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 		foreach (SpawnPoint thisPoint in spawnPoints) {
 			if (thisPoint.Class == pClass) {
 				spawn = thisPoint;
+				break;
 			}
 		}
 		myPlayer.transform.position = spawn.transform.position;

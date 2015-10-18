@@ -55,4 +55,7 @@ MonoBehaviour:
   - ChangeMaterial
   - SetPlayerTeam
   - LoadClassSelect
+  - ReinstantiatePlayer
+  - InstantiateResponse
+  - RequestInitializingOfPlayer
   DisableAutoOpenWizard: 1

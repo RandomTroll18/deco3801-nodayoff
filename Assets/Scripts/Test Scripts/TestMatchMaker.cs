@@ -12,6 +12,9 @@ public class TestMatchMaker : Photon.PunBehaviour {
 
 	// Use this for initialization
 	void Start() {
+		PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+				{"waiting", false}
+		});
 		PhotonNetwork.ConnectUsingSettings("0.1");
 		RoomNameLabel.text = "Room Name: " + RoomName;
 		PhotonNetwork.playerName = PlayerName;
@@ -35,28 +38,38 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	}
 
 	/**
-	 * Check if all players have been assigned a team
+	 * Check if all players have been assigned a team and if 
+	 * they have been assigned correctly
 	 * 
 	 * Returns
 	 * - true if all players have been assigned a team.
 	 * - false otherwise
 	 */
 	bool playersAssigned() {
+		bool alienAssigned = false; // Record if the alien was already assigned
 		foreach (PhotonPlayer player in PhotonNetwork.playerList) {
 			if (player.GetTeam() == PunTeams.Team.none)
-				return false;
+				return false; // A player hasn't been assigned
+			else if (player.GetTeam() == PunTeams.Team.red && !alienAssigned)
+				alienAssigned = true; // One alien has been already assigned
+			else if (player.GetTeam() == PunTeams.Team.red && alienAssigned)
+				return false; // Alien assigned twice. In the middle of changing assignments
 		}
 		return true;
 	}
 
 	void Update() {
-		if (!PhotonNetwork.connectedAndReady)
-			return;
-		if (PhotonNetwork.isMasterClient)
-			Debug.Log("Alien index: " + alienIndex);
 		PhotonPlayer currentPlayer; // The current player being looked at
+
+		if (!PhotonNetwork.connectedAndReady) // Don't do anything. Not yet connected
+			return;
+
+		if (PhotonNetwork.isMasterClient) // Print out alien index if master client
+			Debug.Log("Alien index: " + alienIndex);
+
 		PlayerCountLabel.text = "Number of Players: " + PhotonNetwork.playerList.Length.ToString();
-		if (PhotonNetwork.playerList.Length == 4 && playersAssigned()) { // We have enough players
+
+		if (PhotonNetwork.playerList.Length == 4 && playersAssigned()) { // Enough players and assigned correctly
 			Debug.Log("We have enough players!");
 			gameObject.SetActive(false);
 			if (string.IsNullOrEmpty(MainMenuScript.LevelToLoad)) {
@@ -65,14 +78,16 @@ public class TestMatchMaker : Photon.PunBehaviour {
 			}
 			LoadClassSelect();
 		}
+
+		/* Set text and assign teams for different players */
 		for (int i = 0; i < PlayerNamesLabel.Length; ++i) {
-			if (i >= PhotonNetwork.playerList.Length) {
+			if (i >= PhotonNetwork.playerList.Length) { // No player for this label
 				PlayerNamesLabel[i].text = "N/A";
 				continue;
 			}
 			currentPlayer = PhotonNetwork.playerList[i];
 			PlayerNamesLabel[i].text = currentPlayer.name;
-			if (PhotonNetwork.player == currentPlayer)
+			if (PhotonNetwork.player == currentPlayer) // We are at our label
 				PlayerNamesLabel[i].text += " (You)";
 
 			if (PhotonNetwork.isMasterClient) { // Need to assign teams
@@ -80,43 +95,23 @@ public class TestMatchMaker : Photon.PunBehaviour {
 				assignTeam(currentPlayer, i);
 			} else 
 				Debug.Log("Not master client");
-			if (currentPlayer.GetTeam() == PunTeams.Team.blue) {
+
+			if (currentPlayer.GetTeam() == PunTeams.Team.blue) { // Player is a human
 				PlayerNamesLabel[i].text += " (Human)";
 				Debug.Log("Player: " + currentPlayer.name + " is a human");
 			}
-			else if (currentPlayer.GetTeam() == PunTeams.Team.red) {
+			else if (currentPlayer.GetTeam() == PunTeams.Team.red) { // Player is an alien
 				PlayerNamesLabel[i].text += " (Alien)";
 				Debug.Log("Player: " + currentPlayer.name + " is an alien");
 			}
-			else {
+			else { // Unknown team. Not yet assigned
 				PlayerNamesLabel[i].text += " (Unknown Team)";
 				Debug.Log("Player: " + currentPlayer.name + " is in an unknown team");
 			}
 				
 		}
 	}
-
-	/**
-	 * Assign teams to everyone
-	 */
-	void assignTeams() {
-		PhotonPlayer currentPlayer; // The current player
-		for (int i = 0; i < PlayerNamesLabel.Length; ++i) {
-			if (i >= PhotonNetwork.playerList.Length)
-				break;
-			currentPlayer = PhotonNetwork.playerList[i];
-			assignTeam(PhotonNetwork.playerList[i], i);
-			if (i == alienIndex && currentPlayer.GetTeam() != PunTeams.Team.red) { // Not assigned yet
-				Debug.LogError("Alien not assigned properly yet");
-				i--;
-			} else if (i != alienIndex && currentPlayer.GetTeam() != PunTeams.Team.blue) { // Not assigned yet
-				Debug.LogError("Human not assigned properly yet");
-				i--;
-			} else // Assigned. Tell player to load level
-				GetComponent<PhotonView>().RPC("LoadClassSelect", currentPlayer, null);
-		}
-	}
-
+	
 	/**
 	 * Assign team for this single player
 	 * 
@@ -125,17 +120,17 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	 * - int index - The index of this player
 	 */
 	void assignTeam(PhotonPlayer currentPlayer, int index) {
-		if (index == alienIndex && currentPlayer.GetTeam() != PunTeams.Team.red) {
+		if (index == alienIndex && currentPlayer.GetTeam() != PunTeams.Team.red) { // Player needs to be an alien
 			Debug.Log("Setting " + currentPlayer.name + " to be the alien");
-			if (currentPlayer == PhotonNetwork.player)
+			if (currentPlayer == PhotonNetwork.player) // Just set our own team
 				currentPlayer.SetTeam(PunTeams.Team.red);
-			else
+			else // Need RPC call
 				GetComponent<PhotonView>().RPC("SetPlayerTeam", currentPlayer, new object[] {PunTeams.Team.red});
 		} else if (index != alienIndex && currentPlayer.GetTeam() != PunTeams.Team.blue) {
 			Debug.Log("Setting " + currentPlayer.name + " to be a human");
-			if (currentPlayer == PhotonNetwork.player)
+			if (currentPlayer == PhotonNetwork.player) // Just set our own team
 				currentPlayer.SetTeam(PunTeams.Team.blue);
-			else
+			else // Player needs to be an alien
 				GetComponent<PhotonView>().RPC("SetPlayerTeam", currentPlayer, new object[] {PunTeams.Team.blue});
 		}
 	}

@@ -169,8 +169,7 @@ public class Player : MonoBehaviour {
 		if (!gameManagerScript.IsValidTurn()) {
 			turnEffectsApplied = false;
 			noLongerActive = false;
-		}
-		else {
+		} else {
 			if (noLongerActive) // Don't do anything
 				return;
 			else if (IsStunned && stunTimer-- > 0) { // Player is currently stunned. Can't do anything
