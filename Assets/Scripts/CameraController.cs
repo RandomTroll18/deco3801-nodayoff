@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour {
 	public GameObject ContextAwareBox; // The context aware box
 	public GameObject TileHighlight;
 	GameManager gameManagerScript; // The game manager script
+	public float RotationSpeed;
+	public GameObject Target;
 
 	public float CamSpeed;
 	/* The distance the mouse pointer needs to be from the edge before the 
@@ -46,6 +48,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void SetPublicVariables() {
+		RotationSpeed = 60f;
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
 		ContextAwareBox = Object.FindObjectOfType<ContextAwareBox>().gameObject;
 		TileHighlight = Resources.Load("Highlighted Tile 2") as GameObject;
@@ -76,10 +79,17 @@ public class CameraController : MonoBehaviour {
 				ResetCamera();
 			}
 
+//			transform.LookAt();
+			float rotation = Input.GetAxis("Rotate");
+			Vector3 target = transform.position;
+			transform.RotateAround(Player.MyPlayer.transform.position, Vector3.up, 
+			                       Time.deltaTime * rotation * RotationSpeed);
+
+
 			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
 				if (transform.position.z >= MIN_Z) {
 					Debug.Log(transform.position.z);
-
+//					transform.up?
 					transform.Translate(0, 0, -CamSpeed, Space.World);
 				}
 			}
