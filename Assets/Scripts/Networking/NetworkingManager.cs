@@ -58,7 +58,10 @@ public class NetworkingManager : Photon.PunBehaviour {
 			gameManager.gameObject.GetComponent<PhotonView>().RPC(
 					"InstantiateResponse",
 					requestingPlayer,
-					new object[] {spawn.transform.position, spawn.transform.rotation, PhotonNetwork.player}
+					new object[] {spawn.transform.position, spawn.transform.rotation, 
+					Player.MyPlayer.GetComponent<PhotonView>().owner, 
+					Player.MyPlayer.GetComponent<PhotonView>().owner.ID,
+					Player.MyPlayer.GetComponent<PhotonView>().viewID}
 			);
 		}
 	}

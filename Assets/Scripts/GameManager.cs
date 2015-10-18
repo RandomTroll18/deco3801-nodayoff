@@ -9,7 +9,6 @@ public class GameManager : Photon.PunBehaviour {
 	public int InitialNumberOfTurns; // The initial number of turns
 	public GameObject[] OpenedDoors;
 	public Text RemainingTurnsText; // The text counter for the remaining turns
-	public List<AudioClip> DoorOpeningSfx; // The door opening sound effects
 
 	/*
 	 * Remember whether the current turn is a valid turn. 
@@ -45,7 +44,7 @@ public class GameManager : Photon.PunBehaviour {
 		HashSet<GameObject> playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player")); 
 
 		instantiatedCanvas.GetComponentInChildren<Text>().text = 
-				"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players";
+				"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players to finish loading";
 		/* Get player models */
 		playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
@@ -104,19 +103,33 @@ public class GameManager : Photon.PunBehaviour {
 	 * - Vector3 positionToSpawn - The position to spawn
 	 * - Quaternion rotationToSpawn - The rotation of object upon being spawned
 	 * - PhotonPlayer trueOwner - The true owner of the player object
+	 * - int trueOwnerId - The id of the owner
+	 * - int trueViewId - The view id of the corresponding player's prefab
 	 */
 	[PunRPC]
-	public void InstantiateResponse(Vector3 positionToSpawn, Quaternion rotationToSpawn, PhotonPlayer trueOwner) {
+	public void InstantiateResponse(Vector3 positionToSpawn, Quaternion rotationToSpawn, 
+			PhotonPlayer trueOwner, int trueOwnerId, int trueViewId) {
 		GameObject playerObject = Resources.Load<GameObject>("Prefabs/Resources/Player"); // Player prefab
 		GameObject instantiatedPlayer; // The instantiated player
+		PhotonView instantiatedView; // The instantiated view
 
-		Debug.Log("Received RPC response to instantiate a player model for: " + trueOwner.name);
+		Debug.LogError("Received RPC response to instantiate a player model for: " + trueOwner.name);
+		Debug.LogError("Received RPC response to instantiate a player model with id of: " + trueViewId);
 		/* Instantiate the player and change the ownership */
 		instantiatedPlayer = Instantiate(playerObject);
+		instantiatedView = instantiatedPlayer.GetComponent<PhotonView>();
+
+		Debug.LogError("Is view enabled: " + instantiatedView.enabled);
 		instantiatedPlayer.transform.position = positionToSpawn;
 		instantiatedPlayer.transform.rotation = rotationToSpawn;
-		instantiatedPlayer.GetComponent<PhotonView>().TransferOwnership(trueOwner);
-		instantiatedPlayer.GetComponent<PhotonView>().ownerId = trueOwner.ID;
+		instantiatedView.TransferOwnership(trueOwner);
+		instantiatedView.ownerId = trueOwnerId;
+		instantiatedView.viewID = trueViewId;
+		instantiatedView.enabled = true;
+
+		Debug.LogError("Instantiated player for: " + trueOwner.name + ", owner is: " + instantiatedView.owner.name);
+		Debug.LogError("New owner id: " + instantiatedView.ownerId);
+		Debug.LogError("New view id: " + instantiatedView.viewID);
 	}
 
 	/*
@@ -311,10 +324,8 @@ public class GameManager : Photon.PunBehaviour {
 		}
 
 		door.GetComponent<Animator>().enabled = true;
+		door.GetComponent<DoorAudio>().PlayOpeningEfx(); // Play opening sound effects
 		movController.UnblockTile(position);
-
-		if (SoundManagerScript.Singleton != null)
-			SoundManagerScript.Singleton.PlaySingle(DoorOpeningSfx);
 	}
 
 	public MovementController GetPlayerControllers(){

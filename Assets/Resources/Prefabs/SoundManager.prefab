@@ -181,6 +181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EfxSource: {fileID: 8278002}
   BGMusicSource: {fileID: 8252142}
+  BGMute: 0
+  EfxMute: 0
+  EfxVolume: 2
+  BGVolume: 2
   BGMusicList:
   - {fileID: 8300000, guid: c22e385883c823c4485bc73774ed0a10, type: 3}
   - {fileID: 8300000, guid: f445349974d13b048844dfd3e83fd6e4, type: 3}
@@ -215,6 +219,10 @@ Prefab:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: f445349974d13b048844dfd3e83fd6e4, type: 3}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 102786}

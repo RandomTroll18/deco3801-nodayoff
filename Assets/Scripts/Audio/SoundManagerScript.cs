@@ -31,7 +31,6 @@ public class SoundManagerScript : MonoBehaviour {
 	void Update() {
 		if (!BGMusicSource.isPlaying)
 			playDefaultBGMusic();
-
 		/* Set volume */
 		BGMusicSource.volume = BGVolume;
 		EfxSource.volume = EfxVolume;
@@ -69,6 +68,7 @@ public class SoundManagerScript : MonoBehaviour {
 	 */
 	public void PlaySingle(AudioClip clip) {
 		EfxSource.clip = clip;
+		EfxSource.spatialBlend = 0.0f; // Full spatial blend
 		EfxSource.Play();
 	}
 
@@ -80,6 +80,31 @@ public class SoundManagerScript : MonoBehaviour {
 	 */
 	public void PlaySingle(List<AudioClip> efx) {
 		EfxSource.clip = efx[Random.Range(0, efx.Count)];
+		EfxSource.spatialBlend = 0.0f; // Full spatial blend
+		EfxSource.Play();
+	}
+
+	/**
+	 * Play a single audio clip with 3D effect
+	 * 
+	 * Arguments
+	 * - AudioClip clip - The sound clip
+	 */
+	public void PlaySingle3D(AudioClip clip) {
+		EfxSource.clip = clip;
+		EfxSource.spatialBlend = 1.0f; // Full spatial blend
+		EfxSource.Play();
+	}
+
+	/**
+	 * Play a random single clip from list of sound effects with 3D effect
+	 * 
+	 * Arguments
+	 * - List<AudioClip> efx - List of sound effects
+	 */
+	public void PlaySingle3D(List<AudioClip> efx) {
+		EfxSource.clip = efx[Random.Range(0, efx.Count)];
+		EfxSource.spatialBlend = 1.0f; // Full spatial blend
 		EfxSource.Play();
 	}
 }

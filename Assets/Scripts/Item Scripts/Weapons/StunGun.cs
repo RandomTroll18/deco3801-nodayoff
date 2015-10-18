@@ -73,8 +73,7 @@ public class StunGun : ShortRangeWeapon {
 		target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION); // Found a valid target
 
 		ShowEffect(targetTile.X * 2, 0.001f, targetTile.Z * 2);
-		if (SoundEfx.Count > 0 && SoundManagerScript.Singleton != null) // Play sound effects
-			SoundManagerScript.Singleton.PlaySingle(SoundEfx);
+
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) 
 			CoolDown = CoolDownSetting; // Set Cool Down
@@ -114,6 +113,10 @@ public class StunGun : ShortRangeWeapon {
 		// Show where Stun Gun was activated - MVP purposes
 		Vector3 pos = new Vector3(x, y, z);
 		effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
+		if (SoundEfx.Count > 0 && SoundManagerScript.Singleton != null) { // Play sound effects
+			SoundManagerScript.Singleton.gameObject.transform.position = effectAnimation.transform.position;
+			SoundManagerScript.Singleton.PlaySingle3D(SoundEfx);
+		}
 		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
 		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
 	}
