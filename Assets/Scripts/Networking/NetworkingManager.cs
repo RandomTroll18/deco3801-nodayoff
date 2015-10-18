@@ -32,6 +32,8 @@ public class NetworkingManager : Photon.PunBehaviour {
 		SpawnPoint spawn = spawnPoints[0]; // The spawn point of our player
 		GameManager gameManager = Object.FindObjectOfType<GameManager>(); // Our game manager
 
+		Debug.Log("Received RPC call to re-initialize player for " + requestingPlayer.name);
+
 		if (Player.MyPlayer != null) { // Only re-initialize if we haven't initialized our character yet
 			playerScript = Player.MyPlayer.GetComponent<Player>();
 			switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {

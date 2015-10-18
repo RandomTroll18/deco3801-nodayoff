@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : Photon.PunBehaviour {
 	 
 	public int RoundsLeftUntilLose;
 	public int InitialNumberOfTurns; // The initial number of turns
@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 	 * and any actions it needs to do and allows players to move
 	 */
 	bool validTurn;
+	bool loaded = false; // Record if all players have been loaded
 
 	int numPlayers;
 	int roundsLost = 1;
@@ -29,67 +30,71 @@ public class GameManager : MonoBehaviour {
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
 	MovementController movController; // Movement controller script
 
+	GameObject waitingCanvas; // The canvas to be displayed when waiting for other players to load
+	GameObject instantiatedCanvas; // The instantiated canvas
+	NetworkingManager networkingManager; // The networking manager
+	HashSet<PhotonPlayer> readyPlayers = new HashSet<PhotonPlayer>(); // Players that have already loaded
+	HashSet<PhotonPlayer> pendingInstantiation = new HashSet<PhotonPlayer>(); // Players that are loading at the moment
+
 
 	/**
 	 * Wait for other players to join before starting the game
 	 */
 	void waitForPlayers() {
-		// The canvas for waiting
-		GameObject waitingCanvas = Resources.Load<GameObject>("Prefabs/UIPrefabs/WaitingCanvas");
-		GameObject instantiatedCanvas; // The instantiated canvas
-		// The players that have already instantiated their player models
-		HashSet<PhotonPlayer> readyPlayers = new HashSet<PhotonPlayer>();
-		// Set of players that haven't instantiated their player models
-		HashSet<PhotonPlayer> unseenPlayers = new HashSet<PhotonPlayer>();
-		// Instantiated players
+		// Player models that have been instantiated
 		HashSet<GameObject> playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player")); 
-		NetworkingManager networkingManager = Object.FindObjectOfType<NetworkingManager>(); // Networking manager
 
-		instantiatedCanvas = Instantiate(waitingCanvas); // Create UI to block player from doing anything
-		readyPlayers.Add(PhotonNetwork.player); // We have already instantiated our player
+		instantiatedCanvas.GetComponentInChildren<Text>().text = 
+				"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players";
+		/* Get player models */
+		playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
-		while (readyPlayers.Count < PhotonNetwork.playerList.Length) { // Wait until all players are ready
-			instantiatedCanvas.GetComponentInChildren<Text>().text = 
-					"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players";
-			/* Reinitialize sets and get player models */
-			unseenPlayers.Clear();
-			playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+		Debug.Log("Number of ready players: " + readyPlayers.Count);
+		Debug.Log("Number of instantiated player models: " + playerModels.Count);
+		Debug.Log("Number of photon players: " + PhotonNetwork.playerList.Length);
 
-			Debug.Log("Number of ready players: " + readyPlayers.Count);
-			Debug.Log("Number of instantiated player models: " + playerModels.Count);
-			Debug.Log("Number of photon players: " + PhotonNetwork.playerList.Length);
-			Debug.LogError("For error pausing");
+		foreach (PhotonPlayer networkPlayer in PhotonNetwork.playerList) { // Check every player
+			if (networkPlayer == PhotonNetwork.player) {
+				Debug.Log("Looking at current player. Skip");
+				continue; // We know for sure that we've instantiated our player model
+			} else if (readyPlayers.Contains(networkPlayer)) {
+				Debug.Log(networkPlayer.name + " is ready. Skip");
+				continue; // This player has already instantiated their player model
+			} else if (pendingInstantiation.Contains(networkPlayer))
+				Debug.Log(networkPlayer.name + " is processing the RPC request. Skip");
 
-			foreach (PhotonPlayer networkPlayer in PhotonNetwork.playerList) { // Check every player
-				if (networkPlayer == PhotonNetwork.player)
-					continue; // We know for sure that we've instantiated our player model
-				else if (readyPlayers.Contains(networkPlayer))
-					continue; // This player has already instantiated their player model
-
-				foreach (GameObject playerModel in playerModels) { // Look at all the player models
-					if (playerModel.GetComponent<PhotonView>().ownerId == networkPlayer.ID) { 
-						Debug.Log(networkPlayer.name + " is ready");
-						readyPlayers.Add(networkPlayer); // We can see the player's model
-						break;
+			foreach (GameObject playerModel in playerModels) { // Look at all the player models
+				if (playerModel.GetComponent<PhotonView>().ownerId == networkPlayer.ID) { 
+					Debug.Log(networkPlayer.name + " is ready");
+					readyPlayers.Add(networkPlayer); // We can see the player's model
+					if (pendingInstantiation.Contains(networkPlayer)) {
+						Debug.Log("Pending player (" + networkPlayer.name + ") has loaded");
+						pendingInstantiation.Remove(networkPlayer);
 					}
-				}
-				if (!readyPlayers.Contains(networkPlayer)) { // Tell player to re-instantiate their model
-					if ((bool)(networkPlayer.customProperties["waiting"])) {
-						// Player has supposedly instantiated their player
-						Debug.Log(networkPlayer.name + " is waiting. Ask to re-instantiate their player");
-						networkingManager.gameObject.GetComponent<PhotonView>().RPC(
-								"RequestInitializingOfPlayer",
-								networkPlayer,
-								new object[] {PhotonNetwork.player}
-						);
-					} else
-						Debug.Log(networkPlayer.name + " is still selecting their class");
+					break;
 				}
 			}
-			break;
+			if (!readyPlayers.Contains(networkPlayer)) { // Tell player to re-instantiate their model
+				if ((bool)(networkPlayer.customProperties["waiting"]) && !pendingInstantiation.Contains(networkPlayer)) {
+					// Player has supposedly instantiated their player
+					Debug.Log(networkPlayer.name + " is waiting. Ask to re-instantiate their player");
+					networkingManager.gameObject.GetComponent<PhotonView>().RPC(
+							"RequestInitializingOfPlayer",
+							networkPlayer,
+							new object[] {PhotonNetwork.player}
+					);
+					pendingInstantiation.Add(networkPlayer);
+				} else
+					Debug.Log(networkPlayer.name + " is still selecting their class");
+			} else
+				Debug.Log(networkPlayer.name + " has already loaded");
 		}
 
-		Destroy(instantiatedCanvas); // Destroy the waiting canvas
+		if (readyPlayers.Count >= PhotonNetwork.playerList.Length) {
+			Debug.Log("All players have been loaded");
+			loaded = true;
+			Destroy(instantiatedCanvas);
+		}
 	}
 
 	/**
@@ -105,6 +110,7 @@ public class GameManager : MonoBehaviour {
 		GameObject playerObject = Resources.Load<GameObject>("Prefabs/Resources/Player"); // Player prefab
 		GameObject instantiatedPlayer; // The instantiated player
 
+		Debug.Log("Received RPC response to instantiate a player model for: " + trueOwner.name);
 		/* Instantiate the player and change the ownership */
 		instantiatedPlayer = Instantiate(playerObject);
 		instantiatedPlayer.transform.position = positionToSpawn;
@@ -123,8 +129,13 @@ public class GameManager : MonoBehaviour {
 		PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
 				{"waiting", true}
 		});
-		waitForPlayers();
 		InitialNumberOfTurns = RoundsLeftUntilLose;
+
+		/* Load everything necessary for waiting for other players to load */
+		waitingCanvas = Resources.Load<GameObject>("Prefabs/UIPrefabs/WaitingCanvas");
+		networkingManager = Object.FindObjectOfType<NetworkingManager>(); // Networking manager
+		instantiatedCanvas = Instantiate(waitingCanvas); // Create UI to block player from doing anything
+		readyPlayers.Add(PhotonNetwork.player); // We have already instantiated our player
 	}
 
 	[PunRPC]
@@ -231,6 +242,8 @@ public class GameManager : MonoBehaviour {
 	 * - if it is an invalid turn, then do any required actions
 	 */
 	void Update() {
+		if (!loaded) // Wait for other players to join first
+			waitForPlayers();
 		if (validTurn) {
 			if (playersLeft <= 0) { // No more active players
 				validTurn = false;
