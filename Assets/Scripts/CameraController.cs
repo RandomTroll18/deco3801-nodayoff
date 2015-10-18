@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour {
 	/* Whether the player can control the camera */
 	bool locked = false;
 	bool IsTargetConfirmation = false; // Record if we are just confirming our target
+	Quaternion initialRotation;
 
 	Tile destination = null;
 	Vector3 start;
@@ -45,10 +46,12 @@ public class CameraController : MonoBehaviour {
 		ResetOffset();
 		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
 
+		initialRotation = transform.rotation;
+
 	}
 
 	void SetPublicVariables() {
-		RotationSpeed = 90f;
+		RotationSpeed = 180f;
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
 		ContextAwareBox = Object.FindObjectOfType<ContextAwareBox>().gameObject;
 		TileHighlight = Resources.Load("Highlighted Tile 2") as GameObject;
@@ -168,7 +171,7 @@ public class CameraController : MonoBehaviour {
 	 */ 
 	void ResetOffset() {
 		offset = transform.position - transform.parent.position;
-		offset = new Vector3(0, offset.y, 0);
+		offset = new Vector3(0, offset.y, offset.z);
 	}
 
 	public void LockCamera() {
@@ -184,6 +187,7 @@ public class CameraController : MonoBehaviour {
 	 */
 	public void ResetCamera() {
 		transform.position = transform.parent.position + offset;
+		transform.rotation = initialRotation;
 	}
 
 	/**
