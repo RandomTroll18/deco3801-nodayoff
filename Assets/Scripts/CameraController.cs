@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour {
 	public GameObject TileHighlight;
 	GameManager gameManagerScript; // The game manager script
 	public float RotationSpeed;
-	public GameObject Target;
+	public Transform Target;
 
 	public float CamSpeed;
 	/* The distance the mouse pointer needs to be from the edge before the 
@@ -18,10 +18,10 @@ public class CameraController : MonoBehaviour {
 	public float GUISize;
 	public LayerMask LayerMask;
 
-	const float MAX_Z = 114f;
-	const float MIN_Z = -56f;
+	const float MAX_Z = 140f;
+	const float MIN_Z = -37f;
 	const float MAX_X = 86f;
-	const float MIN_X = -70f;
+	const float MIN_X = -75f;
 	Vector3 offset;
 	//Player playerScript;
 	MovementController movController;
@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void SetPublicVariables() {
-		RotationSpeed = 60f;
+		RotationSpeed = 90f;
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
 		ContextAwareBox = Object.FindObjectOfType<ContextAwareBox>().gameObject;
 		TileHighlight = Resources.Load("Highlighted Tile 2") as GameObject;
@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour {
 			}
 		}
 
-		// Camera panning with mouse
+		// Camera moving with mouse
 		Rect recdown = new Rect(0, 0, Screen.width, GUISize);
 		Rect recup = new Rect(0, Screen.height - GUISize, Screen.width, GUISize);
 		Rect recleft = new Rect(0, 0, GUISize, Screen.height);
@@ -79,41 +79,58 @@ public class CameraController : MonoBehaviour {
 				ResetCamera();
 			}
 
-//			transform.LookAt();
 			float rotation = Input.GetAxis("Rotate");
-			Vector3 target = transform.position;
-			transform.RotateAround(Player.MyPlayer.transform.position, Vector3.up, 
+			transform.RotateAround(Target.position, Vector3.up, 
 			                       Time.deltaTime * rotation * RotationSpeed);
 
-
 			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
-				if (transform.position.z >= MIN_Z) {
-					Debug.Log(transform.position.z);
-//					transform.up?
-					transform.Translate(0, 0, -CamSpeed, Space.World);
+				Vector3 direction = (transform.position - Target.position);
+				direction.y = 0;
+				direction.Normalize();
+
+				if (Target.position.z >= MIN_Z) {
+//					Debug.Log(transform.position.z);
+					transform.Translate(direction * CamSpeed, Space.World);
 				}
 			}
 			
 			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) {
-				if (transform.position.z <= MAX_Z) {
-					Debug.Log(transform.position.z);
+				Vector3 direction = -(transform.position - Target.position);
+				direction.y = 0;
+				direction.Normalize();
 
-					transform.Translate(0, 0, CamSpeed, Space.World);
+				if (Target.position.z <= MAX_Z) {
+//					Debug.Log(transform.position.z);
+					transform.Translate(direction * CamSpeed, Space.World);
 				}
 			}
 			
 			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) {
-				if (transform.position.x >= MIN_X) {
+				Vector3 direction = (transform.position - Target.position);
+				float z = direction.z;
+				direction.z = direction.x;
+				direction.x = -z;
+				direction = -direction;
+				direction.y = 0;
+				direction.Normalize();
+
+				if (Target.position.x >= MIN_X) {
 					Debug.Log(transform.position.x);
-					transform.Translate(-CamSpeed, 0, 0, Space.World);
+					transform.Translate(direction * CamSpeed, Space.World);
 				}
 			}
 			
 			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) {
-				if (transform.position.x <= MAX_X) {
-					Debug.Log(transform.position.x);
+				Vector3 direction = (transform.position - Target.position);
+				float z = direction.z;
+				direction.z = direction.x;
+				direction.x = -z;
+				direction.y = 0;
+				direction.Normalize();
 
-					transform.Translate(CamSpeed, 0, 0, Space.World);
+				if (Target.position.x <= MAX_X) {
+//					Debug.Log(transform.position.x);
+					transform.Translate(direction * CamSpeed, Space.World);
 				}
 			}
 		}
