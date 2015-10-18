@@ -18,8 +18,8 @@ public class CameraController : MonoBehaviour {
 	public float GUISize;
 	public LayerMask LayerMask;
 
-	const float MAX_Z = 140f;
-	const float MIN_Z = -37f;
+	const float MAX_Z = 120f;
+	const float MIN_Z = -55f;
 	const float MAX_X = 86f;
 	const float MIN_X = -75f;
 	Vector3 offset;
@@ -88,10 +88,8 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
-				if (Target.position.z >= MIN_Z) {
 //					Debug.Log(transform.position.z);
-					transform.Translate(direction * CamSpeed, Space.World);
-				}
+				transform.Translate(direction * CamSpeed, Space.World);
 			}
 			
 			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) {
@@ -99,10 +97,8 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
-				if (Target.position.z <= MAX_Z) {
 //					Debug.Log(transform.position.z);
-					transform.Translate(direction * CamSpeed, Space.World);
-				}
+				transform.Translate(direction * CamSpeed, Space.World);
 			}
 			
 			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) {
@@ -114,10 +110,8 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
-				if (Target.position.x >= MIN_X) {
-					Debug.Log(transform.position.x);
-					transform.Translate(direction * CamSpeed, Space.World);
-				}
+//				Debug.Log(transform.position.x);
+				transform.Translate(direction * CamSpeed, Space.World);
 			}
 			
 			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) {
@@ -128,11 +122,11 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
-				if (Target.position.x <= MAX_X) {
 //					Debug.Log(transform.position.x);
-					transform.Translate(direction * CamSpeed, Space.World);
-				}
+				transform.Translate(direction * CamSpeed, Space.World);
 			}
+
+			Clamp();
 		}
 
 
@@ -160,6 +154,12 @@ public class CameraController : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	void Clamp() {
+		transform.position = new Vector3(Mathf.Clamp(transform.position.x, MIN_X, MAX_X),
+		                                 transform.position.y,
+		                                 Mathf.Clamp(transform.position.z, MIN_Z, MAX_Z));
 	}
 
 	/*
