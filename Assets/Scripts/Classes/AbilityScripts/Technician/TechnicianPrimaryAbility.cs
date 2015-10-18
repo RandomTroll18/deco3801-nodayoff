@@ -63,9 +63,9 @@ public class TechnicianPrimaryAbility : Ability {
 	 * Activate this ability
 	 */
 	public override void Activate() {
-		if (numberOfSurveillanceCameras <= 0)
-			return;
-		base.Activate();
+		Debug.Log("Technician prim ability: activate");
+
+		/* Check if there are new surveillance cameras */
 		foreach (Transform surveillanceCamera in surveillanceCameraContainer.transform) {
 			surveillanceCamera.gameObject.SetActive(false);
 			if (!surveillanceCameras.Contains(surveillanceCamera.gameObject)) // Add new surveillance camera
@@ -73,6 +73,11 @@ public class TechnicianPrimaryAbility : Ability {
 		}
 		numberOfSurveillanceCameras = surveillanceCameras.Count;
 		Debug.Log("Number of surveillance cameras: " + numberOfSurveillanceCameras);
+		if (numberOfSurveillanceCameras <= 0) // No surveillance cameras. Don't activate
+			return;
+
+		base.Activate();
+
 		mainCamera.SetActive(false);
 		nextCameraButtonInstance.SetActive(true);
 		previousCameraButtonInstance.SetActive(true);
@@ -84,6 +89,7 @@ public class TechnicianPrimaryAbility : Ability {
 	 * Deactivate this ability
 	 */
 	public override void Deactivate() {
+		Debug.Log("Technician prim ability: activate");
 		base.Deactivate();
 		mainCamera.SetActive(true);
 		nextCameraButtonInstance.SetActive(false);

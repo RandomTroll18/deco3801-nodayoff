@@ -123,7 +123,8 @@ public class ClassPanelScript : MonoBehaviour {
 				break;
 			case "Big Brother": // Technician/Marine Primary Ability
 				primaryAbility.Activate();
-				PrimaryAbilityText.text = "Exit Camera";
+				if (primaryAbility.AbilityIsActive())
+					PrimaryAbilityText.text = "Exit Camera";
 				break;
 			default: // Ordinary targetting abilities
 				activationTileController.GeneratorInterface(playerScript, primaryAbility);
@@ -137,7 +138,8 @@ public class ClassPanelScript : MonoBehaviour {
 				return;
 			case "Big Brother": // Toggle Hack Mode
 				primaryAbility.Deactivate();
-				PrimaryAbilityText.text = "Big Brother";
+				if (!primaryAbility.AbilityIsActive())
+					PrimaryAbilityText.text = "Big Brother";
 				return;
 			case "Stimulus Debris": goto default; // Ability is already activated
 			case "Traps": goto default; // out of scout traps
