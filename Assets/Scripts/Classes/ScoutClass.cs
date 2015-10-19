@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ScoutClass : BaseClass {
@@ -10,7 +10,7 @@ public class ScoutClass : BaseClass {
 	 * - Player player - The player that belongs to this class
 	 */
 	public ScoutClass(Player player) : base() {
-		DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
+		Stats[Stat.SCOUTMULTIPLIER] = DefaultStats[Stat.SCOUTMULTIPLIER] = 2.0;
 
 		PrimaryAbility = new ScoutPrimaryAbility();
 		ClassTypeEnum = Classes.SCOUT;

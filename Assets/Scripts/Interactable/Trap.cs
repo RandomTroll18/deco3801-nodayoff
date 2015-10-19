@@ -22,9 +22,9 @@ public class Trap : MonoBehaviour {
 
 	public void StartMe(GameManager g) {
 
-		player = GameObject.Find ("Player");
-		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
-			.GetComponent<PrimaryObjectiveController> ();
+		player = GameObject.Find("Player");
+		PrimaryO = GameObject.FindGameObjectWithTag("Objective UI")
+			.GetComponent<PrimaryObjectiveController>();
 		player = Player.MyPlayer; 
 		PlayerScript = player.GetComponent<Player>();
 
@@ -64,7 +64,7 @@ public class Trap : MonoBehaviour {
 	
 	[PunRPC]
 	void Sync() {
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 
 

@@ -55,6 +55,8 @@ public class ScoutPrimaryAbility : Ability {
 		GameObject generatedTrap;
 		Vector3 pos = new Vector3(x, y, z);
 		generatedTrap = PhotonNetwork.Instantiate(trapPrefab, pos, Quaternion.identity, 0);
+		generatedTrap.GetComponent<ScoutTrapScript>().SetOwner(Player.MyPlayer);
+
 	}
 
 }

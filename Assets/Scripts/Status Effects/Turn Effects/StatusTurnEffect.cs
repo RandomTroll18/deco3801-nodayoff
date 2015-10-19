@@ -3,19 +3,19 @@ using System.Collections;
 
 public class StatusTurnEffect : Effect {
 
-	Stat statAffected; // The stat affected
+	protected Stat StatAffected; // The stat affected
 	/*
 	 * How this turn effect is to be applied
 	 * - 0 => to be added (e.g. Stat.AP += value)
 	 * - 1 => to be set (e.g. Stat.AP = value)
 	 * - 2 => to be multiplied (e.g. Stat.AP *= value);
 	 */
-	int statMode;
+	protected int StatMode;
 	/*
 	 * The value that the stat is affected by.
 	 * The value can be negative
 	 */
-	double statEffectValue;
+	protected double StatEffectValue;
 	/**
 	 * The constructor for a stat effect
 	 * 
@@ -31,9 +31,9 @@ public class StatusTurnEffect : Effect {
 	public StatusTurnEffect(Stat newStatAffected, double newValue, int newMode, 
 	                  string newDescription, string iconPath, int turnsActive, bool applyPerTurnFlag) {
 		SetBasicValues(newDescription, iconPath, turnsActive, applyPerTurnFlag);
-		statAffected = newStatAffected;
-		statEffectValue = newValue;
-		statMode = newMode;
+		StatAffected = newStatAffected;
+		StatEffectValue = newValue;
+		StatMode = newMode;
 		Type = TurnEffectType.STATEFFECT;
 	}
 
@@ -46,9 +46,9 @@ public class StatusTurnEffect : Effect {
 	public override string ToString()
 	{
 		string toReturn = base.ToString();
-		toReturn += "Stat Affected: " + EnumsToString.ConvertStatEnum(statAffected) + StringMethodsScript.NEWLINE;
-		toReturn += "Stat Mode: " + statMode + StringMethodsScript.NEWLINE;
-		toReturn += "Value of effect: " + statEffectValue + StringMethodsScript.NEWLINE;
+		toReturn += "Stat Affected: " + EnumsToString.ConvertStatEnum(StatAffected) + StringMethodsScript.NEWLINE;
+		toReturn += "Stat Mode: " + StatMode + StringMethodsScript.NEWLINE;
+		toReturn += "Value of effect: " + StatEffectValue + StringMethodsScript.NEWLINE;
 		return toReturn;
 	}
 
@@ -63,7 +63,7 @@ public class StatusTurnEffect : Effect {
 		case 2: goto case 0;
 		case 1: goto case 0;
 		case 0: // Valid mode
-			statMode = newMode;
+			StatMode = newMode;
 			goto default;
 		default: // Invalid modes
 			break;
@@ -77,7 +77,7 @@ public class StatusTurnEffect : Effect {
 	 * - The mode
 	 */
 	public override int GetMode() {
-		return statMode;
+		return StatMode;
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class StatusTurnEffect : Effect {
 	 * - The stat this effect is affecting
 	 */
 	public override Stat GetStatAffected() {
-		return statAffected;
+		return StatAffected;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class StatusTurnEffect : Effect {
 	 * - The value that the stat will be affected by
 	 */
 	public override double GetValue() {	
-		return statEffectValue;
+		return StatEffectValue;
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class StatusTurnEffect : Effect {
 	 * - Stat newStat - The stat being affected
 	 */
 	public override void SetStatAffected(Stat newStat) {
-		statAffected = newStat;
+		StatAffected = newStat;
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class StatusTurnEffect : Effect {
 	 * - double newValue - the value by which the stat is affected
 	 */
 	public override void SetValue(double newValue) {
-		statEffectValue = newValue;
+		StatEffectValue = newValue;
 	}
 
 	/* Override abstruct stuff so that compiler doesn't whine */

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -407,6 +407,9 @@ public class Player : MonoBehaviour {
 	public void DetachTurnEffect(Effect effect) {
 		switch (effect.GetTurnEffectType()) { // Detach the effect on this player depending on type
 		case TurnEffectType.STATEFFECT: goto default; // Don't do anything yet
+		case TurnEffectType.STATMULTIPLIEREFFECT: // Can rese the stat multiplier now
+			playerClass.RestoreDefaultStat(effect.GetStatAffected());
+			break;
 		case TurnEffectType.ITEMEFFECT: // Need to reset affected items
 			foreach (Item item in inventory) {
 				if (item != null && item.GetType().Equals(effect.GetAffectedItemType())) { 
@@ -447,9 +450,31 @@ public class Player : MonoBehaviour {
 
 		if (effect.IsAppliedPerTurn()) { // Apply per turn
 			switch (effect.GetTurnEffectType()) {
+			case TurnEffectType.STATMULTIPLIEREFFECT: // Stat multiplier effect
+				stat = effect.GetStatAffected();
+				mode = effect.GetMode();
+				Debug.LogWarning("Stat affected: " + EnumsToString.ConvertStatEnum(stat));
+				Debug.LogWarning("Previous value: " + playerClass.GetStat(stat));
+				switch (mode) {
+				case 0: // Increment
+					playerClass.IncreaseStatMultiplierValue(stat, effect.GetValue());
+					break;
+				case 1: // Set stat
+					playerClass.SetMultiplierStat(stat, effect.GetValue());
+					break;
+				case 2: // Decrement
+					playerClass.DecreaseStatMultiplierValue(stat, effect.GetValue());
+					break;
+				default:
+					throw new System.NotSupportedException("Invalid mode");
+				}
+				Debug.LogWarning("Current value: " + playerClass.GetStat(stat));
+				break;
 			case TurnEffectType.STATEFFECT: // Stat effect
 				stat = effect.GetStatAffected();
 				mode = effect.GetMode();
+				Debug.LogWarning("Stat affected: " + EnumsToString.ConvertStatEnum(stat));
+				Debug.LogWarning("Previous value: " + stats[stat]);
 				switch (mode) {
 				case 0: // Increment to stat
 					IncreaseStatValue(stat, effect.GetValue());
@@ -461,8 +486,9 @@ public class Player : MonoBehaviour {
 					SetStatValue(stat, stats[stat] * effect.GetValue());
 					break;
 				default: // Invalid mode. Do nothing
-					break;
+					throw new System.NotSupportedException("Invalid mode");
 				}
+				Debug.LogWarning("Current value: " + stats[stat]);
 				break;
 			case TurnEffectType.MATERIALEFFECT:
 				// Only replace material if not already set
@@ -657,8 +683,10 @@ public class Player : MonoBehaviour {
 	 * Reinitialize player stats
 	 */
 	public void InitializeStats() {
-		SetStatValue(Stat.AP, playerClass.GetDefaultStat(Stat.AP));
-		SetStatValue(Stat.VISION, playerClass.GetDefaultStat(Stat.VISION));
+		/* Re-initialize the class stats */
+		playerClass.RestoreDefaultStats();
+		SetStatValue(Stat.AP, playerClass.GetStat(Stat.AP));
+		SetStatValue(Stat.VISION, playerClass.GetStat(Stat.VISION));
 	}
 
 	/**
