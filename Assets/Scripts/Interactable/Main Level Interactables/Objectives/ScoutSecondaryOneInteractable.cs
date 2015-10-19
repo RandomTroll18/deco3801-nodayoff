@@ -30,7 +30,7 @@ public class ScoutSecondaryOneInteractable : InteractiveObject {
 		// activate objective
 		ScoutSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<ScoutSecondaryOne>();
 		if (tmp != null)
-				tmp.OnComplete();
+			tmp.OnComplete();
 		else
 			Debug.Log("Player does not have this objective");
 	}

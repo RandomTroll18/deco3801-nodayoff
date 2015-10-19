@@ -237,7 +237,7 @@ public class ClassPanelScript : MonoBehaviour {
 
 			// Set the individual ui slots to be unselected and set the inventory panel to be inactive
 			callingPlayer.InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(false);
-			for (int i = 0; i < 9; ++i) {
+			for (int i = 0; i < 8; ++i) {
 				isSelected = callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().IsSelected();
 				if (isSelected) callingPlayer.InventoryUI[i].GetComponent<InventoryUISlotScript>().ToggleSelected();
 			}
