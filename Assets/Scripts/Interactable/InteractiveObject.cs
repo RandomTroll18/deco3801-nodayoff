@@ -78,6 +78,8 @@ public class InteractiveObject : MonoBehaviour {
 	public void Interact() {
 		if (DebugOption) Debug.Log ("Interacted with " + this.name + " at " + this.position.ToString());
 
+		Object.FindObjectOfType<SkillCheck>().SetMultiplierAndCost(ClassMultiplier, Cost);
+
 		if (PlayerScript.IsSpawned) 
 			return; // A spawned player cannot interact with this object
 		else if (IsInactivated) // Already activated
@@ -102,15 +104,28 @@ public class InteractiveObject : MonoBehaviour {
 		double Multiplier = 1;
 		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER))
 			Multiplier = PlayerScript.GetPlayerClassObject().GetStat(ClassMultiplier);
-		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float)input / 100f));
+
+		int actualAP = 
+			(int) Mathf.Floor(
+			(float)(PlayerScript.GetStatValue(Stat.AP) * (float) input / 100f)
+			);
+
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
-		int multipliedAP = (int)Mathf.Floor((float)actualAP * (float)Multiplier); // TODO: add character class element
+
+		int multipliedAP = 
+			(int) Mathf.Floor(
+			(float) actualAP * (float)Multiplier
+			); // TODO: add character class element
+
 		int rng = Random.Range(1, multipliedAP);
+
 		if (DebugOption) Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
+
 		//CloseEvent();
 		if (rng >= cost)
 			return true;
-		return false;
+		else
+			return false;
 	}
 
 	public void CloseEvent(){

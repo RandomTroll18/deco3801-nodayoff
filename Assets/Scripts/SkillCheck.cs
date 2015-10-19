@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class SkillCheck : MonoBehaviour {
+	public Stat ClassMultiplier = Stat.NOMULTIPLIER;
+	public int Cost = 0;
 
 	public Slider APSlider;
 	private InteractiveObject Current;
@@ -22,6 +24,11 @@ public class SkillCheck : MonoBehaviour {
 
 	public void SetCurrent(InteractiveObject i) {
 		this.Current = i;
+	}
+
+	public void SetMultiplierAndCost(Stat multiplier, int cost) {
+		ClassMultiplier = multiplier;
+		Cost = cost;
 	}
 
 }
