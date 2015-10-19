@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ThirdObjectiveMain : MonoBehaviour {
+/*
+ * The last thing before escape. As far from the escape pods as possible
+ */
+public class ThirdObjectiveMain : PrimaryObjective {
 
 	// Use this for initialization
-	void Start () {
-	
+	public void StartMe() {
+		Title = "Direct Power";
+		Description = "All power needs to be directed to the escape pods. Get to the bridge and " +
+			"use the console." + StringMethodsScript.NEWLINE +
+			"A Technician is needed.";
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public override void OnComplete() {
+		FourthObjectiveMain obj = gameObject.AddComponent<FourthObjectiveMain>();
+		obj.StartMe();
+		NextObjective = obj;
+		base.OnComplete();
 	}
 }
