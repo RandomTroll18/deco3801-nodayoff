@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
 
-public class FadeBigText : MonoBehaviour {
+public class Fade : MonoBehaviour {
 	
 	public float FadeSpeed = 1.5f;
 
