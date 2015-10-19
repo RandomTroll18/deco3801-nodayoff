@@ -20,6 +20,10 @@ public class EnumsToString : MonoBehaviour {
 		switch (enumToConvert) {
 		case Stat.AP: return "AP";
 		case Stat.VISION: return "VISION";
+		case Stat.ENGMULTIPLIER: return "ENGINEER MULTIPLIER";
+		case Stat.MARINEMULTIPLIER: return "MARINE MULTIPLIER";
+		case Stat.SCOUTMULTIPLIER: return "SCOUT MULTIPLIER";
+		case Stat.TECHMULTIPLIER: return "TECHNICIAN MULTIPLIER";
 		default: return "Unknown Stat";
 		}
 	}

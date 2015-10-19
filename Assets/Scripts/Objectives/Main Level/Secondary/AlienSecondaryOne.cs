@@ -25,8 +25,8 @@ public class AlienSecondaryOne : SecondaryObjective {
 		i.InstantInteract = true;
 		i.StartMe();
 		
-		apEffect = new StatusTurnEffect(Stat.AP, 10.0, 0, 
-		                                    "Extra Food: 10 Extra AP", "Icons/Effects/DefaultEffect", -1, true);
+		apEffect = new StatusTurnEffect(Stat.AP, 10.0, 0, "Extra Food: 10 Extra AP", "Icons/Effects/APup100px", 
+				-1, true);
 	}
 	
 	public override void OnComplete()

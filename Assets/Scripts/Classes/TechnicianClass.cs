@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class TechnicianClass : BaseClass {
@@ -10,7 +10,7 @@ public class TechnicianClass : BaseClass {
 	 * - Player player - Reference to player
 	 */
 	public TechnicianClass(Player player) : base() {
-		DefaultStats[Stat.TECHMULTIPLIER] = 2.0;
+		Stats[Stat.TECHMULTIPLIER] = DefaultStats[Stat.TECHMULTIPLIER] = 2.0;
 
 		PrimaryAbility = new TechnicianPrimaryAbility(player);
 		ClassTypeEnum = Classes.TECHNICIAN;

@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class ScoutTrapScript : Trap {
+
+	GameObject owner; // The owner of this trap
 	
 	/**
 	 * Activate function
@@ -10,13 +12,33 @@ public class ScoutTrapScript : Trap {
 	 * - Player player - The player that activated the trap
 	 */
 	public override void Activated(Player p) {
-		if (GetComponent<PhotonView>().isMine) 
+		if (owner != null && owner.GetComponent<Player>() == p) // Owner activated us 
 			Debug.Log("I'm sorry master. I won't activate");
-		else {
+		else { // Other players
 			Debug.Log("Activated scout trap");
 			p.GetComponent<PhotonView>().RPC("Stun", PhotonTargets.All, 3);
 			GetComponent<PhotonView>().RPC("Destroy", PhotonTargets.All, null);
 		}
+	}
+
+	/**
+	 * Set the owner of this trap
+	 * 
+	 * Arguments
+	 * - GameObject newOwner - The new owner
+	 */
+	public void SetOwner(GameObject newOwner) {
+		owner = newOwner;
+	}
+
+	/**
+	 * Get the owner of this trap
+	 * 
+	 * Returns
+	 * - The owner of this trap
+	 */
+	public GameObject GetOwner() {
+		return owner;
 	}
 
 	/*

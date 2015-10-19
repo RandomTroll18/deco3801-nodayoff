@@ -77,12 +77,14 @@ public enum RangeType {
 /*
  * Enum for turn effect type
  * STATEFFECT - Affect stat
+ * STATMULTIPLIEREFFECT - Affect stat multiplier
  * MATERIALEFFECT - Affect material
  * ITEMEFFECT - Affect items
  * COMPONENTEFFECT - Effect applied from component
  */
 public enum TurnEffectType {
-	STATEFFECT, 
+	STATEFFECT,
+	STATMULTIPLIEREFFECT,
 	MATERIALEFFECT,
 	ITEMEFFECT,
 	COMPONENTEFFECT

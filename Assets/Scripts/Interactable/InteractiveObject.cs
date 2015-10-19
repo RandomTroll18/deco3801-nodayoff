@@ -101,7 +101,7 @@ public class InteractiveObject : MonoBehaviour {
 	public bool SpendAP(int input, int cost) {
 		double Multiplier = 1;
 		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER))
-			Multiplier = PlayerScript.GetPlayerClassObject().GetDefaultStat(ClassMultiplier);
+			Multiplier = PlayerScript.GetPlayerClassObject().GetStat(ClassMultiplier);
 		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float)input / 100f));
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
 		int multipliedAP = (int)Mathf.Floor((float)actualAP * (float)Multiplier); // TODO: add character class element

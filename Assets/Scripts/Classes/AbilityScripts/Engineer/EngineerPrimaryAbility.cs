@@ -50,6 +50,7 @@ public class EngineerPrimaryAbility : Ability {
 		robotReference.GetComponent<Player>().PlayerObject = robotReference;
 		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 		robotReference.AddComponent<MovementController>().StartMe();
+		robotReference.GetComponentInChildren<CameraController>().Target = robotReference.transform;
 		robotReference.GetComponentInChildren<CameraController>().StartMe();
 		robotReference.GetComponentInChildren<CameraController>().ResetCamera();
 		robotReference.GetComponent<Player>().StartMe(); // Initialize the player script of the robot

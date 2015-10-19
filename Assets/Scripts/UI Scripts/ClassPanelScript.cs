@@ -63,7 +63,14 @@ public class ClassPanelScript : MonoBehaviour {
 	 * Change the player being tracked by interactive objects
 	 */
 	void changeInteractiveObjectTracker() {
+		Debug.LogError("Interactables: " + Interactables);
+		Debug.LogError("Current player: " + currentPlayer);
+		Debug.LogError("Size of interactable list: " + Interactables.Count);
 		foreach (GameObject interactable in Interactables) {
+			if (interactable == null) // Interactable is null
+				continue;
+			Debug.LogError("Interactable: " + interactable.name);
+			Debug.LogError("Interactable Script: " + interactable.GetComponent<InteractiveObject>());
 			interactable.GetComponent<InteractiveObject>().ChangeTrackedPlayer(currentPlayer);
 		}
 	}

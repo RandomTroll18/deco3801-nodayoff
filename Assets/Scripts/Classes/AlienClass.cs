@@ -14,10 +14,10 @@ public class AlienClass : BaseClass {
 	 * - Classes humanClassTypeToSet - The human class to set
 	 */
 	public AlienClass(Player player, Classes humanClassTypeToSet) : base() {
-		DefaultStats[Stat.ENGMULTIPLIER] = 1.5;
-		DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
-		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.5;
-		DefaultStats[Stat.TECHMULTIPLIER] = 1.5;
+		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER] = 1.5;
+		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
+		Stats[Stat.SCOUTMULTIPLIER] = DefaultStats[Stat.SCOUTMULTIPLIER] = 1.5;
+		Stats[Stat.TECHMULTIPLIER] = DefaultStats[Stat.TECHMULTIPLIER] = 1.5;
 
 		PrimaryAbility = new AlienPrimaryAbility(player);
 		ClassTypeEnum = Classes.BETRAYER;

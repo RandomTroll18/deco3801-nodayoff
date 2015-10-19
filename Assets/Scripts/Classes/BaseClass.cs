@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BaseClass : PlayerClass {
@@ -7,13 +7,14 @@ public class BaseClass : PlayerClass {
 	 * Constructor
 	 */
 	public BaseClass() {
+		Stats = new Dictionary<Stat, double>();
 		DefaultStats = new Dictionary<Stat, double>();
-		DefaultStats[Stat.AP] = 100.0; // Default AP is 20
-		DefaultStats[Stat.VISION] = 2.0; // Vision of base class is medium
-		DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
-		DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
-		DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
-		DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
+		Stats[Stat.AP] = DefaultStats[Stat.AP] = 100.0; // Default AP is 20
+		Stats[Stat.VISION] = DefaultStats[Stat.VISION] = 2.0; // Vision of base class is medium
+		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER] = 1.0;
+		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
+		Stats[Stat.SCOUTMULTIPLIER] = DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;
+		Stats[Stat.TECHMULTIPLIER] = DefaultStats[Stat.TECHMULTIPLIER] = 1.0;
 
 		PrimaryAbility = null; // This class has no primary ability
 		ClassTypeEnum = Classes.BETRAYER; // Base class is a betrayer

@@ -28,14 +28,33 @@ public class Stealth : MonoBehaviour {
 	 * Hide this object from the player
 	 */
 	void hideFromPlayer() {
-		if (Player.MyPlayer == null)
+		Player p; // The player script
+		int distance; // The distance to the player
+		if (Player.MyPlayer == null) // No player
 			return;
+		else if (gameObject.tag.Equals("Trap")) { // Don't hide if trap belongs to this player
+			if (gameObject.GetComponent<ScoutTrapScript>() != null
+					&& gameObject.GetComponent<ScoutTrapScript>().GetOwner() == Player.MyPlayer)
+				return; // Don't hide from owner
+		}
 		
-		Player p = Player.MyPlayer.GetComponent<Player>();
-		int distance = p.DistanceToTile(Tile.TilePosition(transform.position));
+		p  = Player.MyPlayer.GetComponent<Player>();
+		distance = p.DistanceToTile(Tile.TilePosition(transform.position));
 		if (distance > p.GetVisionDistance())
-			GetComponent<MeshRenderer>().enabled = false;
+			toggleRenderers(GetComponentsInChildren<MeshRenderer>(), false);
 		else
-			GetComponent<MeshRenderer>().enabled = true;
+			toggleRenderers(GetComponentsInChildren<MeshRenderer>(), true);
+	}
+
+	/**
+	 * Enable/disable list of mesh renderers
+	 * 
+	 * Arguments
+	 * - MeshRenderer[] renderers - The list of mesh renderers
+	 * - bool enableFlag - Flag for enabling/disabling renderers
+	 */
+	void toggleRenderers(MeshRenderer[] renderers, bool enableFlag) {
+		foreach (MeshRenderer meshRenderer in renderers)
+			meshRenderer.enabled = enableFlag;
 	}
 }
