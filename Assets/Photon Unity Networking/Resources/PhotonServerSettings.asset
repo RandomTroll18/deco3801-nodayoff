@@ -58,4 +58,8 @@ MonoBehaviour:
   - ReinstantiatePlayer
   - InstantiateResponse
   - RequestInitializingOfPlayer
+  - BigSync
+  - SmallSync
+  - Big
+  - Small
   DisableAutoOpenWizard: 1

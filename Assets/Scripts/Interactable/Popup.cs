@@ -5,10 +5,6 @@ using UnityEngine.Events;
 
 public class Popup : MonoBehaviour {
 
-	public int x;
-	public int y;
-
-	public GameObject MainPanel;
 	public int CurrentPanel;
 	public GameObject PopupGameObject;
 
@@ -21,6 +17,7 @@ public class Popup : MonoBehaviour {
 		PopupGameObject = Instantiate(Resources.Load("PopupUI")) as GameObject;
 		GameObject Canvas = GameObject.Find("Main_Canvas");
 		PopupGameObject.transform.SetParent(Canvas.transform, false);
+		ChangeButton();
 		ChangeContent();
 		return PopupGameObject;
 
@@ -34,7 +31,6 @@ public class Popup : MonoBehaviour {
 	}
 
 	public virtual void ChangeContent() {
-		ChangeButton();
 	}
 
 	public void ChangeButton(){

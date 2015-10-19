@@ -17,12 +17,12 @@ public class L1I1 : InteractiveObject {
 	public override void TakeAction(int input){
 
 		if (IsInactivated) {
-			Debug.Log("Inactive");
+			if (DebugOption) Debug.Log("Inactive");
 			return;
 		}
 
 		if (!PrimaryO.GetObjective().Title.Equals(new FirstObjective().Title)) {
-			Debug.Log("Wrong part of the story");
+			if (DebugOption) Debug.Log("Wrong part of the story");
 			return;
 		}
 
@@ -30,12 +30,12 @@ public class L1I1 : InteractiveObject {
 			InteractablSync();
 			IsInactivated = true;
 			PrimaryO.OnComplete();
-			Debug.Log("Opened");
+			if (DebugOption) Debug.Log("Opened");
 			this.CloseEvent();		
 			EC1 Chopper = gameObject.AddComponent<EC1>();
 			GameObject ChopperUI = Chopper.CreateCard ();
 		} else {
-			Debug.Log("Failed with " + input);
+			if (DebugOption) Debug.Log("Failed with " + input);
 			this.CloseEvent();	
 		}
 

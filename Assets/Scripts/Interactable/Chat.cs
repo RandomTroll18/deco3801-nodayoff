@@ -5,37 +5,8 @@ using ExitGames.Client.Photon.Chat;
 using UnityEngine;
 using AuthenticationValues = ExitGames.Client.Photon.Chat.AuthenticationValues;
 
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.Events;
 
-
-/// <summary>
-/// Simple Chat Server Gui to be put on a separate GameObject. Provides a global chat (in lobby) and a room chat (in room).
-/// </summary>
-/// <remarks>
-/// This script flags it's GameObject with DontDestroyOnLoad(). Make sure this is OK in your case.
-/// 
-/// The Chat Server API in ChatClient basically lets you create any number of channels. 
-/// You just have to name them. Example: "gc" for Global Channel or for rooms: "rc"+RoomName.GetHashCode()
-/// 
-/// This simple demo sends in a global chat when in lobby and in room channel when in room.
-/// Create a more elaborate UI to let players chat in either channel while in room or send private messages.
-/// 
-/// Names of users are set in Authenticate. That should be unique so users can actually get their messages.
-/// 
-/// 
-/// Workflow: 
-/// Create ChatClient, Connect to a server with your AppID, Authenticate the user (apply a unique name)
-/// and subscribe to some channels. 
-/// Subscribe a channel before you publish to that channel!
-/// 
-/// 
-/// Note: 
-/// Don't forget to call ChatClient.Service(). Might later on be integrated into PUN but for now don't forget.
-/// </remarks>
-public class ChatTest : MonoBehaviour, IChatClientListener
+public class Chat : MonoBehaviour, IChatClientListener
 {
 	public string ChatAppId;                    // set in inspector. Your Chat AppId (don't mix it with Realtime/Turnbased Apps).
 	public string[] ChannelsToJoinOnConnect;    // set in inspector. Demo channels to join automatically.
@@ -51,7 +22,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	
 	
 	public ChatClient chatClient;
-	
+	public ChatClient anonyClient;
 	// GUI stuff:
 	public Rect GuiRect = new Rect(0, 0, 250, 300);
 	public bool IsVisible = true;
@@ -65,14 +36,14 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	private static string HelpText = "\n\\subscribe <list of channelnames> subscribes channels.\n\\unsubscribe <list of channelnames> leaves channels.\n\\msg <username> <message> send private message to user.\n\\clear clears the current chat tab. private chats get closed.\n\\help gets this help message.";
 	
 	
-	private static ChatTest instance;
-	public static ChatTest Instance
+	private static Chat instance;
+	public static Chat Instance
 	{
 		get
 		{
 			if (instance == null)
 			{
-				instance = FindObjectOfType<ChatTest>();
+				instance = FindObjectOfType<Chat>();
 			}
 			return instance;
 		}
@@ -103,8 +74,8 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		}
 		
 		chatClient = new ChatClient(this);
-		chatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(this.UserName));		
-
+		chatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(this.UserName));
+		
 		if (this.AlignBottom)
 		{
 			this.GuiRect.y = Screen.height - this.GuiRect.height;
@@ -117,7 +88,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			this.GuiRect.height = Screen.height;
 		}
 		
-//		Debug.Log(this.UserName);
+		//		Debug.Log(this.UserName);
 	}
 	
 	/// <summary>To avoid the Editor becoming unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
@@ -214,7 +185,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 					}
 				}
 				
-				GUILayout.Label(ChatTest.WelcomeText);
+				GUILayout.Label(Chat.WelcomeText);
 				
 				if (this.chatClient.TryGetChannel(selectedChannelName, this.doingPrivateChat, out this.selectedChannel))
 				{
@@ -282,14 +253,6 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 				int newState = int.Parse(tokens[1]);
 				this.chatClient.SetOnlineStatus(newState, new string[] { "i am state " + newState });  // this is how you set your own state and (any) message
 			}
-			else if (tokens[0].Equals("\\subscribe") && !string.IsNullOrEmpty(tokens[1]))
-			{
-				this.chatClient.Subscribe(tokens[1].Split(new char[] {' ', ','}));
-			}
-			else if (tokens[0].Equals("\\unsubscribe") && !string.IsNullOrEmpty(tokens[1]))
-			{
-				this.chatClient.Unsubscribe(tokens[1].Split(new char[] {' ', ','}));
-			}
 			else if (tokens[0].Equals("\\clear"))
 			{
 				if (this.doingPrivateChat)
@@ -340,24 +303,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	}
 
 	public void AllChat(bool big, string input) {
-		if (big) {
-			GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, input);
-		} else {
-			GetComponent<PhotonView>().RPC("Small", PhotonTargets.All, input);
-		}
-	}
-	
-	[PunRPC]
-	void Small(string input) {
-		this.selectedChannel.Add("Anonymous", input);
-	}
-
-	[PunRPC]
-	void Big(string input) {
-		GameObject bigText = Instantiate(Resources.Load("BigText")) as GameObject;
-		GameObject UI = GameObject.Find("Main_Canvas");
-		bigText.transform.SetParent(UI.transform, false);
-		bigText.GetComponent<Text>().text = input;
+		this.anonyClient.PublishMessage(this.selectedChannelName, this.inputLine);
 	}
 
 	private void PostHelpToCurrentChannel()
@@ -365,7 +311,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		ChatChannel channelForHelp = this.selectedChannel;
 		if (channelForHelp != null)
 		{
-			channelForHelp.Add("info", ChatTest.HelpText);
+			channelForHelp.Add("info", Chat.HelpText);
 		}
 		else
 		{
@@ -386,7 +332,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	
 	public void DebugReturn(DebugLevel level, string message)
 	{
-//		Debug.Log(message);
+		//		Debug.Log(message);
 	}
 	
 	public void OnDisconnected()

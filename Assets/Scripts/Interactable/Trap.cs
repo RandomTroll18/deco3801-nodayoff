@@ -15,13 +15,17 @@ public class Trap : MonoBehaviour {
 	protected Player PlayerScript;
 	protected PrimaryObjectiveController PrimaryO;
 
+	public bool OnDebug;
+	protected bool DebugOption = false;
+
 	void OnCollisionEnter(Collision col) {
-		Debug.Log("Collided");
+		if (DebugOption) Debug.Log("Collided");
 		TrapToDo(col);
 	}
 
 	public void StartMe(GameManager g) {
 
+		DebugOption = OnDebug;
 		player = GameObject.Find ("Player");
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
 			.GetComponent<PrimaryObjectiveController> ();
@@ -49,7 +53,7 @@ public class Trap : MonoBehaviour {
 
 		EventCard test = gameObject.AddComponent<EventCard>();
 		GameObject UI = test.CreateCard();
-		Debug.Log("Sorry Yugi, but you've triggered my trap card!");
+		if (DebugOption) Debug.Log("Sorry Yugi, but you've triggered my trap card!");
 		//Destroy(this.gameObject);
 
 	}

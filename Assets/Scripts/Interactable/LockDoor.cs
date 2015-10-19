@@ -16,17 +16,17 @@ public class LockDoor : InteractiveObject {
 	public override void TakeAction(int input){
 		
 		if (IsInactivated) {
-			Debug.Log ("Inactive");
+			if (DebugOption) Debug.Log ("Inactive");
 			return;
 		}
 		
 		if (SpendAP(input, MinCost)) {
 			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
-			Debug.Log ("Opened");
+			if (DebugOption) Debug.Log ("Opened");
 			this.CloseEvent();
 		} else {
-			Debug.Log("Failed");
+			if (DebugOption) Debug.Log("Failed");
 		}
 		
 		//TODO: Class 

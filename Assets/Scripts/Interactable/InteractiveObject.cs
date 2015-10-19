@@ -20,7 +20,6 @@ public class InteractiveObject : MonoBehaviour {
 	//public int APLimit;
 	Button button;
 	Tile position;
-	bool debugging = false;
 
 	protected int MinCost;
 	protected Player PlayerScript;
@@ -28,6 +27,8 @@ public class InteractiveObject : MonoBehaviour {
 	protected PrimaryObjectiveController PrimaryO;
 	protected MovementController MController;
 	public bool InstantInteract;
+	
+	public bool DebugOption = false;
 
 	public virtual void StartMe() {
 		StartMe(Object.FindObjectOfType<GameManager>());
@@ -35,19 +36,12 @@ public class InteractiveObject : MonoBehaviour {
 
 	public void StartMe(GameManager g) {
 
-		Debug.Log("Started");
+		if (DebugOption) Debug.Log("Started");
 
 		this.position = new Tile(
 			Tile.TilePosition(this.transform.position.x), 
 			Tile.TilePosition(this.transform.position.z)
 		);
-
-		/*
-		this.Name = "Test";
-		this.Description = "Lorum Ipsum";
-		this.APLimit = 3;
-		this.RNGvariable = 1; 
-		 */
 
 		IsInactivated = false;
 		MinCost = Cost;
@@ -66,7 +60,7 @@ public class InteractiveObject : MonoBehaviour {
 		PlayerScript = player.GetComponent<Player>();
 		MController.AddInteractable(this);
 
-		if (debugging) Debug.Log(this.position.ToString());		
+		if (DebugOption) Debug.Log(this.position.ToString());		
 		
 	}
 
@@ -82,7 +76,7 @@ public class InteractiveObject : MonoBehaviour {
 	}
 	
 	public void Interact() {
-		if (debugging) Debug.Log ("Interacted with " + this.name + " at " + this.position.ToString());
+		if (DebugOption) Debug.Log ("Interacted with " + this.name + " at " + this.position.ToString());
 
 		if (PlayerScript.IsSpawned) 
 			return; // A spawned player cannot interact with this object
@@ -91,7 +85,7 @@ public class InteractiveObject : MonoBehaviour {
 
 		// TODO: Figure whats wrong with code below & add toggle Panel
 		// TODO: Change text
-		nameLabel.text = StringInput;
+		nameLabel.text = StringInput + " (" + MinCost + ")";
 		// TODO: Change Button function
 		panel.GetComponent<SkillCheck>().SetCurrent(this);
 		// TODO: Change Slider properties
@@ -112,19 +106,20 @@ public class InteractiveObject : MonoBehaviour {
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
 		int multipliedAP = (int)Mathf.Floor((float)actualAP * (float)Multiplier); // TODO: add character class element
 		int rng = Random.Range(1, multipliedAP);
-		Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
+		if (DebugOption) Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
+		//CloseEvent();
 		if (rng >= cost)
 			return true;
 		return false;
 	}
 
 	public void CloseEvent(){
-//		Debug.Log ("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		if (DebugOption) Debug.Log ("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
 		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-9999, (float)37.5);
 	}
 
 	public void OpenEvent(){
-		Debug.Log ("Open Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		if (DebugOption) Debug.Log ("Open Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
 		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-683, (float)37.5);
 	}
 

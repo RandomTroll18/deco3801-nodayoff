@@ -26,7 +26,7 @@ public class EC2 : EventCard {
 	}
 
 	public override void CardEffect(int highestVote){
-		Debug.Log("JOHN CEEENAAA");
+		if (DebugOption) Debug.Log("JOHN CEEENAAA");
 
 	}
 	

@@ -290,6 +290,7 @@ namespace ExitGames.Client.Photon.Chat
 
             return this.chatPeer.OpCustom((byte)ChatOperationCode.Publish, parameters, true);
         }
+		
 
         /// <summary>
         /// Sends a private message to a single target user. Calls OnPrivateMessage on the receiving client.

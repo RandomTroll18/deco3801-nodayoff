@@ -15,6 +15,8 @@ public class EventCard : MonoBehaviour
 	protected bool TeamEvent = false;
 	protected int ListNumber;
 
+	protected bool DebugOption = false;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -39,7 +41,6 @@ public class EventCard : MonoBehaviour
 
 	public virtual void ChangeCard()
 	{
-		Debug.Log("Hey");
 		this.ChangeButton(1, "hw");
 		this.ChangeText("LOREM IPSUM");
 		return;
@@ -124,7 +125,7 @@ public class EventCard : MonoBehaviour
 	}
 
 	public virtual void CardEffect(int highestVote){
-		Debug.Log("Effect not set");
+		if (DebugOption) Debug.Log("Effect not set");
 	}
 	
 	/*

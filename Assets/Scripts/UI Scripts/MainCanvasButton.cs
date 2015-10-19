@@ -11,7 +11,6 @@ public class MainCanvasButton : MonoBehaviour {
 	public GameObject TutorialMenu;
 	public GameObject EscMenu;
 	public GameObject SettingMenu;
-	public GameObject PopupPanel;
 	/* public GameObject text7;
 	public GameObject text8;
 	public GameObject testText; */
@@ -90,7 +89,6 @@ public class MainCanvasButton : MonoBehaviour {
 		if (EscMenu.activeInHierarchy){
 			Toggle(EscMenu);
 			toggleCameraControllers(true);
-			PopupPanel.SetActive(true);
 		} else {
 			toggleCameraControllers(false);
 			if (TutorialMenu.activeInHierarchy) {
@@ -102,7 +100,6 @@ public class MainCanvasButton : MonoBehaviour {
 				Toggle(EscMenu); //Re-open Esc
 			} else {
 				Toggle(EscMenu);
-				PopupPanel.SetActive(false);
 			}
 		}
 	}
