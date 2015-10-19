@@ -2,6 +2,14 @@
 using System.Collections;
 
 public class MainLevelObjective2 : InteractiveObject {
+	public GameObject[] DoorsToUnlock;
+
+	void Start() {
+		base.StartMe();
+		DoorsToUnlock = new GameObject[2];
+		DoorsToUnlock[0] = GameObject.Find("Obj3Door2");
+		DoorsToUnlock[1] = GameObject.Find("Obj3Door1");
+	}
 
 	public override void TakeAction(int input){
 		
@@ -24,6 +32,7 @@ public class MainLevelObjective2 : InteractiveObject {
 			Debug.Log("Failed with " + input);
 			this.CloseEvent();	
 		}
+
 	}
 	
 	public void InteractablSync() {
@@ -32,7 +41,9 @@ public class MainLevelObjective2 : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
-		// TODO
-		
+		foreach (GameObject door in DoorsToUnlock) {
+			Object.FindObjectOfType<GameManager>()
+				.OpenDoor(Tile.TilePosition(door.transform.position));
+		}
 	}
 }

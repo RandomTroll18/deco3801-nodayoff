@@ -12,6 +12,11 @@ public class ThirdObjectiveMain : PrimaryObjective {
 		Description = "All power needs to be directed to the escape pods. Get to the bridge and " +
 			"use the console." + StringMethodsScript.NEWLINE +
 			"A Technician is needed.";
+
+		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
+			if (objective.name == "Objective 3")
+				Location = Tile.TilePosition(objective.transform.position);
+		}
 	}
 
 	public override void OnComplete() {
