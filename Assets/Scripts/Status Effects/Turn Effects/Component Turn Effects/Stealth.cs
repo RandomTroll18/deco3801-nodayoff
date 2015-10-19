@@ -4,6 +4,9 @@ using System.Collections;
 /*
  * Hides this object from the main player
  */
+using System.Collections.Generic;
+
+
 public class Stealth : MonoBehaviour {
 
 	public bool AttachedToPlayer = false; // Record if this component is attached to the player
@@ -40,10 +43,13 @@ public class Stealth : MonoBehaviour {
 		
 		p  = Player.MyPlayer.GetComponent<Player>();
 		distance = p.DistanceToTile(Tile.TilePosition(transform.position));
+		List<MeshRenderer> renderers = new List<MeshRenderer>();
+		renderers.AddRange(GetComponents<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 		if (distance > p.GetVisionDistance())
-			toggleRenderers(GetComponentsInChildren<MeshRenderer>(), false);
+			toggleRenderers(renderers, false);
 		else
-			toggleRenderers(GetComponentsInChildren<MeshRenderer>(), true);
+			toggleRenderers(renderers, true);
 	}
 
 	/**
@@ -53,7 +59,7 @@ public class Stealth : MonoBehaviour {
 	 * - MeshRenderer[] renderers - The list of mesh renderers
 	 * - bool enableFlag - Flag for enabling/disabling renderers
 	 */
-	void toggleRenderers(MeshRenderer[] renderers, bool enableFlag) {
+	void toggleRenderers(List<MeshRenderer> renderers, bool enableFlag) {
 		foreach (MeshRenderer meshRenderer in renderers)
 			meshRenderer.enabled = enableFlag;
 	}
