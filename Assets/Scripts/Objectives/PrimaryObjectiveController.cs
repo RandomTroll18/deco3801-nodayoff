@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PrimaryObjectiveController : MonoBehaviour {
+	public GameObject HumanObjectivePanel; // Human objective panel for the alien
 	Objective objective;
 	CameraController cam;
 
@@ -54,9 +55,14 @@ public class PrimaryObjectiveController : MonoBehaviour {
 		Debug.Log("Objective title: " + transform.Find("Title").GetComponent<Text>().text);
 		Debug.Log("Objective desc: " + transform.Find("Description").GetComponent<Text>().text);
 
-		if (objective.Location == null || PhotonNetwork.player.GetTeam() == PunTeams.Team.red)
+		if (objective.Location == null)
 			DeactivateLocationButton();
 
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien. Indicate primary human objective
+			HumanObjectivePanel.SetActive(true);
+			HumanObjectivePanel.transform.Find("Title").GetComponent<Text>().text = "Human Objective: " + objective.Title;
+			HumanObjectivePanel.transform.Find("Description").GetComponent<Text>().text = objective.Description;
+		}
 	}
 
 	public void OnComplete() {

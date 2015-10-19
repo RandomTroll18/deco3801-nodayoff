@@ -46,7 +46,7 @@ public class MainLevelObjective1 : InteractiveObject {
 		IsInactivated = true;
 		ChangeRoundsPerTurn nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
 		nasty.roundsLost = ROUNDS_LOST;
-		GameObject NastyUI = nasty.CreateCard ();
+		GameObject NastyUI = nasty.CreateCard();
 
 	}
 	
@@ -76,11 +76,14 @@ public class MainLevelObjective1 : InteractiveObject {
 			break;
 		case Classes.BETRAYER: // Alien
 			Debug.Log("Adding alien secondary");
+			secondaries.AddComponent<AlienSecondaryOne>();
+			secondaries.AddComponent<AlienSecondaryTwo>();
+			secondaries.AddComponent<AlienSecondaryThree>();
+			secondaries.AddComponent<AlienSecondaryFour>();
+			secondaries.AddComponent<AlienSecondaryFive>();
 			break;
 		default: // Unknown
 			throw new System.NotSupportedException("Unknown secondary class objects");
-			Debug.Log("Unknown secondary objective");
-			break;
 		}
 
 		/*

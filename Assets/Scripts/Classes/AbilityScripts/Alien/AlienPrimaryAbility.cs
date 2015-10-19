@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AlienPrimaryAbility : Ability {
 
 	Player owner; // The owner of this ability
 	Effect changeColour; // The material effect for this alien
 	Effect addAP; // The status effect for the alien - giving bonus AP
+	List<Effect> secondaryEffectRewards; // Effects that were awarded for completing secondary objectives
 	int initialNumberOfTurns; // The initial number of turns
 
 	/**
@@ -25,6 +27,18 @@ public class AlienPrimaryAbility : Ability {
 		// Create turn effects
 		changeColour = new MaterialTurnEffect("AbilityMaterials/Alien/AlienModeMaterial", 
 				"Alien Mode: Turn Into An Alien", "Icons/Effects/DefaultEffect", -1, false);
+
+		secondaryEffectRewards = new List<Effect>();
+	}
+
+	/**
+	 * Add a bonus secondary effect
+	 * 
+	 * Arguments
+	 * - Effect bonusEffect - The bonus effect to add
+	 */
+	public void AddBonusEffect(Effect bonusEffect) {
+		secondaryEffectRewards.Add(bonusEffect);
 	}
 
 	/**
@@ -40,8 +54,9 @@ public class AlienPrimaryAbility : Ability {
 		addAP.TurnModificationDelegates = new Effect.TurnModifications(NewAPForEffect);
 		owner.AttachTurnEffect(changeColour);
 		owner.AttachTurnEffect(addAP);
+		foreach (Effect bonus in secondaryEffectRewards)
+			owner.AttachTurnEffect(bonus);
 	}
-
 	/**
 	 * Deactivate function
 	 */
@@ -50,6 +65,8 @@ public class AlienPrimaryAbility : Ability {
 		base.Deactivate();
 		owner.DetachTurnEffect(changeColour);
 		owner.DetachTurnEffect(addAP);
+			foreach (Effect bonus in secondaryEffectRewards)
+				owner.DetachTurnEffect(bonus);
 	}
 
 	/**
