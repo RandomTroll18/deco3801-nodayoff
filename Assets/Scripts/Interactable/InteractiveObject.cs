@@ -85,9 +85,15 @@ public class InteractiveObject : MonoBehaviour {
 		else if (IsInactivated) // Already activated
 			return;
 
+
+		string classText = "";
+		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER)) {
+			classText = ": " + ClassMultiplier.ToString();
+		}
+		
 		// TODO: Figure whats wrong with code below & add toggle Panel
 		// TODO: Change text
-		nameLabel.text = StringInput + " (" + MinCost + ")";
+		nameLabel.text = StringInput + " (" + MinCost + classText + ")";
 		// TODO: Change Button function
 		panel.GetComponent<SkillCheck>().SetCurrent(this);
 		// TODO: Change Slider properties
