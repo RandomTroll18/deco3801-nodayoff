@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: 0ad55f02895501f459ef6e768cd57867
+timeCreated: 1445340495
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Camera
+    100002: ext_bounce.001
+    100004: rock_sml1_1
+    100006: rock_sml1_2
+    100008: rock_sml1_3
+    100010: rock_sml1_4
+    100012: rock_sml1_5
+    100014: rock_sml2_1
+    100016: rock_sml2_2
+    100018: rock_sml2_3
+    100020: rock_sml2_4
+    100022: rock_sml2_5
+    100024: rock_sml3_1
+    100026: rock_sml3_2
+    100028: rock_sml3_3
+    100030: rock_sml3_4
+    100032: rock_sml3_5
+    100034: //RootNode
+    100036: Sun.002
+    100038: Sun.003
+    400000: Camera
+    400002: ext_bounce.001
+    400004: rock_sml1_1
+    400006: rock_sml1_2
+    400008: rock_sml1_3
+    400010: rock_sml1_4
+    400012: rock_sml1_5
+    400014: rock_sml2_1
+    400016: rock_sml2_2
+    400018: rock_sml2_3
+    400020: rock_sml2_4
+    400022: rock_sml2_5
+    400024: rock_sml3_1
+    400026: rock_sml3_2
+    400028: rock_sml3_3
+    400030: rock_sml3_4
+    400032: rock_sml3_5
+    400034: //RootNode
+    400036: Sun.002
+    400038: Sun.003
+    2300000: rock_sml1_1
+    2300002: rock_sml1_2
+    2300004: rock_sml1_3
+    2300006: rock_sml1_4
+    2300008: rock_sml1_5
+    2300010: rock_sml2_1
+    2300012: rock_sml2_2
+    2300014: rock_sml2_3
+    2300016: rock_sml2_4
+    2300018: rock_sml2_5
+    2300020: rock_sml3_1
+    2300022: rock_sml3_2
+    2300024: rock_sml3_3
+    2300026: rock_sml3_4
+    2300028: rock_sml3_5
+    3300000: rock_sml1_1
+    3300002: rock_sml1_2
+    3300004: rock_sml1_3
+    3300006: rock_sml1_4
+    3300008: rock_sml1_5
+    3300010: rock_sml2_1
+    3300012: rock_sml2_2
+    3300014: rock_sml2_3
+    3300016: rock_sml2_4
+    3300018: rock_sml2_5
+    3300020: rock_sml3_1
+    3300022: rock_sml3_2
+    3300024: rock_sml3_3
+    3300026: rock_sml3_4
+    3300028: rock_sml3_5
+    4300000: rock_sml3_5
+    4300002: rock_sml2_5
+    4300004: rock_sml1_5
+    4300006: rock_sml3_4
+    4300008: rock_sml2_4
+    4300010: rock_sml1_4
+    4300012: rock_sml3_3
+    4300014: rock_sml2_3
+    4300016: rock_sml1_3
+    4300018: rock_sml3_2
+    4300020: rock_sml2_2
+    4300022: rock_sml1_2
+    4300024: rock_sml3_1
+    4300026: rock_sml2_1
+    4300028: rock_sml1_1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
