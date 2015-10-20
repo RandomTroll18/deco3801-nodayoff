@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Stun Gun
-  Image: {fileID: 21300000, guid: 791ad83dfba2ffd43a4c220652d7a857, type: 3}
+  Image: {fileID: 21300000, guid: 98f6d61c8f11f1d4d80a964415e17d6d, type: 3}
   TestPrefab: {fileID: 0}
   SoundEfx:
   - {fileID: 8300000, guid: da1fbc7647f4be84bb294e1821689f88, type: 3}
@@ -142,7 +142,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Image
       value: 
-      objectReference: {fileID: 21300000, guid: 791ad83dfba2ffd43a4c220652d7a857,
+      objectReference: {fileID: 21300000, guid: 98f6d61c8f11f1d4d80a964415e17d6d,
         type: 3}
     - target: {fileID: 0}
       propertyPath: synchronization

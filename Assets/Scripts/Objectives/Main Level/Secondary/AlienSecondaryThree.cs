@@ -48,22 +48,22 @@ public class AlienSecondaryThree : SecondaryObjective {
 		switch(alienClassContainer.GetHumanClassType()) { // Determine what multiplier to modify
 		case Classes.MARINE:
 			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.MARINEMULTIPLIER, 0.5, 0, 
-					"+50% Marine Skill Check", "Icons/Effects/DefaultEffect", -1, true);
+					"+50% Marine Skill Check", "Icons/Effects/skillchkmarpurple", -1, true);
 			statMultiplier = Stat.MARINEMULTIPLIER;
 			break;
 		case Classes.ENGINEER:
 			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.ENGMULTIPLIER, 0.5, 0, 
-					"+50% Engineer Skill Check", "Icons/Effects/DefaultEffect", -1, true);
+					"+50% Engineer Skill Check", "Icons/Effects/skillchkengpurple", -1, true);
 			statMultiplier = Stat.ENGMULTIPLIER;
 			break;
 		case Classes.SCOUT:
 			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.SCOUTMULTIPLIER, 0.5, 0, 
-					"+50% Scout Skill Check", "Icons/Effects/DefaultEffect", -1, true);
+					"+50% Scout Skill Check", "Icons/Effects/skillchkscoutpurple", -1, true);
 			statMultiplier = Stat.SCOUTMULTIPLIER;
 			break;
 		case Classes.TECHNICIAN:
 			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.TECHMULTIPLIER, 0.5, 0, 
-					"+50% Technician Skill Check", "Icons/Effects/DefaultEffect", -1, true);
+					"+50% Technician Skill Check", "Icons/Effects/skillchktechpurple", -1, true);
 			statMultiplier = Stat.TECHMULTIPLIER;
 			break;
 		default: // Invalid class

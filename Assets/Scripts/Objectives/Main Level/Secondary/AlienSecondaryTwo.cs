@@ -26,7 +26,7 @@ public class AlienSecondaryTwo : SecondaryObjective {
 		i.StartMe();
 		
 		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
-		                                "Dimmed Lights: Vision set to 3", "Icons/Effects/DefaultEffect", -1, true);
+		                                "Dimmed Lights: Vision set to 3", "Icons/Effects/alienvisionpurple", -1, true);
 	}
 	
 	public override void OnComplete()

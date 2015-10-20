@@ -25,7 +25,7 @@ public class StealthApplicator : ShortRangeWeapon {
 		stealthEffect = new ComponentTurnEffect(
 				ComponentEffectType.STEALTH, 
 		        "Stealth Applicator: You are currently hidden", 
-				"Icons/Effects/DefaultEffect", STEALTH_DURATION, false
+				"Icons/Effects/stealthappgreen", STEALTH_DURATION, false
 		);
 	}
 

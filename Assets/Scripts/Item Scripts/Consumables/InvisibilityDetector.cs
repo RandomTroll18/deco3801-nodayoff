@@ -20,7 +20,7 @@ public class InvisibilityDetector : SupportConsumables {
 		invisibilityDetectingEffect = new ComponentTurnEffect(
 				ComponentEffectType.INVISIBILITYDETECTOR, 
 				"Invisibility Detector: Players that were stealthed are now visible", 
-				"Icons/Effects/DefaultEffect", 
+				"Icons/Effects/invisidetectgreen", 
 				3,
 				3,
 				false

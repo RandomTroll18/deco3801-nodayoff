@@ -103,8 +103,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: AP Restorer
-  Image: {fileID: 21300000, guid: c5d704fcb5cf9164aa071440071257c8, type: 3}
+  Image: {fileID: 21300000, guid: 51959ae1ca169b94bb2b979b91be709b, type: 3}
   TestPrefab: {fileID: 0}
+  SoundEfx: []
   Amount: 1
 --- !u!114 &11439560
 MonoBehaviour:
@@ -162,7 +163,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Image
       value: 
-      objectReference: {fileID: 21300000, guid: c5d704fcb5cf9164aa071440071257c8,
+      objectReference: {fileID: 21300000, guid: 51959ae1ca169b94bb2b979b91be709b,
         type: 3}
     - target: {fileID: 0}
       propertyPath: Amount

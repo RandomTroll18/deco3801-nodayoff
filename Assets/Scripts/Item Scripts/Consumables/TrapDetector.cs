@@ -20,7 +20,7 @@ public class TrapDetector : SupportConsumables {
 		trapDetectingEffect = new ComponentTurnEffect(
 				ComponentEffectType.TRAPDETECTOR, 
 				"Trap Detector: Traps are now visible", 
-				"Icons/Effects/DefaultEffect", 
+				"Icons/Effects/trapdetectgreen", 
 				3,
 				3,
 				false
