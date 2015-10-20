@@ -25,27 +25,28 @@ public class DoorLight : MonoBehaviour {
 				return;
 			}
 
-			switch (doorLock.ClassMultiplier) {
-			case Stat.NOMULTIPLIER:
-				doorLight.color = Color.red;
-				break;
-			case Stat.ENGMULTIPLIER:
-				doorLight.color = Color.blue;
-				break;
-			case Stat.MARINEMULTIPLIER:
-				doorLight.color = Color.magenta;
-				break;
-			case Stat.TECHMULTIPLIER:
-				doorLight.color = Color.gray;
-				break;
-			case Stat.SCOUTMULTIPLIER:
+			if (doorLock.Cost == 1000) {
 				doorLight.color = Color.yellow;
-				break;
-			default:
-				Debug.LogWarning("Door doesn't have lock component and animation is disabled OR " +
-					"multiplier is wrong");
-				doorLight.color = Color.red;
-				break;
+			} else {
+				switch (doorLock.ClassMultiplier) {
+				case Stat.NOMULTIPLIER:
+					doorLight.color = Color.red;
+					break;
+				case Stat.ENGMULTIPLIER:
+					doorLight.color = Color.blue;
+					break;
+				case Stat.MARINEMULTIPLIER:
+					doorLight.color = Color.magenta;
+					break;
+				case Stat.TECHMULTIPLIER:
+					doorLight.color = Color.gray;
+					break;
+				default:
+					Debug.LogWarning("Door doesn't have lock component and animation is disabled OR " +
+						"multiplier is wrong");
+					doorLight.color = Color.red;
+					break;
+				}
 			}
 		} else {
 			doorLight.color = Color.green;
