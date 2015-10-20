@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour {
 	GameManager gameManagerScript; // The game manager script
 	public float RotationSpeed;
 	public Transform Target;
+	public float ZoomSpeed;
 
 	public float CamSpeed;
 	/* The distance the mouse pointer needs to be from the edge before the 
@@ -51,6 +52,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void SetPublicVariables() {
+		ZoomSpeed = 500f;
 		RotationSpeed = 180f;
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
 		ContextAwareBox = Object.FindObjectOfType<ContextAwareBox>().gameObject;
@@ -81,6 +83,12 @@ public class CameraController : MonoBehaviour {
 			if (Input.GetKey("space")) {
 				ResetCamera();
 			}
+
+			// Camera zoom
+			float zoom = -Input.GetAxis("Mouse ScrollWheel");
+			Vector3 pos = transform.position;
+			pos.y += zoom * Time.deltaTime * ZoomSpeed;
+			transform.position = pos;
 
 			float rotation = Input.GetAxis("Rotate");
 			transform.RotateAround(Target.position, Vector3.up, 

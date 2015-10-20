@@ -25,7 +25,7 @@ public class AlienSecondaryOne : SecondaryObjective {
 		i.InstantInteract = true;
 		i.StartMe();
 		
-		apEffect = new StatusTurnEffect(Stat.AP, 10.0, 0, "Extra Food: 10 Extra AP", "Icons/Effects/APup100px", 
+		apEffect = new StatusTurnEffect(Stat.AP, 10.0, 0, "Extra Food: 10 Extra AP", "Icons/Effects/bonusAPALIENpurple", 
 				-1, true);
 	}
 	

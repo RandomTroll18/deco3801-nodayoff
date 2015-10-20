@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Invisibility Detector
-  Image: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed, type: 3}
+  Image: {fileID: 21300000, guid: 11af70120d5daa444b0ec05f185700c6, type: 3}
   TestPrefab: {fileID: 0}
   SoundEfx: []
   Amount: 1
@@ -146,7 +146,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Image
       value: 
-      objectReference: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed,
+      objectReference: {fileID: 21300000, guid: 11af70120d5daa444b0ec05f185700c6,
         type: 3}
     - target: {fileID: 0}
       propertyPath: Amount

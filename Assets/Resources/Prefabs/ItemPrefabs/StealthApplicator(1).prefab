@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Stealth Applicator
-  Image: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed, type: 3}
+  Image: {fileID: 21300000, guid: 3deb2e28357dbdb4e90d11e60ef66cb1, type: 3}
   TestPrefab: {fileID: 0}
   SoundEfx: []
 --- !u!114 &11435786
@@ -137,7 +137,12 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Image
+      value: 
+      objectReference: {fileID: 21300000, guid: 3deb2e28357dbdb4e90d11e60ef66cb1,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184290}

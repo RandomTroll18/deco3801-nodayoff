@@ -25,7 +25,7 @@ public class ScoutSecondaryOne : SecondaryObjective {
 		i.StartMe();
 
 		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
-				"Night Vision Goggles", "Icons/Effects/DefaultEffect", -1, true);
+				"Night Vision Goggles", "Icons/Items/googlesgreen", -1, true);
 	}
 
 	public override void OnComplete() {

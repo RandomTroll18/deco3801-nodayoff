@@ -360,8 +360,7 @@ public class MovementController : MonoBehaviour {
 		PathTile path = FindPath(Tile.TilePosition(position), true);
 
 		if (path == null) {// No path found. Unknown
-			Debug.LogWarning("No path found");
-			return -1;
+			return 10000;
 		}
 		else { // Path found
 			return path.Depth;

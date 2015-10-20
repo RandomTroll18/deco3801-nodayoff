@@ -26,7 +26,7 @@ public class AlienPrimaryAbility : Ability {
 
 		// Create turn effects
 		changeColour = new MaterialTurnEffect("AbilityMaterials/Alien/AlienModeMaterial", 
-				"Alien Mode: Turn Into An Alien", "Icons/Effects/DefaultEffect", -1, false);
+				"Alien Mode: Turn Into An Alien", "Icons/Effects/alienmodepurple", -1, false);
 
 		secondaryEffectRewards = new List<Effect>();
 	}
@@ -50,7 +50,8 @@ public class AlienPrimaryAbility : Ability {
 
 		base.Activate();
 		extraAP = Effect.CalculateAP();
-		addAP = new StatusTurnEffect(Stat.AP, extraAP, 0, "Alien: Increase AP", "Icons/Effects/APup100px", -1, true);
+		addAP = new StatusTurnEffect(Stat.AP, extraAP, 0, "Alien: Increase AP", "Icons/Effects/bonusAPALIENpurple", 
+				-1, true);
 		addAP.TurnModificationDelegates = new Effect.TurnModifications(NewAPForEffect);
 		owner.AttachTurnEffect(changeColour);
 		owner.AttachTurnEffect(addAP);

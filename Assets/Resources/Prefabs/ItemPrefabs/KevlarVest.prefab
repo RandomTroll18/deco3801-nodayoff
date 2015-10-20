@@ -128,8 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Kevlar Vest
-  Image: {fileID: 21300000, guid: 007d0242998cf934dba6aff77c3de362, type: 3}
+  Image: {fileID: 21300000, guid: 3e0d793f88b20c040a3f0f3826333550, type: 3}
   TestPrefab: {fileID: 0}
+  SoundEfx: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -165,7 +166,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Image
       value: 
-      objectReference: {fileID: 21300000, guid: 007d0242998cf934dba6aff77c3de362,
+      objectReference: {fileID: 21300000, guid: 3e0d793f88b20c040a3f0f3826333550,
         type: 3}
     - target: {fileID: 0}
       propertyPath: synchronization

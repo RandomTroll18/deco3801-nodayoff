@@ -26,11 +26,11 @@ public class MarinePrimaryAbility : Ability {
 
 		// Create turn effects
 		materialEffect = new MaterialTurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
-				"Stimulus Debris: Immune To Stun", "Icons/Effects/stungunimmunity100px", 2, false);
+				"Stimulus Debris: Immune To Stun", "Icons/Effects/stunimmunitygreen", 2, false);
 		stunGunEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: Extra Stun Gun Charges", 
-				"Icons/Effects/stungunextracharge100px", 2, ItemTurnEffectType.EXTRAUSE, 3, false);
+				"Icons/Effects/extrachargesgreen", 2, ItemTurnEffectType.EXTRAUSE, 3, false);
 		noCoolDownEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: No Stun Gun Cool Down", 
-				"Icons/Effects/stungunnocooldown100px", 2, ItemTurnEffectType.COOLDOWN, 1, false);
+				"Icons/Effects/stuninstantCDgreen", 2, ItemTurnEffectType.COOLDOWN, 1, false);
 	}
 
 	/**
