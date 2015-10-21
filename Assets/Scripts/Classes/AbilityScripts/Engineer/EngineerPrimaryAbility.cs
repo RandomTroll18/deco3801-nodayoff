@@ -45,12 +45,18 @@ public class EngineerPrimaryAbility : Ability {
 		robotPrefab.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 
 		// Instantiate robot at correct position and get its reference
-		robotReference = Object.Instantiate<GameObject>(robotPrefab);
+		robotReference = PhotonNetwork.Instantiate(
+				"Prefabs/AbilityPrefabs/Engineer/EngineerRobot", 
+				Tile.TileMiddle(targetTile), 
+				Quaternion.identity, 
+				0
+		);
+		robotReference.SetActive(true);
 		robotReference.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
+		robotReference.GetComponentInChildren<Light>().enabled = true;
 		robotReference.GetComponent<Player>().PlayerObject = robotReference;
 		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 		robotReference.AddComponent<MovementController>().StartMe();
-		robotReference.GetComponentInChildren<CameraController>().Target = robotReference.transform;
 		robotReference.GetComponentInChildren<CameraController>().StartMe();
 		robotReference.GetComponentInChildren<CameraController>().ResetCamera();
 		robotReference.GetComponent<Player>().StartMe(); // Initialize the player script of the robot
@@ -73,6 +79,7 @@ public class EngineerPrimaryAbility : Ability {
 			ClassPanel.GetComponent<ClassPanelScript>().ResetToMaster(master.PlayerObject);
 
 			// Destroy the robot and forget its existence
+			PhotonNetwork.Destroy(robotReference);
 			Object.Destroy(robotReference);
 			robotReference = null;
 		}

@@ -99,6 +99,7 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
+				Debug.Log("Direction pressing s: " + direction.ToString());
 //					Debug.Log(transform.position.z);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
@@ -108,6 +109,7 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
+				Debug.Log("Direction pressing w: " + direction.ToString());
 //					Debug.Log(transform.position.z);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
@@ -121,6 +123,7 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
+				Debug.Log("Direction pressing a: " + direction.ToString());
 //				Debug.Log(transform.position.x);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
@@ -133,6 +136,7 @@ public class CameraController : MonoBehaviour {
 				direction.y = 0;
 				direction.Normalize();
 
+				Debug.Log("Direction pressing d: " + direction.ToString());
 //					Debug.Log(transform.position.x);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
