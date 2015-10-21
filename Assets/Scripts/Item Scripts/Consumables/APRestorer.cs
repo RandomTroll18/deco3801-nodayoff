@@ -40,7 +40,9 @@ public class APRestorer : RecoveryConsumables {
 			return; // No target found
 
 		target.IncreaseStatValue(Stat.AP, InstantEffects[Stat.AP][0]);
-		if (--Amount == 0) { // Destroy this item
+		Amount--;
+		UpdateContextAwareBox();
+		if (Amount == 0) { // Destroy this item
 			Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 			Destroy(gameObject);
 			PhotonNetwork.Destroy(gameObject);

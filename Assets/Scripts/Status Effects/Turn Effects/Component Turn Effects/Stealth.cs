@@ -9,15 +9,24 @@ using System.Collections.Generic;
 
 public class Stealth : MonoBehaviour {
 
-	public bool AttachedToPlayer = false; // Record if this component is attached to the player
+	public bool Permanent = false; // Record if the stealth applied is permanent or vision binding only
 
 	// Update is called once per frame
 	void Update() {
-		if (!AttachedToPlayer) // Attached to non-player item. Hide from player
+		if (!Permanent) // Not permanent. Just hide if not within range
 			hideFromPlayer();
-		else // Attached to a player. Make them hidden
-			hidePlayerFromOthers();
+		else // Permanent. Make it permanently invisible
+			permanentInvisibility();
+	}
 
+	/**
+	 * Permanent invisibility
+	 */
+	void permanentInvisibility() {
+		List<MeshRenderer> renderers = new List<MeshRenderer>(); // The renderers
+		renderers.AddRange(GetComponents<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		toggleRenderers(renderers, false);
 	}
 
 	/**

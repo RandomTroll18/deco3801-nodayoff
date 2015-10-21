@@ -49,7 +49,7 @@ public class ComponentTurnEffect : Effect {
 		case ComponentEffectType.STEALTH: // Stealth component
 			if (Player.MyPlayer.GetComponent<Stealth>() == null) {
 				Player.MyPlayer.AddComponent<Stealth>(); // Add component
-				Player.MyPlayer.GetComponent<Stealth>().AttachedToPlayer = true; 
+				Player.MyPlayer.GetComponent<Stealth>().Permanent = true; 
 			}
 			Player.MyPlayer.GetComponent<Stealth>().enabled = true;
 			break;
@@ -96,7 +96,7 @@ public class ComponentTurnEffect : Effect {
 		case ComponentEffectType.INVISIBILITYDETECTOR: // Invisibility detector component
 			if (Player.MyPlayer.GetComponent<InvisibilityDetectingComponent>() != null) {
 				Player.MyPlayer.GetComponent<InvisibilityDetectingComponent>().enabled = false;
-				Player.MyPlayer.GetComponent<InvisibilityDetectingComponent>().MakePlayersInvisible();
+				Player.MyPlayer.GetComponent<InvisibilityDetectingComponent>().MakeInvisible();
 				Object.Destroy(Player.MyPlayer.GetComponent<InvisibilityDetectingComponent>());
 			}
 			break;

@@ -304,12 +304,21 @@ public class GameManager : Photon.PunBehaviour {
 	}
 
 	/**
+	 * Record that a player has set themselves to be active again
+	 */
+	[PunRPC]
+	public void SetActivePlayer() {
+		playersLeft++;
+		Debug.Log("Players left (after setting to active): " + playersLeft);
+	}
+
+	/**
 	 * Record that a player is no longer active
 	 */
 	[PunRPC]
 	public void SetInactivePlayer() {
 		playersLeft--;
-		Debug.Log("Players left: " + playersLeft);
+		Debug.Log("Players left (after setting to inactive): " + playersLeft);
 	}
 
 	/**

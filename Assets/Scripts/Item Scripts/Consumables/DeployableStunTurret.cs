@@ -36,6 +36,7 @@ public class DeployableStunTurret : SupportConsumables {
 					Quaternion.identity, 
 					0
 			);
+			UpdateContextAwareBox();
 			instantiatedStunTurret.GetComponent<DeployableStunTurretActionScript>().enabled = true; // Enable script
 			if (Amount == 0) { // Remove the item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);

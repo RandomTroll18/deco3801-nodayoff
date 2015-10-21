@@ -43,6 +43,7 @@ public class TrapDetector : SupportConsumables {
 			} else // Attach the effect
 				playerScript.AttachTurnEffect(trapDetectingEffect);
 			Amount--;
+			UpdateContextAwareBox();
 			if (Amount == 0) { // Destroy this item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 				Destroy(gameObject);

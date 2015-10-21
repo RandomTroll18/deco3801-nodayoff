@@ -108,6 +108,14 @@ public class ContextAwareBox : MonoBehaviour {
 	}
 
 	/**
+	 * Update the text of the attached object
+	 */
+	public void UpdateAttachedObjectText() {
+		if (attachedObject != null)
+			InventoryContextPanel[1].GetComponent<Text>().text = attachedObject.ToString();
+	}
+
+	/**
 	 * Function used to return the currently attached object
 	 * 
 	 * Returns

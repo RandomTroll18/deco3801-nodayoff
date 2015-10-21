@@ -62,4 +62,5 @@ MonoBehaviour:
   - SmallSync
   - Big
   - Small
+  - SetActivePlayer
   DisableAutoOpenWizard: 1

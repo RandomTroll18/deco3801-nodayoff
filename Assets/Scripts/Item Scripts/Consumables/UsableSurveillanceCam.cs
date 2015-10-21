@@ -42,6 +42,7 @@ public class UsableSurveillanceCam : SupportConsumables {
 			instantiatedCamera.transform.SetParent(
 				GameObject.FindGameObjectWithTag("SurveillanceCameraContainer").transform);
 			instantiatedCamera.SetActive(false);
+			UpdateContextAwareBox();
 			if (Amount == 0) { // Remove the item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);
 				Destroy(gameObject);

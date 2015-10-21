@@ -45,6 +45,7 @@ public class ClassPanelScript : MonoBehaviour {
 		else { // Set button text and abilities
 			if (ownerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
 				alienClass = (AlienClass)ownerClass;
+				setClassTitleForAlien(alienClass);
 				AlienPrimaryAbilityButton.SetActive(true);
 				PrimaryAbilityText.text = alienClass.GetHumanClass().GetPrimaryAbility().GetAbilityName();
 				AlienPrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
@@ -56,6 +57,32 @@ public class ClassPanelScript : MonoBehaviour {
 				ownerClass.GetPrimaryAbility().SetClassPanel(ClassPanel);
 				ownerClass.GetPrimaryAbility().ExtraInitializing();
 			}
+		}
+	}
+
+	/**
+	 * Set the text of the class title for the alien
+	 * 
+	 * Arguments
+	 * - AlienClass alienClass - The alien class
+	 */
+	void setClassTitleForAlien(AlienClass alienClass) {
+		ClassTitle.text = "Alien (";
+		switch (alienClass.GetHumanClassType()) {
+		case Classes.ENGINEER:
+			ClassTitle.text += "Engineer)";
+			break;
+		case Classes.MARINE:
+			ClassTitle.text += "Marine)";
+			break;
+		case Classes.SCOUT:
+			ClassTitle.text += "Scout)";
+			break;
+		case Classes.TECHNICIAN:
+			ClassTitle.text += "Technician)";
+			break;
+		default:
+			throw new System.NotSupportedException("Invalid human class");
 		}
 	}
 

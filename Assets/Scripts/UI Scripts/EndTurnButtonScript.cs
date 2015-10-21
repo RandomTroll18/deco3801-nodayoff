@@ -19,9 +19,9 @@ public class EndTurnButtonScript : MonoBehaviour {
 	void Update() {
 		Player playerScript = playerOwner.GetComponent<Player>();
 		if (playerScript.IsPlayerNoLongerActive()) 
-			EndTurnButton.GetComponent<Button>().interactable = false;
+			EndTurnButton.GetComponentInChildren<Text>().text = "Undo End Turn";
 		else 
-			EndTurnButton.GetComponent<Button>().interactable = true;
+			EndTurnButton.GetComponentInChildren<Text>().text = "End Turn";
 	}
 
 	/**
@@ -33,6 +33,9 @@ public class EndTurnButtonScript : MonoBehaviour {
 			playerScript.SetInActivity(true);
 			GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", 
 			                                                 PhotonTargets.All, null);
+		} else { // Player is trying to activate their turn again
+			playerScript.SetInActivity(false);
+			GameManagerObject.GetComponent<PhotonView>().RPC("SetActivePlayer", PhotonTargets.All, null);
 		}
 	}
 }
