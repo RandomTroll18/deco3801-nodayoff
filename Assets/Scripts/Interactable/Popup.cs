@@ -4,11 +4,10 @@ using System.Collections;
 using UnityEngine.Events;
 
 public class Popup : MonoBehaviour {
+	
+	protected GameObject PopupGameObject;
 
-	public int CurrentPanel;
-	public GameObject PopupGameObject;
-
-	protected Popup NextPopup;
+	public Popup NextPopup;
 	//panels = new GameObject[totalPanel];
 
 
