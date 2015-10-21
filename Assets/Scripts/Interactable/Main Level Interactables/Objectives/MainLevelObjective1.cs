@@ -49,6 +49,33 @@ public class MainLevelObjective1 : InteractiveObject {
 		GameObject NastyUI = nasty.CreateCard();
 
 	}
+
+	/**
+	 * Give alien secondary objectives of their human class
+	 * 
+	 * Arguments
+	 * - AlienClass alienClass - The alien class
+	 * - GameObject secondaries - The container for the player's secondary objectives
+	 */
+	void giveAlienSecondaryHumanObj(AlienClass alienClass, GameObject secondaries) {
+		switch (alienClass.GetHumanClassType()) {
+		case Classes.SCOUT: // Scout
+			Debug.Log("Adding scout secondary");
+			secondaries.AddComponent<ScoutSecondaryOne>();
+			break;
+		case Classes.ENGINEER: // Engineer
+			Debug.Log("Adding engineer secondary");
+			break;
+		case Classes.MARINE: // Marine
+			Debug.Log("Adding marine secondary");
+			secondaries.AddComponent<MarineSecondaryOne>();
+			break;
+		case Classes.TECHNICIAN: // Technician
+			Debug.Log("Adding Technician secondary");
+			secondaries.AddComponent<TechnicianSecondaryOne>();
+			break;
+		}
+	}
 	
 	
 	void GiveSecondaryObjectives() {
@@ -81,6 +108,8 @@ public class MainLevelObjective1 : InteractiveObject {
 			secondaries.AddComponent<AlienSecondaryThree>();
 			secondaries.AddComponent<AlienSecondaryFour>();
 			secondaries.AddComponent<AlienSecondaryFive>();
+			// Need to add human class secondaries as well
+			giveAlienSecondaryHumanObj((AlienClass)p.GetPlayerClassObject(), secondaries);
 			break;
 		default: // Unknown
 			throw new System.NotSupportedException("Unknown secondary class objects");
