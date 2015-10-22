@@ -5,7 +5,7 @@ public class MainLevelObjective2 : InteractiveObject {
 	public GameObject[] DoorsToUnlock;
 
 	void Start() {
-		base.StartMe();
+		StartMe();
 		DoorsToUnlock = new GameObject[2];
 		DoorsToUnlock[0] = GameObject.Find("Obj3Door2");
 		DoorsToUnlock[1] = GameObject.Find("Obj3Door1");

@@ -36,6 +36,7 @@ TagManager:
   - Quarters
   - Cargo
   - Bridge
+  - KeyCard
   layers:
   - Default
   - TransparentFX

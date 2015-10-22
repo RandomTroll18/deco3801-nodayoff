@@ -16,18 +16,20 @@ public class SecondObjectiveMain : PrimaryObjective {
 	}
 
 	void SpawnKeyCard() {
-		// pick a random spawn point
-		int spawnNum = Random.Range(0, spawnPoints.transform.childCount);
-		GameObject spawnPoint = spawnPoints.transform.GetChild(spawnNum).gameObject;
-
 		// instantiate key card and interactable
-		Vector3 spawnPos = Tile.TileMiddle(Tile.TilePosition(spawnPoint.transform.position));
-		GameObject key = PhotonNetwork.Instantiate(
-			"Main Level Interactables/Key Card", 
-			spawnPos, 
-			Quaternion.identity, 
-			0);
-		key.GetComponent<MainLevelObjective2>().StartMe();
+		if (PhotonNetwork.isMasterClient) {
+			// pick a random spawn point
+			int spawnNum = Random.Range(0, spawnPoints.transform.childCount - 1);
+			GameObject spawnPoint = spawnPoints.transform.GetChild(spawnNum).gameObject;
+
+			Vector3 spawnPos = Tile.TileMiddle(Tile.TilePosition(spawnPoint.transform.position));
+
+			GameObject key = PhotonNetwork.Instantiate(
+				"Main Level Interactables/Key Card", 
+				spawnPos, 
+				Quaternion.identity, 
+				0);
+		}
 
 	}
 
