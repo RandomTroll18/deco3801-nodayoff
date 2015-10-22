@@ -28,6 +28,14 @@ TagManager:
   - SurveillanceCameraContainer
   - HumanRandomSecondary
   - AlienRandomSecondary
+  - Left Gun
+  - Right Gun
+  - Left Wing
+  - Right Wing
+  - Power
+  - Quarters
+  - Cargo
+  - Bridge
   layers:
   - Default
   - TransparentFX

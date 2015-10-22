@@ -63,14 +63,14 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void SetPublicVariables() {
-		leftWing = GameObject.Find("Left Wing").GetComponent<Image>();
-		rightWing = GameObject.Find("Right Wing").GetComponent<Image>();
-		leftGun = GameObject.Find("Left Wing").GetComponent<Image>();
-		rightGun = GameObject.Find("Right Gun").GetComponent<Image>();
-		power = GameObject.Find("Power").GetComponent<Image>();
-		quarters = GameObject.Find("Quarters").GetComponent<Image>();
-		cargo = GameObject.Find("Cargo").GetComponent<Image>();
-		bridge = GameObject.Find("Bridge").GetComponent<Image>();
+		leftWing = GameObject.FindGameObjectWithTag("Left Wing").GetComponent<Image>();
+		rightWing = GameObject.FindGameObjectWithTag("Right Wing").GetComponent<Image>();
+		leftGun = GameObject.FindGameObjectWithTag("Left Gun").GetComponent<Image>();
+		rightGun = GameObject.FindGameObjectWithTag("Right Gun").GetComponent<Image>();
+		power = GameObject.FindGameObjectWithTag("Power").GetComponent<Image>();
+		quarters = GameObject.FindGameObjectWithTag("Quarters").GetComponent<Image>();
+		cargo = GameObject.FindGameObjectWithTag("Cargo").GetComponent<Image>();
+		bridge = GameObject.FindGameObjectWithTag("Bridge").GetComponent<Image>();
 
 		ZoomSpeed = 500f;
 		RotationSpeed = 180f;
