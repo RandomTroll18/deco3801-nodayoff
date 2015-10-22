@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class MainLevelObjective1 : InteractiveObject {
-	public const int ROUNDS_LOST = 1;
 	public GameObject[] DoorsToUnlock;
 
 	public override void TakeAction(int input){
@@ -44,9 +43,6 @@ public class MainLevelObjective1 : InteractiveObject {
 		}
 
 		IsInactivated = true;
-		ChangeRoundsPerTurn nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
-		nasty.roundsLost = ROUNDS_LOST;
-		GameObject NastyUI = nasty.CreateCard();
 
 	}
 
@@ -119,5 +115,7 @@ public class MainLevelObjective1 : InteractiveObject {
 		 * A nasty event for players to resolve
 		 */
 		secondaries.AddComponent<BoardingParty>();
+		Object.FindObjectOfType<GameManager>().BoardingSpawn 
+			= GameObject.FindGameObjectWithTag("Boarding Party").transform.position;
 	}
 }
