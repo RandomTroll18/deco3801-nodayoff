@@ -95,7 +95,9 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	public void StartMe()
 	{
 		Application.runInBackground = true; // this must run in background or it will drop connection if not focussed.
-		
+
+		this.UserName = PhotonNetwork.player.name;
+
 		if (string.IsNullOrEmpty(this.UserName))
 		{
 			this.UserName = "user" + Environment.TickCount%99; //made-up username CHANGE NEEDED

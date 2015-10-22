@@ -54,7 +54,7 @@ public class SecurityRoomConsole : InteractiveObject {
 				if (Player.MyPlayer != null && !player.GetComponent<Player>().IsPlayerNoLongerActive()
 				    && GameManagerScript.gameObject != null)
 					GameManagerScript.SetInactivePlayer();
-				PhotonNetwork.Destroy(player);
+				//PhotonNetwork.Destroy(player);
 				Destroy(player);
 			}
 		}
