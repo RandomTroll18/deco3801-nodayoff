@@ -437,7 +437,10 @@ public class Player : MonoBehaviour {
 	 */
 	public void DetachTurnEffect(Effect effect) {
 		switch (effect.GetTurnEffectType()) { // Detach the effect on this player depending on type
-		case TurnEffectType.STATEFFECT: goto default; // Don't do anything yet
+		case TurnEffectType.STATEFFECT: // Can only reset the vision stat
+			if (effect.GetStatAffected() == Stat.VISION)
+				stats[Stat.VISION] = playerClass.GetStat(Stat.VISION);
+			break;
 		case TurnEffectType.STATMULTIPLIEREFFECT: // Can rese the stat multiplier now
 			playerClass.RestoreDefaultStat(effect.GetStatAffected());
 			break;
