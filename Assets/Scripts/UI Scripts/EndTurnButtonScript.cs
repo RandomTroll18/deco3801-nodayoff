@@ -18,9 +18,13 @@ public class EndTurnButtonScript : MonoBehaviour {
 	 */
 	void Update() {
 		Player playerScript = playerOwner.GetComponent<Player>();
+		if (playerScript.IsStunned) // Disable end turn button
+			EndTurnButton.GetComponent<Button>().interactable = false;
+		else
+			EndTurnButton.GetComponent<Button>().interactable = true;
 		if (playerScript.IsPlayerNoLongerActive()) 
 			EndTurnButton.GetComponentInChildren<Text>().text = "Undo End Turn";
-		else 
+		else
 			EndTurnButton.GetComponentInChildren<Text>().text = "End Turn";
 	}
 
