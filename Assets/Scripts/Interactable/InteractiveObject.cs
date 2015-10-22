@@ -31,6 +31,7 @@ public class InteractiveObject : MonoBehaviour {
 	public bool DebugOption = false;
 
 	public virtual void StartMe() {
+		ClassMultiplier = Stat.NOMULTIPLIER;
 		StartMe(Object.FindObjectOfType<GameManager>());
 	}
 

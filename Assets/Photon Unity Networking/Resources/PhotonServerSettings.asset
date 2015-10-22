@@ -63,4 +63,5 @@ MonoBehaviour:
   - Big
   - Small
   - SetActivePlayer
+  - SpawnBoardingParty
   DisableAutoOpenWizard: 1

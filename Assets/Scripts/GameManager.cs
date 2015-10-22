@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : Photon.PunBehaviour {
 	 
+	public Vector3 BoardingSpawn;
 	public int RoundsLeftUntilLose;
 	public int InitialNumberOfTurns; // The initial number of turns
 	public GameObject[] OpenedDoors;
@@ -344,6 +345,7 @@ public class GameManager : Photon.PunBehaviour {
 	/*
 	 * Increases the number of rounds lost after a turn.
 	 */
+	[PunRPC]
 	public void IncreaseRoundsLost(int newRoundsLost) {
 		this.roundsLost += newRoundsLost;
 	}
@@ -351,7 +353,16 @@ public class GameManager : Photon.PunBehaviour {
 	/*
 	 * Decreases the number of rounds lost after a turn.
 	 */
+	[PunRPC]
 	public void DecreaseRoundsLost(int newRoundsLost) {
 		this.roundsLost -= newRoundsLost;
+	}
+
+	[PunRPC]
+	public void SpawnBoardingParty(Vector3 spawn) {
+		BoardingSpawn = spawn;
+		GameObject secondaries 
+			= Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+		secondaries.AddComponent<BoardingParty>();
 	}
 }

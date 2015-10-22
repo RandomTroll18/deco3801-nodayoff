@@ -2,24 +2,35 @@
 using System.Collections;
 
 public class BoardingParty : SecondaryObjective {
+	public const int ROUNDS_LOST = 1;
+
 
 	Effect visionEffect; // The vision effect
 
-	public override void InitializeObjective()
-	{
+	public override void InitializeObjective() {
 		base.InitializeObjective();
 		Start();
 	}
-	
+
 	void Start() {
 		teamObjective = true;
+
+		Object.FindObjectOfType<GameManager>().IncreaseRoundsLost(ROUNDS_LOST);
+
+		ChangeRoundsPerTurn nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
+		nasty.roundsLost = ROUNDS_LOST;
+		GameObject NastyUI = nasty.CreateCard();
+
+		Vector3 pos = Object.FindObjectOfType<GameManager>().BoardingSpawn;
+
 
 		/*
 		 * Only the master needs to spawn in the boarding photon.
 		 */
 		if (PhotonNetwork.isMasterClient) {
-			Vector3 pos = Tile.TileMiddle(
-				Tile.TilePosition(GameObject.Find("Boarding Party").transform.position));
+
+			pos = Tile.TileMiddle(
+				Tile.TilePosition(pos));
 			PhotonNetwork.Instantiate("Main Level Interactables/Boarding Party",
 			                          pos,
 			                          Quaternion.identity,
@@ -29,16 +40,15 @@ public class BoardingParty : SecondaryObjective {
 		ObjectiveName = "Boarding";
 		Title = "Boarding Party";
 		Description = "Take out the boarding party.";
-		GameObject objective = GameObject.Find("Boarding Party");
-		Location = Tile.TilePosition(objective.transform.position);
+		Location = Tile.TilePosition(pos);
 		
-		ScoutSecondaryOneInteractable i = 
-			GameObject.Find("Scout Secondary One").AddComponent<ScoutSecondaryOneInteractable>();
-		i.InstantInteract = true;
-		i.StartMe();
-		
-		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
-		                                    "Night Vision Goggles", "Icons/Effects/DefaultEffect", -1, true);
+//		ScoutSecondaryOneInteractable i = 
+//			GameObject.Find("Scout Secondary One").AddComponent<ScoutSecondaryOneInteractable>();
+//		i.InstantInteract = true;
+//		i.StartMe();
+//		
+//		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
+//		                                    "Night Vision Goggles", "Icons/Effects/DefaultEffect", -1, true);
 	}
 	
 	public override void OnComplete() {

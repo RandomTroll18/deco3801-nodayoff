@@ -26,6 +26,8 @@ TagManager:
   - Boarding Party
   - Markers
   - SurveillanceCameraContainer
+  - HumanRandomSecondary
+  - AlienRandomSecondary
   layers:
   - Default
   - TransparentFX
