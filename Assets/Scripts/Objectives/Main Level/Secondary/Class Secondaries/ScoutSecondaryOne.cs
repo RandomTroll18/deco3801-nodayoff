@@ -12,6 +12,7 @@ public class ScoutSecondaryOne : SecondaryObjective {
 	}
 
 	void Start() {
+		Log();
 		ObjectiveName = "ScoutSecondaryOne";
 		Title = "Find the night vision goggles";
 		Description = "REWARD: extra vision." + StringMethodsScript.NEWLINE +

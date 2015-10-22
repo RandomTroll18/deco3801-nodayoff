@@ -5,7 +5,6 @@ using ExitGames.Client.Photon.Chat;
 using UnityEngine;
 using AuthenticationValues = ExitGames.Client.Photon.Chat.AuthenticationValues;
 
-using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
@@ -341,15 +340,15 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 
 	public void AllChat(bool big, string input) {
 		if (big) {
-			GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, input);
+			Big(input);
 		} else {
-			GetComponent<PhotonView>().RPC("Small", PhotonTargets.All, input);
+			Small(input);
 		}
 	}
 	
 	[PunRPC]
 	void Small(string input) {
-		this.selectedChannel.Add("Anonymous", input);
+		this.selectedChannel.Add("GAME", input);
 	}
 
 	[PunRPC]

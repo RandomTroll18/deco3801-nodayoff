@@ -5,6 +5,7 @@ using System.Collections;
  * Random boarding party added to map
  */
 public class AlienSecondaryFour : SecondaryObjective {
+	AlienSecondaryFourInteractable interactable;
 
 	GameObject PickBoardingParty() {
 		GameObject[] spawns = GameObject.FindGameObjectsWithTag("Boarding Party");
@@ -14,20 +15,28 @@ public class AlienSecondaryFour : SecondaryObjective {
 
 	// Use this for initialization
 	void Start () {
+		Log();
 		GameObject objective = PickAlienObjective();
 		Title = "Summon Boarding Party";
 		Description = "A Versipellis boarding party is at the ready. Shutdown the ship's defenses" +
 			"so they can attack.";
 		Location = Tile.TilePosition(objective.transform.position);
 		
-		AlienSecondaryFourInteractable i = objective.AddComponent<AlienSecondaryFourInteractable>();
-		i.InstantInteract = true;
-		i.StartMe();
+		interactable = objective.AddComponent<AlienSecondaryFourInteractable>();
+		interactable.InstantInteract = true;
+		interactable.StartMe();
 	}
 
 	public override void OnComplete() {
 		Object.FindObjectOfType<GameManager>()
 			.GetComponent<PhotonView>().RPC("SpawnBoardingParty", PhotonTargets.All, PickBoardingParty().transform.position);
 		Destroy(this);
+
+		string message = "Alien has stolen secret documents from " + 
+			interactable.GetComponent<Location>().MyLocation.ToString();
+		Object.FindObjectOfType<GameManager>()
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+		
+		Destroy(interactable);
 	}
 }

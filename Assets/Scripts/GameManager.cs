@@ -374,5 +374,11 @@ public class GameManager : Photon.PunBehaviour {
 			= Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 		secondaries.AddComponent<BoardingParty>();
 	}
-	
+
+	[PunRPC]
+	public void EventCardMessage(string message) {
+		GenericCard gc = gameObject.AddComponent<GenericCard>();
+		gc.message = message;
+		gc.CreateCard();
+	}
 }

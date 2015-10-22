@@ -10,6 +10,7 @@ public class MarineSecondaryOne : SecondaryObjective {
 	}
 
 	void Start() {
+		Log();
 		ObjectiveName = "MarineSecondaryOne";
 		Title = "Find the deployable stun turrets";
 		Description = "REWARD: Deployable Stun Turrets.";

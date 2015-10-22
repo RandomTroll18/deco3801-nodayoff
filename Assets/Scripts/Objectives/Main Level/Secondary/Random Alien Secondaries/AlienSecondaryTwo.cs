@@ -4,6 +4,7 @@ using System.Collections;
 public class AlienSecondaryTwo : SecondaryObjective {
 
 	Effect visionEffect; // The vision effect
+	AlienSecondaryTwoInteractable interactable;
 	
 	public override void InitializeObjective()
 	{
@@ -14,16 +15,17 @@ public class AlienSecondaryTwo : SecondaryObjective {
 	
 	// Use this for initialization
 	void Start () {
+		Log();
 		ObjectiveName = "AlienSecondaryTwo";
 		Title = "Disrupt Generator";
 		Description = "REWARD: extra Vision due to dimmed lights." + StringMethodsScript.NEWLINE;
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		
-		AlienSecondaryTwoInteractable i = 
+		interactable = 
 			objective.AddComponent<AlienSecondaryTwoInteractable>();
-		i.InstantInteract = true;
-		i.StartMe();
+		interactable.InstantInteract = true;
+		interactable.StartMe();
 		
 		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
 		                                "Dimmed Lights: Vision set to 3", "Icons/Effects/alienvisionpurple", -1, true);
@@ -52,6 +54,13 @@ public class AlienSecondaryTwo : SecondaryObjective {
 			playerScript.SetStatValue(Stat.VISION, 3.0);
 		}
 		Destroy(this);
-		PickNewAlienObjective();
+//		PickNewAlienObjective();
+
+		string message = "Alien has stolen secret documents from " + 
+			interactable.GetComponent<Location>().MyLocation.ToString();
+		Object.FindObjectOfType<GameManager>()
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+		
+		Destroy(interactable);
 	}
 }

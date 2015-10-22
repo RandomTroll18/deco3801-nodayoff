@@ -13,6 +13,7 @@ public class BoardingParty : SecondaryObjective {
 	}
 
 	void Start() {
+		Log();
 		teamObjective = true;
 
 		Object.FindObjectOfType<GameManager>().IncreaseRoundsLost(ROUNDS_LOST);

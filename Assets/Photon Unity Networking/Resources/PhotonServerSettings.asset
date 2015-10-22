@@ -67,4 +67,5 @@ MonoBehaviour:
   - ClearCountRPC
   - Kill
   - SpawnBoardingParty
+  - EventCardMessage
   DisableAutoOpenWizard: 1

@@ -22,6 +22,10 @@ public class SecondaryObjectiveController : MonoBehaviour {
 //		panel2 = GameObject.Find("Secondary 2");
 	}
 
+	void Update() {
+
+	}
+
 	/*
 	 * You can think of this as being the Start function
 	 */

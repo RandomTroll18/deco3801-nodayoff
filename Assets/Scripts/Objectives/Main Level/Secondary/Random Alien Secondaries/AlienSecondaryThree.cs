@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class AlienSecondaryThree : SecondaryObjective {
 
 	Effect skillCheckBonusEffect; // The skill check bonus to add
+	AlienSecondaryThreeInteractable interactable;
 	
 	public override void InitializeObjective()
 	{
@@ -15,16 +16,17 @@ public class AlienSecondaryThree : SecondaryObjective {
 	
 	// Use this for initialization
 	void Start () {
+		Log();
 		ObjectiveName = "AlienSecondaryThree";
 		Title = "Access Secret Documents";
 		Description = "REWARD: +50% to skill check of your human class." + StringMethodsScript.NEWLINE;
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		
-		AlienSecondaryThreeInteractable i = 
+		interactable = 
 			objective.AddComponent<AlienSecondaryThreeInteractable>();
-		i.InstantInteract = true;
-		i.StartMe();
+		interactable.InstantInteract = true;
+		interactable.StartMe();
 
 	}
 	
@@ -78,5 +80,12 @@ public class AlienSecondaryThree : SecondaryObjective {
 		}
 		Destroy(this);
 		PickNewAlienObjective();
+
+		string message = "Alien has stolen secret documents from " + 
+			interactable.GetComponent<Location>().MyLocation.ToString();
+		Object.FindObjectOfType<GameManager>()
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+
+		Destroy(interactable);
 	}
 }

@@ -11,6 +11,11 @@ public class SecondaryObjective : Objective {
 	const int NUM_HUMAN_OBJECTIVES = 2;
 	const int NUM_ALIEN_OBJECTIVES = 3;
 
+	protected void Log() {
+		ChatTest.Instance.AllChat(false, "You have a new secondary objective");
+		Debug.Log("a");
+	}
+
 	public override void OnComplete() {
 		if (teamObjective) {
 			Debug.Log("Team objective completed");

@@ -37,11 +37,6 @@ public class MainLevelObjective1 : InteractiveObject {
 	void Sync(){
 		GiveSecondaryObjectives();
 
-		foreach (GameObject door in DoorsToUnlock) {
-			Object.FindObjectOfType<GameManager>()
-				.OpenDoor(Tile.TilePosition(door.transform.position));
-		}
-
 		IsInactivated = true;
 
 	}

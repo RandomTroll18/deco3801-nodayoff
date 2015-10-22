@@ -9,6 +9,7 @@ public class TechnicianSecondaryOne : SecondaryObjective {
 	}
 
 	void Start() {
+		Log();
 		GameObject objective = GameObject.Find("Technician Secondary One");
 		ObjectiveName = "TechnicianSecondaryOne";
 		Title = "Find the deployable surveillance cameras";

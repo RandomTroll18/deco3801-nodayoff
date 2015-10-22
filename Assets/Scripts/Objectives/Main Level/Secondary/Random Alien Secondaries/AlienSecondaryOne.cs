@@ -4,6 +4,7 @@ using System.Collections;
 public class AlienSecondaryOne : SecondaryObjective {
 
 	Effect apEffect; // The vision effect
+	AlienSecondaryOneInteractable interactable;
 	
 	public override void InitializeObjective()
 	{
@@ -14,16 +15,17 @@ public class AlienSecondaryOne : SecondaryObjective {
 
 	// Use this for initialization
 	void Start () {
+		Log();
 		ObjectiveName = "AlienSecondaryOne";
 		Title = "Steal Food Supply";
 		Description = "REWARD: extra AP." + StringMethodsScript.NEWLINE;
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		
-		AlienSecondaryOneInteractable i = 
+		interactable = 
 			objective.AddComponent<AlienSecondaryOneInteractable>();
-		i.InstantInteract = true;
-		i.StartMe();
+		interactable.InstantInteract = true;
+		interactable.StartMe();
 		
 		apEffect = new StatusTurnEffect(Stat.AP, 10.0, 0, "Extra Food: 10 Extra AP", "Icons/Effects/bonusAPALIENpurple", 
 				-1, true);
@@ -52,6 +54,13 @@ public class AlienSecondaryOne : SecondaryObjective {
 			playerScript.IncreaseStatValue(Stat.AP, 10.0);
 		}
 		Destroy(this);
-		PickNewAlienObjective();
+//		PickNewAlienObjective();
+
+		string message = "Alien has stolen secret documents from " + 
+			interactable.GetComponent<Location>().MyLocation.ToString();
+		Object.FindObjectOfType<GameManager>()
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+		
+		Destroy(interactable);
 	}
 }
