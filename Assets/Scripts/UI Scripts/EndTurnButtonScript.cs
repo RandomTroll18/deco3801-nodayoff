@@ -17,11 +17,16 @@ public class EndTurnButtonScript : MonoBehaviour {
 	 * Update function of the end turn button
 	 */
 	void Update() {
+		try {
 		Player playerScript = playerOwner.GetComponent<Player>();
 		if (playerScript.IsPlayerNoLongerActive()) 
 			EndTurnButton.GetComponentInChildren<Text>().text = "Undo End Turn";
 		else 
 			EndTurnButton.GetComponentInChildren<Text>().text = "End Turn";
+		} 		
+		catch (MissingReferenceException e) { // Handle Security System Kill state
+			Application.LoadLevel("GameOver");
+		}
 	}
 
 	/**

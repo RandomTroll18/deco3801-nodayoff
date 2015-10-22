@@ -30,3 +30,7 @@ Assets/Editor/SaveSceneOnRun.cs
 Assets/Editor/SaveSceneOnRun.cs.meta
 Assets/_Scenes/Jaydons_NOTOUCHY
 build
+Assets/Meshes/Materials.meta
+Assets/Prefabs.meta
+Assets/Prefabs/Movement.meta
+Assets/Prefabs/UI.meta

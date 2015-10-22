@@ -7,7 +7,7 @@ public class EventCard : MonoBehaviour
 {
 
 	//public GameObject prefab;
-	
+
 	protected GameObject card;
 	protected delegate void Function(int highestVote);
 	protected Function Resolve;
@@ -98,8 +98,10 @@ public class EventCard : MonoBehaviour
 	}
 
 	public void SetCap() {
+
 		if (TeamEvent) {
-			VoteCap = 4; // TODO: Set current players in game
+			GameManager GameManagerScript = Object.FindObjectOfType<GameManager>();
+			VoteCap = GameManagerScript.GetPlayersLeft();
 		} else {
 			VoteCap = 1;
 		}
@@ -121,6 +123,7 @@ public class EventCard : MonoBehaviour
 		if (counter.CheckPoll(ListNumber, VoteCap)) {
 			//Resolve();
 			CardEffect(counter.ReturnHighestCount(ListNumber));
+			counter.ClearCount(ListNumber);
 		}
 	}
 

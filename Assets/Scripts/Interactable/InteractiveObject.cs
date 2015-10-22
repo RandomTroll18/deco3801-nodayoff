@@ -161,6 +161,14 @@ public class InteractiveObject : MonoBehaviour {
 		MController.BlockTile(t);
 	}
 
+	public void SetInactive(){
+		IsInactivated = true;
+	}
+
+	public void SetActive(){
+		IsInactivated = false;
+	}
+
 	/*
 	public void TargetOpen(){
 		foreach (GameObject Target in Targets) {

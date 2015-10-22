@@ -4,11 +4,20 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 
 public class SecurityRoomCard : EventCard {
-	
+
 	public override void ChangeCard(){
 
+		this.TeamEvent = true;
 		Resolve = new Function(Kill);
 		ListNumber = 0;
+
+		/*
+		for (int i = 1; i < 5; i++) {
+			this.ChangeButton (i, "Player 1");
+			Player.
+		} 
+		*/
+
 
 		this.ChangeButton (1, "Player 1");
 		this.ChangeButton (2, "Player 2");
@@ -24,7 +33,8 @@ public class SecurityRoomCard : EventCard {
 	}
 
 	private void Kill(int toKill){
-		Debug.Log("kill" + toKill);
+		SecurityRoomConsole script = this.gameObject.GetComponent<SecurityRoomConsole>();
+		script.DoKill(toKill);
 	}
 	
 }

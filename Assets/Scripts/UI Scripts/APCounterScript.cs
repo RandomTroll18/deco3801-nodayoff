@@ -19,6 +19,7 @@ public class APCounterScript : MonoBehaviour {
 	 * Update function
 	 */
 	void Update() {
+		try {
 		Player playerScript = Owner.GetComponent<Player>();
 		if (playerScript == null) 
 			return; // Not a player
@@ -26,6 +27,10 @@ public class APCounterScript : MonoBehaviour {
 			APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
 		else 
 			APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
+		} 
+		catch (MissingReferenceException e) { // Handle Security System Kill state
+			Application.LoadLevel("GameOver");
+		}
 	}
 
 }

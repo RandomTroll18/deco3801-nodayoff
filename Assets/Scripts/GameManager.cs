@@ -269,12 +269,17 @@ public class GameManager : Photon.PunBehaviour {
 		playersLeft = PhotonNetwork.playerList.Length; // Need to check photons list of players, not models
 
 		// Initialize player stats - AP and apply player effects
-		Player p = Player.MyPlayer.GetComponent<Player>();
-		p.InitializeStats();
-		p.ApplyTurnEffects();
-		p.ReduceItemCoolDowns();
-		p.ReduceAbilityTurns();
-		p.SetInActivity(false);
+		try { 
+			Player p = Player.MyPlayer.GetComponent<Player>();
+			p.InitializeStats();
+			p.ApplyTurnEffects();
+			p.ReduceItemCoolDowns();
+			p.ReduceAbilityTurns();
+			p.SetInActivity(false);
+		} 
+		catch (MissingReferenceException e) { // Handle Security System Kill state
+			Application.LoadLevel("GameOver");
+		}
 
 		RoundsLeftUntilLose -= roundsLost;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
@@ -353,5 +358,9 @@ public class GameManager : Photon.PunBehaviour {
 	 */
 	public void DecreaseRoundsLost(int newRoundsLost) {
 		this.roundsLost -= newRoundsLost;
+	}
+
+	public int GetPlayersLeft() {
+		return playersLeft;
 	}
 }

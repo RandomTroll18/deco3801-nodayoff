@@ -23,6 +23,12 @@ public class Poll : MonoBehaviour {
 	}
 
 	public void AddToPoll(int number, int vote) {
+		GetComponent<PhotonView>().RPC("AddToPollRPC", PhotonTargets.All, number, vote);
+	}
+	
+	[PunRPC]
+	void AddToPollRPC(int number, int vote) {
+		Debug.Log("Add to poll " + number + "|" + vote);
 		BigList[number].Add(vote);
 	}
 
@@ -67,5 +73,17 @@ public class Poll : MonoBehaviour {
 		}
 		return Count;
 	}
+
+	public void ClearCount(int number){
+		GetComponent<PhotonView>().RPC("ClearCountRPC", PhotonTargets.All, number);
+
+	}
+	
+	[PunRPC]
+	void ClearCountRPC(int number) {
+		Debug.Log("Clear count");
+		BigList[number] = new List<int>();
+	}
+
 
 }
