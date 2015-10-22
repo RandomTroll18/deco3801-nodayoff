@@ -10,6 +10,7 @@ public abstract class Objective : MonoBehaviour {
 	protected string title;
 	protected string description;
 	protected Tile location;
+	protected Tile location2 = null;
 	protected GameManager gameManager;
 
 	public virtual void InitializeObjective() {
@@ -45,6 +46,15 @@ public abstract class Objective : MonoBehaviour {
 		}
 		set {
 			location = value;
+		}
+	}
+
+	public Tile Location2 {
+		get {
+			return location2;
+		}
+		set {
+			location2 = value;
 		}
 	}
 

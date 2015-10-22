@@ -45,5 +45,6 @@ public class MainLevelObjective2 : InteractiveObject {
 			Object.FindObjectOfType<GameManager>()
 				.OpenDoor(Tile.TilePosition(door.transform.position));
 		}
+		PhotonNetwork.Destroy(GetComponent<PhotonView>());
 	}
 }

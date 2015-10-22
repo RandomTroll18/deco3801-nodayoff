@@ -15,6 +15,7 @@ public class FourthObjectiveMain : PrimaryObjective {
 			"A Technician is needed.";
 
 		Location = Tile.TilePosition(GameObject.Find("EscapePod 1").transform.position);
+		Location2 = Tile.TilePosition(GameObject.Find("EscapePod 3").transform.position);
 	}
 
 	public override void OnComplete() {

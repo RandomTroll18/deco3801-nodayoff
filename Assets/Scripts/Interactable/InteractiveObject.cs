@@ -131,8 +131,10 @@ public class InteractiveObject : MonoBehaviour {
 		//CloseEvent();
 		if (rng >= cost)
 			return true;
-		else
+		else {
+			ChatTest.Instance.AllChat(true, "FAILED");
 			return false;
+		}
 	}
 
 	public void CloseEvent(){

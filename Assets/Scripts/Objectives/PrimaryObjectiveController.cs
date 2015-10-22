@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class PrimaryObjectiveController : MonoBehaviour {
 	public GameObject HumanObjectivePanel; // Human objective panel for the alien
+	public GameObject SecondaryLocationButton;
+	public GameObject PrimaryLocationButton;
+
 	Objective objective;
 	CameraController cam;
 
@@ -57,6 +60,12 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 		if (objective.Location == null)
 			DeactivateLocationButton();
+		else
+			ActivateLocationButton();
+
+		if (objective.Location2 != null) {
+			SecondaryLocationButton.SetActive(true);
+		}
 
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien. Indicate primary human objective
 			HumanObjectivePanel.SetActive(true);
@@ -70,7 +79,11 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	}
 
 	void DeactivateLocationButton() {
-		GetComponentInChildren<Button>().gameObject.SetActive(false);
+		PrimaryLocationButton.SetActive(false);
+	}
+
+	void ActivateLocationButton() {
+		PrimaryLocationButton.SetActive(true);
 	}
 
 	[PunRPC]
@@ -86,5 +99,10 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	public void GoToLocation() {
 		cam.MoveCamera(objective.Location);
 		cam.HighlightTile(objective.Location);
+	}
+
+	public void GoToLocation2() {
+		cam.MoveCamera(objective.Location2);
+		cam.HighlightTile(objective.Location2);
 	}
 }
