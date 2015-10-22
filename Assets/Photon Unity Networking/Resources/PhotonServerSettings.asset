@@ -63,4 +63,8 @@ MonoBehaviour:
   - Big
   - Small
   - SetActivePlayer
+  - AddToPollRPC
+  - ClearCountRPC
+  - Kill
+  - SpawnBoardingParty
   DisableAutoOpenWizard: 1

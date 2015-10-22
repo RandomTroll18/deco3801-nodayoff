@@ -338,6 +338,37 @@ public class Player : MonoBehaviour {
 	 * Function handling collision with a trigger item
 	 */
 	void OnTriggerEnter(Collider other) {
+		/*
+		 * Map things
+		 */
+		CameraController cm = GetComponentInChildren<CameraController>();
+		switch (other.gameObject.name) {
+		case "Cargo":
+			cm.Location = Locations.CARGO_BAY;
+			break;
+		case "Quarters":
+			cm.Location = Locations.QUARTERS;
+			break;
+		case "Left Wing":
+			cm.Location = Locations.L_WING;
+			break;
+		case "Right Wing":
+			cm.Location = Locations.R_WING;
+			break;
+		case "Bridge":
+			cm.Location = Locations.BRDIGE;
+			break;
+		case "Left Gun":
+			cm.Location = Locations.L_GUN;
+			break;
+		case "Right Gun":
+			cm.Location = Locations.R_GUN;
+			break;
+		case "Power":
+			cm.Location = Locations.POWER;
+			break;
+		}
+
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {

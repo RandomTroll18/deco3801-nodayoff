@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour {
 
@@ -11,7 +12,7 @@ public class CameraController : MonoBehaviour {
 	public float RotationSpeed;
 	public Transform Target;
 	public float ZoomSpeed;
-
+	public Locations Location;
 	public float CamSpeed;
 	/* The distance the mouse pointer needs to be from the edge before the 
 	 * screen moves.
@@ -19,10 +20,20 @@ public class CameraController : MonoBehaviour {
 	public float GUISize;
 	public LayerMask LayerMask;
 
+	Image leftWing;
+	Image rightWing;
+	Image leftGun;
+	Image rightGun;
+	Image power;
+	Image quarters;
+	Image cargo;
+	Image bridge;
 	const float MAX_Z = 120f;
 	const float MIN_Z = -55f;
 	const float MAX_X = 86f;
 	const float MIN_X = -75f;
+	const float MAX_Y = 25f;
+	const float MIN_Y = 12.25f;
 	Vector3 offset;
 	//Player playerScript;
 	MovementController movController;
@@ -52,6 +63,15 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void SetPublicVariables() {
+		leftWing = GameObject.Find("Left Wing").GetComponent<Image>();
+		rightWing = GameObject.Find("Right Wing").GetComponent<Image>();
+		leftGun = GameObject.Find("Left Wing").GetComponent<Image>();
+		rightGun = GameObject.Find("Right Gun").GetComponent<Image>();
+		power = GameObject.Find("Power").GetComponent<Image>();
+		quarters = GameObject.Find("Quarters").GetComponent<Image>();
+		cargo = GameObject.Find("Cargo").GetComponent<Image>();
+		bridge = GameObject.Find("Bridge").GetComponent<Image>();
+
 		ZoomSpeed = 500f;
 		RotationSpeed = 180f;
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
@@ -88,7 +108,54 @@ public class CameraController : MonoBehaviour {
 			float zoom = -Input.GetAxis("Mouse ScrollWheel");
 			Vector3 pos = transform.position;
 			pos.y += zoom * Time.deltaTime * ZoomSpeed;
+			pos.y = Mathf.Clamp(pos.y, MIN_Y, MAX_Y + 0.01f);
 			transform.position = pos;
+			
+
+			/*
+			 * Change to map if zoomed out too far
+			 */
+			if (transform.position.y >= MAX_Y) {
+				switch (Location) {
+				case Locations.BRDIGE:
+					bridge.enabled = true;
+					break;
+				case Locations.R_GUN:
+					rightGun.enabled = true;
+					break;
+				case Locations.L_GUN:
+					leftGun.enabled = true;
+					break;
+				case Locations.R_WING:
+					rightWing.enabled = true;
+					break;
+				case Locations.L_WING:
+					leftWing.enabled = true;
+					break;
+				case Locations.QUARTERS:
+					quarters.enabled = true;
+					break;
+				case Locations.CARGO_BAY:
+					cargo.enabled = true;
+					break;
+				case Locations.POWER:
+					power.enabled = true;
+					break;
+				}
+			} else {
+				leftWing.enabled = false;
+				rightWing.enabled = false;
+				leftGun.enabled = false;
+				rightGun.enabled = false;
+				power.enabled = false;
+				quarters.enabled = false;
+				cargo.enabled = false;
+				bridge.enabled = false;
+			}
+
+			/*
+			 * Don't let curious people zoom in too close
+			 */
 
 			float rotation = Input.GetAxis("Rotate");
 			transform.RotateAround(Target.position, Vector3.up, 
