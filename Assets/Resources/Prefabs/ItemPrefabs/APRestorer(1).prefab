@@ -11,9 +11,10 @@ GameObject:
   - 33: {fileID: 3304010}
   - 65: {fileID: 6516614}
   - 23: {fileID: 2384392}
-  - 114: {fileID: 11433212}
   - 54: {fileID: 5440424}
   - 114: {fileID: 11439560}
+  - 114: {fileID: 11433212}
+  - 114: {fileID: 11461844}
   m_Layer: 0
   m_Name: APRestorer(1)
   m_TagString: Item
@@ -28,8 +29,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 103040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.85000002, y: 0, z: 4.5999999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -78.8000031, y: 0, z: -15}
+  m_LocalScale: {x: .60643822, y: .369529247, z: .614882052}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -104,7 +105,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: AP Restorer
   Image: {fileID: 21300000, guid: 51959ae1ca169b94bb2b979b91be709b, type: 3}
-  TestPrefab: {fileID: 0}
   SoundEfx: []
   Amount: 1
 --- !u!114 &11439560
@@ -122,16 +122,28 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 3
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 496356}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11461844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Permanent: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

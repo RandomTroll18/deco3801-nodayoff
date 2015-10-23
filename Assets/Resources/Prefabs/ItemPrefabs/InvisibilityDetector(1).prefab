@@ -14,6 +14,7 @@ GameObject:
   - 54: {fileID: 5406074}
   - 114: {fileID: 11438394}
   - 114: {fileID: 11427082}
+  - 114: {fileID: 11465664}
   m_Layer: 0
   m_Name: InvisibilityDetector(1)
   m_TagString: Item
@@ -104,7 +105,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Invisibility Detector
   Image: {fileID: 21300000, guid: 11af70120d5daa444b0ec05f185700c6, type: 3}
-  TestPrefab: {fileID: 0}
   SoundEfx: []
   Amount: 1
 --- !u!114 &11438394
@@ -132,6 +132,18 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11465664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Permanent: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

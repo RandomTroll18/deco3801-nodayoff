@@ -72,7 +72,7 @@ public class APRestorer : RecoveryConsumables {
 		string statString = "Stats affected: "; // The stats affected
 
 		// The string to return. Start with the name
-		string toReturn = "Item Name: " + name + StringMethodsScript.NEWLINE;
+		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
 
 		// Next, add item description
 		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;

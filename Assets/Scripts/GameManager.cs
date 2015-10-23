@@ -256,6 +256,7 @@ public class GameManager : Photon.PunBehaviour {
 	 * - if it is an invalid turn, then do any required actions
 	 */
 	void Update() {
+		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 		if (!loaded) // Wait for other players to join first
 			waitForPlayers();
 		if (validTurn) {

@@ -14,6 +14,7 @@ GameObject:
   - 54: {fileID: 5480450}
   - 114: {fileID: 11480568}
   - 114: {fileID: 11413080}
+  - 114: {fileID: 11426396}
   m_Layer: 0
   m_Name: TrapDetector(1)
   m_TagString: Item
@@ -104,9 +105,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Trap Detector
   Image: {fileID: 21300000, guid: d38c853604ffe4842ad47a971a35c642, type: 3}
-  TestPrefab: {fileID: 0}
   SoundEfx: []
   Amount: 1
+--- !u!114 &11426396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Permanent: 0
 --- !u!114 &11480568
 MonoBehaviour:
   m_ObjectHideFlags: 1

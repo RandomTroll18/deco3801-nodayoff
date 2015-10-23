@@ -12,8 +12,9 @@ GameObject:
   - 65: {fileID: 6530016}
   - 23: {fileID: 2308850}
   - 54: {fileID: 5435698}
-  - 114: {fileID: 11453172}
   - 114: {fileID: 11429024}
+  - 114: {fileID: 11453172}
+  - 114: {fileID: 11465882}
   m_Layer: 0
   m_Name: UsableSurveillanceCam(1)
   m_TagString: Item
@@ -129,9 +130,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Deployable Surveillance Camera
   Image: {fileID: 21300000, guid: eea751704080b8646879107481b2cc7f, type: 3}
-  TestPrefab: {fileID: 0}
   SoundEfx: []
   Amount: 1
+--- !u!114 &11465882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Permanent: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

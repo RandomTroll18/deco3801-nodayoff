@@ -14,6 +14,7 @@ GameObject:
   - 54: {fileID: 5422726}
   - 114: {fileID: 11435786}
   - 114: {fileID: 11420262}
+  - 114: {fileID: 11418516}
   m_Layer: 0
   m_Name: StealthApplicator(1)
   m_TagString: Item
@@ -91,6 +92,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11418516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Permanent: 0
 --- !u!114 &11420262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,7 +117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Stealth Applicator
   Image: {fileID: 21300000, guid: 3deb2e28357dbdb4e90d11e60ef66cb1, type: 3}
-  TestPrefab: {fileID: 0}
   SoundEfx: []
 --- !u!114 &11435786
 MonoBehaviour:
