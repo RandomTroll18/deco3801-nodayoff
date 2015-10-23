@@ -11,7 +11,6 @@ public abstract class Item : MonoBehaviour {
 
 	public string ItemName; // The name of this item
 	public Sprite Image; // The icon for this image
-	public GameObject TestPrefab; // Prefab to show where Stun Gun is activated - MVP Purposes
 	public List<AudioClip> SoundEfx; // The sound effects for this item
 
 	protected string ItemDescription; // The description of this item
@@ -63,16 +62,6 @@ public abstract class Item : MonoBehaviour {
 	 */
 	public void SetUsePerTurn(int newUsePerTurn) {
 		UsePerTurn = newUsePerTurn;
-	}
-
-	/**
-	 * Function for MVP purposes
-	 * 
-	 * Arguments
-	 * - GameObject newTestPrefab - The new test prefab for stun gun
-	 */
-	public void SetTestPrefab(GameObject newTestPrefab) {
-		TestPrefab = newTestPrefab;
 	}
 
 	/**
