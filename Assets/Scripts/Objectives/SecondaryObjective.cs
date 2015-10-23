@@ -4,9 +4,13 @@ using System.Collections;
 /**
  * Likely won't be used for the MVP but I'm keeping secondary objectives in mind.
  */
+using System.Collections.Generic;
+
+
 public class SecondaryObjective : Objective {
 	public string ObjectiveName; // Used to ID objectives
 	protected bool teamObjective;
+	static List<GameObject> takenObjectives = new List<GameObject>();
 
 	const int NUM_HUMAN_OBJECTIVES = 2;
 	const int NUM_ALIEN_OBJECTIVES = 3;
@@ -65,7 +69,13 @@ public class SecondaryObjective : Objective {
 
 	protected GameObject PickAlienObjective() {
 		GameObject[] objects = GameObject.FindGameObjectsWithTag("AlienRandomSecondary");
-		int spawn = Random.Range(0, objects.Length - 1);
+		int spawn;
+		while (true) {
+			spawn = Random.Range(0, objects.Length - 1);
+			if (!takenObjectives.Contains(objects[spawn]))
+			    break;
+		}
+		takenObjectives.Add(objects[spawn]);
 		return objects[spawn];
 	}
 

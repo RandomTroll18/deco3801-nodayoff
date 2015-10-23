@@ -9,12 +9,12 @@ public class AlienSecondaryTwo : SecondaryObjective {
 	public override void InitializeObjective()
 	{
 		base.InitializeObjective();
-		Start();
+//		Start();
 	}
 	
 	
 	// Use this for initialization
-	void Start () {
+	public void StartMe() {
 		Log();
 		ObjectiveName = "AlienSecondaryTwo";
 		Title = "Disrupt Generator";

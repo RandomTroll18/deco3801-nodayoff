@@ -9,7 +9,7 @@ public class AlienSecondaryFive : SecondaryObjective {
 
 
 	// Use this for initialization
-	void Start () {
+	public void StartMe() {
 		Log();
 
 		GameObject objective = PickAlienObjective();
