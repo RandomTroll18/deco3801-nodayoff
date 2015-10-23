@@ -33,7 +33,8 @@ public class AlienSecondarySix : SecondaryObjective {
 		int num = 0;
 		GameObject pod1;
 		GameObject pod2;
-		if (gameObject.name.Contains("3") || gameObject.name.Contains("4")) {
+		// TODO: confirm this works
+		if (gameObject.name.Equals("EscapePod 3") || gameObject.name.Equals("EscapePod 4")) {
 			pod1 = GameObject.Find("EscapePod 3");
 			pod2 = GameObject.Find("EscapePod 4");
 		} else {

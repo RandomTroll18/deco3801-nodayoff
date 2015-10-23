@@ -381,4 +381,9 @@ public class GameManager : Photon.PunBehaviour {
 		gc.message = message;
 		gc.CreateCard();
 	}
+
+	[PunRPC]
+	public void IncreaseRounds(int extraRounds) {
+		this.RoundsLeftUntilLose += extraRounds;
+	}
 }

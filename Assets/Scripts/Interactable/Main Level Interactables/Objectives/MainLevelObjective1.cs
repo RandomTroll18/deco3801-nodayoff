@@ -110,6 +110,7 @@ public class MainLevelObjective1 : InteractiveObject {
 		 * A nasty event for players to resolve
 		 */
 		secondaries.AddComponent<BoardingParty>();
+		secondaries.AddComponent<TeamExtraRounds>();
 		Object.FindObjectOfType<GameManager>().BoardingSpawn 
 			= GameObject.FindGameObjectWithTag("Boarding Party").transform.position;
 	}

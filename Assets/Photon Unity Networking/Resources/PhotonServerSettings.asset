@@ -70,4 +70,6 @@ MonoBehaviour:
   - EventCardMessage
   - PhotonDestroy
   - PhotonDestroy2
+  - IncreaseRounds
+  - Progress
   DisableAutoOpenWizard: 1
