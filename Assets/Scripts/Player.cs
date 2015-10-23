@@ -320,6 +320,7 @@ public class Player : MonoBehaviour {
 			break;
 		default: break; // Don't do anything
 		}
+		Debug.Log("Turn effect number of turns: " + toAdd.TurnsRemaining());
 		turnEffects.Add(toAdd);
 		effectPanelScript.AddTurnEffect(toAdd);
 	}
@@ -693,6 +694,23 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * RPC call to generate surveillance cameras
+	 * 
+	 * Arguments
+	 * - Vector3 positionToSet - The position to set
+	 */
+	[PunRPC]
+	public void InstantiateSurvCamera(Vector3 positionToSet) {
+		GameObject instantiatedCamera = 
+				Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/SurveillanceCamera")); // Camera
+
+		instantiatedCamera.transform.position = positionToSet;
+		instantiatedCamera.transform.SetParent(
+			GameObject.FindGameObjectWithTag("SurveillanceCameraContainer").transform);
+		instantiatedCamera.SetActive(false);
+	}
+
 	/* 
 	 * Returns the distance between this player and a tile.
 	 */
@@ -852,9 +870,15 @@ public class Player : MonoBehaviour {
 	 * Reduce the number of turns this player's ability is still active
 	 */
 	public void ReduceAbilityTurns() {
+		AlienClass alienClass; // Container for the alien class
 		if (playerClass.GetPrimaryAbility() == null) 
 			return; // No ability
-		playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
+
+		if (playerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
+			alienClass = (AlienClass)playerClass;
+			alienClass.GetHumanClass().GetPrimaryAbility().ReduceNumberOfTurns();
+		} else // Human
+			playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
 	}
 
 	/**

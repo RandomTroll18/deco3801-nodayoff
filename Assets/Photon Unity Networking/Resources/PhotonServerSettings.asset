@@ -73,4 +73,5 @@ MonoBehaviour:
   - IncreaseRounds
   - Progress
   - AddTurns
+  - InstantiateSurvCamera
   DisableAutoOpenWizard: 1

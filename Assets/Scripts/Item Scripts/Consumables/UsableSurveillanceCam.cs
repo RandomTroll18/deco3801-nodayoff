@@ -32,16 +32,8 @@ public class UsableSurveillanceCam : SupportConsumables {
 		else { // Instantiate camera
 			Amount--;
 			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 5f, Tile.TileMiddle(targetTile).z);
-			instantiatedCamera = PhotonNetwork.Instantiate(
-					"Prefabs/SurveillanceCamera", 
-					instantiatePosition, 
-					Quaternion.identity, 
-			        0
-			);
-			instantiatedCamera.transform.Rotate(new Vector3(90f, 0, 0));
-			instantiatedCamera.transform.SetParent(
-				GameObject.FindGameObjectWithTag("SurveillanceCameraContainer").transform);
-			instantiatedCamera.SetActive(false);
+			Player.MyPlayer.GetComponent<PhotonView>().RPC("InstantiateSurvCamera", PhotonTargets.All, 
+					new object[] {instantiatePosition});
 			UpdateContextAwareBox();
 			if (Amount == 0) { // Remove the item
 				Player.MyPlayer.GetComponent<Player>().RemoveItem(this, false);

@@ -56,6 +56,7 @@ public class MainLevelObjective1 : InteractiveObject {
 			break;
 		case Classes.ENGINEER: // Engineer
 			Debug.Log("Adding engineer secondary");
+			secondaries.AddComponent<EngineerSecondaryOne>();
 			break;
 		case Classes.MARINE: // Marine
 			Debug.Log("Adding marine secondary");
@@ -83,6 +84,7 @@ public class MainLevelObjective1 : InteractiveObject {
 			break;
 		case Classes.ENGINEER: // Engineer
 			Debug.Log("Adding engineer secondary");
+			secondaries.AddComponent<EngineerSecondaryOne>();
 			break;
 		case Classes.MARINE: // Marine
 			Debug.Log("Adding marine secondary");

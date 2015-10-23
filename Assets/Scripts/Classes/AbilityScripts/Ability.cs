@@ -73,7 +73,8 @@ public abstract class Ability {
 	 * Reduce the number of turns that this ability will be active for
 	 */
 	public virtual void ReduceNumberOfTurns() {
-		if (RemainingTurns != 0 && IsActive) RemainingTurns--;
+		if (RemainingTurns != 0 && IsActive) 
+			RemainingTurns--;
 	}
 
 	/**

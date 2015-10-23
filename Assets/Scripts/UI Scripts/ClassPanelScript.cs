@@ -58,6 +58,7 @@ public class ClassPanelScript : MonoBehaviour {
 				ownerClass.GetPrimaryAbility().ExtraInitializing();
 			}
 		}
+		currentPlayer = Player.MyPlayer; // Current player variable for engineer class
 	}
 
 	/**
@@ -90,14 +91,9 @@ public class ClassPanelScript : MonoBehaviour {
 	 * Change the player being tracked by interactive objects
 	 */
 	void changeInteractiveObjectTracker() {
-		Debug.LogError("Interactables: " + Interactables);
-		Debug.LogError("Current player: " + currentPlayer);
-		Debug.LogError("Size of interactable list: " + Interactables.Count);
 		foreach (GameObject interactable in Interactables) {
 			if (interactable == null) // Interactable is null
 				continue;
-			Debug.LogError("Interactable: " + interactable.name);
-			Debug.LogError("Interactable Script: " + interactable.GetComponent<InteractiveObject>());
 			interactable.GetComponent<InteractiveObject>().ChangeTrackedPlayer(currentPlayer);
 		}
 	}
@@ -151,9 +147,13 @@ public class ClassPanelScript : MonoBehaviour {
 		else if (!primaryAbility.AbilityIsActive()) { 
 			// Only activate if ability hasn't been activated before
 			switch (primaryAbility.GetAbilityName()) { // Handle different kinds of abilities
+			case "Block-Buster": 
+				activationTileController.GeneratorInterface(playerScript, primaryAbility);
+				break;
 			case "Stimulus Debris":
 				primaryAbility.Activate();
-				PrimaryAbilityButton.SetActive(false); // Set the primary ability button to be inactive
+				PrimaryAbilityButton.GetComponent<Button>().interactable = false;
+				PrimaryAbilityText.text = "Currently Active";
 				break;
 			case "Big Brother": // Technician/Marine Primary Ability
 				primaryAbility.Activate();
@@ -217,8 +217,6 @@ public class ClassPanelScript : MonoBehaviour {
 	 */
 	public void ResetToMaster(GameObject master) {
 		/* Reset camera controller and movement controller */
-//		cameraController.FollowedPlayer = master; TODO
-//		movementController.FollowedPlayer = master; TODO
 		movementController.ChangePlayerScript();
 		cameraController.ResetCamera();
 
@@ -228,7 +226,8 @@ public class ClassPanelScript : MonoBehaviour {
 
 		// Make inventory active
 		master.GetComponent<Player>().InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
-		PrimaryAbilityButton.SetActive(false); // Set the primary ability button to be inactive
+		PrimaryAbilityButton.GetComponent<Button>().interactable = false; // Can't use primary ability
+		PrimaryAbilityText.text = "Cooling Down"; // Reset text
 
 		// Set the Spawn AP Counter Panel to be inactive
 		SpawnAPCounterPanel.SetActive(false);
@@ -249,12 +248,27 @@ public class ClassPanelScript : MonoBehaviour {
 	 * - GameObject player - The player that clicked the primary ability button
 	 */
 	void handleEngineerPrimaryAbility(GameObject player) {
-		GameObject robot = GameObject.FindGameObjectWithTag("EngineerPrimAbilitySpawn"); // The robot
+		PlayerClass playerClass = Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject(); // Actual class
+		AlienClass alienClass = null; // Alien class container
+		EngineerPrimaryAbility engAbility; // The engineer's ability
+		GameObject robot; // The robot
+		Player robotScript; // The robot's player script
+		Player callingPlayer; // The calling player's script
+		bool isSelected; // Store whether or not the ui slot was selected
+
+		/* Need to initialize/set variables */
+		if (playerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
+			alienClass = (AlienClass)playerClass;
+			engAbility = (EngineerPrimaryAbility)alienClass.GetHumanClass().GetPrimaryAbility();
+		} else // Human
+			engAbility = (EngineerPrimaryAbility)(playerClass.GetPrimaryAbility());
+		robot = engAbility.GetRobotReference();
+		robotScript = robot.GetComponent<Player>();
+		callingPlayer = player.GetComponent<Player>();
+
+		/* Disable movement and camera */
 		player.GetComponent<MovementController>().enabled = false;
 		player.GetComponentInChildren<CameraController>().enabled = false;
-		Player robotScript = robot.GetComponent<Player>(); // The robot's player script
-		Player callingPlayer = player.GetComponent<Player>(); // The calling player's script
-		bool isSelected; // Store whether or not the ui slot was selected
 
 		// First, make sure robot still exists
 		if (robot == null) 
@@ -262,6 +276,7 @@ public class ClassPanelScript : MonoBehaviour {
 
 		// Toggle
 		if (currentPlayer == player) { // Toggle to robot
+			Debug.Log("Toggle to robot");
 			currentPlayer = robot;
 			ClassTitle.text = robotScript.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Engineer";
@@ -282,6 +297,7 @@ public class ClassPanelScript : MonoBehaviour {
 			player.GetComponentInChildren<CameraController>().enabled = false;
 			player.GetComponentInChildren<Camera>().enabled = false;
 		} else { // Toggle to player
+			Debug.Log("Toggle to player");
 			robot.GetComponent<MovementController>().enabled = false;
 			robot.GetComponentInChildren<CameraController>().enabled = false;
 			robot.GetComponentInChildren<Camera>().enabled = false;
@@ -290,7 +306,10 @@ public class ClassPanelScript : MonoBehaviour {
 			player.GetComponentInChildren<Camera>().enabled = true;
 
 			currentPlayer = player;
-			ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();
+			if (alienClass != null) // Alien
+				setClassTitleForAlien(alienClass);
+			else 
+				ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Robot";
 
 			// Set the individual ui slots to be unselected and set the inventory panel to be inactive

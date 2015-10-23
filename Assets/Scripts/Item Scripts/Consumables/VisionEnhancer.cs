@@ -10,6 +10,7 @@ public class VisionEnhancer : SupportConsumables {
 		ItemDescription = "Vision Enhancer. Pretend to be Legolas for a short amount of time";
 
 		Range = 1.0; // Range of 1 tiles
+		ItemActivationType = ActivationType.SUPPORTIVE;
 		
 		/* Activatable and droppable */
 		Activatable = true;

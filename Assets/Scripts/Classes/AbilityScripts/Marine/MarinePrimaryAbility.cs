@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MarinePrimaryAbility : Ability {
 
@@ -9,6 +10,7 @@ public class MarinePrimaryAbility : Ability {
 	Effect materialEffect; // The material effect to add to the player
 	Effect stunGunEffect; // The stun gun effect to add to the player
 	Effect noCoolDownEffect; // Removal of stun gun cooldown effect
+	int coolDown; // The number of rounds this ability will be cooling down
 
 	/**
 	 * Constructor
@@ -22,15 +24,8 @@ public class MarinePrimaryAbility : Ability {
 		AbilityRangeType = RangeType.GLOBALTARGETRANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
 		RemainingTurns = 3; // Only 3 remaining turns
+		coolDown = 3;
 		master = player;
-
-		// Create turn effects
-		materialEffect = new MaterialTurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
-				"Stimulus Debris: Immune To Stun", "Icons/Effects/stunimmunitygreen", 2, false);
-		stunGunEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: Extra Stun Gun Charges", 
-				"Icons/Effects/extrachargesgreen", 2, ItemTurnEffectType.EXTRAUSE, 3, false);
-		noCoolDownEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: No Stun Gun Cool Down", 
-				"Icons/Effects/stuninstantCDgreen", 2, ItemTurnEffectType.COOLDOWN, 1, false);
 	}
 
 	/**
@@ -39,10 +34,18 @@ public class MarinePrimaryAbility : Ability {
 	public override void Activate()
 	{
 		base.Activate();
+		// Create turn effects
+		materialEffect = new MaterialTurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
+				"Stimulus Debris: Immune To Stun", "Icons/Effects/stunimmunitygreen", 2, false);
+		stunGunEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: Extra Stun Gun Charges", 
+		        "Icons/Effects/extrachargesgreen", 2, ItemTurnEffectType.EXTRAUSE, 3, false);
+		noCoolDownEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: No Stun Gun Cool Down", 
+		        "Icons/Effects/stuninstantCDgreen", 2, ItemTurnEffectType.COOLDOWN, 1, false);
 		master.SetStunImmunity(true); // Player is now stunned
 		master.AttachTurnEffect(materialEffect);
 		master.AttachTurnEffect(stunGunEffect);
 		master.AttachTurnEffect(noCoolDownEffect);
+		RemainingTurns = 3;
 	}
 
 	/**
@@ -50,9 +53,22 @@ public class MarinePrimaryAbility : Ability {
 	 */
 	public override void ReduceNumberOfTurns()
 	{
-		base.ReduceNumberOfTurns();
+		ClassPanelScript classPanelScript = ClassPanel.GetComponent<ClassPanelScript>(); // The class panel script
+
+		if (RemainingTurns != 0)
+			RemainingTurns--;
+		Debug.Log("Marine ability remaining turns: " + RemainingTurns);
 		if (RemainingTurns == 0) {
-			master.SetStunImmunity(false); // No longer immune
+			if (IsActive) { // Reset ability to go to cooldown
+				master.SetStunImmunity(false); // No longer immune
+				RemainingTurns = coolDown;
+				IsActive = false;
+				classPanelScript.PrimaryAbilityText.text = "Cooling Down";
+			} else {  // No longer in cool down
+				classPanelScript.PrimaryAbilityButton.GetComponent<Button>().interactable = true;
+				classPanelScript.PrimaryAbilityText.text = "Stimulus Debris";
+			}
+
 		}
 	}
 }
