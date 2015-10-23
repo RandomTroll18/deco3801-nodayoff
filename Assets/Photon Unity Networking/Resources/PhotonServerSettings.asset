@@ -72,4 +72,5 @@ MonoBehaviour:
   - PhotonDestroy2
   - IncreaseRounds
   - Progress
+  - AddTurns
   DisableAutoOpenWizard: 1
