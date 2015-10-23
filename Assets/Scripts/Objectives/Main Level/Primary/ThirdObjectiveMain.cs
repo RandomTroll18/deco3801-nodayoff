@@ -17,6 +17,13 @@ public class ThirdObjectiveMain : PrimaryObjective {
 			if (objective.name == "Objective 3")
 				Location = Tile.TilePosition(objective.transform.position);
 		}
+
+		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() != Classes.BETRAYER) {
+			foreach(GameObject escapePod in GameObject.FindGameObjectsWithTag("Escape Pod")) {
+				MainLevelObjective4 i = escapePod.AddComponent<MainLevelObjective4>();
+				i.StartMe();
+			}
+		}
 	}
 
 	public override void OnComplete() {

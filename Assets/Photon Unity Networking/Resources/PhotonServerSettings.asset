@@ -68,4 +68,6 @@ MonoBehaviour:
   - Kill
   - SpawnBoardingParty
   - EventCardMessage
+  - PhotonDestroy
+  - PhotonDestroy2
   DisableAutoOpenWizard: 1

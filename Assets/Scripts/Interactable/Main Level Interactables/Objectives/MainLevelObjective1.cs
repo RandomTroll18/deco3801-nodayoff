@@ -94,10 +94,10 @@ public class MainLevelObjective1 : InteractiveObject {
 			break;
 		case Classes.BETRAYER: // Alien
 			Debug.Log("Adding alien secondary");
-			secondaries.AddComponent<AlienSecondaryOne>();
-			secondaries.AddComponent<AlienSecondaryTwo>();
-			secondaries.AddComponent<AlienSecondaryThree>();
-			secondaries.AddComponent<AlienSecondaryFour>();
+//			secondaries.AddComponent<AlienSecondaryOne>();
+//			secondaries.AddComponent<AlienSecondaryTwo>();
+//			secondaries.AddComponent<AlienSecondaryThree>();
+//			secondaries.AddComponent<AlienSecondaryFour>();
 			secondaries.AddComponent<AlienSecondaryFive>();
 			// Need to add human class secondaries as well
 			giveAlienSecondaryHumanObj((AlienClass)p.GetPlayerClassObject(), secondaries);

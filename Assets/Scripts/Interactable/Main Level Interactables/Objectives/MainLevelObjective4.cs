@@ -3,13 +3,20 @@ using System.Collections;
 
 public class MainLevelObjective4 : InteractiveObject {
 
-	// Use this for initialization
-	void Start () {
-	
+	void Update() {
+
+		if (Player.MyPlayer == null)
+			return;
+		/*
+		 * Alien doesn't need these interactables
+		 */
+		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
+			Destroy(this);
+			return;
+		}
 	}
 	
 	public override void TakeAction(int input){
-		
 		if (IsInactivated) {
 			Debug.Log("Inactive");
 			return;

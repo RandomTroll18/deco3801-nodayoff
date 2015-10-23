@@ -37,6 +37,7 @@ TagManager:
   - Cargo
   - Bridge
   - KeyCard
+  - Escape Pod
   layers:
   - Default
   - TransparentFX
