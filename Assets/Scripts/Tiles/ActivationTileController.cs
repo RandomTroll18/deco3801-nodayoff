@@ -5,8 +5,7 @@ using System.Collections.Generic;
  * Class handling all activation tiles
  */
 public class ActivationTileController : MonoBehaviour {
-
-	public GameObject StunGunTestPrefab; // Stun Gun Test Prefab
+	
 	public GameObject ActivationTilePrefab; // Activation Tile Prefab
 	public GameObject TargettingTilePrefab; // Targetting Tile Prefab
 	public Material OffensiveTileMaterial; // Material for an offensive tile
@@ -58,10 +57,9 @@ public class ActivationTileController : MonoBehaviour {
 	 * Tile tileClicked - The tile that was clicked
 	 */
 	public void Activate(Tile tileClicked) {
-		if (item != null) {
-			item.SetTestPrefab(StunGunTestPrefab);
+		if (item != null)
 			item.Activate(tileClicked); // Second, determine what to activate. 
-		} else if (ability != null)
+		else if (ability != null)
 			ability.Activate(tileClicked); // Activate ability
 
 		DestroyActivationTiles(); // Destroy all tiles

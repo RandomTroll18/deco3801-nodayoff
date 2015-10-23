@@ -290,6 +290,17 @@ public class GameManager : Photon.PunBehaviour {
 		validTurn = true;
 	}
 
+	/**
+	 * Increase number of turns remaining
+	 * 
+	 * Arguments
+	 * - int addedTurns - The turns added
+	 */
+	[PunRPC]
+	public void AddTurns(int addedTurns) {
+		RoundsLeftUntilLose += addedTurns;
+	}
+
 	[PunRPC]
 	void LoseGame() {
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Aliens win
