@@ -33,6 +33,7 @@ GameObject:
   - 23: {fileID: 2317176}
   - 114: {fileID: 11457852}
   - 114: {fileID: 11459272}
+  - 114: {fileID: 11463782}
   m_Layer: 0
   m_Name: EngineerRobot
   m_TagString: EngineerPrimAbilitySpawn
@@ -358,11 +359,24 @@ MonoBehaviour:
   RotationSpeed: 60
   Target: {fileID: 468564}
   ZoomSpeed: 0
+  Location: 0
   CamSpeed: 1
   GUISize: 1
   LayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &11463782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Permanent: 0
 --- !u!124 &12448924
 Behaviour:
   m_ObjectHideFlags: 1

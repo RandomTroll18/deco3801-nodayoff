@@ -14,8 +14,12 @@ public class ScoutTrapScript : Trap {
 	public override void Activated(Player p) {
 		if (owner != null && owner.GetComponent<Player>() == p) // Owner activated us 
 			Debug.Log("I'm sorry master. I won't activate");
-		else { // Other players
+		else if (owner == null) {
+			Debug.Log("No master. Don't do anything");
+			return;
+		} else { // Other players
 			Debug.Log("Activated scout trap");
+			StunGun.StaticShowEffect(p.transform.position);
 			p.GetComponent<PhotonView>().RPC("Stun", PhotonTargets.All, 3);
 			GetComponent<PhotonView>().RPC("Destroy", PhotonTargets.All, null);
 		}

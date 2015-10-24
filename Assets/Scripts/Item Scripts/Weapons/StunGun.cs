@@ -97,6 +97,20 @@ public class StunGun : ShortRangeWeapon {
 		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
 	}
 
+	/**
+	 * Static function for showing the stun gun animation
+	 * 
+	 * Arguments
+	 * - Vector3 animPos - The animation position
+	 */
+	public static void StaticShowEffect(Vector3 animPos) {
+		/* The animation */
+		GameObject effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", animPos, Quaternion.identity, 0);
+
+		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
+	}
+
 
 	/**
 	 * Show the stun gun animation
