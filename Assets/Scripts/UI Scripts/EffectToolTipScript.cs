@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class EffectToolTipScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler{
+public class EffectToolTipScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
 	public GameObject EffectToolTipPanelObject; // The effect tool tip panel
 	public Text EffectToolTipTextObject; // The effect tool tip text
