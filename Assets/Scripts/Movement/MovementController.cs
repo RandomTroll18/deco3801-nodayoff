@@ -391,8 +391,8 @@ public class MovementController : MonoBehaviour {
 	 */
 	public void UnblockTile(Tile tile) {
 		if (!blockedTiles.Contains(tile)) {
-			Debug.LogWarning("You tried to unblock a tile that wasn't blocked. Did you want to do" +
-				"this? FROM BEN");
+//			Debug.LogWarning("You tried to unblock a tile that wasn't blocked. Did you want to do" +
+//				"this? FROM BEN");
 		} else {
 			if (debugging) {
 				GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cube);

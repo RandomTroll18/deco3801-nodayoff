@@ -10,6 +10,7 @@ public class GameManager : Photon.PunBehaviour {
 	public int InitialNumberOfTurns; // The initial number of turns
 	public GameObject[] OpenedDoors;
 	public Text RemainingTurnsText; // The text counter for the remaining turns
+	public List<Tile> UnlockedTiles = new List<Tile>();
 
 	/*
 	 * Remember whether the current turn is a valid turn. 
@@ -353,6 +354,8 @@ public class GameManager : Photon.PunBehaviour {
 		door.GetComponent<Animator>().enabled = true;
 		door.GetComponent<DoorAudio>().PlayOpeningEfx(); // Play opening sound effects
 		movController.UnblockTile(position);
+
+		UnlockedTiles.Add(position);
 	}
 
 	public MovementController GetPlayerControllers(){

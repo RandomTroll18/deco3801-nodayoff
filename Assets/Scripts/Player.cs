@@ -165,6 +165,7 @@ public class Player : MonoBehaviour {
 	 * allow movement
 	 */
 	void Update() {
+		UnlblockUnlockedTiles();
 		UpdateVision();
 		if (!gameManagerScript.IsValidTurn()) {
 			turnEffectsApplied = false;
@@ -186,6 +187,13 @@ public class Player : MonoBehaviour {
 				noLongerActive = false;
 			}
 			// Allow movement
+		}
+	}
+
+	void UnlblockUnlockedTiles() {
+		foreach (Tile tile in gameManagerScript.UnlockedTiles) {
+			if (tile != null && GetComponent<MovementController>() != null)
+				GetComponent<MovementController>().UnblockTile(tile);
 		}
 	}
 

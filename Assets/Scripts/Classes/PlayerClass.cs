@@ -53,7 +53,7 @@ public abstract class PlayerClass {
 		Stats[Stat.AP] = DefaultStats[Stat.AP];
 		Stats[Stat.VISION] = DefaultStats[Stat.VISION];
 		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER];
-		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.VISION];
+		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER];
 		Stats[Stat.SCOUTMULTIPLIER] = DefaultStats[Stat.SCOUTMULTIPLIER];
 		Stats[Stat.TECHMULTIPLIER] = DefaultStats[Stat.TECHMULTIPLIER];
 	}
