@@ -23,7 +23,7 @@ public class Stealth : MonoBehaviour {
 	 * Permanent invisibility
 	 */
 	void permanentInvisibility() {
-		List<MeshRenderer> renderers = new List<MeshRenderer>(); // The renderers
+		List<Renderer> renderers = new List<Renderer>(); // The renderers
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 		toggleRenderers(renderers, false);
@@ -33,7 +33,7 @@ public class Stealth : MonoBehaviour {
 	 * Hide the player from others
 	 */
 	void hidePlayerFromOthers() {
-		Player.MyPlayer.GetComponentInChildren<MeshRenderer>().enabled = false;
+		Player.MyPlayer.GetComponentInChildren<Renderer>().enabled = false;
 	}
 
 	/**
@@ -52,9 +52,10 @@ public class Stealth : MonoBehaviour {
 		
 		p  = Player.MyPlayer.GetComponent<Player>();
 		distance = p.DistanceToTile(Tile.TilePosition(transform.position));
-		List<MeshRenderer> renderers = new List<MeshRenderer>();
+		List<Renderer> renderers = new List<Renderer>();
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
 		if (distance > p.GetVisionDistance())
 			toggleRenderers(renderers, false);
 		else
@@ -68,8 +69,8 @@ public class Stealth : MonoBehaviour {
 	 * - MeshRenderer[] renderers - The list of mesh renderers
 	 * - bool enableFlag - Flag for enabling/disabling renderers
 	 */
-	void toggleRenderers(List<MeshRenderer> renderers, bool enableFlag) {
-		foreach (MeshRenderer meshRenderer in renderers)
+	void toggleRenderers(List<Renderer> renderers, bool enableFlag) {
+		foreach (Renderer meshRenderer in renderers)
 			meshRenderer.enabled = enableFlag;
 	}
 }

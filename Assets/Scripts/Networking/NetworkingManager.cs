@@ -69,7 +69,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 	void Connect() {
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
-		PhotonNetwork.ConnectUsingSettings("f");
+		PhotonNetwork.ConnectUsingSettings("eef");
 	}
 
 	public override void OnJoinedLobby() {

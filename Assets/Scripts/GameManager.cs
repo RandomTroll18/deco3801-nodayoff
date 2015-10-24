@@ -240,7 +240,7 @@ public class GameManager : Photon.PunBehaviour {
 
 	void TurnOnLighting() {
 		Color color;
-		Color.TryParseHexString("323232FF", out color);
+		Color.TryParseHexString("161616FF", out color);
 		RenderSettings.ambientLight = color;
 		RenderSettings.fog = true;
 		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Lighting"))
