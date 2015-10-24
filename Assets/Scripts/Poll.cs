@@ -39,27 +39,26 @@ public class Poll : MonoBehaviour {
 		return false;
 	}
 
-	public int ReturnHighestCount(int number){
+	public int ReturnHighestCount(int number, int cap){
 		List<int> a = BigList[number];
-		int count = 1, tempCount;
-		int popular = a[0];
+		int tempCount = 0;
 		int temp = 0;
-		for (int i = 0; i < (a.Count - 1); i++)
+
+		for (int x = 1; x < 5; x++)
 		{
-			temp = a[i];
+			temp = x;
 			tempCount = 0;
-			for (int j = 1; j < a.Count; j++)
+			for (int i = 0; i < (a.Count - 1); i++)
 			{
-				if (temp == a[j])
+				if (a[i] == x) {
 					tempCount++;
+				}
 			}
-			if (tempCount > count)
-			{
-				popular = temp;
-				count = tempCount;
+			if (tempCount == cap - 1) {
+				return x;
 			}
 		}
-		return popular;
+		return -1;
 	}
 
 	public int CheckCount(int number, int check){

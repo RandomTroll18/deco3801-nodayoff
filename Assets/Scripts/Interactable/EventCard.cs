@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
@@ -121,8 +121,12 @@ public class EventCard : MonoBehaviour
 
 	private void ResolveCard(Poll counter, int playerNumber) {
 		if (counter.CheckPoll(ListNumber, VoteCap)) {
-			//Resolve();
-			CardEffect(counter.ReturnHighestCount(ListNumber));
+			Debug.Log("Hit vote count");
+			int placeholder = counter.ReturnHighestCount(ListNumber, VoteCap);
+
+			if (placeholder != -1) {
+				CardEffect(placeholder);
+			}
 			counter.ClearCount(ListNumber);
 		}
 	}

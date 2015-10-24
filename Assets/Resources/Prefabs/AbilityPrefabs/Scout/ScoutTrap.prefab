@@ -377,6 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8481504005b41fe4fbdcfedcff1d9e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDebug: 0
 --- !u!114 &11461356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209a80b750dc3a4eafdd846e32f9575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttachedToPlayer: 0
+  Permanent: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -428,6 +429,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Trap
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Permanent
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -17,13 +17,13 @@ public class ClassPanelScript : MonoBehaviour {
 	public GameObject AlienPrimaryAbilityButton; // The Alien mode ability button
 	public GameObject ClassPortrait; // The portrait for the class
 	public GameObject SpawnAPCounterPanel; // The spawn ap counter panel
+	public static GameObject CurrentPlayer; // The current player being tracked. For spawning use
 	public List<GameObject> Interactables; // Interactable objects
 	
 	CameraController cameraController; // The camera controller script
 	MovementController movementController; // The movement controller script
 	ContextAwareBox contextAwareBoxScript; // The context aware box script
 	ActivationTileController activationTileController; // Controller for generating activation tiles
-	GameObject currentPlayer; // The current player being tracked. For spawning use
 	Player playerOwnerScript; // Script of the player
 
 	/**
@@ -58,7 +58,7 @@ public class ClassPanelScript : MonoBehaviour {
 				ownerClass.GetPrimaryAbility().ExtraInitializing();
 			}
 		}
-		currentPlayer = Player.MyPlayer; // Current player variable for engineer class
+		CurrentPlayer = Player.MyPlayer; // Current player variable for engineer class
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class ClassPanelScript : MonoBehaviour {
 		foreach (GameObject interactable in Interactables) {
 			if (interactable == null) // Interactable is null
 				continue;
-			interactable.GetComponent<InteractiveObject>().ChangeTrackedPlayer(currentPlayer);
+			interactable.GetComponent<InteractiveObject>().ChangeTrackedPlayer(CurrentPlayer);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class ClassPanelScript : MonoBehaviour {
 				break;
 			default: // Ordinary targetting abilities
 				activationTileController.GeneratorInterface(playerScript, primaryAbility);
-				currentPlayer = player; // Set the current player of this script to be the calling player
+				CurrentPlayer = player; // Set the current player of this script to be the calling player
 				break;
 			}
 		} else if (primaryAbility.AbilityIsActive()){ // Ability is active. Need to decide what ability this is
@@ -220,7 +220,7 @@ public class ClassPanelScript : MonoBehaviour {
 		movementController.ChangePlayerScript();
 		cameraController.ResetCamera();
 
-		currentPlayer = master; // Reset the current player to be the master
+		CurrentPlayer = master; // Reset the current player to be the master
 		changeInteractiveObjectTracker(); // Change the tracked player for interactive objects
 		ClassTitle.text = master.GetComponent<Player>().GetPlayerClassObject().GetPlayerClassType(); // Reset class text
 
@@ -275,9 +275,9 @@ public class ClassPanelScript : MonoBehaviour {
 			return; // Don't do anything
 
 		// Toggle
-		if (currentPlayer == player) { // Toggle to robot
+		if (CurrentPlayer == player) { // Toggle to robot
 			Debug.Log("Toggle to robot");
-			currentPlayer = robot;
+			CurrentPlayer = robot;
 			ClassTitle.text = robotScript.GetPlayerClassObject().GetPlayerClassType();
 			PrimaryAbilityText.text = "Toggle To Engineer";
 
@@ -305,7 +305,7 @@ public class ClassPanelScript : MonoBehaviour {
 			player.GetComponentInChildren<CameraController>().enabled = true;
 			player.GetComponentInChildren<Camera>().enabled = true;
 
-			currentPlayer = player;
+			CurrentPlayer = player;
 			if (alienClass != null) // Alien
 				setClassTitleForAlien(alienClass);
 			else 
@@ -321,7 +321,7 @@ public class ClassPanelScript : MonoBehaviour {
 		cameraController.ResetCamera(); // Reset the camera to point at player object
 		activationTileController.DestroyActivationTiles(); // Destroy activation tiles
 		// Set the movement controller
-		activationTileController.SetMovementController(currentPlayer.GetComponent<MovementController>()); 
+		activationTileController.SetMovementController(CurrentPlayer.GetComponent<MovementController>()); 
 	}
 
 	/**

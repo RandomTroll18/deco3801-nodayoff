@@ -74,4 +74,5 @@ MonoBehaviour:
   - Progress
   - AddTurns
   - InstantiateSurvCamera
+  - DisplayStunAnim
   DisableAutoOpenWizard: 1

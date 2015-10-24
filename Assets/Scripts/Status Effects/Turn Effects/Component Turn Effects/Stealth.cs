@@ -24,6 +24,11 @@ public class Stealth : MonoBehaviour {
 	 */
 	void permanentInvisibility() {
 		List<Renderer> renderers = new List<Renderer>(); // The renderers
+		if (gameObject.tag.Equals("Trap")) { // Don't hide if trap belongs to this player
+			if (gameObject.GetComponent<ScoutTrapScript>() != null
+			    && gameObject.GetComponent<ScoutTrapScript>().GetOwner() == Player.MyPlayer)
+				return; // Don't hide from owner
+		}
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 		toggleRenderers(renderers, false);
@@ -33,7 +38,14 @@ public class Stealth : MonoBehaviour {
 	 * Hide the player from others
 	 */
 	void hidePlayerFromOthers() {
-		Player.MyPlayer.GetComponentInChildren<Renderer>().enabled = false;
+		/* The renderers */
+		Renderer rendererInMain = ClassPanelScript.CurrentPlayer.GetComponent<Renderer>();
+		Renderer rendererinChildren = ClassPanelScript.CurrentPlayer.GetComponentInChildren<Renderer>();
+
+		if (rendererInMain != null)
+			rendererInMain.enabled = false;
+		if (rendererinChildren != null)
+			rendererinChildren.enabled = false;
 	}
 
 	/**
@@ -52,7 +64,7 @@ public class Stealth : MonoBehaviour {
 				return; // Don't hide from owner
 		}
 		
-		p  = Player.MyPlayer.GetComponent<Player>();
+		p  = ClassPanelScript.CurrentPlayer.GetComponent<Player>();
 		distance = p.DistanceToTile(Tile.TilePosition(transform.position));
 		renderers = new List<Renderer>();
 		renderers.AddRange(GetComponents<MeshRenderer>());
