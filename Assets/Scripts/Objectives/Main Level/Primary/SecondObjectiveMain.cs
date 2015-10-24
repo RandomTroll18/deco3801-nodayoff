@@ -9,7 +9,9 @@ public class SecondObjectiveMain : PrimaryObjective {
 
 	public void StartMe() {
 		Title = "Find the keycard";
-		Description = "Somewhere on the SS DECO is the keycard";
+		Description = "Somewhere on the SS DECO is the keycard. This keycard is needed to activate" +
+			"the escape pods from the bridge. The exact location of the keycard, search the" +
+			"ship to find it.";
 		spawnPoints = GameObject.Find("Key Card Spawns");
 
 		SpawnKeyCard();

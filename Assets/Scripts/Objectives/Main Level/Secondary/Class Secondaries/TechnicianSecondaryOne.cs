@@ -10,10 +10,11 @@ public class TechnicianSecondaryOne : SecondaryObjective {
 
 	void Start() {
 		Log();
-		GameObject objective = GameObject.Find("Technician Secondary One");
+		GameObject objective = GameObject.FindGameObjectWithTag("Tech Secondary");
 		ObjectiveName = "TechnicianSecondaryOne";
-		Title = "Find the deployable surveillance cameras";
-		Description = "REWARD: Deployable Surveillance Cameras.";
+		Title = "Find Cameras";
+		Description = "Find your deployable surveillance cameras. \n" +
+			"REWARD: Deployable Surveillance Cameras.";
 		Location = Tile.TilePosition(objective.transform.position);
 		
 		TechnicianSecondaryOneInteractable i = 

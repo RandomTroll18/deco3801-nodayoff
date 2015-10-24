@@ -40,7 +40,9 @@ public class BoardingParty : SecondaryObjective {
 
 		ObjectiveName = "Boarding";
 		Title = "Boarding Party";
-		Description = "Take out the boarding party.";
+		Description = "TEAM OBJECTIVE\n" +
+			"Destroy the boarding party. Whilst the boarding party is alive, an extra round is lost" +
+			"per turn.";
 		Location = Tile.TilePosition(pos);
 		
 //		ScoutSecondaryOneInteractable i = 

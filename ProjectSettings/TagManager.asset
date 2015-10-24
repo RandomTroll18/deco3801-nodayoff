@@ -38,6 +38,10 @@ TagManager:
   - Bridge
   - KeyCard
   - Escape Pod
+  - Scout Secondary
+  - Eng Secondary
+  - Marine Secondary
+  - Tech Secondary
   layers:
   - Default
   - TransparentFX

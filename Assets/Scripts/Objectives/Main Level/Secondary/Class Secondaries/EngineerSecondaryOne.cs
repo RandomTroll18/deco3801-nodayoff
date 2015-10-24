@@ -12,9 +12,11 @@ public class EngineerSecondaryOne : SecondaryObjective {
 	void Start() {
 		Log();
 		ObjectiveName = "Engineer Secondary One";
-		Title = "Find better coolant for your robot";
-		Description = "REWARD: No CoolDown for Robot.";
-		GameObject objective = GameObject.Find("Engineer Secondary One");
+		Title = "Improve Robot";
+		Description = "Find better coolant for your robot. A Marine could open the door quicker" +
+			"for you.\n" +
+			"REWARD: No cooldown for your robot.";
+		GameObject objective = GameObject.FindGameObjectWithTag("Eng Secondary");
 		Location = Tile.TilePosition(objective.transform.position);
 		
 		EngineerSecondaryOneInteractable i = 

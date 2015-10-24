@@ -11,7 +11,7 @@ public class ThirdObjectiveMain : PrimaryObjective {
 		Title = "Direct Power";
 		Description = "All power needs to be directed to the escape pods. Get to the bridge and " +
 			"use the console." + StringMethodsScript.NEWLINE +
-			"A Technician is needed.";
+			"An Engineer can activate this console faster than everyone else.";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
 			if (objective.name == "Objective 3")

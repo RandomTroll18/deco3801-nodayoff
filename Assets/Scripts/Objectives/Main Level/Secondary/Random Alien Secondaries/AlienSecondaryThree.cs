@@ -18,8 +18,9 @@ public class AlienSecondaryThree : SecondaryObjective {
 	public void StartMe() {
 		Log();
 		ObjectiveName = "AlienSecondaryThree";
-		Title = "Access Secret Documents";
-		Description = "REWARD: +50% to skill check of your human class." + StringMethodsScript.NEWLINE;
+		Title = "Obtain Enhancements";
+		Description = "One of the boarding parties has dropped enhancements for you.\n" +
+			"REWARD: +50% to skill check of your human class.";
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		
@@ -81,8 +82,9 @@ public class AlienSecondaryThree : SecondaryObjective {
 		Destroy(this);
 		PickNewAlienObjective();
 
-		string message = "Alien has stolen secret documents from " + 
-			interactable.GetComponent<Location>().MyLocation.ToString();
+		string message = "Alien has obtained enhancements from " + 
+			interactable.GetComponent<Location>().ToString() + "." +
+				" They now have higher stats.";
 		Object.FindObjectOfType<GameManager>()
 			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
 

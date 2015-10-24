@@ -18,7 +18,8 @@ public class AlienSecondaryOne : SecondaryObjective {
 		Log();
 		ObjectiveName = "AlienSecondaryOne";
 		Title = "Steal Food Supply";
-		Description = "REWARD: extra AP." + StringMethodsScript.NEWLINE;
+		Description = "Steal the food supply from the store room.\n" +
+			"REWARD: Extra AP per turn while in alien mode." + StringMethodsScript.NEWLINE;
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		
@@ -56,8 +57,9 @@ public class AlienSecondaryOne : SecondaryObjective {
 		Destroy(this);
 //		PickNewAlienObjective();
 
-		string message = "Alien has stolen secret documents from " + 
-			interactable.GetComponent<Location>().MyLocation.ToString();
+		string message = "Alien has stolen our food supplies from " + 
+			interactable.GetComponent<Location>().ToString() + ".\n" +
+				"They now have extra AP per turn.";
 		Object.FindObjectOfType<GameManager>()
 			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
 		

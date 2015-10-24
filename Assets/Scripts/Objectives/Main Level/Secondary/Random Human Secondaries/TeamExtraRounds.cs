@@ -14,7 +14,8 @@ public class TeamExtraRounds : SecondaryObjective {
 		Log();
 		
 		Title = "Repair Core";
-		Description = "There are several terminals around the energy core we can use to repair it." +
+		Description = "TEAM OBJECTIVE\n" +
+			"There are several terminals around the energy core we can use to repair it." +
 			"Repairing the energy core will give us more time to escape (" + EXTRA_ROUNDS + " rounds). " +
 			"This is a difficult task, but we can complete it as a group.";
 		Location = Tile.TilePosition(GameObject.Find("Engine Core").transform.position);

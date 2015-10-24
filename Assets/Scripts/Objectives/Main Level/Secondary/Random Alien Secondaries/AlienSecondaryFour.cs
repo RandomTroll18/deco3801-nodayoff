@@ -17,9 +17,9 @@ public class AlienSecondaryFour : SecondaryObjective {
 	public void StartMe() {
 		Log();
 		GameObject objective = PickAlienObjective();
-		Title = "Summon Boarding Party";
+		Title = "Assist Boarding Party";
 		Description = "A Versipellis boarding party is at the ready. Shutdown the ship's defenses" +
-			"so they can attack.";
+			" so they can attack.";
 		Location = Tile.TilePosition(objective.transform.position);
 		
 		interactable = objective.AddComponent<AlienSecondaryFourInteractable>();
@@ -34,7 +34,8 @@ public class AlienSecondaryFour : SecondaryObjective {
 
 		string message = "Alien has shutdown the ship's defenses in " + 
 			interactable.GetComponent<Location>().MyLocation.ToString() + ". A Versipellis boarding" +
-				"party is lurking somewhere. Find and destroy them before they destroy the ship";
+				" party is lurking somewhere. Find and destroy them before they destroy the ship.\n" +
+				"Whilst the boarding part is alive, an extra round is lost per turn.";
 		Object.FindObjectOfType<GameManager>()
 			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
 		

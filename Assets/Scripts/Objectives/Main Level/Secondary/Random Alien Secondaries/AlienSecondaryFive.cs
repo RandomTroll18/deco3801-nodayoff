@@ -14,7 +14,8 @@ public class AlienSecondaryFive : SecondaryObjective {
 
 		GameObject objective = PickAlienObjective();
 		Title = "Destroy Pods: Part 1";
-		Description = "Obtain explosives to use on escape pods.";
+		Description = "Obtain the explosives. These can then be used to destroy a pair of escape" +
+			"pods.";
 		Location = Tile.TilePosition(objective.transform.position);
 
 		interactable = objective.AddComponent<AlienSecondaryFiveInteractable>();

@@ -10,9 +10,10 @@ public class FirstObjectiveMain : PrimaryObjective {
 	}
 
 	void Start() {
-		Title = "Activate Auxillary Power";
+		Title = "Activate Power";
 		Description = "Main power sources have taken heavy damage." + StringMethodsScript.NEWLINE +
-			"A Technician is needed.";
+			"Get to the power room and activate our emergency power reserves. Our Technician can do" +
+			" this quicker than everyone else.";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
 			if (objective.name == "Objective 1")

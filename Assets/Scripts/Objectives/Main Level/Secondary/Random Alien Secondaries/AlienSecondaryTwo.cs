@@ -15,10 +15,19 @@ public class AlienSecondaryTwo : SecondaryObjective {
 	
 	// Use this for initialization
 	public void StartMe() {
+		/*
+		 * Don't let them get goggles if they already have goggles.
+		 */
+		if (Player.MyPlayer.GetComponent<Player>().GetStatValue(Stat.VISION) == 3) {
+			Destroy(this);
+			return;
+		}
+
 		Log();
 		ObjectiveName = "AlienSecondaryTwo";
-		Title = "Disrupt Generator";
-		Description = "REWARD: extra Vision due to dimmed lights." + StringMethodsScript.NEWLINE;
+		Title = "Steal Goggles";
+		Description = "Steal the night vision goggles.\n" +
+			"REWARD: extra vision." + StringMethodsScript.NEWLINE;
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		
@@ -28,7 +37,7 @@ public class AlienSecondaryTwo : SecondaryObjective {
 		interactable.StartMe();
 		
 		visionEffect = new StatusTurnEffect(Stat.VISION, 3.0, 1, 
-		                                "Dimmed Lights: Vision set to 3", "Icons/Effects/alienvisionpurple", -1, true);
+		                                "Dimmed Lights: Vision Increased", "Icons/Effects/alienvisionpurple", -1, true);
 	}
 	
 	public override void OnComplete()
@@ -56,8 +65,9 @@ public class AlienSecondaryTwo : SecondaryObjective {
 		Destroy(this);
 //		PickNewAlienObjective();
 
-		string message = "Alien has stolen secret documents from " + 
-			interactable.GetComponent<Location>().MyLocation.ToString();
+		string message = "Alien has stolen night vision goggles from " + 
+			interactable.GetComponent<Location>().ToString() +
+				". They now have extra vision.";
 		Object.FindObjectOfType<GameManager>()
 			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
 		

@@ -14,10 +14,11 @@ public class ScoutSecondaryOne : SecondaryObjective {
 	void Start() {
 		Log();
 		ObjectiveName = "ScoutSecondaryOne";
-		Title = "Find the night vision goggles";
-		Description = "REWARD: extra vision." + StringMethodsScript.NEWLINE +
-			"An Engineer will be helpful";
-		GameObject objective = GameObject.Find("Scout Secondary One");
+		Title = "Night Vision Goggles";
+		Description = "Find your night vision goggle.An Engineer could open the door quicker" +
+			"for you.\n" +
+			"REWARD: Double vision distance.";
+		GameObject objective = GameObject.FindGameObjectWithTag("Scout Secondary");
 		Location = Tile.TilePosition(objective.transform.position);
 
 		ScoutSecondaryOneInteractable i = 

@@ -10,9 +10,8 @@ public class FourthObjectiveMain : PrimaryObjective {
 	// Use this for initialization
 	public void StartMe() {
 		Title = "Escape";
-		Description = "The escape pods are ready. Get to them before our ship is destroyed." 
-			+ StringMethodsScript.NEWLINE +
-			"A Technician is needed.";
+		Description = "The escape pods are ready. Get to them before our ship is destroyed!\n" +
+			"Once one escape pod is taken, it's gone forever.";
 
 		Location = Tile.TilePosition(GameObject.Find("EscapePod 1").transform.position);
 		Location2 = Tile.TilePosition(GameObject.Find("EscapePod 3").transform.position);

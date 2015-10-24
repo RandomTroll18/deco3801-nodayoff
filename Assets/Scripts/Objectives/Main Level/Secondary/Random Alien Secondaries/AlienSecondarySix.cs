@@ -25,8 +25,8 @@ public class AlienSecondarySix : SecondaryObjective {
 	public override void OnComplete() {
 		Destroy(this);
 		
-		string message = "Alien has destroyed two escape pods. There is no longer enough escape pods" +
-			"for all survivors to escape";
+		string message = "Alien has destroyed two escape pods. There are no longer enough escape pods" +
+			" for all survivors to escape";
 		Object.FindObjectOfType<GameManager>()
 			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
 

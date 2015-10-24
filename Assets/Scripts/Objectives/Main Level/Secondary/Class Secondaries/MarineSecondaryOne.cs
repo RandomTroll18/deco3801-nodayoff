@@ -12,9 +12,11 @@ public class MarineSecondaryOne : SecondaryObjective {
 	void Start() {
 		Log();
 		ObjectiveName = "MarineSecondaryOne";
-		Title = "Find the deployable stun turrets";
-		Description = "REWARD: Deployable Stun Turrets.";
-		GameObject objective = GameObject.Find("Marine Secondary One");
+		Title = "Stun Turret";
+		Description = "Find the deployable stun turrets. A Technician could open the door quicker" +
+			"for you.\n" +
+			"REWARD: Deployable Stun Turrets.";
+		GameObject objective = GameObject.FindGameObjectWithTag("Marine Secondary");
 		Location = Tile.TilePosition(objective.transform.position);
 		
 		MarineSecondaryOneInteractable i = 
