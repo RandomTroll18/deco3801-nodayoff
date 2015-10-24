@@ -289,6 +289,20 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Display stun animation
+	 */
+	[PunRPC]
+	public void DisplayStunAnim() {
+		GameObject stunAnim; // The stun animation
+
+		stunAnim = Instantiate<GameObject>(Resources.Load<GameObject>("StunGunAnim"));
+		stunAnim.transform.position = transform.position;
+		if (stunAnim == null)
+			throw new System.ArgumentException("Invalid prefab path");
+		Destroy(stunAnim, 3f);
+	}
+
+	/**
 	 * Sets the class of this player
 	 * 
 	 * Arguments

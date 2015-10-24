@@ -71,8 +71,7 @@ public class StunGun : ShortRangeWeapon {
 		} 
 
 		target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION); // Found a valid target
-
-		ShowEffect(targetTile.X * 2, 0.001f, targetTile.Z * 2);
+		target.GetComponent<PhotonView>().RPC("DisplayStunAnim", PhotonTargets.All, null);
 
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) 
