@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AlienSecondaryThree : SecondaryObjective {
 
-	Effect skillCheckBonusEffect; // The skill check bonus to add
+	Effect[] skillCheckBonusEffect; // The skill check bonus to add
 	AlienSecondaryThreeInteractable interactable;
 	
 	public override void InitializeObjective()
@@ -29,6 +29,8 @@ public class AlienSecondaryThree : SecondaryObjective {
 		interactable.InstantInteract = true;
 		interactable.StartMe();
 
+		// Initialize list of skill check bonus effects
+		skillCheckBonusEffect = new Effect[4];
 	}
 	
 	public override void OnComplete()
@@ -48,37 +50,24 @@ public class AlienSecondaryThree : SecondaryObjective {
 		alienClassContainer = (AlienClass)playerClass;
 		alienPrimaryAbilityContainer = (AlienPrimaryAbility)alienClassContainer.GetPrimaryAbility();
 
-		switch(alienClassContainer.GetHumanClassType()) { // Determine what multiplier to modify
-		case Classes.MARINE:
-			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.MARINEMULTIPLIER, 0.5, 0, 
-					"+50% Marine Skill Check", "Icons/Effects/skillchkmarpurple", -1, true);
-			statMultiplier = Stat.MARINEMULTIPLIER;
-			break;
-		case Classes.ENGINEER:
-			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.ENGMULTIPLIER, 0.5, 0, 
-					"+50% Engineer Skill Check", "Icons/Effects/skillchkengpurple", -1, true);
-			statMultiplier = Stat.ENGMULTIPLIER;
-			break;
-		case Classes.SCOUT:
-			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.SCOUTMULTIPLIER, 0.5, 0, 
-					"+50% Scout Skill Check", "Icons/Effects/skillchkscoutpurple", -1, true);
-			statMultiplier = Stat.SCOUTMULTIPLIER;
-			break;
-		case Classes.TECHNICIAN:
-			skillCheckBonusEffect = new StatusMultiplierTurnEffect(Stat.TECHMULTIPLIER, 0.5, 0, 
-					"+50% Technician Skill Check", "Icons/Effects/skillchktechpurple", -1, true);
-			statMultiplier = Stat.TECHMULTIPLIER;
-			break;
-		default: // Invalid class
-			throw new System.NotSupportedException("Invalid human class");
+		skillCheckBonusEffect[0] = new StatusMultiplierTurnEffect(Stat.MARINEMULTIPLIER, 0.5, 0, 
+				"+50% Marine Skill Check", "Icons/Effects/skillchkmarpurple", -1, true);
+		skillCheckBonusEffect[1] = new StatusMultiplierTurnEffect(Stat.ENGMULTIPLIER, 0.5, 0, 
+				"+50% Engineer Skill Check", "Icons/Effects/skillchkengpurple", -1, true);
+		skillCheckBonusEffect[2] = new StatusMultiplierTurnEffect(Stat.SCOUTMULTIPLIER, 0.5, 0, 
+				"+50% Scout Skill Check", "Icons/Effects/skillchkscoutpurple", -1, true);
+		skillCheckBonusEffect[3] = new StatusMultiplierTurnEffect(Stat.TECHMULTIPLIER, 0.5, 0, 
+		        "+50% Technician Skill Check", "Icons/Effects/skillchktechpurple", -1, true);
+
+		foreach (Effect bonusEffect in skillCheckBonusEffect) {
+			// Add this effect to the player
+			alienPrimaryAbilityContainer.AddBonusEffect(bonusEffect);
+			if (alienPrimaryAbilityContainer.AbilityIsActive()) { // Ability has been activated. Apply effect now
+				playerScript.AttachTurnEffect(bonusEffect);
+				alienClassContainer.IncreaseStatMultiplierValue(skillCheckBonusEffect[0].GetStatAffected(), 0.5);
+			}
 		}
-		
-		// Add this effect to the player
-		alienPrimaryAbilityContainer.AddBonusEffect(skillCheckBonusEffect);
-		if (alienPrimaryAbilityContainer.AbilityIsActive()) { // Ability has been activated. Apply effect now
-			playerScript.AttachTurnEffect(skillCheckBonusEffect);
-			alienClassContainer.IncreaseStatMultiplierValue(statMultiplier, 0.5);
-		}
+
 		Destroy(this);
 		PickNewAlienObjective();
 

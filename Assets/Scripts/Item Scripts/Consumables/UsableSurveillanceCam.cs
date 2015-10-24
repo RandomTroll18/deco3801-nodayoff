@@ -31,7 +31,7 @@ public class UsableSurveillanceCam : SupportConsumables {
 			return;
 		else { // Instantiate camera
 			Amount--;
-			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 5f, Tile.TileMiddle(targetTile).z);
+			instantiatePosition = new Vector3(Tile.TileMiddle(targetTile).x, 10f, Tile.TileMiddle(targetTile).z);
 			Player.MyPlayer.GetComponent<PhotonView>().RPC("InstantiateSurvCamera", PhotonTargets.All, 
 					new object[] {instantiatePosition});
 			UpdateContextAwareBox();
