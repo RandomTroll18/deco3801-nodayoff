@@ -15,7 +15,6 @@ public class NetworkingManager : Photon.PunBehaviour {
 			SpawnMyPlayer();
 		else
 			Connect();
-//		PhotonNetwork.logLevel = PhotonLogLevel.Full;
 	}
 
 	/**
@@ -146,6 +145,7 @@ public class NetworkingManager : Photon.PunBehaviour {
 		myPlayer.transform.position = spawn.transform.position;
 
 		myPlayer.GetComponent<Player>().GenerateStunGun();
+		myPlayer.GetComponent<Player>().InstantiateStartingItems();
 	}
 
 	void OnGUI() {

@@ -94,8 +94,10 @@ public class TechnicianPrimaryAbility : Ability {
 		mainCamera.SetActive(true);
 		nextCameraButtonInstance.SetActive(false);
 		previousCameraButtonInstance.SetActive(false);
-		foreach (GameObject surveillanceCamera in surveillanceCameras)
+		foreach (GameObject surveillanceCamera in surveillanceCameras) {
+			surveillanceCamera.SetActive(false);
 			surveillanceCamera.GetComponent<AudioListener>().enabled = false;
+		}
 	}
 
 	/**

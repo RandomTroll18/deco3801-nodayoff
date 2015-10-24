@@ -24,7 +24,7 @@ public class TechnicianSecondaryOne : SecondaryObjective {
 	
 	public override void OnComplete() {
 		PhotonNetwork.Instantiate(
-			"Prefabs/ItemPrefabs/UsableSurveillanceCam(1)", 
+			"Prefabs/ItemPrefabs/UsableSurveillanceCam(3)", 
 			Player.MyPlayer.transform.position, 
 			Quaternion.identity, 
 			0

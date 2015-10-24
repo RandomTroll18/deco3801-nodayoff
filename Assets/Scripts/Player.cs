@@ -199,6 +199,71 @@ public class Player : MonoBehaviour {
 		return IsStunned;
 	}
 
+	/**
+	 * Instantiate starting items for this player's class
+	 */
+	public void InstantiateStartingItems() {
+		GameObject startingItem; // The starting item
+		AlienClass alienClass; // Alien class container
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.blue) { // Human
+			switch (playerClass.GetClassTypeEnum()) {
+			case Classes.BETRAYER: goto default;
+			case Classes.ENGINEER: // Create Engineer Class
+				Debug.Log("Instantiating Engineer Starting Items");
+				return;
+			case Classes.MARINE: // Create Marine Class
+				Debug.Log("Instantiating Marine Starting Items");
+				return;
+			case Classes.SCOUT: // Create Scout Class
+				Debug.Log("Instantiating Scout Starting Items");
+				return;
+			case Classes.TECHNICIAN: // Create Technician Class
+				Debug.Log("Instantiating Technician Starting Items");
+				startingItem = InstantiateOnPlayer("Prefabs/ItemPrefabs/UsableSurveillanceCam(4)");
+				if (startingItem == null)
+					throw new System.ArgumentException("Prefab does not exist");
+				return;
+			default: // The default class will be the base
+				throw new System.NotSupportedException("Wrong class for human");
+			}
+		} else { // Alien
+			alienClass = (AlienClass)playerClass;
+			switch (alienClass.GetHumanClassType()) {
+			case Classes.BETRAYER: goto default;
+			case Classes.ENGINEER: // Create Engineer Class
+				Debug.Log("Instantiating Engineer Starting Items");
+				return;
+			case Classes.MARINE: // Create Marine Class
+				Debug.Log("Instantiating Marine Starting Items");
+				return;
+			case Classes.SCOUT: // Create Scout Class
+				Debug.Log("Instantiating Scout Starting Items");
+				return;
+			case Classes.TECHNICIAN: // Create Technician Class
+				Debug.Log("Instantiating Technician Starting Items");
+				startingItem = InstantiateOnPlayer("Prefabs/ItemPrefabs/UsableSurveillanceCam(4)");
+				if (startingItem == null)
+					throw new System.ArgumentException("Prefab does not exist");
+				return;
+			default: // The default class will be the base
+				throw new System.NotSupportedException("Wrong class for human");
+			}
+		}
+	}
+
+	/**
+	 * Instantiate an item for a given class (networked)
+	 * 
+	 * Arguments
+	 * - string path - The path to the prefab to instantiate
+	 * 
+	 * Returns
+	 * - The game object instantiated
+	 */
+	public GameObject InstantiateOnPlayer(string path) {
+		return PhotonNetwork.Instantiate(path, transform.position, transform.rotation, 0);
+	}
+
 
 	/**
 	 * Stun the player
@@ -244,7 +309,7 @@ public class Player : MonoBehaviour {
 			default: // The default class will be the base
 				throw new System.NotSupportedException("Wrong class for human");
 			}
-		} else {
+		} else { // Alien
 			switch (newPlayerClass) {
 			case "Base": goto default;
 			case "Alien": goto default;
@@ -609,12 +674,6 @@ public class Player : MonoBehaviour {
 		 */
 		switch(playerStat) {
 		case Stat.AP: goto default;
-			/*
-			if (IsSpawned) 
-				APCounterText.text = "Spawn AP Count: " + stats[playerStat];
-			else 
-				APCounterText.text = "Player AP Count: " + stats[playerStat];
-			break;*/
 		case Stat.VISION:
 			if (value < 1 || value > 3) {
 				Debug.LogError("You tried to change the vision stat to a value outside it's range" +

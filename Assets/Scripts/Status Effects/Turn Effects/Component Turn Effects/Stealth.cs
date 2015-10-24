@@ -14,7 +14,7 @@ public class Stealth : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		if (!Permanent) // Not permanent. Just hide if not within range
-			hideFromPlayer();
+			hideFromOthers();
 		else // Permanent. Make it permanently invisible
 			permanentInvisibility();
 	}
@@ -39,9 +39,11 @@ public class Stealth : MonoBehaviour {
 	/**
 	 * Hide this object from the player
 	 */
-	void hideFromPlayer() {
+	void hideFromOthers() {
 		Player p; // The player script
 		int distance; // The distance to the player
+		List<Renderer> renderers; // List of renderers
+
 		if (Player.MyPlayer == null) // No player
 			return;
 		else if (gameObject.tag.Equals("Trap")) { // Don't hide if trap belongs to this player
@@ -52,14 +54,34 @@ public class Stealth : MonoBehaviour {
 		
 		p  = Player.MyPlayer.GetComponent<Player>();
 		distance = p.DistanceToTile(Tile.TilePosition(transform.position));
-		List<Renderer> renderers = new List<Renderer>();
+		renderers = new List<Renderer>();
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
 		if (distance > p.GetVisionDistance())
 			toggleRenderers(renderers, false);
-		else
+		else // Hidden from player, but are we hidden from surveillance cameras?
+			hideFromSurvCams();
+			//toggleRenderers(renderers, true);
+	}
+
+	/**
+	 * Hide from surveillance cameras
+	 */
+	void hideFromSurvCams() {
+		int distance; // The distance to the surveillance camera
+		List<Renderer> renderers = new List<Renderer>(); // List of renderers
+
+		/* Get renderers */
+		renderers.AddRange(GetComponents<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
+
+		if (GameObject.FindGameObjectsWithTag("SurveillanceCameras").Length > 0) // There are surv cams
+			toggleRenderers(renderers, false);
+		else // There are no surv cameras
 			toggleRenderers(renderers, true);
+
 	}
 
 	/**
