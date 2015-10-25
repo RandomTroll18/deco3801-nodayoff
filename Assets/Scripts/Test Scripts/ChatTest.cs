@@ -436,6 +436,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	
 	public void OnGetMessages(string channelName, string[] senders, object[] messages)
 	{
+		GetComponent<AudioSource>().Play();
 		if (channelName.Equals(this.selectedChannelName))
 		{
 			this.scrollPos.y = float.MaxValue;
