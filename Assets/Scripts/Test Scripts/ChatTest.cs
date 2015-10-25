@@ -116,8 +116,6 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			this.GuiRect.height = Screen.height;
 		}
 
-		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-
 	}
 	
 	/// <summary>To avoid the Editor becoming unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
@@ -155,9 +153,17 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		float rectX = (15f / 1920f) * Screen.width;
 		float rectY = (900f / 1080f) * Screen.height;
 
-		Debug.Log("X: " + rectX + " Y: " + rectY + " W: " + rectWidth + " H: " + rectHeight);
-		GuiRect = new Rect(rectX,rectY,rectWidth,rectHeight);
+		float whRatio = 153f/630f;
+		float hwRatio = 630f/153f;
 
+		// Check if height is wrong
+		if (rectHeight > (rectWidth * whRatio)) {
+			rectHeight = (rectWidth * whRatio);
+		} else {
+			rectWidth = (rectHeight * hwRatio);
+		}
+
+		GuiRect = new Rect(rectX,rectY,rectWidth,rectHeight);
 
 	}
 	
