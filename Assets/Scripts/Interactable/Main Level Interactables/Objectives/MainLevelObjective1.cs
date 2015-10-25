@@ -100,7 +100,6 @@ public class MainLevelObjective1 : InteractiveObject {
 			secondaries.AddComponent<AlienSecondaryTwo>().StartMe();
 			secondaries.AddComponent<AlienSecondaryThree>().StartMe();
 			secondaries.AddComponent<AlienSecondaryFour>().StartMe();
-			secondaries.AddComponent<AlienSecondaryFive>().StartMe();
 			// Need to add human class secondaries as well
 			giveAlienSecondaryHumanObj((AlienClass)p.GetPlayerClassObject(), secondaries);
 			break;

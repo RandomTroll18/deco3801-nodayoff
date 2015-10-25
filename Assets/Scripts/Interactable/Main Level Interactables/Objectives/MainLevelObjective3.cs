@@ -32,7 +32,10 @@ public class MainLevelObjective3 : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
-		// TODO
+		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
+			GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+			secondaries.AddComponent<AlienSecondaryFive>().StartMe();
+		}
 		
 	}
 }

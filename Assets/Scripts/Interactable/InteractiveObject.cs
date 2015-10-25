@@ -89,7 +89,21 @@ public class InteractiveObject : MonoBehaviour {
 
 		string classText = "";
 		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER)) {
-			classText = ": " + ClassMultiplier.ToString();
+			switch (ClassMultiplier) {
+			case Stat.MARINEMULTIPLIER:
+				classText = ": Marine";
+				break;
+			case Stat.ENGMULTIPLIER:
+				classText = ": Engineer";
+				break;
+			case Stat.TECHMULTIPLIER:
+				classText = ": Technician";
+				break;
+			default:
+				classText = "";
+				break;
+			}
+
 		}
 		
 		// TODO: Figure whats wrong with code below & add toggle Panel

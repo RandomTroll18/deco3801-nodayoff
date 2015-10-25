@@ -34,6 +34,5 @@ public class MarineSecondaryOne : SecondaryObjective {
 		);
 		Destroy(this);
 		base.OnComplete();
-		PickNewHumanObjective();
 	}
 }

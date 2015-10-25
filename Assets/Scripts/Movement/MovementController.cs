@@ -64,6 +64,8 @@ public class MovementController : MonoBehaviour {
 	/* Whether debugging output is used */
 	bool debugging;
 	const float HIGHLIGHTED_TILE_ELEVATION = 0.45f;
+	GameObject counter;
+	int cost;
 	
 	public void StartMe() {
 		SetPublicVariables();
@@ -138,6 +140,11 @@ public class MovementController : MonoBehaviour {
 		 * just find the transform way easier.
 		 */
 		if (moving == Moving.YES) {
+			if (counter != null) {
+				Destroy(counter);
+				counter = null;
+			}
+
 			camController.LockCamera();
 			// TODO: let the player cancel their move
 			if (path.Count == 0) {
@@ -206,6 +213,7 @@ public class MovementController : MonoBehaviour {
 		PathTile dest = FindPath(goal, false);
 
 		if (dest != null) {
+			cost = dest.Depth;
 			SpawnHighlightedTile(goal);
 			clickedTile = goal;
 			moving = Moving.POSSIBLY;
@@ -231,6 +239,10 @@ public class MovementController : MonoBehaviour {
 			DestroyObject(obj);
 		}
 		visualPath.Clear();
+		if (counter != null) {
+			Destroy(counter);
+			counter = null;
+		}
 	}
 
 	Object SpawnPathTile(Tile pos, GameObject pathMarker) {
@@ -252,18 +264,11 @@ public class MovementController : MonoBehaviour {
 
 	void ShowAPCost(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos);
-		GameObject counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
+		counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
 		counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
 		counter.GetComponentInChildren<Text>().text = "value goes here";
-		counter.GetComponent<RectTransform>().localPosition = Input.mousePosition;
-//		counter.transform.position.x = tilePos.x;
-//		counter.transform.position.y = tilePos.y;
-		/* TODO:
-		 * position counter properly
-		 * delete counter when path is deleted
-		 * have counter show proper value
-		 * 
-		 */
+		counter.transform.position = new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, transform.position.z);
+		counter.GetComponentInChildren<Text>().text = cost.ToString();
 	}
 
 	/*

@@ -12,11 +12,11 @@ public class SecondaryObjective : Objective {
 	protected bool teamObjective;
 	static List<GameObject> takenObjectives = new List<GameObject>();
 
-	const int NUM_HUMAN_OBJECTIVES = 2;
-	const int NUM_ALIEN_OBJECTIVES = 3;
+	const int NUM_HUMAN_OBJECTIVES = 1;
+	const int NUM_ALIEN_OBJECTIVES = 2;
 
 	protected void Log() {
-		ChatTest.Instance.AllChat(false, "You have a new secondary objective");
+		ChatTest.Instance.AllChat(true, "NEW SECONDARY");
 		Debug.Log("a");
 	}
 
@@ -26,7 +26,7 @@ public class SecondaryObjective : Objective {
 		}
 	}
 
-	protected void PickNewHumanObjective() {
+	public static void PickNewHumanObjective() {
 		/*
 		 * Randomly pick the next secondary for this player
 		 */
@@ -34,15 +34,15 @@ public class SecondaryObjective : Objective {
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 		switch (nextObjective) {
 		case 0:
-			secondaries.AddComponent<SaveRounds>();
-			break;
-		case 1:
+			if (secondaries.GetComponentInChildren<SaveRounds>() != null)
+				break;
+
 			secondaries.AddComponent<SaveRounds>();
 			break;
 		}
 	}
 
-	protected void PickNewAlienObjective() {
+	public static void PickNewAlienObjective() {
 		/*
 		 * Randomly pick the next secondary for this player
 		 */
@@ -50,12 +50,15 @@ public class SecondaryObjective : Objective {
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 		switch (nextObjective) {
 		case 0:
-			secondaries.AddComponent<AlienSecondaryTwo>();
-			break;
-		case 1:
+			if (secondaries.GetComponentInChildren<AlienSecondaryThree>() != null)
+				break;
+
 			secondaries.AddComponent<AlienSecondaryThree>();
 			break;
-		case 2:
+		case 1:
+			if (secondaries.GetComponentInChildren<AlienSecondaryOne>() != null)
+				break;
+
 			secondaries.AddComponent<AlienSecondaryOne>();
 			break;
 		}

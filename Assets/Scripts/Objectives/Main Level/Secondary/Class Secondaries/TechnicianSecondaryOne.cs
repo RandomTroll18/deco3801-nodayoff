@@ -32,6 +32,5 @@ public class TechnicianSecondaryOne : SecondaryObjective {
 			);
 		Destroy(this);
 		base.OnComplete();
-		PickNewHumanObjective();
 	}
 }

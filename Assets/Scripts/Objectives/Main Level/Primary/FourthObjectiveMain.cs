@@ -11,7 +11,7 @@ public class FourthObjectiveMain : PrimaryObjective {
 	public void StartMe() {
 		Title = "Escape";
 		Description = "The escape pods are ready. Get to them before our ship is destroyed!\n" +
-			"Once one escape pod is taken, it's gone forever.";
+			"There is no sharing of escape pods - once one escape pod is taken, it's gone forever.";
 
 		Location = Tile.TilePosition(GameObject.Find("EscapePod 1").transform.position);
 		Location2 = Tile.TilePosition(GameObject.Find("EscapePod 3").transform.position);

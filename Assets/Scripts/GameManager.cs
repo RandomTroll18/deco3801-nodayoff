@@ -279,10 +279,12 @@ public class GameManager : Photon.PunBehaviour {
 			p.ReduceItemCoolDowns();
 			p.ReduceAbilityTurns();
 			p.SetInActivity(false);
-		} 
-		catch (MissingReferenceException e) { // Handle Security System Kill state
+		} catch (MissingReferenceException e) { // Handle Security System Kill state
 			Application.LoadLevel("GameOver");
 		}
+
+
+		GiveSecondary();
 
 		RoundsLeftUntilLose -= roundsLost;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
@@ -290,6 +292,26 @@ public class GameManager : Photon.PunBehaviour {
 			GetComponent<PhotonView>().RPC("LoseGame", PhotonTargets.All, null);
 
 		validTurn = true;
+	}
+
+	/*
+	 * Has a small chance to give a secondary out
+	 */
+	void GiveSecondary() {
+		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
+			// Alien
+			if (secondaries.transform.childCount < 5
+			    	&& Random.Range(0, 10) >= 7) {
+				SecondaryObjective.PickNewAlienObjective();
+			}
+		} else {
+			// Human
+			if (secondaries.transform.childCount < 3
+			    	&& Random.Range(0, 10) >= 7) {
+				SecondaryObjective.PickNewHumanObjective();
+			}
+		}
 	}
 
 	/**

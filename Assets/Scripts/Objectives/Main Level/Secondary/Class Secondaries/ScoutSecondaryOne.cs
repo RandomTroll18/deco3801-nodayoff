@@ -35,6 +35,5 @@ public class ScoutSecondaryOne : SecondaryObjective {
 		Player.MyPlayer.GetComponent<Player>().SetStatValue(Stat.VISION, 3);
 		Destroy(this);
 		base.OnComplete();
-		PickNewHumanObjective();
 	}
 }

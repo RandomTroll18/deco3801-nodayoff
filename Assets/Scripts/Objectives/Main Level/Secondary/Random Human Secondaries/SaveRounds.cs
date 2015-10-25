@@ -14,7 +14,7 @@ public class SaveRounds : SecondaryObjective {
 		ObjectiveName = "TechnicianSecondaryOne";
 		Title = "Repair the Ship";
 		Description = "Part of the ship is damaged. Repair the ship to prevent the round counter " +
-			"from going down.";
+			"from going down an extra round per turn.";
 		Location = Tile.TilePosition(objective.transform.position);
 		
 		SaveRoundInteractable i = objective.AddComponent<SaveRoundInteractable>();

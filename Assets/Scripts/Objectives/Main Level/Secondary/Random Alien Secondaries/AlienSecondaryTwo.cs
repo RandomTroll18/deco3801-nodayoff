@@ -16,9 +16,10 @@ public class AlienSecondaryTwo : SecondaryObjective {
 	// Use this for initialization
 	public void StartMe() {
 		/*
-		 * Don't let them get goggles if they already have goggles.
+		 * Don't let them get goggles if they already have goggles or if they're the scout.
 		 */
-		if (Player.MyPlayer.GetComponent<Player>().GetStatValue(Stat.VISION) == 3) {
+		if (Player.MyPlayer.GetComponent<Player>().GetStatValue(Stat.VISION) == 3 || 
+		    	Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.SCOUT) {
 			Destroy(this);
 			return;
 		}
