@@ -48,11 +48,10 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	private int selectedChannelIndex = 0;   // mainly used for GUI/input
 	bool doingPrivateChat;
 	
-	
 	public ChatClient chatClient;
 	
 	// GUI stuff:
-	public Rect GuiRect = new Rect(0, 0, 250, 300);
+	public Rect GuiRect = new Rect(15, 900, 630, 153);
 	public bool IsVisible = true;
 	public bool AlignBottom = false;
 	public bool FullScreen = false;
@@ -62,8 +61,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	private Vector2 scrollPos = Vector2.zero;
 	private static string WelcomeText = "Welcome to chat.\\help lists commands.";
 	private static string HelpText = "\n\\subscribe <list of channelnames> subscribes channels.\n\\unsubscribe <list of channelnames> leaves channels.\n\\msg <username> <message> send private message to user.\n\\clear clears the current chat tab. private chats get closed.\n\\help gets this help message.";
-	
-	
+
 	private static ChatTest instance;
 	public static ChatTest Instance
 	{
@@ -117,8 +115,9 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			this.GuiRect.width = Screen.width;
 			this.GuiRect.height = Screen.height;
 		}
-		
-//		Debug.Log(this.UserName);
+
+		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
 	}
 	
 	/// <summary>To avoid the Editor becoming unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
@@ -148,6 +147,18 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		{
 			this.chatClient.Service();  // make sure to call this regularly! it limits effort internally, so calling often is ok!
 		}
+
+		float FilScreenWidth = 630f / 1920f;
+		float rectWidth = FilScreenWidth * Screen.width;
+		float FilScreenHeight = 153f / 1080f;
+		float rectHeight = FilScreenHeight * Screen.height;
+		float rectX = (15f / 1920f) * Screen.width;
+		float rectY = (900f / 1080f) * Screen.height;
+
+		Debug.Log("X: " + rectX + " Y: " + rectY + " W: " + rectWidth + " H: " + rectHeight);
+		GuiRect = new Rect(rectX,rectY,rectWidth,rectHeight);
+
+
 	}
 	
 	public void OnGUI()
