@@ -17,7 +17,7 @@ public class ChangeRoundsPerTurn : EventCard {
 		this.ChangeButton (1, "OK");
 		this.ChangeImage("chopper");
 		this.ChangeText ("A Versipellis boarding party is destroying our ship from the inside. Stop" +
-			"them from destroying our ship.\n" +
+			" them from destroying our ship.\n" +
 			"\n" +
 			"An extra round is lost per turn until the boarding party is removed.");
 		

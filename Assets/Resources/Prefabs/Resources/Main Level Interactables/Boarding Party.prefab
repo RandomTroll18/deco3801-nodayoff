@@ -86,10 +86,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c02331bd544f946b269f80a2a312b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StringInput: 
-  Cost: 0
-  ClassMultiplier: 0
+  StringInput: Destroy the boarding party?
+  Cost: 8
+  ClassMultiplier: 6
   InstantInteract: 0
+  DebugOption: 0
 --- !u!114 &11483014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,7 +122,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Cost
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ClassMultiplier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: StringInput
+      value: Destroy the boarding party?
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 191224}

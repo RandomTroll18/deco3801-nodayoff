@@ -127,7 +127,7 @@ public class MovementController : MonoBehaviour {
 	}
 
 	void SetPublicVariables() {
-		Speed = 100;
+		Speed = 10;
 		InvalidPathMarker = Resources.Load("Invalid Path Marker") as GameObject;
 		ValidPathMarker = Resources.Load("Valid Path Marker") as GameObject;
 		HighlightedTile = Resources.Load("Highlighted Tile") as GameObject;

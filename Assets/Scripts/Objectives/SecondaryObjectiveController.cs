@@ -52,6 +52,9 @@ public class SecondaryObjectiveController : MonoBehaviour {
 
 	void PopulatePanels() {
 		for (int i = page * 2; i <= page * 2 + 1 && i < objectives.Count; i++) {
+			if (i > objectives.Count - 1 || i < 0) {
+				return;
+			}
 			// figure out which panel this is
 			GameObject panel = i % 2 == 0 ? panel1 : panel2;
 
@@ -72,6 +75,8 @@ public class SecondaryObjectiveController : MonoBehaviour {
 	 * - direction is either +1 or -1
 	 */
 	public void ChangePage(int direction) {
+		ClearPanel(panel1);
+		ClearPanel(panel2);
 		page += direction;
 
 		PopulatePanels();
@@ -94,12 +99,16 @@ public class SecondaryObjectiveController : MonoBehaviour {
 			// figure out which panel this is
 			GameObject panel = i % 2 == 0 ? panel1 : panel2;
 			
-			// set panel title, description and goto button using objectives[i]
-			panel.transform.Find("Title").GetComponent<Text>().text = "";
-			panel.transform.Find("Description").GetComponent<Text>().text = "";
-			GameObject button = panel == panel1 ? LocationButton1 : LocationButton2;
-			button.gameObject.SetActive(false);
+			ClearPanel(panel);
 		}
+	}
+
+	void ClearPanel(GameObject panel) {
+		// set panel title, description and goto button using objectives[i]
+		panel.transform.Find("Title").GetComponent<Text>().text = "";
+		panel.transform.Find("Description").GetComponent<Text>().text = "";
+		GameObject button = panel == panel1 ? LocationButton1 : LocationButton2;
+		button.gameObject.SetActive(false);
 	}
 
 	public void GoToLocation(int panel) {
