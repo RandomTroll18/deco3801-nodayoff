@@ -13,7 +13,7 @@ public class SecondaryObjective : Objective {
 	static List<GameObject> takenObjectives = new List<GameObject>();
 
 	const int NUM_HUMAN_OBJECTIVES = 1;
-	const int NUM_ALIEN_OBJECTIVES = 2;
+	const int NUM_ALIEN_OBJECTIVES = 3;
 
 	protected void Log() {
 		ChatTest.Instance.AllChat(true, "NEW SECONDARY");
@@ -60,6 +60,13 @@ public class SecondaryObjective : Objective {
 				break;
 
 			secondaries.AddComponent<AlienSecondaryOne>();
+			break;
+		case 3:
+			if (AlienSecondarySeven.completed) {
+				return;
+			}
+
+			secondaries.AddComponent<AlienSecondarySeven>();
 			break;
 		}
 	}

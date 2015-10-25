@@ -25,7 +25,7 @@ public class TeamExtraRounds : SecondaryObjective {
 	public void Progress() {
 		step++;
 
-		if (step == 1) {
+		if (step == 4) {
 			/*
 			 * Enough terminals have been activated
 			 */
