@@ -19,7 +19,7 @@ public class ScoutTrapScript : Trap {
 			return;
 		} else { // Other players
 			Debug.Log("Activated scout trap");
-			p.GetComponent<PhotonView>().RPC("Stun", 0, 3);
+			p.GetComponent<PhotonView>().RPC("Stun", p.GetComponent<PhotonView>().owner, 3);
 			p.GetComponent<PhotonView>().RPC("DisplayStunAnim", PhotonTargets.All, null);
 			GetComponent<PhotonView>().RPC("Destroy", PhotonTargets.All, null);
 		}

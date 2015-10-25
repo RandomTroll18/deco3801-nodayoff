@@ -43,7 +43,8 @@ public class DeployableStunTurretActionScript : MonoBehaviour {
 			if (target != null) { // Found a target
 				Debug.Log("Stun Turret: Target found: " + target.ToString());
 				targetPosition = target.GetComponent<Player>().PlayerPosition();
-				target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION); // Found a valid target
+				/* Found valid target */
+				target.GetComponent<PhotonView>().RPC("Stun", target.GetComponent<PhotonView>().owner, STUN_DURATION);
 				target.GetComponent<PhotonView>().RPC("DisplayStunAnim", PhotonTargets.All, null);
 				/* Set turret to cool down */
 				coolDownTurnsRemaining = COOLDOWN_TURNS;

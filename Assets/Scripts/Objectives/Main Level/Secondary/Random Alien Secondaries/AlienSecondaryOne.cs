@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AlienSecondaryOne : SecondaryObjective {
 
@@ -38,9 +39,11 @@ public class AlienSecondaryOne : SecondaryObjective {
 		PlayerClass playerClass; // The player's class
 		AlienClass alienClassContainer; // Container for the alien's class
 		AlienPrimaryAbility alienPrimaryAbilityContainer; // Container for the alien's primary ability
+		Effect existingEffect; // The existing effect
 
 		playerScript = Player.MyPlayer.GetComponent<Player>();
 		playerClass = playerScript.GetPlayerClassObject();
+
 
 		if (playerClass.GetClassTypeEnum() != Classes.BETRAYER)
 			throw new System.NotSupportedException("Alien secondary activated by non-alien player");
@@ -48,7 +51,6 @@ public class AlienSecondaryOne : SecondaryObjective {
 		alienClassContainer = (AlienClass)playerClass;
 		alienPrimaryAbilityContainer = (AlienPrimaryAbility)alienClassContainer.GetPrimaryAbility();
 
-		// Add this effect to the player
 		alienPrimaryAbilityContainer.AddBonusEffect(apEffect);
 		if (alienPrimaryAbilityContainer.AbilityIsActive()) { // Ability has been activated. Apply effect now
 			playerScript.AttachTurnEffect(apEffect);

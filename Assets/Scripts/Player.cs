@@ -282,6 +282,7 @@ public class Player : MonoBehaviour {
 	[PunRPC]
 	public void Stun(int timer) {
 		Debug.Log("Player Stunned");
+		ChatTest.Instance.Big("STUNNED");
 		IsStunned = true;
 		if (stunTimer < 0) // Invalid stun timer
 			stunTimer = 0;
@@ -381,7 +382,8 @@ public class Player : MonoBehaviour {
 	 */
 	void OnTriggerExit(Collider other) {
 		if (other.gameObject.CompareTag("Item")) // Remove item from list of dropped items
-			droppedItems.Remove(other.gameObject);
+			if (droppedItems.Count > 0 && droppedItems.Contains(other.gameObject))
+				droppedItems.Remove(other.gameObject);
 	}
 
 	/**

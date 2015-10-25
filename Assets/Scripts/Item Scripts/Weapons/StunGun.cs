@@ -25,7 +25,7 @@ public class StunGun : ShortRangeWeapon {
 
 		Rounds = -1.0;
 		Damage = 0.0;
-		Range = 1.0;
+		Range = 3.0;
 		CoolDown = 0; // No cool down initially
 		CoolDownSetting = 3; // Item can only be used once per 3 turns
 		DefaultCoolDownSetting = 3; // Default cool down is 3
@@ -55,6 +55,7 @@ public class StunGun : ShortRangeWeapon {
 	 * Override the Activate function
 	 */
 	public override void Activate(Tile targetTile) {
+		PhotonPlayer targetNetworkPlayer; // The targetted network player
 
 		if (CurrentNumberOfUses == 0) {
 			Debug.Log("Stun Gun has no more uses");
@@ -70,7 +71,8 @@ public class StunGun : ShortRangeWeapon {
 			return;
 		} 
 
-		target.GetComponent<PhotonView>().RPC("Stun", 0, STUN_DURATION); // Found a valid target
+		targetNetworkPlayer = target.GetComponent<PhotonView>().owner;
+		target.GetComponent<PhotonView>().RPC("Stun", targetNetworkPlayer, STUN_DURATION); // Found a valid target
 		target.GetComponent<PhotonView>().RPC("DisplayStunAnim", PhotonTargets.All, null);
 
 		CurrentNumberOfUses--;
