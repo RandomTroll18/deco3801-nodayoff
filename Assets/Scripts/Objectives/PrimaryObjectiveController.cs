@@ -66,6 +66,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 			ActivateLocationButton();
 
 		if (objective.Location2 != null) {
+			PrimaryLocationButton.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(70f, -85f, 0f);
 			SecondaryLocationButton.SetActive(true);
 		}
 
