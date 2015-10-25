@@ -54,7 +54,8 @@ public class PrimaryObjectiveController : MonoBehaviour {
 			transform.Find("Title").GetComponent<Text>().text = objective.Title;
 			transform.Find("Description").GetComponent<Text>().text = objective.Description;
 		}
-
+		// In centre (0,-85,0)
+		// To right (70,-85,0)
 		Debug.Log("Objective title: " + transform.Find("Title").GetComponent<Text>().text);
 		Debug.Log("Objective desc: " + transform.Find("Description").GetComponent<Text>().text);
 
