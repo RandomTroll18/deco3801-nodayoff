@@ -49,6 +49,57 @@ public class ClassSelectPanelScript : MonoBehaviour, IPointerEnterHandler, IPoin
 			throw new System.NotSupportedException("Invalid Class");
 		}
 	}
+
+	void Update() {
+		Button buttonScript = GetComponent<Button>(); // Our button script
+		if (PhotonNetwork.connected && buttonScript.interactable) { // Set ourselves to be inactive where possible
+			Debug.LogWarning("Disabling class selection panel");
+			foreach (PhotonPlayer currentPlayer in PhotonNetwork.playerList) {
+				if (currentPlayer.customProperties["classselected"] == null) { // Class isn't set somehow
+					Debug.LogWarning("Custom properties does not contain player's class");
+					continue;
+				} else {
+					Debug.LogWarning("Waiting player's class: " + (int)(currentPlayer.customProperties["classselected"]));
+					SetSelectable((int)(currentPlayer.customProperties["classselected"]));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Set this button to be inactive, depending on what value was given
+	 * 
+	 * Arguments
+	 * - int classVal - The integer representing the class
+	 */
+	public void SetSelectable(int classVal) {
+		Debug.LogWarning("Setting selectable classes");
+		switch (classVal) {
+		case 0: // Eng
+			Debug.LogWarning("Setting eng unselectable");
+			if (SpecifiedClass.Equals("Engineer"))
+				GetComponent<Button>().interactable = false;
+			break;
+		case 1: // Tech
+			Debug.LogWarning("Setting tech unselectable");
+			if (SpecifiedClass.Equals("Technician"))
+				GetComponent<Button>().interactable = false;
+			break;
+		case 2: // Scout
+			Debug.LogWarning("Setting scout unselectable");
+			if (SpecifiedClass.Equals("Scout"))
+				GetComponent<Button>().interactable = false;
+			break;
+		case 3: // Marine
+			Debug.LogWarning("Setting marine unselectable");
+			if (SpecifiedClass.Equals("Marine"))
+				GetComponent<Button>().interactable = false;
+			break;
+		default: // Null. Don't do a thing
+			Debug.LogWarning("Setting null unselectable");
+			return;
+		}
+	}
 	
 	/**
 	 * Mouse over function
@@ -57,6 +108,9 @@ public class ClassSelectPanelScript : MonoBehaviour, IPointerEnterHandler, IPoin
 	 * - PointerEventData eventData - The data of the on pointer enter event
 	 */
 	public void OnPointerEnter(PointerEventData eventData) {
+		if (!GetComponent<Button>().interactable)
+			return;
+
 		/* Set elements to be active */
 		ClassTitleText.SetActive(true);
 		ClassDescriptionText.SetActive(true);
@@ -75,6 +129,9 @@ public class ClassSelectPanelScript : MonoBehaviour, IPointerEnterHandler, IPoin
 	 * - PointerEventData eventData - The data of the on pointer exit event
 	 */
 	public void OnPointerExit(PointerEventData eventData) {
+		if (!GetComponent<Button>().interactable)
+			return;
+
 		/* Set elements to be inactive */
 		ClassTitleText.SetActive(false);
 		ClassDescriptionText.SetActive(false);

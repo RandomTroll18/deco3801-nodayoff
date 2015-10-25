@@ -36,7 +36,8 @@ public class ConnectionManager : Photon.PunBehaviour {
 				if (Player.MyPlayer != null && !player.GetComponent<Player>().IsPlayerNoLongerActive()
 						&& GameManagerObject != null) 
 					GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", PhotonTargets.All, null);
-				PhotonNetwork.Destroy(player);
+				GameManagerObject.GetComponent<PhotonView>().RPC("DestroyDisconnectedPlayerModel", PhotonTargets.All, 
+						new object[] {player.GetComponent<PhotonView>().ownerId});
 				return;
 			}
 		}

@@ -39,7 +39,6 @@ public class AlienSecondaryOne : SecondaryObjective {
 		PlayerClass playerClass; // The player's class
 		AlienClass alienClassContainer; // Container for the alien's class
 		AlienPrimaryAbility alienPrimaryAbilityContainer; // Container for the alien's primary ability
-		Effect existingEffect; // The existing effect
 
 		playerScript = Player.MyPlayer.GetComponent<Player>();
 		playerClass = playerScript.GetPlayerClassObject();

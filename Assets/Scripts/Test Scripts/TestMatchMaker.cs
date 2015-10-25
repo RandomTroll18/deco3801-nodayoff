@@ -8,7 +8,11 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	public Text RoomNameLabel; // The label for the room name
 	public Text PlayerCountLabel; // The label for the player count
 	public Text[] PlayerNamesLabel; // The labels for each player's name
+	public GameObject ClassPickWaitCanvas; // Canvas to display when we are waiting to pick our class
+	public GameObject ClassPickWaitText; // The text displaying how many players have picked their class
 	int alienIndex; // The index of the alien
+	int readyPlayers; // Number of players who have already picked their class
+	bool selectingClasses; // Selecting classes
 
 	// Use this for initialization
 	void Start() {
@@ -18,6 +22,8 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		PhotonNetwork.ConnectUsingSettings("matchmaker.v1");
 		RoomNameLabel.text = "Room Name: " + RoomName;
 		PhotonNetwork.playerName = PlayerName;
+		selectingClasses = false;
+		readyPlayers = 0;
 	}
 
 	/**
@@ -58,11 +64,66 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		return true;
 	}
 
+	/**
+	 * RPC call for master client to send a player to the class select screen
+	 */
+	[PunRPC]
+	public void MatchMakerSendPlayerToClassSelect() {
+		int randomIndex = Random.Range(0, PhotonNetwork.otherPlayers.Length);
+
+		readyPlayers++;
+		if (!PhotonNetwork.player.isMasterClient || readyPlayers >= PhotonNetwork.playerList.Length)
+			return;
+
+		Debug.LogWarning("Sending a player to class select from match maker");
+
+		/* Send a player in match-maker to the class select screen */
+		while ((bool)PhotonNetwork.otherPlayers[randomIndex].customProperties["waiting"])
+			randomIndex = Random.Range(0, PhotonNetwork.otherPlayers.Length);
+
+		Debug.Log("Sending player at index: " + randomIndex);
+		Debug.Log("Sending player: " + PhotonNetwork.otherPlayers[randomIndex].name);
+		GetComponent<PhotonView>().RPC("LoadClassSelect", PhotonNetwork.otherPlayers[randomIndex], null);
+	}
+
+	/**
+	 * Queue for selecting classes
+	 */
+	public void SelectingClassQueueing() {
+		Debug.Log("Selecting class queue");
+		int ready = 0; // Number of players who've picked their classes
+
+		/* Display text indicating how many players have picked their classes */
+		foreach (PhotonPlayer currentPlayer in PhotonNetwork.otherPlayers) {
+			if ((bool)currentPlayer.customProperties["waiting"])
+				ready++;
+		}
+		ClassPickWaitText.GetComponent<Text>().text = 
+			"Waiting To Be Able To Pick Class. " + StringMethodsScript.NEWLINE
+			+ ready + " players have already picked their class";
+		if (!PhotonNetwork.isMasterClient) { // Not master client. Don't do anything
+			Debug.Log("Not master client");
+			return;
+		}
+		Debug.Log("We are the master client");
+		Debug.Log("Number of ready players: " + readyPlayers);
+		if (readyPlayers >= PhotonNetwork.playerList.Length) { // We're done here
+			Debug.Log("We are done here. Master client. Select your class");
+			LoadClassSelect();
+		}
+	}
+
 	void Update() {
 		PhotonPlayer currentPlayer; // The current player being looked at
 
 		if (!PhotonNetwork.connectedAndReady) // Don't do anything. Not yet connected
 			return;
+
+		if (selectingClasses) {
+			Debug.Log("Going to selecting class queue");
+			SelectingClassQueueing();
+			return;
+		}
 
 		if (PhotonNetwork.isMasterClient) // Print out alien index if master client
 			Debug.Log("Alien index: " + alienIndex);
@@ -71,12 +132,13 @@ public class TestMatchMaker : Photon.PunBehaviour {
 
 		if (PhotonNetwork.playerList.Length == 4 && playersAssigned()) { // Enough players and assigned correctly
 			Debug.Log("We have enough players!");
-			gameObject.SetActive(false);
 			if (string.IsNullOrEmpty(MainMenuScript.LevelToLoad)) {
 				Debug.Log("There is a level to load");
 				MainMenuScript.LevelToLoad = "Main Level";
 			}
-			LoadClassSelect();
+			selectingClasses = true; // Initiate selecting class queue
+			ClassPickWaitCanvas.SetActive(true);
+			MatchMakerSendPlayerToClassSelect();
 		}
 
 		/* Set text and assign teams for different players */
@@ -169,8 +231,11 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		PhotonNetwork.CreateRoom(null);
 	}
 
-	public override void OnCreatedRoom()
+	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
-		// This player is the master client
+		base.OnPhotonPlayerDisconnected(otherPlayer);
+
+		if (PhotonNetwork.isMasterClient)
+			MatchMakerSendPlayerToClassSelect();
 	}
 }

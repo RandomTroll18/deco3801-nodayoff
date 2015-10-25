@@ -22,7 +22,6 @@ public class DeployableStunTurretActionScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		GameObject target; // The target
-		Tile targetPosition; // The tile at the target's position
 		if (coolingDown) { // Cooling down
 			GetComponent<PhotonView>().RPC("ChangeMaterial", PhotonTargets.All, new object[] {0});
 			ChangeMaterial(0);
@@ -42,7 +41,6 @@ public class DeployableStunTurretActionScript : MonoBehaviour {
 			target = findPlayerToStun();
 			if (target != null) { // Found a target
 				Debug.Log("Stun Turret: Target found: " + target.ToString());
-				targetPosition = target.GetComponent<Player>().PlayerPosition();
 				/* Found valid target */
 				target.GetComponent<PhotonView>().RPC("Stun", target.GetComponent<PhotonView>().owner, STUN_DURATION);
 				target.GetComponent<PhotonView>().RPC("DisplayStunAnim", PhotonTargets.All, null);

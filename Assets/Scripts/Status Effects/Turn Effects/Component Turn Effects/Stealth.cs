@@ -68,7 +68,7 @@ public class Stealth : MonoBehaviour {
 		renderers = new List<Renderer>();
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 		if (distance > p.GetVisionDistance()) // Hidden from player, but are we hidden from surveillance cams
 			hideFromSurvCams();
 		else // Not hidden
@@ -79,14 +79,13 @@ public class Stealth : MonoBehaviour {
 	 * Hide from surveillance cameras
 	 */
 	void hideFromSurvCams() {
-		int distance; // The distance to the surveillance camera
 		List<Renderer> renderers = new List<Renderer>(); // List of renderers
 		GameObject[] survCams = GameObject.FindGameObjectsWithTag("SurveillanceCameras");
 
 		/* Get renderers */
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 
 		if (survCams.Length > 0) { // There are surv cams. Need to check if they are active
 			foreach (GameObject survCam in survCams) {

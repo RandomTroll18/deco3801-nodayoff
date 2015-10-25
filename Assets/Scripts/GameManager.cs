@@ -151,6 +151,37 @@ public class GameManager : Photon.PunBehaviour {
 		networkingManager = Object.FindObjectOfType<NetworkingManager>(); // Networking manager
 		instantiatedCanvas = Instantiate(waitingCanvas); // Create UI to block player from doing anything
 		readyPlayers.Add(PhotonNetwork.player); // We have already instantiated our player
+
+		/* Send an RPC to master client to tell a player to select their class */
+		if (!(bool)(PhotonNetwork.masterClient.customProperties["waiting"])) // Master client is in match maker
+			GetComponent<PhotonView>().RPC("MatchMakerSendPlayerToClassSelect", PhotonNetwork.masterClient, null);
+		else // Master client is in the same scene already
+			GetComponent<PhotonView>().RPC("GameManagerSendPlayerToClassSelect", PhotonNetwork.masterClient, null);
+
+	}
+
+	/**
+	 * Destroy the player model with the given owner id
+	 * 
+	 * Arguments
+	 * - int ownerId - The owner id
+	 */
+	[PunRPC]
+	public void DestroyDisconnectedPlayerModel(int ownerId) {
+		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
+			if (player.GetComponent<PhotonView>().ownerId == ownerId) { // Found the player
+				Destroy(player);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Send a player to class select screen - master client only
+	 */
+	[PunRPC]
+	public void GameManagerSendPlayerToClassSelect() {
+		Debug.LogWarning("Sending a player to class select from game manager");
 	}
 
 	[PunRPC]
@@ -280,6 +311,7 @@ public class GameManager : Photon.PunBehaviour {
 			p.ReduceAbilityTurns();
 			p.SetInActivity(false);
 		} catch (MissingReferenceException e) { // Handle Security System Kill state
+			Debug.LogWarning("Missing ref exception: " + e.Message);
 			Application.LoadLevel("GameOver");
 		}
 

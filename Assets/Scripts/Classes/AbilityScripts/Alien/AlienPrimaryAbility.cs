@@ -40,12 +40,19 @@ public class AlienPrimaryAbility : Ability {
 	public void AddBonusEffect(Effect bonusEffect) {
 		int existingIndex; // The index of the existing effect
 
-		if (secondaryEffectRewards.Contains(bonusEffect)) { // Need to stack
-			existingIndex = secondaryEffectRewards.IndexOf(bonusEffect);
-			if (existingIndex < 0 || existingIndex > (secondaryEffectRewards.Count - 1))
-				throw new System.Exception("Unknown error with alien mode rewards");
-			secondaryEffectRewards[existingIndex].SetValue(secondaryEffectRewards[existingIndex].GetValue() 
-					+ bonusEffect.GetValue());
+		if (secondaryEffectRewards.Contains(bonusEffect)) { // Need to handle this
+			switch (bonusEffect.GetTurnEffectType()) {
+			case TurnEffectType.STATEFFECT:
+				existingIndex = secondaryEffectRewards.IndexOf(bonusEffect);
+				if (existingIndex < 0 || existingIndex > (secondaryEffectRewards.Count - 1))
+					throw new System.Exception("Unknown error with alien mode rewards");
+				secondaryEffectRewards[existingIndex].SetValue(secondaryEffectRewards[existingIndex].GetValue() 
+				                                               + bonusEffect.GetValue());
+				break;
+			case TurnEffectType.COMPONENTEFFECT: // Don't stack
+				break; 
+			}
+
 		} else
 			secondaryEffectRewards.Add(bonusEffect);
 	}

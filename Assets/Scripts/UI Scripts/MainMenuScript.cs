@@ -31,6 +31,39 @@ public class MainMenuScript : MonoBehaviour {
 	 */
 	public void LoadLevelWithClass(string chosenClass) {
 		Player.ChosenClass = chosenClass;
+
+		if (PhotonNetwork.connected) { // Set selected class for match-making
+			Debug.Log("Setting selected class for network player");
+			switch (chosenClass) {
+			case "Engineer":
+				Debug.LogWarning("Setting eng unselectable");
+				PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+					{"classselected", 0}
+				});
+				break;
+			case "Technician":
+				Debug.LogWarning("Setting tech unselectable");
+				PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+					{"classselected", 1}
+				});
+				break;
+			case "Scout":
+				Debug.LogWarning("Setting scout unselectable");
+				PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+					{"classselected", 2}
+				});
+				break;
+			case "Marine":
+				Debug.LogWarning("Setting marine unselectable");
+				PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+					{"classselected", 3}
+				});
+				break;
+			default:
+				Debug.Log("Setting null class");
+				break;
+			}
+		}
 		if (LevelToLoad == null) {
 			Debug.Log("No level to load");
 			Application.LoadLevel("Main Level");
@@ -38,6 +71,7 @@ public class MainMenuScript : MonoBehaviour {
 			Debug.Log("There is a level to load");
 			Application.LoadLevel(LevelToLoad);
 		}
+
 	}
 
 

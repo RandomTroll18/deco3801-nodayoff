@@ -29,6 +29,7 @@ public class EndTurnButtonScript : MonoBehaviour {
 			EndTurnButton.GetComponentInChildren<Text>().text = "End Turn";
 		} 		
 		catch (MissingReferenceException e) { // Handle Security System Kill state
+			Debug.LogWarning("Missing ref exception: " + e.Message);
 			Application.LoadLevel("GameOver");
 		}
 	}

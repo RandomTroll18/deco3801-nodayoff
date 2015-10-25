@@ -25,7 +25,6 @@ public class UsableSurveillanceCam : SupportConsumables {
 
 	public override void Activate(Tile targetTile)
 	{
-		GameObject instantiatedCamera; // The instantiated camera
 		Vector3 instantiatePosition; // Where to instantiate
 		if (Amount == 0) // Out of cameras
 			return;

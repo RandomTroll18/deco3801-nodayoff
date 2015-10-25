@@ -47,10 +47,9 @@ public class ComponentTurnEffect : Effect {
 	{
 		switch (componentType) {
 		case ComponentEffectType.STEALTH: // Stealth component
-			if (Player.MyPlayer.GetComponent<Stealth>() == null) {
+			if (Player.MyPlayer.GetComponent<Stealth>() == null)
 				Player.MyPlayer.AddComponent<Stealth>(); // Add component
-				Player.MyPlayer.GetComponent<Stealth>().Permanent = true; 
-			}
+			Player.MyPlayer.GetComponent<Stealth>().Permanent = true; 
 			Player.MyPlayer.GetComponent<Stealth>().enabled = true;
 			break;
 		case ComponentEffectType.TRAPDETECTOR: // Trap detector component
@@ -82,7 +81,7 @@ public class ComponentTurnEffect : Effect {
 			// Disable stealth
 			if (Player.MyPlayer.GetComponent<Stealth>() != null) {
 				Player.MyPlayer.GetComponent<Stealth>().enabled = false; 
-				Object.Destroy(Player.MyPlayer.GetComponent<Stealth>());
+				Player.MyPlayer.GetComponent<Stealth>().Permanent = false;
 			}
 			Player.MyPlayer.GetComponentInChildren<MeshRenderer>().enabled = true;
 			break;

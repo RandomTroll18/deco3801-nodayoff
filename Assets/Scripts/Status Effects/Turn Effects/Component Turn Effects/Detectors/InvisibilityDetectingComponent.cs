@@ -54,8 +54,17 @@ public class InvisibilityDetectingComponent : MonoBehaviour {
 	 * - GameObject hiddenObject - The hidden object
 	 */
 	void makeVisible(GameObject hiddenObject) {
-		hiddenObject.GetComponent<Stealth>().enabled = false;
-		hiddenObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+		List<Renderer> renderers = new List<Renderer>(); // List of renderers
+
+		/* Get renderers */
+		renderers.AddRange(GetComponents<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+
+		hiddenObject.GetComponent<Stealth>().enabled = false; // Disable stealth
+
+		foreach (Renderer meshRenderer in renderers)
+			meshRenderer.enabled = true;
 	}
 
 	/**

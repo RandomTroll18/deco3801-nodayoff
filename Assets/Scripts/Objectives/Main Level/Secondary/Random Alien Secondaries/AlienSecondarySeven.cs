@@ -5,6 +5,7 @@ public class AlienSecondarySeven : SecondaryObjective {
 	public static bool completed = false;
 
 	AlienSecondarySevenInteractable interactable;
+	ComponentTurnEffect stealthEffect; // Stealth effect
 
 	// Use this for initialization
 	void Start () {
@@ -19,10 +20,33 @@ public class AlienSecondarySeven : SecondaryObjective {
 			= objective.AddComponent<AlienSecondarySevenInteractable>();
 		interactable.InstantInteract = true;
 		interactable.StartMe();
+
+		stealthEffect = new ComponentTurnEffect(
+				ComponentEffectType.STEALTH, 
+				"Alien Secondary Objective 7: Stealth Reward", 
+				"Icons/Effects/stealthappgreen", -1, false
+		);
 	}
 	
 	public override void OnComplete() {
+		Player playerScript; // The player script
+		AlienClass alienClass; // Alien class container
+		AlienPrimaryAbility alienAbility; // Alien ability container
+
 		completed = true;
+		playerScript = Player.MyPlayer.GetComponent<Player>();
+
+		if (playerScript.GetPlayerClassObject().GetClassTypeEnum() != Classes.BETRAYER)
+			throw new System.ArgumentException("Invalid class who completed alien class");
+
+		alienClass = (AlienClass)playerScript.GetPlayerClassObject();
+		alienAbility = (AlienPrimaryAbility)alienClass.GetPrimaryAbility();
+		alienAbility.AddBonusEffect(stealthEffect);
+		if (alienAbility.AbilityIsActive()) {
+			playerScript.AttachTurnEffect(stealthEffect);
+			Player.MyPlayer.GetComponent<Stealth>().Permanent = true;
+		}
+
 		Destroy(this);
 		completed = true;
 		

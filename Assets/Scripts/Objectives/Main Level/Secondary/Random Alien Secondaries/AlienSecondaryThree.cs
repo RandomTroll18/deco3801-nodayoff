@@ -39,7 +39,6 @@ public class AlienSecondaryThree : SecondaryObjective {
 		PlayerClass playerClass; // The player's class
 		AlienClass alienClassContainer; // Container for the alien's class
 		AlienPrimaryAbility alienPrimaryAbilityContainer; // Container for the alien's primary ability
-		Stat statMultiplier; // The stat multiplier to modify
 		
 		playerScript = Player.MyPlayer.GetComponent<Player>();
 		playerClass = playerScript.GetPlayerClassObject();
