@@ -38,7 +38,16 @@ public class AlienPrimaryAbility : Ability {
 	 * - Effect bonusEffect - The bonus effect to add
 	 */
 	public void AddBonusEffect(Effect bonusEffect) {
-		secondaryEffectRewards.Add(bonusEffect);
+		int existingIndex; // The index of the existing effect
+
+		if (secondaryEffectRewards.Contains(bonusEffect)) { // Need to stack
+			existingIndex = secondaryEffectRewards.IndexOf(bonusEffect);
+			if (existingIndex < 0 || existingIndex > (secondaryEffectRewards.Count - 1))
+				throw new System.Exception("Unknown error with alien mode rewards");
+			secondaryEffectRewards[existingIndex].SetValue(secondaryEffectRewards[existingIndex].GetValue() 
+					+ bonusEffect.GetValue());
+		} else
+			secondaryEffectRewards.Add(bonusEffect);
 	}
 
 	/**

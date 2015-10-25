@@ -15,7 +15,7 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
 				{"waiting", false}
 		});
-		PhotonNetwork.ConnectUsingSettings("0.1");
+		PhotonNetwork.ConnectUsingSettings("matchmaker.v1");
 		RoomNameLabel.text = "Room Name: " + RoomName;
 		PhotonNetwork.playerName = PlayerName;
 	}
@@ -96,15 +96,7 @@ public class TestMatchMaker : Photon.PunBehaviour {
 			} else 
 				Debug.Log("Not master client");
 
-			if (currentPlayer.GetTeam() == PunTeams.Team.blue) { // Player is a human
-				PlayerNamesLabel[i].text += " (Human)";
-				Debug.Log("Player: " + currentPlayer.name + " is a human");
-			}
-			else if (currentPlayer.GetTeam() == PunTeams.Team.red) { // Player is an alien
-				PlayerNamesLabel[i].text += " (Alien)";
-				Debug.Log("Player: " + currentPlayer.name + " is an alien");
-			}
-			else { // Unknown team. Not yet assigned
+			if (currentPlayer.GetTeam() == PunTeams.Team.none) { // Unknown team. Not yet assigned
 				PlayerNamesLabel[i].text += " (Unknown Team)";
 				Debug.Log("Player: " + currentPlayer.name + " is in an unknown team");
 			}

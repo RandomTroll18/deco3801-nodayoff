@@ -371,7 +371,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 	}
 
 	[PunRPC]
-	void Big(string input) {
+	public void Big(string input) {
 		GameObject bigText = Instantiate(Resources.Load("BigText")) as GameObject;
 		GameObject UI = GameObject.Find("Main_Canvas");
 		bigText.transform.SetParent(UI.transform, false);
