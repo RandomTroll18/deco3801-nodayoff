@@ -11,6 +11,15 @@ public class ConnectionManager : Photon.PunBehaviour {
 	public void DisconnectClient() {
 		if (PhotonNetwork.connected) { // Only disconnect if we were connected
 			Debug.Log("Player is connected. Need to disconnect");
+
+			/* Reset custom properties */
+			PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+				{"classselected", null}
+			});
+			// Set custom properties for ourselves
+			PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
+				{"waiting", null}
+			});
 			PhotonNetwork.Disconnect();
 		}
 	}
