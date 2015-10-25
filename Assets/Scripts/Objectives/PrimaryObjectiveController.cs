@@ -44,15 +44,16 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien
 			Debug.Log("Setting text of alien objectives");
-			transform.Find("Title").GetComponent<Text>().text = "Destroy The Ship";
-			transform.Find("Description").GetComponent<Text>().text = "No one must escape. Your " +
-				"sacrifice will not be in vain";
+
+			transform.Find("Title").GetComponent<Text>().text = "Human Objective: " + objective.Title;
+			transform.Find("Description").GetComponent<Text>().text = objective.Description;
 		} else { // Human
 			Debug.Log("Setting text of human objectives");
 			Debug.Log("Human objective title: " + objective.Title);
 			Debug.Log("Human objective desc.: " + objective.Description);
 			transform.Find("Title").GetComponent<Text>().text = objective.Title;
 			transform.Find("Description").GetComponent<Text>().text = objective.Description;
+	
 		}
 		// In centre (0,-85,0)
 		// To right (70,-85,0)
@@ -70,8 +71,9 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien. Indicate primary human objective
 			HumanObjectivePanel.SetActive(true);
-			HumanObjectivePanel.transform.Find("Title").GetComponent<Text>().text = "Human Objective: " + objective.Title;
-			HumanObjectivePanel.transform.Find("Description").GetComponent<Text>().text = objective.Description;
+			HumanObjectivePanel.transform.Find("Title").GetComponent<Text>().text = "Destroy The Ship";
+			HumanObjectivePanel.transform.Find("Description").GetComponent<Text>().text = "No one must escape. Your " +
+				"sacrifice will not be in vain";
 		}
 	}
 
