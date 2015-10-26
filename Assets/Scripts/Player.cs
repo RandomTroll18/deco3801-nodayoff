@@ -45,6 +45,8 @@ public class Player : MonoBehaviour {
 	 * StartMe function for networking purposes
 	 */
 	public void StartMe() {
+		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+		secondaries.AddComponent<SecurityRoomObjective>();
 
 		SetPublicVariables();
 		GatherScripts();

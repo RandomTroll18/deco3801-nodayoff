@@ -115,44 +115,42 @@ public class CameraController : MonoBehaviour {
 			/*
 			 * Change to map if zoomed out too far
 			 */
-			if (!Application.loadedLevelName.Equals("Tutorial")) {
-				if (transform.position.y >= MAX_Y) {
-					switch (Location) {
-					case Locations.BRDIGE:
-						bridge.enabled = true;
-						break;
-					case Locations.R_GUN:
-						rightGun.enabled = true;
-						break;
-					case Locations.L_GUN:
-						leftGun.enabled = true;
-						break;
-					case Locations.R_WING:
-						rightWing.enabled = true;
-						break;
-					case Locations.L_WING:
-						leftWing.enabled = true;
-						break;
-					case Locations.QUARTERS:
-						quarters.enabled = true;
-						break;
-					case Locations.CARGO_BAY:
-						cargo.enabled = true;
-						break;
-					case Locations.POWER:
-						power.enabled = true;
-						break;
-					}
-				} else {
-					leftWing.enabled = false;
-					rightWing.enabled = false;
-					leftGun.enabled = false;
-					rightGun.enabled = false;
-					power.enabled = false;
-					quarters.enabled = false;
-					cargo.enabled = false;
-					bridge.enabled = false;
+			if (transform.position.y >= MAX_Y && !Application.loadedLevelName.Equals("Tutorial")) {
+				switch (Location) {
+				case Locations.BRDIGE:
+					bridge.enabled = true;
+					break;
+				case Locations.R_GUN:
+					rightGun.enabled = true;
+					break;
+				case Locations.L_GUN:
+					leftGun.enabled = true;
+					break;
+				case Locations.R_WING:
+					rightWing.enabled = true;
+					break;
+				case Locations.L_WING:
+					leftWing.enabled = true;
+					break;
+				case Locations.QUARTERS:
+					quarters.enabled = true;
+					break;
+				case Locations.CARGO_BAY:
+					cargo.enabled = true;
+					break;
+				case Locations.POWER:
+					power.enabled = true;
+					break;
 				}
+			} else {
+				leftWing.enabled = false;
+				rightWing.enabled = false;
+				leftGun.enabled = false;
+				rightGun.enabled = false;
+				power.enabled = false;
+				quarters.enabled = false;
+				cargo.enabled = false;
+				bridge.enabled = false;
 			}
 
 

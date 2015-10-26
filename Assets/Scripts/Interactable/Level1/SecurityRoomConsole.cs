@@ -30,9 +30,9 @@ public class SecurityRoomConsole : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
-
+		Player.MyPlayer.GetComponentInChildren<SecurityRoomObjective>().OnComplete();
 		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>();
-		GameObject SRCGO = SRC.CreateCard ();
+		GameObject SRCGO = SRC.CreateCard();
 		this.CloseEvent();
 		
 	}

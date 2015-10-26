@@ -40,13 +40,11 @@ public class LockDoor : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		try {
-			transform.GetChild(8).GetComponent<Light>().color = Color.red;
-		} catch (UnityException e){
-			Debug.Log(e);
-		}
 		IsInactivated = true;
 		MController.RemoveInteractable(this.GetTile());
+
+//		transform.GetChild(8).GetComponent<Light>().color = Color.red;
+		Destroy(gameObject);
 	}
 	
 }
