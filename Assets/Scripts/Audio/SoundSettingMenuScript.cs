@@ -13,19 +13,19 @@ public class SoundSettingMenuScript : MonoBehaviour {
 		if (SoundManagerScript.Singleton == null) // Sound manager is null
 			return;
 
-		BGMuteToggle.isOn = SoundManagerScript.Singleton.BGMusicSource.mute;
-		EfxMuteToggle.isOn = SoundManagerScript.Singleton.EfxSource.mute;
-		BGVolumeAdjuster.value = SoundManagerScript.Singleton.BGMusicSource.volume;
-		EfxVolumeAdjuster.value = SoundManagerScript.Singleton.EfxSource.volume;
+		BGMuteToggle.isOn = SoundManagerScript.Singleton.BGMute;
+		EfxMuteToggle.isOn = SoundManagerScript.Singleton.EfxMute;
+		BGVolumeAdjuster.value = SoundManagerScript.Singleton.BGVolume;
+		EfxVolumeAdjuster.value = SoundManagerScript.Singleton.EfxVolume;
 	}
 
 	void Update() {
 		if (SoundManagerScript.Singleton == null) // Sound manager is null
 			return;
 
-		SoundManagerScript.Singleton.BGMusicSource.mute = BGMuteToggle.isOn;
-		SoundManagerScript.Singleton.EfxSource.mute = EfxMuteToggle.isOn;
-		SoundManagerScript.Singleton.BGMusicSource.volume = BGVolumeAdjuster.value;
-		SoundManagerScript.Singleton.EfxSource.volume = EfxVolumeAdjuster.value;
+		SoundManagerScript.Singleton.BGMute = BGMuteToggle.isOn;
+		SoundManagerScript.Singleton.EfxMute = EfxMuteToggle.isOn;
+		SoundManagerScript.Singleton.BGVolume = BGVolumeAdjuster.value;
+		SoundManagerScript.Singleton.EfxVolume = EfxVolumeAdjuster.value;
 	}
 }

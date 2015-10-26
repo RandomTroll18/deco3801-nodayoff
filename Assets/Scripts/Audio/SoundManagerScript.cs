@@ -6,14 +6,14 @@ public class SoundManagerScript : MonoBehaviour {
 	
 	public AudioSource EfxSource; // Sound Effect Source 
 	public AudioSource BGMusicSource; // BG Music Source
-	public bool BGMute = false; // Record if we need to mute bg music
-	public bool EfxMute = false; // Record if we need to mute efx
-	public float EfxVolume = 2; // Volume for effects
-	public float BGVolume = 2; // Volume for bg music
+	public bool BGMute; // Record if we need to mute bg music
+	public bool EfxMute; // Record if we need to mute efx
+	public float EfxVolume; // Volume for effects
+	public float BGVolume; // Volume for bg music
 	public List<AudioClip> BGMusicList; // List of BG Music
 
 	public static SoundManagerScript Singleton = null; // The singleton representing this script
-
+	
 	/**
 	 * Awake function
 	 */
