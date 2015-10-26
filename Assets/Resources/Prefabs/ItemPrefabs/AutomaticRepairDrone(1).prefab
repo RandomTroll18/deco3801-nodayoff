@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Automatic Repair Drone
-  Image: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed, type: 3}
+  Image: {fileID: 21300000, guid: 202df5eb5c7001743a1957ec8ca62ef7, type: 3}
   SoundEfx: []
   Amount: 1
   AdditionalTurns: 3
@@ -151,7 +151,12 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Image
+      value: 
+      objectReference: {fileID: 21300000, guid: 202df5eb5c7001743a1957ec8ca62ef7,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127448}

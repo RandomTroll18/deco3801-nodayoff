@@ -11,7 +11,7 @@ public class AlienPrimaryAbility : Ability {
 	List<Effect> secondaryEffectRewards; // Effects that were awarded for completing secondary objectives
 	int initialNumberOfTurns; // The initial number of turns
 	const string materialPath = "AbilityMaterials/Alien/AlienModeMaterial"; // The alien mode material
-
+	List<AudioClip> transformEfx; // Transform sound effects
 	/**
 	 * Constructor
 	 * 
@@ -31,6 +31,12 @@ public class AlienPrimaryAbility : Ability {
 				"Alien Mode: Turn Into An Alien", "Icons/Effects/alienmodepurple", -1, false);
 
 		secondaryEffectRewards = new List<Effect>();
+
+		transformEfx = new List<AudioClip>();
+		transformEfx.Add(Resources.Load<AudioClip>("Audio/Sound Effects/Alien_transform"));
+		if (transformEfx.Count != 1) {
+			Debug.LogError("Invalid sound effect path for alien transforming");
+		}
 	}
 
 	/**
@@ -76,6 +82,8 @@ public class AlienPrimaryAbility : Ability {
 		foreach (Effect bonus in secondaryEffectRewards)
 			owner.AttachTurnEffect(bonus);
 		RemainingTurns = 2;
+
+		SoundManagerScript.Singleton.PlaySingle3D(transformEfx);
 	}
 	/**
 	 * Deactivate function

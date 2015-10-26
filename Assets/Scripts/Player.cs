@@ -39,7 +39,6 @@ public class Player : MonoBehaviour {
 	int stunTimer = 0; // The stun timer
 	bool isImmuneToStun; // Recod if the player is immune to stun
 	Light playerLight; // Player's light
-	Material playerMaterial; // The material of the player
 	string playerMaterialPath = "PlayerMaterials/Metal"; // Path to player material
 
 	/**
@@ -77,7 +76,6 @@ public class Player : MonoBehaviour {
 		noLongerActive = false;
 
 		isImmuneToStun = false;
-		playerMaterial = Resources.Load<Material>(playerMaterialPath);
 	}
 
 	/*

@@ -17,7 +17,7 @@ public class VisionEnhancer : SupportConsumables {
 		Droppable = true;
 		
 		visionEffect = new StatusTurnEffect(Stat.VISION, 1.0, 0, "Vision Enhancer: Temproary Increased Vision", 
-				"Icons/Effects/DefaultEffect", 2, true);
+				"Icons/Effects/visionenhancegreen", 2, true);
 	}
 
 	public override void Activate(Tile targetTile)

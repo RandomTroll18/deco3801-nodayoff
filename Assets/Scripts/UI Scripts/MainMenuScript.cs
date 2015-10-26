@@ -11,8 +11,19 @@ public class MainMenuScript : MonoBehaviour {
 	 * - string level - The level to load
 	 */
 	public void LoadLevel(string level) {
-		if (level.Equals("MainMenu"))
+		switch (level) { // Do actions depending on what level was loaded
+		case "MainMenu": // Main menu being loaded
 			Player.ChosenClass = null; // Player has not chosen a class
+			SoundManagerScript.Singleton.PlayBGMusic(SoundManagerScript.Singleton.BGMusicList[6]);
+			break;
+		case "Main Level": // Main level being loaded
+			// Play either one of the long notes
+			SoundManagerScript.Singleton.PlayBGMusic(0, 1);
+			break;
+		default: // Nothing to do
+			Debug.LogWarning("Unhandled level to load");
+			break;
+		}
 		Application.LoadLevel(level);
 	}
 
@@ -66,10 +77,10 @@ public class MainMenuScript : MonoBehaviour {
 		}
 		if (LevelToLoad == null) {
 			Debug.Log("No level to load");
-			Application.LoadLevel("Main Level");
+			LoadLevel("Main Level");
 		} else { 
 			Debug.Log("There is a level to load");
-			Application.LoadLevel(LevelToLoad);
+			LoadLevel(LevelToLoad);
 		}
 
 	}

@@ -24,7 +24,7 @@ public class AlienSecondarySeven : SecondaryObjective {
 		stealthEffect = new ComponentTurnEffect(
 				ComponentEffectType.STEALTH, 
 				"Alien Secondary Objective 7: Stealth Reward", 
-				"Icons/Effects/stealthappgreen", -1, false
+				"Icons/Effects/stealthapppurple", -1, false
 		);
 	}
 	
