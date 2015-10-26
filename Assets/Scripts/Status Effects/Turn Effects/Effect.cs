@@ -206,6 +206,18 @@ public abstract class Effect {
 		return true;
 	}
 
+	/* Virtual functions that can be overriden. Lazy to make more abstract functions */
+
+	/**
+	 * Get the path to the material for a material turn effect
+	 * 
+	 * Returns
+	 * - The string containing the path to the material to change
+	 */
+	public virtual string GetMaterialPath() {
+		return "";
+	}
+
 	/* Abstract functions to implement */
 
 	/**

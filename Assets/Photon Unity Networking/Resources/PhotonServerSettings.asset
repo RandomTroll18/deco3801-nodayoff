@@ -79,4 +79,6 @@ MonoBehaviour:
   - GameManagerSendPlayerToClassSelect
   - MatchMakerSendPlayerToClassSelect
   - DestroyDisconnectedPlayerModel
+  - ResetMaterial
+  - SetNewMaterial
   DisableAutoOpenWizard: 1

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,6 +10,7 @@ public class AlienPrimaryAbility : Ability {
 	Effect addAP; // The status effect for the alien - giving bonus AP
 	List<Effect> secondaryEffectRewards; // Effects that were awarded for completing secondary objectives
 	int initialNumberOfTurns; // The initial number of turns
+	const string materialPath = "AbilityMaterials/Alien/AlienModeMaterial"; // The alien mode material
 
 	/**
 	 * Constructor
@@ -73,6 +75,7 @@ public class AlienPrimaryAbility : Ability {
 		owner.AttachTurnEffect(addAP);
 		foreach (Effect bonus in secondaryEffectRewards)
 			owner.AttachTurnEffect(bonus);
+		RemainingTurns = 2;
 	}
 	/**
 	 * Deactivate function
@@ -94,5 +97,15 @@ public class AlienPrimaryAbility : Ability {
 
 		newAP = Effect.CalculateAP();
 		addAP.SetValue(newAP);
+	}
+
+	public override void ReduceNumberOfTurns()
+	{
+		ClassPanelScript classPanelScript = ClassPanel.GetComponent<ClassPanelScript>(); // Class panel script
+
+		base.ReduceNumberOfTurns();
+		if (RemainingTurns == 0 && IsActive) { // Allow button to be pressed
+			classPanelScript.AlienPrimaryAbilityButton.GetComponent<Button>().interactable = true;
+		}
 	}
 }
