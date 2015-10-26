@@ -709,7 +709,7 @@ GameObject:
   - 222: {fileID: 22231804}
   - 114: {fileID: 11473160}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ClassPortrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6594,7 +6594,8 @@ MonoBehaviour:
   GameManager: {fileID: 0}
   PrimaryAbilityButton: {fileID: 134776}
   AlienPrimaryAbilityButton: {fileID: 130710}
-  ClassPortrait: {fileID: 0}
+  ClassPortrait: {fileID: 127244}
+  SkillPortrait: {fileID: 134776}
   SpawnAPCounterPanel: {fileID: 157664}
   Interactables:
   - {fileID: 0}

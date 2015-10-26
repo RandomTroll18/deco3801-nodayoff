@@ -183,8 +183,8 @@ MonoBehaviour:
   BGMusicSource: {fileID: 8252142}
   BGMute: 0
   EfxMute: 0
-  EfxVolume: 2
-  BGVolume: 2
+  EfxVolume: 1
+  BGVolume: 1
   BGMusicList:
   - {fileID: 8300000, guid: c22e385883c823c4485bc73774ed0a10, type: 3}
   - {fileID: 8300000, guid: f445349974d13b048844dfd3e83fd6e4, type: 3}

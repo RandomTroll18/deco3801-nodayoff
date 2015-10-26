@@ -16,6 +16,7 @@ public class ClassPanelScript : MonoBehaviour {
 	public GameObject PrimaryAbilityButton; // The primary ability button
 	public GameObject AlienPrimaryAbilityButton; // The Alien mode ability button
 	public GameObject ClassPortrait; // The portrait for the class
+	public GameObject SkillPortrait; // The portrait for the skill
 	public GameObject SpawnAPCounterPanel; // The spawn ap counter panel
 	public static GameObject CurrentPlayer; // The current player being tracked. For spawning use
 	public List<GameObject> Interactables; // Interactable objects
@@ -59,6 +60,63 @@ public class ClassPanelScript : MonoBehaviour {
 			}
 		}
 		CurrentPlayer = Player.MyPlayer; // Current player variable for engineer class
+		/* Set portrait */
+		setPortraits(ownerClass);
+	}
+
+	/**
+	 * Set the portrait for the class image
+	 * 
+	 * Arguments
+	 * - PlayerClass playerClass - The player's class
+	 */
+	void setPortraits(PlayerClass playerClass) {
+		AlienClass alienClass; // Alien class container
+		switch (playerClass.GetClassTypeEnum()) {
+		case Classes.ENGINEER: // Eng
+			ClassPortrait.GetComponent<Image>().sprite = 
+					Resources.Load<Sprite>("Icons/Class/Engineer/engportraitclear");
+			SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/engSkill");
+			break;
+		case Classes.MARINE: // Marine
+			ClassPortrait.GetComponent<Image>().sprite = 
+				Resources.Load<Sprite>("Icons/Class/Marine/marineportraitclear");
+			SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/marSkill");
+			break;
+		case Classes.SCOUT: // Scout
+			ClassPortrait.GetComponent<Image>().sprite = 
+				Resources.Load<Sprite>("Icons/Class/Scout/scoutportraitblueclear");
+			SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/ScoutSkill");
+			break;
+		case Classes.TECHNICIAN: // Technician
+			ClassPortrait.GetComponent<Image>().sprite = 
+				Resources.Load<Sprite>("Icons/Class/Technician/techportrairclear");
+			SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/TechSkill");
+			break;
+		case Classes.BETRAYER: // Alien. No Portrait
+			ClassPortrait.SetActive(false);
+			alienClass = (AlienClass)playerClass;
+			switch (alienClass.GetHumanClassType()) {
+			case Classes.ENGINEER: // Eng
+				SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/engSkill");
+				break;
+			case Classes.MARINE: // Marine
+				SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/marSkill");
+				break;
+			case Classes.SCOUT: // Scout
+				SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/ScoutSkill");
+				break;
+			case Classes.TECHNICIAN: // Technician
+				SkillPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/SkillButtons/TechSkill");
+				break;
+			case Classes.BETRAYER: goto default;
+			default:
+				throw new System.NotSupportedException("Invalid alien class");
+			}
+			break;
+		default:
+			throw new System.NotSupportedException("Invalid class");
+		}
 	}
 
 	/**
