@@ -86,7 +86,7 @@ public class CameraController : MonoBehaviour {
 			Vector3 dest = Tile.TileMiddle(destination);
 			dest.y = transform.position.y;
 			transform.position = Vector3.Lerp(start, dest, fracJourney);
-			if (transform.position.Equals(dest)) {
+			if (Vector3.Distance(transform.position, dest) < 5f) {
 				locked = false;
 				destination = null;
 			}

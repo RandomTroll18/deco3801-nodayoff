@@ -223,7 +223,7 @@ public class MovementController : MonoBehaviour {
 			return;
 		}
 		
-		PathTile dest = FindPath(goal, false);
+		PathTile dest = FindPath(goal, false, false);
 
 		if (dest != null) {
 			cost = dest.Depth;
@@ -289,7 +289,7 @@ public class MovementController : MonoBehaviour {
 	 * Note that this returns the path as a link list and the front of the list
 	 * is the end of the path.
 	 */
-	PathTile FindPath(Tile goal, bool AllowBlockedGoal) {
+	PathTile FindPath(Tile goal, bool AllowBlockedGoal, bool stealth) {
 		HashSet<Tile> explored = new HashSet<Tile>();
 		if (goal != null && (AllowBlockedGoal || !blockedTiles.Contains(goal))) {
 			Queue<PathTile> q = new Queue<PathTile>();
@@ -305,6 +305,9 @@ public class MovementController : MonoBehaviour {
 					if (neighbour.Equals(goal)) {
 						return new PathTile(current, neighbour);
 					}
+					if (stealth && new PathTile(current, neighbour).Depth > Player.MyPlayer.GetComponent<Player>().GetVisionDistance()) {
+						continue;
+					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
@@ -314,6 +317,9 @@ public class MovementController : MonoBehaviour {
 					Tile neighbour = new Tile(current.X + x, current.Z + 0);
 					if (neighbour.Equals(goal)) {
 						return new PathTile(current, neighbour);
+					}
+					if (stealth && new PathTile(current, neighbour).Depth > Player.MyPlayer.GetComponent<Player>().GetVisionDistance()) {
+						continue;
 					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
@@ -374,8 +380,8 @@ public class MovementController : MonoBehaviour {
 	/*
 	 * Returns the distance between this player and another position. -1 if no path found
 	 */
-	public int TileDistance(Vector3 position) {
-		PathTile path = FindPath(Tile.TilePosition(position), true);
+	public int TileDistance(Vector3 position, bool stealth) {
+		PathTile path = FindPath(Tile.TilePosition(position), true, stealth);
 
 		if (path == null) {// No path found. Unknown
 			return 10000;
@@ -385,8 +391,8 @@ public class MovementController : MonoBehaviour {
 		}
 	}
 
-	public int TileDistance(Tile position) {
-		return TileDistance(Tile.TileMiddle(position));
+	public int TileDistance(Tile position, bool stealth) {
+		return TileDistance(Tile.TileMiddle(position), stealth);
 	}
 	
 	/**

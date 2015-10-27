@@ -844,9 +844,10 @@ public class Player : MonoBehaviour {
 
 	/* 
 	 * Returns the distance between this player and a tile.
+	 * second param is for stealth optimisation
 	 */
-	public int DistanceToTile(Tile tile) {
-		return GetComponent<MovementController>().TileDistance(tile);
+	public int DistanceToTile(Tile tile, bool stealth = false) {
+		return GetComponent<MovementController>().TileDistance(tile, stealth);
 	}
 
 	/**

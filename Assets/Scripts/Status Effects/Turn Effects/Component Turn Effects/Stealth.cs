@@ -64,7 +64,7 @@ public class Stealth : MonoBehaviour {
 				return; // Don't hide from owner
 		}
 		p  = ClassPanelScript.CurrentPlayer.GetComponent<Player>();
-		distance = p.DistanceToTile(Tile.TilePosition(transform.position));
+		distance = p.DistanceToTile(Tile.TilePosition(transform.position), true);
 		renderers = new List<Renderer>();
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
