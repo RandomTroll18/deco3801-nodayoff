@@ -8,6 +8,8 @@ public class SecurityRoomCard : EventCard {
 	public override void ChangeCard(){
 
 		this.TeamEvent = true;
+		this.ChangeImage("ui/events/consoleimg");
+		this.ChangeTitle("Security System");
 		this.ChangeText("Someone has requested to activate the ship's security system. If one player" +
 			" receives 3 votes, the security system will terminate them. There is only enough power" +
 			" to activate the system once.");

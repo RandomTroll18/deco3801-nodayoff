@@ -73,8 +73,10 @@ public class AlienSecondaryThree : SecondaryObjective {
 		string message = "Alien has obtained enhancements from " + 
 			interactable.GetComponent<Location>().ToString() + "." +
 				" They now have higher stats.";
+		string title = "Alien Activity";
+		string image = "ui/events/body";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 
 		Destroy(interactable);
 	}

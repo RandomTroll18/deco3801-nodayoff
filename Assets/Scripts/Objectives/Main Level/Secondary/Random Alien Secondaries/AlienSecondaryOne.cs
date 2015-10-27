@@ -61,8 +61,10 @@ public class AlienSecondaryOne : SecondaryObjective {
 		string message = "Alien has stolen our food supplies from " + 
 			interactable.GetComponent<Location>().ToString() + ".\n" +
 				"They now have extra AP per turn.";
+		string title = "Alien Activity";
+		string image = "ui/events/food";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 		
 		Destroy(interactable);
 	}

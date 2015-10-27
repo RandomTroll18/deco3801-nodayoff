@@ -69,8 +69,10 @@ public class AlienSecondaryTwo : SecondaryObjective {
 		string message = "Alien has stolen night vision goggles from " + 
 			interactable.GetComponent<Location>().ToString() +
 				". They now have extra vision.";
+		string title = "Alien Activity";
+		string image = "ui/events/goggles";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 		
 		Destroy(interactable);
 	}

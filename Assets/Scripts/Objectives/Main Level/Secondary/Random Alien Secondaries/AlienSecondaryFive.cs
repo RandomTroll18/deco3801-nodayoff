@@ -27,9 +27,11 @@ public class AlienSecondaryFive : SecondaryObjective {
 		Destroy(this);
 		
 		string message = "Alien has obtained explosives that can be used on the escape pods. Don't" +
-			"left them get to either of the escape pods.";
+			" let them get to either of the escape pods.";
+		string title = "Alien Activity";
+		string location = "ui/events/bombing";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title);
 		
 		Destroy(interactable);
 

@@ -36,8 +36,10 @@ public class AlienSecondaryFour : SecondaryObjective {
 			interactable.GetComponent<Location>().MyLocation.ToString() + ". A Versipellis boarding" +
 				" party is lurking somewhere. Find and destroy them before they destroy the ship.\n" +
 				"Whilst the boarding part is alive, an extra round is lost per turn.";
+		string title = "Alien Activity";
+		string image = "ui/events/alienboard";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 		
 		Destroy(interactable);
 	}

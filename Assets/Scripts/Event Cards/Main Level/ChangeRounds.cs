@@ -15,8 +15,9 @@ public class ChangeRounds : EventCard {
 		ListNumber = 1;
 		
 		this.ChangeButton (1, "OK");
-		this.ChangeImage("chopper");
-		this.ChangeText ("Ship sabotages. Time until destruction reduced.");
+		this.ChangeImage("ui/events/explosion2");
+		this.ChangeTitle("Ship Sabotaged");
+		this.ChangeText ("The ship has been sabotaged. Rounds have been lost.");
 		
 		SetCap();
 		return;

@@ -38,8 +38,10 @@ public class TeamExtraRounds : SecondaryObjective {
 		Destroy(this);
 
 		string message = "Repair core has been repaired by survivors.";
+		string title = "Repair Core";
+		string image = "ui/events/consoleimg";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 		
 		Object.FindObjectOfType<GameManager>().IncreaseRounds(EXTRA_ROUNDS);
 	}

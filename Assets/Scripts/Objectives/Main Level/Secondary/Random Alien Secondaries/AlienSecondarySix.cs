@@ -27,8 +27,10 @@ public class AlienSecondarySix : SecondaryObjective {
 		
 		string message = "Alien has destroyed two escape pods. There are no longer enough escape pods" +
 			" for all survivors to escape";
+		string title = "Alien Activity";
+		string image = "ui/events/explosion2";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message);
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 
 		int num = 0;
 		GameObject pod1;

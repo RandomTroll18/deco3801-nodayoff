@@ -6,11 +6,14 @@ using System.Collections;
  */
 public class GenericCard : EventCard {
 	public string message;
+	public string title;
+	public string image;
 
 	public override void ChangeCard(){
 
 		this.ChangeButton (1, "OK");
-		this.ChangeImage("chopper");
+		this.ChangeImage(image);
+		this.ChangeTitle(title);
 		this.ChangeText(message);
 		
 		SetCap();
