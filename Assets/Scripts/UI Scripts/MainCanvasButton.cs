@@ -8,6 +8,7 @@ public class MainCanvasButton : MonoBehaviour {
 	public GameObject Text4;
 	public GameObject Text5;
 	public GameObject Text6;
+	public GameObject Text7;
 	public GameObject TutorialMenu;
 	public GameObject EscMenu;
 	public GameObject SettingMenu;
@@ -36,6 +37,7 @@ public class MainCanvasButton : MonoBehaviour {
 		Text4.SetActive(false);
 		Text5.SetActive(false);
 		Text6.SetActive(false);
+		Text7.SetActive(false);
 
 		/*
 		text7.SetActive (false);
@@ -125,6 +127,9 @@ public class MainCanvasButton : MonoBehaviour {
 		} 
 		else if (tabNumber == 6) {
 			Text6.SetActive (true);
+		} 
+		else if (tabNumber == 7) {
+			Text7.SetActive (true);
 		} 
 
 
