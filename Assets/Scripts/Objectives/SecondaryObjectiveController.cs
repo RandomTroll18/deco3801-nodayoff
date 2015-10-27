@@ -30,21 +30,27 @@ public class SecondaryObjectiveController : MonoBehaviour {
 	 * You can think of this as being the Start function
 	 */
 	void OnEnable() {
-
-		nextButton = GameObject.Find("Next Objectives Button").GetComponent<Button>();
-		prevButton = GameObject.Find("Previous Objectives Button").GetComponent<Button>();
+		if (nextButton == null)
+			nextButton = GameObject.Find("Next Objectives Button").GetComponent<Button>();
+		if (prevButton == null)
+			prevButton = GameObject.Find("Previous Objectives Button").GetComponent<Button>();
 		panel1 = GameObject.Find("Secondary 1");
 		panel2 = GameObject.Find("Secondary 2");
 
 		Transform playerSecondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives");
 		objectives.Clear();
 		page = START_PAGE;
-		prevButton.enabled = false;
-		if (objectives.Count < 2) {
-			nextButton.enabled = true;
-		}
+		prevButton.gameObject.SetActive(false);
+
 		foreach (SecondaryObjective obj in playerSecondaries.GetComponents<SecondaryObjective>()) {
 			objectives.Add(obj);
+		}
+
+		Debug.Log("objectives :" + objectives.Count);
+		if (objectives.Count < 2) {
+			nextButton.gameObject.SetActive(false);
+		} else {
+			nextButton.gameObject.SetActive(true);
 		}
 
 		PopulatePanels();
@@ -85,17 +91,20 @@ public class SecondaryObjectiveController : MonoBehaviour {
 		Debug.Log("Number of pages in total: " + (Mathf.Ceil(objectives.Count / 2.0f) - 1));
 
 		if (page > START_PAGE) {
-			prevButton.enabled = true;
+			prevButton.gameObject.SetActive(true);
 			Debug.LogWarning("Enabling prev button");
 		} else {
-			prevButton.enabled = false;
+			prevButton.gameObject.SetActive(false);
 			Debug.LogWarning("Disabling prev button");
 		}
+
+		Debug.Log("objectives :" + objectives.Count);
+
 		if (Mathf.Ceil(objectives.Count / 2.0f) - 1 >= page) {
-			nextButton.enabled = false;
+			nextButton.gameObject.SetActive(true);
 			Debug.LogWarning("Disabling next button");
 		} else {
-			nextButton.enabled = true;
+			nextButton.gameObject.SetActive(false);
 			Debug.LogWarning("Enabling next button");
 		}
 	}
