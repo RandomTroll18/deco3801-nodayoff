@@ -87,7 +87,7 @@ public class EventCard : MonoBehaviour
 
 	public void ChangeImage(string input)
 	{
-		GameObject Label = card.transform.GetChild(4).gameObject;
+		GameObject Label = GameObject.FindGameObjectWithTag("ECImg").gameObject;
 		Label.GetComponentInChildren<Image>().overrideSprite = Resources.Load<Sprite>(input);
 	}
 

@@ -15,7 +15,7 @@ public class ChangeRoundsPerTurn : EventCard {
 		ListNumber = 1;
 		
 		this.ChangeButton (1, "OK");
-		this.ChangeImage("ui/events/alienboard");
+		this.ChangeImage("UI/Events/alienboard");
 		this.ChangeTitle("Boarding Party");
 		this.ChangeText ("A Versipellis boarding party is destroying our ship from the inside. Stop" +
 			" them from destroying our ship.\n" +
