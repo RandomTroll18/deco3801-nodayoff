@@ -44,7 +44,7 @@ public class GameManager : Photon.PunBehaviour {
 	void waitForPlayers() {
 		// Player models that have been instantiated
 		HashSet<GameObject> playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player")); 
-
+		if (Application.loadedLevelName != "Tutorial")
 		instantiatedCanvas.GetComponentInChildren<Text>().text = 
 				"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players to finish loading";
 		/* Get player models */
@@ -149,6 +149,7 @@ public class GameManager : Photon.PunBehaviour {
 		/* Load everything necessary for waiting for other players to load */
 		waitingCanvas = Resources.Load<GameObject>("Prefabs/UIPrefabs/WaitingCanvas");
 		networkingManager = Object.FindObjectOfType<NetworkingManager>(); // Networking manager
+		if (Application.loadedLevelName != "Tutorial")
 		instantiatedCanvas = Instantiate(waitingCanvas); // Create UI to block player from doing anything
 		readyPlayers.Add(PhotonNetwork.player); // We have already instantiated our player
 
@@ -290,7 +291,11 @@ public class GameManager : Photon.PunBehaviour {
 	void Update() {
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 		if (!loaded) // Wait for other players to join first
-			waitForPlayers();
+			if (Application.loadedLevelName != "Tutorial") {
+				waitForPlayers();
+			} else {
+				loaded = true;
+			}
 		if (validTurn) {
 			if (playersLeft <= 0) { // No more active players
 				validTurn = false;

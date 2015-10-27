@@ -48,7 +48,10 @@ public class Player : MonoBehaviour {
 	 */
 	public void StartMe() {
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
-		secondaries.AddComponent<SecurityRoomObjective>();
+
+		if (Application.loadedLevelName != "Tutorial") {
+			secondaries.AddComponent<SecurityRoomObjective>();
+		}
 
 		SetPublicVariables();
 		GatherScripts();
