@@ -134,11 +134,29 @@ public class MovementController : MonoBehaviour {
 		APCounter = Resources.Load("UI/AP Cost") as GameObject;
 	}
 
+	/**
+	 * Set moving animation
+	 * 
+	 * Arguments
+	 * - bool enableFlag - flag used to determine whether we are moving or not moving
+	 */
+	void setMovingAnimation(bool enableFlag) {
+		List<Animator> animators = new List<Animator>(); // The animators
+
+		animators.AddRange(GetComponents<Animator>());
+		animators.AddRange(GetComponentsInChildren<Animator>());
+
+		if (animators.Count > 0) {
+			foreach (Animator animator in animators) 
+				animator.SetBool("moving", enableFlag);
+		}
+	}
+
 	void Update() {
 		if (moving == Moving.YES)
-			GetComponentInChildren<Animator>().SetBool("moving", true);
+			setMovingAnimation(true);
 		else
-			GetComponentInChildren<Animator>().SetBool("moving", false);
+			setMovingAnimation(false);
 		/* 
 		 * Note that right now this is shifting the transform but we could do it the physics way I 
 		 * just find the transform way easier.

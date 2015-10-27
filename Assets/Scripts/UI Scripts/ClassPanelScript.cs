@@ -174,6 +174,8 @@ public class ClassPanelScript : MonoBehaviour {
 		Player alien = Player.MyPlayer.GetComponent<Player>();
 		AlienClass alienClass = (AlienClass)alien.GetPlayerClassObject();
 		Ability alienAbility = alienClass.GetPrimaryAbility(); // The alien's ability
+		if (CurrentPlayer.GetComponent<MovementController>().IsMoving()) // Don't activate while we are moving
+			return;
 		if (!alienClass.GetPrimaryAbility().AbilityIsActive()) { // We are turning into an alien
 			alienAbility.Activate();
 			AlienPrimaryAbilityText.text = "Human Mode";
@@ -193,6 +195,9 @@ public class ClassPanelScript : MonoBehaviour {
 		PlayerClass classOfPlayer = playerScript.GetPlayerClassObject(); // The player's class
 		Ability primaryAbility; // The primary ability
 		AlienClass alienClass; // Container for alien class
+
+		if (CurrentPlayer.GetComponent<MovementController>().IsMoving()) // Don't activate while we are moving
+			return;
 
 		if (classOfPlayer.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
 			alienClass = (AlienClass)classOfPlayer;
