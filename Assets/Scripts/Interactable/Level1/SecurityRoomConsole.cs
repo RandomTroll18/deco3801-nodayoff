@@ -55,7 +55,15 @@ public class SecurityRoomConsole : InteractiveObject {
 				    && GameManagerScript.gameObject != null)
 					GameManagerScript.SetInactivePlayer();
 				//PhotonNetwork.Destroy(player);
+				if (Player.MyPlayer.GetComponent<PhotonView>().ownerId == toKill) {
+					if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
+						Application.LoadLevel("AlienLoseScreen");
+					} else {
+						Application.LoadLevel("GameOver");
+					}
+				}
 				Destroy(player);
+
 			}
 		}
 
