@@ -142,7 +142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Deployable Stun Turret
   Image: {fileID: 21300000, guid: cfb9afa7bfe983940920532448961f47, type: 3}
-  SoundEfx: []
+  ActivateEfx:
+  - {fileID: 8300000, guid: fcfaecb122490f2489d4a4194b4dafdb, type: 3}
+  - {fileID: 8300000, guid: fe5f18e9bb81d934a988690b50964821, type: 3}
   Amount: 1
 --- !u!1001 &100100000
 Prefab:
@@ -151,6 +153,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: ActivateEfx.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ItemName
       value: Deployable Stun Turret
@@ -164,6 +170,14 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: cfb9afa7bfe983940920532448961f47,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: ActivateEfx.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: fcfaecb122490f2489d4a4194b4dafdb, type: 3}
+    - target: {fileID: 0}
+      propertyPath: ActivateEfx.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: fe5f18e9bb81d934a988690b50964821, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140048}

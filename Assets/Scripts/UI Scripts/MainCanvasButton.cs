@@ -18,6 +18,7 @@ public class MainCanvasButton : MonoBehaviour {
 	/* The states for camera controllers */
 	bool playerCameraControllerState;
 	bool spawnedCameraControllerState;
+	bool stateSaved; // Record if state was saved
 
 
 	// Use this for initialization
@@ -69,19 +70,20 @@ public class MainCanvasButton : MonoBehaviour {
 			break;
 		}
 
-		if (!enable) { // Pausing. Save state of camera controllers and set them to inactive
+		if (!enable && !stateSaved) { // Pausing. Save state of camera controllers and set them to inactive
 			playerCameraControllerState = playerObject.GetComponentInChildren<CameraController>().enabled;
 			playerObject.GetComponentInChildren<CameraController>().enabled = enable;
 			if (spawnedCharacter != null) { // There is a spawned character
 				spawnedCameraControllerState = spawnedCharacter.GetComponentInChildren<CameraController>().enabled;
 				spawnedCharacter.GetComponentInChildren<CameraController>().enabled = enable;
 			}
-				
+			stateSaved = true;	
 		} else { // Resuming. Restore state
 			playerObject.GetComponentInChildren<CameraController>().enabled = playerCameraControllerState;
 			if (spawnedCharacter != null) { // There is a spawned character
 				spawnedCharacter.GetComponentInChildren<CameraController>().enabled = spawnedCameraControllerState;
 			}
+			stateSaved = false;
 		}
 	}
 

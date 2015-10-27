@@ -39,6 +39,12 @@ public class APRestorer : RecoveryConsumables {
 		if (target == null)
 			return; // No target found
 
+		if (SoundManagerScript.Singleton != null) { /* Play activated sound effect */
+			// Move sound manager to this object
+			SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+			SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
+		}
+
 		target.IncreaseStatValue(Stat.AP, InstantEffects[Stat.AP][0]);
 		Amount--;
 		UpdateContextAwareBox();

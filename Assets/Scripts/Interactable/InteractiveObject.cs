@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using System.Collections;
 
 //class representing Interactive Objects
@@ -10,6 +11,10 @@ public class InteractiveObject : MonoBehaviour {
 	public string StringInput;
 	public int Cost;
 	public Stat ClassMultiplier;
+
+	/* Succeed and failure sound effets */
+	public List<AudioClip> SuccessEfx;
+	public List<AudioClip> FailEfx;
 
 	//the UICanvas
 	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
@@ -62,7 +67,6 @@ public class InteractiveObject : MonoBehaviour {
 		MController.AddInteractable(this);
 
 		if (DebugOption) Debug.Log(this.position.ToString());		
-		
 	}
 
 	/**
@@ -184,6 +188,26 @@ public class InteractiveObject : MonoBehaviour {
 
 	public void SetActive(){
 		IsInactivated = false;
+	}
+
+	/**
+	 * Play sound effects for success
+	 */
+	protected void PlaySuccessEfx() {
+		if (SoundManagerScript.Singleton != null) {
+			SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+			SoundManagerScript.Singleton.PlaySingle3D(SuccessEfx);
+		}
+	}
+
+	/**
+	 * Play sound effects for failure
+	 */
+	protected void PlayFailureEfx() {
+		if (SoundManagerScript.Singleton != null) {
+			SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+			SoundManagerScript.Singleton.PlaySingle3D(FailEfx);
+		}
 	}
 
 	/*

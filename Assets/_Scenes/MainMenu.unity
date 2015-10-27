@@ -655,7 +655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}
 --- !u!1 &754688614
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}
 --- !u!1 &917216875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}
 --- !u!1 &1318660641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}
 --- !u!1 &1554789244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,7 +1690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}
 --- !u!1 &1804457617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,7 +2023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}
 --- !u!1 &2088125811
 GameObject:
   m_ObjectHideFlags: 0
@@ -2163,4 +2163,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SoundEfxToPlay:
-  - {fileID: 8300000, guid: 53e84d9af2eb01642bfa591f0d8574c2, type: 3}
+  - {fileID: 8300000, guid: fb4db81980fdcb14db88df6712d75b6d, type: 3}

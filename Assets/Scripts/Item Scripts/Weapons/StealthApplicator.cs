@@ -45,6 +45,11 @@ public class StealthApplicator : ShortRangeWeapon {
 			return;
 
 		playerScript.AttachTurnEffect(stealthEffect);
+		if (SoundManagerScript.Singleton != null) { /* Play activated sound effect */
+			// Move sound manager to this object
+			SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+			SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
+		}
 
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) 

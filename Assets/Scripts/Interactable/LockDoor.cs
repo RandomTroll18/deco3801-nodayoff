@@ -26,6 +26,7 @@ public class LockDoor : InteractiveObject {
 			if (DebugOption) Debug.Log ("Opened");
 			this.CloseEvent();
 		} else {
+			PlayFailureEfx();
 			if (DebugOption) Debug.Log("Failed");
 		}
 		
