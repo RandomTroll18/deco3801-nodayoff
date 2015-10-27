@@ -30,7 +30,6 @@ public class SecurityRoomConsole : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
-		Player.MyPlayer.GetComponentInChildren<SecurityRoomObjective>().OnComplete();
 		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>();
 		GameObject SRCGO = SRC.CreateCard();
 		this.CloseEvent();
@@ -43,7 +42,7 @@ public class SecurityRoomConsole : InteractiveObject {
 	
 	[PunRPC]
 	void Kill(int toKill){
-
+		Player.MyPlayer.GetComponentInChildren<SecurityRoomObjective>().OnComplete();
 		GameManager GameManagerScript = Object.FindObjectOfType<GameManager>();
 		this.SetInactive();
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
