@@ -98,7 +98,8 @@ public class ContextAwareBox : MonoBehaviour {
 				return;
 			if (item.RemainingCoolDownTurns() != 0) 
 				return;
-
+			if (playerObject.GetComponent<MovementController>().IsMoving()) // Don't activate. We are moving
+				return;
 			if (item.GetRange() > 0) // Need activation tiles
 				activationTileScript.GeneratorInterface(playerScript, item);
 			else // Just activate item

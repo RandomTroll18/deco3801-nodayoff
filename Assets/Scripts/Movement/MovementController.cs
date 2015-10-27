@@ -191,6 +191,16 @@ public class MovementController : MonoBehaviour {
 	}
 
 	/**
+	 * Return true if we are currently moving
+	 * 
+	 * Returns
+	 * - true if moving == Moving.YES
+	 */
+	public bool IsMoving() {
+		return moving == Moving.YES;
+	}
+
+	/**
 	 * This does one of two things: visualises the player's movement choice or it confirms
 	 * and moves a player's movement choice. Which one is chosen depends on whether this is the
 	 * first time the player has clicked the goal or the second.
