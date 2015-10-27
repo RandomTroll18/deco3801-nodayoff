@@ -96,13 +96,15 @@ public enum RangeType {
  * MATERIALEFFECT - Affect material
  * ITEMEFFECT - Affect items
  * COMPONENTEFFECT - Effect applied from component
+ * MODELCHANGEEFFECT - Effect that changes the model
  */
 public enum TurnEffectType {
 	STATEFFECT,
 	STATMULTIPLIEREFFECT,
 	MATERIALEFFECT,
 	ITEMEFFECT,
-	COMPONENTEFFECT
+	COMPONENTEFFECT,
+	MODELCHANGEEFFECT
 }
 
 /*

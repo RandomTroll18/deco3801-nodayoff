@@ -278,6 +278,24 @@ public class Player : MonoBehaviour {
 		return PhotonNetwork.Instantiate(path, transform.position, transform.rotation, 0);
 	}
 
+	/**
+	 * Set the game objects (contained in this player) with the given names
+	 * to be active or inactive
+	 * 
+	 * Arguments
+	 * - string toBeActive - The game object to set active
+	 * - string toBeInactive - The game object to set to inactive
+	 */
+	[PunRPC]
+	public void SetAttachedObjects(string toBeActive, string toBeInactive) {
+		foreach (Transform objectTransform in transform) {
+			if (objectTransform.gameObject.name.Equals(toBeActive)) // Set to active
+				objectTransform.gameObject.SetActive(true);
+			else if (objectTransform.gameObject.name.Equals(toBeInactive))  // Set to inactive
+				objectTransform.gameObject.SetActive(false);
+		}
+	}
+
 
 	/**
 	 * Stun the player
@@ -419,6 +437,7 @@ public class Player : MonoBehaviour {
 					toAdd.ApplyEffectToItem(item);
 			}
 			break;
+		case TurnEffectType.MODELCHANGEEFFECT: goto case TurnEffectType.COMPONENTEFFECT;// Need complex attach routine
 		case TurnEffectType.COMPONENTEFFECT: // Need a complex attach routine
 			toAdd.ExtraAttachActions();
 			break;
@@ -570,6 +589,7 @@ public class Player : MonoBehaviour {
 		case TurnEffectType.MATERIALEFFECT: 
 			GetComponent<PhotonView>().RPC("ResetMaterial", PhotonTargets.All, null);
 			break;
+		case TurnEffectType.MODELCHANGEEFFECT: goto case TurnEffectType.COMPONENTEFFECT;// Need complex detach routine
 		case TurnEffectType.COMPONENTEFFECT: // Need complex detaching actions
 			effect.ExtraDetachActions();
 			break;

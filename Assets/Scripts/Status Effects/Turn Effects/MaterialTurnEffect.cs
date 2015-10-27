@@ -14,8 +14,6 @@ public class MaterialTurnEffect : Effect {
 	 * - string newDescription - The description of this turn effect
 	 * - string iconPath - The path to the icon (with the Resources folder as the root)
 	 * - int turnsActive - Number of turns active
-	 * - ItemTurnEffectType newItemEffectType - The effect to apply items
-	 * - double itemEffectValue - The value to effect the item by
 	 * - bool applyPerTurnFlag - set this effect to be applied per turn or not
 	 */
 	public MaterialTurnEffect(string newMaterialPath, string newDescription, string iconPath, int turnsActive, 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class AlienPrimaryAbility : Ability {
 
 	Player owner; // The owner of this ability
+	Effect changeModel; // The Change model effect for this alien
 	Effect changeColour; // The material effect for this alien
 	Effect addAP; // The status effect for the alien - giving bonus AP
 	List<Effect> secondaryEffectRewards; // Effects that were awarded for completing secondary objectives
@@ -19,6 +20,8 @@ public class AlienPrimaryAbility : Ability {
 	 * - Player player - The owner of this ability
 	 */
 	public AlienPrimaryAbility(Player player) {
+		GameObject alienModel = null, humanModel = null; // The models of the player
+
 		AbilityName = "Alien Mode";
 		Range = 0.0; // No range
 		AbilityRangeType = RangeType.GLOBALTARGETRANGE;
@@ -29,6 +32,22 @@ public class AlienPrimaryAbility : Ability {
 		// Create turn effects
 		changeColour = new MaterialTurnEffect("AbilityMaterials/Alien/AlienModeMaterial", 
 				"Alien Mode: Turn Into An Alien", "Icons/Effects/alienmodepurple", -1, false);
+
+		/*
+		 * For the model, need to do many things, such as getting the game object of 
+		 * the player's model
+		 */
+		foreach (Transform objectTransform in player.gameObject.transform) {
+			if (objectTransform.gameObject.name.Equals("HybridHuman")) // Found human model
+				humanModel = objectTransform.gameObject;
+			else if (objectTransform.gameObject.name.Equals("alien")) // Found alien model
+				alienModel = objectTransform.gameObject;
+
+			if (alienModel != null && humanModel != null)
+				break;
+		}
+		changeModel = new ModelChangeTurnEffect(alienModel, humanModel, owner.gameObject, "Alien Mode: Shape Change", 
+				"Icons/Effects/alienmodepurple", -1, false);
 
 		secondaryEffectRewards = new List<Effect>();
 
@@ -78,6 +97,7 @@ public class AlienPrimaryAbility : Ability {
 				-1, true);
 		addAP.TurnModificationDelegates = new Effect.TurnModifications(NewAPForEffect);
 		owner.AttachTurnEffect(changeColour);
+		owner.AttachTurnEffect(changeModel);
 		owner.AttachTurnEffect(addAP);
 		foreach (Effect bonus in secondaryEffectRewards)
 			owner.AttachTurnEffect(bonus);
@@ -92,6 +112,7 @@ public class AlienPrimaryAbility : Ability {
 	{
 		base.Deactivate();
 		owner.DetachTurnEffect(changeColour);
+		owner.DetachTurnEffect(changeModel);
 		owner.DetachTurnEffect(addAP);
 			foreach (Effect bonus in secondaryEffectRewards)
 				owner.DetachTurnEffect(bonus);

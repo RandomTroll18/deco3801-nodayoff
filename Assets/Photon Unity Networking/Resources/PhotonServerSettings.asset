@@ -81,4 +81,5 @@ MonoBehaviour:
   - DestroyDisconnectedPlayerModel
   - ResetMaterial
   - SetNewMaterial
+  - SetAttachedObjects
   DisableAutoOpenWizard: 1
