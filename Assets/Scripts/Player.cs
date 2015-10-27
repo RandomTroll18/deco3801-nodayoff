@@ -860,11 +860,11 @@ public class Player : MonoBehaviour {
 	}
 
 	public int GetVisionDistance() {
-		if (stats[Stat.VISION] <= 1.0 && stats[Stat.VISION] >= 1.0) {
+		if (stats[Stat.VISION] <= 0.9 && stats[Stat.VISION] >= 1.1) {
 			return 2;
-		} else if (stats[Stat.VISION] <= 2.0 && stats[Stat.VISION] >= 2.0) {
+		} else if (stats[Stat.VISION] <= 1.9 && stats[Stat.VISION] >= 2.1) {
 			return 4;
-		} else if (stats[Stat.VISION] <= 3.0 && stats[Stat.VISION] >= 3.0) {
+		} else if (stats[Stat.VISION] <= 2.9 && stats[Stat.VISION] >= 3.1) {
 			Debug.Log("6");
 			return 6;
 		} else {

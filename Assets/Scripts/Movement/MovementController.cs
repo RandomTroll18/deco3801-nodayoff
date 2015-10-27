@@ -336,7 +336,7 @@ public class MovementController : MonoBehaviour {
 					if (neighbour.Equals(goal)) {
 						return new PathTile(current, neighbour);
 					}
-					if (stealth && new PathTile(current, neighbour).Depth > Player.MyPlayer.GetComponent<Player>().GetVisionDistance()) {
+					if (stealth && new PathTile(current, neighbour).Depth > 10) {
 						continue;
 					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
@@ -349,7 +349,7 @@ public class MovementController : MonoBehaviour {
 					if (neighbour.Equals(goal)) {
 						return new PathTile(current, neighbour);
 					}
-					if (stealth && new PathTile(current, neighbour).Depth > Player.MyPlayer.GetComponent<Player>().GetVisionDistance()) {
+					if (stealth && new PathTile(current, neighbour).Depth > 10) {
 						continue;
 					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
