@@ -46,6 +46,8 @@ public class MovementController : MonoBehaviour {
 	public GameObject ValidPathMarker;
 	public GameObject HighlightedTile;
 	public GameObject APCounter;
+	public GameObject Counter;
+
 
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
 	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
@@ -64,7 +66,6 @@ public class MovementController : MonoBehaviour {
 	/* Whether debugging output is used */
 	bool debugging;
 	const float HIGHLIGHTED_TILE_ELEVATION = 0.45f;
-	GameObject counter;
 	int cost;
 	
 	public void StartMe() {
@@ -162,9 +163,9 @@ public class MovementController : MonoBehaviour {
 		 * just find the transform way easier.
 		 */
 		if (moving == Moving.YES) {
-			if (counter != null) {
-				Destroy(counter);
-				counter = null;
+			if (Counter != null) {
+				Destroy(Counter);
+				Counter = null;
 			}
 
 			camController.LockCamera();
@@ -280,9 +281,9 @@ public class MovementController : MonoBehaviour {
 			DestroyObject(obj);
 		}
 		visualPath.Clear();
-		if (counter != null) {
-			Destroy(counter);
-			counter = null;
+		if (Counter != null) {
+			Destroy(Counter);
+			Counter = null;
 		}
 	}
 
@@ -305,11 +306,11 @@ public class MovementController : MonoBehaviour {
 
 	void ShowAPCost(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos);
-		counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
-		counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
-		counter.GetComponentInChildren<Text>().text = "value goes here";
-		counter.transform.position = new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, transform.position.z);
-		counter.GetComponentInChildren<Text>().text = cost.ToString();
+		Counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
+		Counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
+		Counter.GetComponentInChildren<Text>().text = "value goes here";
+		Counter.transform.position = new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, transform.position.z);
+		Counter.GetComponentInChildren<Text>().text = cost.ToString();
 	}
 
 	/*

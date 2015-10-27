@@ -239,9 +239,8 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 					for (int i = 0; i < this.selectedChannel.Messages.Count; i++)
 					{
 						string sender = this.selectedChannel.Senders[i];
-						string playerClass = "a";
 						object message = this.selectedChannel.Messages[i];
-						GUILayout.Label(string.Format("{0}({2}): {1}", sender, message, playerClass));
+						GUILayout.Label(string.Format("{0}: {1}", sender, message));
 					}
 				}
 				

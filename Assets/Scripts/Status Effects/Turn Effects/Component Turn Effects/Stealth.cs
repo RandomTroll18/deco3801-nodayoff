@@ -69,7 +69,6 @@ public class Stealth : MonoBehaviour {
 		renderers.AddRange(GetComponents<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
 		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
-		Debug.Log("Distance to player: " + distance);
 		if (distance > p.GetVisionDistance()) // Hidden from player, but are we hidden from surveillance cams
 			hideFromSurvCams();
 		else // Not hidden
