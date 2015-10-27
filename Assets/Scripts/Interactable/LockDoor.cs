@@ -41,6 +41,7 @@ public class LockDoor : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
+		PlaySuccessEfx();
 		IsInactivated = true;
 		if (gameObject.GetComponent<DoorLight>() != null)
 			transform.GetChild(8).GetComponent<Light>().color = Color.red;

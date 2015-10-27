@@ -410,8 +410,6 @@ public class GameManager : Photon.PunBehaviour {
 		} catch (MissingComponentException e) {
 
 		}
-		if (door.GetComponent<DoorAudio>() != null)
-			door.GetComponent<DoorAudio>().PlayOpeningEfx(); // Play opening sound effects
 		movController.UnblockTile(position);
 
 		UnlockedTiles.Add(position);
