@@ -20,7 +20,7 @@ public class AlienSecondaryThree : SecondaryObjective {
 		ObjectiveName = "AlienSecondaryThree";
 		Title = "Obtain Enhancements";
 		Description = "One of the boarding parties has dropped enhancements for you.\n" +
-			"REWARD: +50% to skill check of your human class.";
+			"REWARD: +50% to all skill checks while in alien mode.";
 		GameObject objective = PickAlienObjective();
 		Location = Tile.TilePosition(objective.transform.position);
 		

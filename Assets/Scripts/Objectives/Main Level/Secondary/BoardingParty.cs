@@ -18,10 +18,6 @@ public class BoardingParty : SecondaryObjective {
 
 		Object.FindObjectOfType<GameManager>().IncreaseRoundsLost(ROUNDS_LOST);
 
-		ChangeRoundsPerTurn nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
-		nasty.roundsLost = ROUNDS_LOST;
-		GameObject NastyUI = nasty.CreateCard();
-
 		Vector3 pos = Object.FindObjectOfType<GameManager>().BoardingSpawn;
 
 

@@ -96,10 +96,7 @@ public class MainLevelObjective1 : InteractiveObject {
 			break;
 		case Classes.BETRAYER: // Alien
 			Debug.Log("Adding alien secondary");
-			secondaries.AddComponent<AlienSecondaryOne>().StartMe();
 			secondaries.AddComponent<AlienSecondaryTwo>().StartMe();
-			secondaries.AddComponent<AlienSecondaryThree>().StartMe();
-			secondaries.AddComponent<AlienSecondaryFour>().StartMe();
 			// Need to add human class secondaries as well
 			giveAlienSecondaryHumanObj((AlienClass)p.GetPlayerClassObject(), secondaries);
 			break;
@@ -110,9 +107,11 @@ public class MainLevelObjective1 : InteractiveObject {
 		/*
 		 * A nasty event for players to resolve
 		 */
-		secondaries.AddComponent<BoardingParty>();
 		secondaries.AddComponent<TeamExtraRounds>();
-		Object.FindObjectOfType<GameManager>().BoardingSpawn 
-			= GameObject.FindGameObjectWithTag("Boarding Party").transform.position;
+//		ChangeRoundsPerTurn nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
+//		nasty.roundsLost = 1;
+//		GameObject NastyUI = nasty.CreateCard();
+//		Object.FindObjectOfType<GameManager>().BoardingSpawn 
+//			= GameObject.FindGameObjectWithTag("Boarding Party").transform.position;
 	}
 }

@@ -15,6 +15,8 @@ public class AlienSecondarySeven : SecondaryObjective {
 		Title = "Invisibility";
 		Description = "An invisibility enhancement has been deployed for you. Find it to give" +
 			" yourself an advantage over the humans.";
+		Location = Tile.TilePosition(objective.transform.position);
+
 		
 		interactable 
 			= objective.AddComponent<AlienSecondarySevenInteractable>();

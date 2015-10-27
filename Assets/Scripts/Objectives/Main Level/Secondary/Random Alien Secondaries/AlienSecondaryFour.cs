@@ -4,12 +4,25 @@ using System.Collections;
 /*
  * Random boarding party added to map
  */
+using System.Collections.Generic;
+
+
 public class AlienSecondaryFour : SecondaryObjective {
 	AlienSecondaryFourInteractable interactable;
+	static List<GameObject> usedSpawns = new List<GameObject>();
 
 	GameObject PickBoardingParty() {
 		GameObject[] spawns = GameObject.FindGameObjectsWithTag("Boarding Party");
-		int spawn = Random.Range(0, spawns.Length - 1);
+		int spawn = -1;
+		for (int i = 0; i < spawns.Length; i++) {
+			if (!usedSpawns.Contains(spawns[i])) {
+			    spawn = i;
+				usedSpawns.Add(spawns[i]);
+			}
+		}
+		if (spawn == -1)
+			return null;
+		Debug.Log("boarding spawn :" + spawn);
 		return spawns[spawn];
 	}
 
@@ -17,7 +30,7 @@ public class AlienSecondaryFour : SecondaryObjective {
 	public void StartMe() {
 		Log();
 		GameObject objective = PickAlienObjective();
-		Title = "Assist Boarding Party";
+		Title = "Assist Allies";
 		Description = "A Versipellis boarding party is at the ready. Shutdown the ship's defenses" +
 			" so they can attack.";
 		Location = Tile.TilePosition(objective.transform.position);
@@ -28,8 +41,11 @@ public class AlienSecondaryFour : SecondaryObjective {
 	}
 
 	public override void OnComplete() {
+		GameObject spawn = PickBoardingParty();
+		if (spawn == null)
+			Destroy(this);
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("SpawnBoardingParty", PhotonTargets.All, PickBoardingParty().transform.position);
+			.GetComponent<PhotonView>().RPC("SpawnBoardingParty", PhotonTargets.All, spawn.transform.position);
 		Destroy(this);
 
 		string message = "Alien has shutdown the ship's defenses in " + 

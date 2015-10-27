@@ -372,6 +372,7 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 
 	[PunRPC]
 	public void Big(string input) {
+		GetComponent<AudioSource>().Play();
 		GameObject bigText = Instantiate(Resources.Load("BigText")) as GameObject;
 		GameObject UI = GameObject.Find("Main_Canvas");
 		bigText.transform.SetParent(UI.transform, false);

@@ -87,9 +87,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StringInput: Destroy the boarding party?
-  Cost: 8
+  Cost: 10
   ClassMultiplier: 6
-  InstantInteract: 0
+  SuccessEfx: []
+  FailEfx: []
+  InstantInteract: 1
   DebugOption: 0
 --- !u!114 &11483014
 MonoBehaviour:
@@ -125,7 +127,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: Cost
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ClassMultiplier
@@ -134,6 +136,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: StringInput
       value: Destroy the boarding party?
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InstantInteract
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
