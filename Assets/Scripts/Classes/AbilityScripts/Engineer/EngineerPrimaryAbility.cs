@@ -17,13 +17,14 @@ public class EngineerPrimaryAbility : Ability {
 	 * - Player newMaster - The player that spawned this robot
 	 */
 	public EngineerPrimaryAbility(Player newMaster) {
-		AbilityName = "Block-Buster";
+		AbilityName = "Block" + StringMethodsScript.NEWLINE + "Buster";
 		Range = 2.0;
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
 		robotPrefab = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Engineer/EngineerRobot");
 		master = newMaster;
 		coolDown = 5; // 5 turn cooldown
+		AbilityIdentifier = AbilityEnum.ENGABI;
 	}
 
 	/**
@@ -86,6 +87,8 @@ public class EngineerPrimaryAbility : Ability {
 		ClassPanel.GetComponent<ClassPanelScript>().SetPrimaryAbilityButtonText("Toggle To Robot");
 		ClassPanel.GetComponent<ClassPanelScript>().AttachSpawnedToCounter(robotReference);
 		RemainingTurns = 3; // Reset remaining turns
+
+		AbilityIdentifier = AbilityEnum.ENGABI;
 	}
 
 	/**
@@ -118,7 +121,7 @@ public class EngineerPrimaryAbility : Ability {
 				}
 			} else {  // No longer in cool down
 				classPanelScript.PrimaryAbilityButton.GetComponent<Button>().interactable = true;
-				classPanelScript.PrimaryAbilityText.text = "Block-Buster";
+				classPanelScript.PrimaryAbilityText.text = AbilityName;
 			}
 		}
 	}

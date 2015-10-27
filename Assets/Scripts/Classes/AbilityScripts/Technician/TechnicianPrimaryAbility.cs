@@ -21,7 +21,7 @@ public class TechnicianPrimaryAbility : Ability {
 	 * - Player player - The player reference
 	 */
 	public TechnicianPrimaryAbility(Player player) {
-		AbilityName = "Big Brother";
+		AbilityName = "Big" + StringMethodsScript.NEWLINE + "Brother";
 		Range = 0.0;
 		AbilityRangeType = RangeType.GLOBALTARGETRANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
@@ -41,6 +41,8 @@ public class TechnicianPrimaryAbility : Ability {
 		nextCameraButton = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Technician/NextCameraButton");
 		previousCameraButton = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Technician/PreviousCameraButton");
 
+
+		AbilityIdentifier = AbilityEnum.TECHABI;
 	}
 
 	/**

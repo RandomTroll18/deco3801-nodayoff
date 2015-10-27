@@ -20,6 +20,7 @@ public class ScoutPrimaryAbility : Ability {
 		AbilityRangeType = RangeType.SQUARERANGE;
 		AbilityActivationType = ActivationType.DEFENSIVE;
 		trapPrefab = "Prefabs/AbilityPrefabs/Scout/ScoutTrap";
+		AbilityIdentifier = AbilityEnum.SCOABI;
 	}
 
 	/**

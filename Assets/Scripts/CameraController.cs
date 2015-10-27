@@ -146,15 +146,23 @@ public class CameraController : MonoBehaviour {
 					power.enabled = true;
 					break;
 				}
-			} else {
-				leftWing.enabled = false;
-				rightWing.enabled = false;
-				leftGun.enabled = false;
-				rightGun.enabled = false;
-				power.enabled = false;
-				quarters.enabled = false;
-				cargo.enabled = false;
-				bridge.enabled = false;
+			} else { // Don't need to do anything
+				if (leftWing != null)
+					leftWing.enabled = false;
+				if (rightWing != null)
+					rightWing.enabled = false;
+				if (leftGun != null)
+					leftGun.enabled = false;
+				if (rightGun != null)
+					rightGun.enabled = false;
+				if (power != null)
+					power.enabled = false;
+				if (quarters != null)
+					quarters.enabled = false;
+				if (cargo != null)
+					cargo.enabled = false;
+				if (bridge != null)
+					bridge.enabled = false;
 			}
 
 

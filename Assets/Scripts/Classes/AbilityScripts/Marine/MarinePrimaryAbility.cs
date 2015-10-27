@@ -19,13 +19,14 @@ public class MarinePrimaryAbility : Ability {
 	 * - Player player - The player that spawned this robot
 	 */
 	public MarinePrimaryAbility(Player player) {
-		AbilityName = "Stimulus Debris";
+		AbilityName = "Stimulus" + StringMethodsScript.NEWLINE + "Debris";
 		Range = 0.0; // No range
 		AbilityRangeType = RangeType.GLOBALTARGETRANGE;
 		AbilityActivationType = ActivationType.SUPPORTIVE;
 		RemainingTurns = 3; // Only 3 remaining turns
 		coolDown = 3;
 		master = player;
+		AbilityIdentifier = AbilityEnum.MARABI;
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class MarinePrimaryAbility : Ability {
 				classPanelScript.PrimaryAbilityText.text = "Cooling Down";
 			} else {  // No longer in cool down
 				classPanelScript.PrimaryAbilityButton.GetComponent<Button>().interactable = true;
-				classPanelScript.PrimaryAbilityText.text = "Stimulus Debris";
+				classPanelScript.PrimaryAbilityText.text = AbilityName;
 			}
 
 		}
