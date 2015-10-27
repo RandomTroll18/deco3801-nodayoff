@@ -42,6 +42,11 @@ public class TrapDetector : SupportConsumables {
 				turnEffects[indexOfEffect].IncreaseTurnsRemaining(trapDetectingEffect.TurnsRemaining());
 			} else // Attach the effect
 				playerScript.AttachTurnEffect(trapDetectingEffect);
+			if (SoundManagerScript.Singleton != null) { /* Play activated sound effect */
+				// Move sound manager to this object
+				SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+				SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
+			}
 			Amount--;
 			UpdateContextAwareBox();
 			if (Amount == 0) { // Destroy this item

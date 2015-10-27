@@ -36,6 +36,11 @@ public class DeployableStunTurret : SupportConsumables {
 					Quaternion.identity, 
 					0
 			);
+			if (SoundManagerScript.Singleton != null) { /* Play activated sound effect */
+				// Move sound manager to this object
+				SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+				SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
+			}
 			UpdateContextAwareBox();
 			instantiatedStunTurret.GetComponent<DeployableStunTurretActionScript>().enabled = true; // Enable script
 			if (Amount == 0) { // Remove the item

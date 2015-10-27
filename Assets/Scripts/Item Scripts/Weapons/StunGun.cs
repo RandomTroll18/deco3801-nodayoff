@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -128,9 +128,9 @@ public class StunGun : ShortRangeWeapon {
 		// Show where Stun Gun was activated - MVP purposes
 		Vector3 pos = new Vector3(x, y, z);
 		effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
-		if (SoundEfx.Count > 0 && SoundManagerScript.Singleton != null) { // Play sound effects
+		if (ActivateEfx.Count > 0 && SoundManagerScript.Singleton != null) { // Play sound effects
 			SoundManagerScript.Singleton.gameObject.transform.position = effectAnimation.transform.position;
-			SoundManagerScript.Singleton.PlaySingle3D(SoundEfx);
+			SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
 		}
 		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
 		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients

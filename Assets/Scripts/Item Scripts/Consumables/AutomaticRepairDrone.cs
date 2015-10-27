@@ -30,6 +30,11 @@ public class AutomaticRepairDrone : SupportConsumables {
 		if (Amount == 0)
 			return;
 		else {
+			if (SoundManagerScript.Singleton != null) { /* Play activated sound effect */
+				// Move sound manager to this object
+				SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+				SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
+			}
 			gameManager.GetComponent<PhotonView>().RPC("AddTurns", PhotonTargets.All, new object[] {AdditionalTurns});
 			Amount--;
 			UpdateContextAwareBox();

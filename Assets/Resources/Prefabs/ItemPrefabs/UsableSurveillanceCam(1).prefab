@@ -130,7 +130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Deployable Surveillance Camera
   Image: {fileID: 21300000, guid: eea751704080b8646879107481b2cc7f, type: 3}
-  SoundEfx: []
+  ActivateEfx:
+  - {fileID: 8300000, guid: fcfaecb122490f2489d4a4194b4dafdb, type: 3}
+  - {fileID: 8300000, guid: fe5f18e9bb81d934a988690b50964821, type: 3}
   Amount: 1
 --- !u!114 &11465882
 MonoBehaviour:
@@ -151,6 +153,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: ActivateEfx.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Amount
       value: 1

@@ -16,6 +16,8 @@ public class Player : MonoBehaviour {
 	public static string ChosenClass; // The chosen class
 	public bool IsSpawned; // Record if this object is spawned
 	public bool IsStunned; // Record if this player is stunned
+	public List<AudioClip> ItemPickupEfx; // Sound effects for item pickup
+	public List<AudioClip> StunEfx; // Sound effects for stunning
 	/*
 	 * This is an important variable since we can no longer search for the player in the scene.
 	 * Make sure that if you need this variable, you wait for network connecting to finish so the
@@ -288,6 +290,11 @@ public class Player : MonoBehaviour {
 		if (stunTimer < 0) // Invalid stun timer
 			stunTimer = 0;
 		stunTimer += timer;
+		if (SoundManagerScript.Singleton != null) {
+			// Move sound manager to this player
+			SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+			SoundManagerScript.Singleton.PlaySingle3D(StunEfx);
+		}
 	}
 
 	/**
@@ -498,6 +505,13 @@ public class Player : MonoBehaviour {
 
 			// Apply effects to item on pickup
 			applyItemEffect(item);
+
+			/* Play item pickup effects */
+			if (SoundManagerScript.Singleton != null) {
+				// Move sound manager to this door
+				SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
+				SoundManagerScript.Singleton.PlaySingle3D(ItemPickupEfx);
+			}
 
 			// Increment to the next available spot
 			while (availableSpot != 8 && inventory[availableSpot] != null) {
