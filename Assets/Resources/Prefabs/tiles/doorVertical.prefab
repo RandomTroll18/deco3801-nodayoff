@@ -149,7 +149,6 @@ GameObject:
   - 114: {fileID: 11418160}
   - 114: {fileID: 11423078}
   - 114: {fileID: 11486544}
-  - 114: {fileID: 11434094}
   m_Layer: 0
   m_Name: doorVertical
   m_TagString: Door
@@ -650,19 +649,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4577861536206d47b7be8986f7a5617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11434094
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 188986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0363b74513839124fafe17ee1254e0ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OpenDoorEfx:
-  - {fileID: 8300000, guid: 1cd42c183c4eac448be7aa4c0411b3e2, type: 3}
 --- !u!114 &11486544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -677,7 +663,10 @@ MonoBehaviour:
   StringInput: Need power to unlock
   Cost: 100
   ClassMultiplier: 0
+  SuccessEfx: []
+  FailEfx: []
   InstantInteract: 0
+  DebugOption: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
