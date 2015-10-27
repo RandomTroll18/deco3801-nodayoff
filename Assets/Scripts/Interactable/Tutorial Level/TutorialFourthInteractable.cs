@@ -33,8 +33,11 @@ public class TutorialFourthInteractable : InteractiveObject {
 			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
+			IsInactivated = true;
 			this.CloseEvent();
+			PlaySuccessEfx();
 		} else {
+			PlayFailureEfx();
 			Debug.Log("Failed");
 		}
 		
@@ -49,11 +52,10 @@ public class TutorialFourthInteractable : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		IsInactivated = true;
 		Tile x = Tile.TilePosition(Door.transform.position);
 		MController.UnblockTile(x);
-		Debug.Log(x.ToString() + "Here");
-
+		Destroy(Door);
+		IsInactivated = true;
 	}
 	
 }
