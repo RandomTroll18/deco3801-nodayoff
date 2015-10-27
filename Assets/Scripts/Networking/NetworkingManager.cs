@@ -102,12 +102,23 @@ public class NetworkingManager : Photon.PunBehaviour {
 		AlienClass alienClassContainer; // Container for the alien class
 		Player playerScript; // The player script
 		SpawnPoint spawn = spawnPoints[0]; // TODO: pick spawn point based on class
-		GameObject myPlayer = PhotonNetwork.Instantiate(
+		GameObject myPlayer = null;
+
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien
+			myPlayer = PhotonNetwork.Instantiate(
+				"AlienPlayer", 
+				spawn.transform.position, 
+				spawn.transform.rotation, 
+				0
+			);
+		} else { // Human
+			myPlayer = PhotonNetwork.Instantiate(
 				"Player", 
 				spawn.transform.position, 
 				spawn.transform.rotation, 
 				0
-		);
+				);
+		}
 		/* Enable player components */
 		Player.MyPlayer = myPlayer;
 		myPlayer.GetComponentInChildren<AudioListener>().enabled = true;

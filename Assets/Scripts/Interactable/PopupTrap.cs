@@ -10,8 +10,6 @@ public class PopupTrap : Trap {
 	public override void TrapToDo(Collision col) {
 		if (col.gameObject.name == "Player(Clone)") {
 			Activate();
-			// TODO: check for photon view?
-			if (DestroyTrap) TrapSync();
 		}
 	}
 
@@ -19,7 +17,19 @@ public class PopupTrap : Trap {
 		// TODO: call card
 		if (PopupScript != null) {
 			PopupScript.Create();
-		}
+		} 
+		if (DestroyTrap) TrapSync();
+
 	}
+
+	public virtual void TrapSync() {
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+	
+	[PunRPC]
+	void Sync() {
+		Destroy(this.gameObject);
+	}
+
 
 }

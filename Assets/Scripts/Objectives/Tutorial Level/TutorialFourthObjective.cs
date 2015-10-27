@@ -5,8 +5,7 @@ public class TutorialFourthObjective : PrimaryObjective {
 	
 	void Start() {
 		Title = "Fourth Objective";
-		Description = "Uhhhhh ... This door definately doesn't look like something I can force open." +
-			" Maybe if I hit some of these keys something might happen.";
+		Description = "Oh this is definately something I'm good at. This should be easy";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Objective")) {
 			if (objective.name == "Objective 1") {
