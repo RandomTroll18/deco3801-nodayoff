@@ -9604,13 +9604,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772cc985127297e409980c777bf3a821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text1: {fileID: 0}
-  Text2: {fileID: 0}
-  Text3: {fileID: 0}
-  Text4: {fileID: 0}
-  Text5: {fileID: 0}
-  Text6: {fileID: 0}
-  TutorialMenu: {fileID: 0}
+  Text1: {fileID: 127488}
+  Text2: {fileID: 156102}
+  Text3: {fileID: 150474}
+  Text4: {fileID: 140342}
+  Text5: {fileID: 159124}
+  Text6: {fileID: 118740}
+  Text7: {fileID: 153778}
+  TutorialMenu: {fileID: 125936}
   EscMenu: {fileID: 196808}
   SettingMenu: {fileID: 131644}
 --- !u!114 &11463658
@@ -10550,7 +10551,7 @@ MonoBehaviour:
         m_MethodName: Toggle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 125936}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
