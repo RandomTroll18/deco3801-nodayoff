@@ -29,8 +29,8 @@ public class Stealth : MonoBehaviour {
 			    && gameObject.GetComponent<ScoutTrapScript>().GetOwner() == Player.MyPlayer)
 				return; // Don't hide from owner
 		}
-		renderers.AddRange(GetComponents<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		renderers.AddRange(GetComponents<Renderer>());
+		renderers.AddRange(GetComponentsInChildren<Renderer>());
 		toggleRenderers(renderers, false);
 	}
 
@@ -66,9 +66,9 @@ public class Stealth : MonoBehaviour {
 		p  = ClassPanelScript.CurrentPlayer.GetComponent<Player>();
 		distance = p.DistanceToTile(Tile.TilePosition(transform.position), true);
 		renderers = new List<Renderer>();
-		renderers.AddRange(GetComponents<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		renderers.AddRange(GetComponents<Renderer>());
+		renderers.AddRange(GetComponentsInChildren<Renderer>());
+		renderers.AddRange(GetComponentsInChildren<Renderer>());
 		Debug.Log("Distance to player: " + distance);
 		if (distance > p.GetVisionDistance()) // Hidden from player, but are we hidden from surveillance cams
 			hideFromSurvCams();
@@ -84,9 +84,9 @@ public class Stealth : MonoBehaviour {
 		GameObject[] survCams = GameObject.FindGameObjectsWithTag("SurveillanceCameras");
 
 		/* Get renderers */
-		renderers.AddRange(GetComponents<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
-		renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+		renderers.AddRange(GetComponents<Renderer>());
+		renderers.AddRange(GetComponentsInChildren<Renderer>());
+		renderers.AddRange(GetComponentsInChildren<Renderer>());
 
 		if (survCams.Length > 0) { // There are surv cams. Need to check if they are active
 			foreach (GameObject survCam in survCams) {
