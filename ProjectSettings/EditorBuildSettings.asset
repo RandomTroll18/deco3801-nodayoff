@@ -30,6 +30,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Prototype/GameOver.unity
   - enabled: 1
+    path: Assets/Prototype/AlienWinScreen.unity
+  - enabled: 1
+    path: Assets/Prototype/AlienLoseScreen.unity
+  - enabled: 1
     path: Assets/_Scenes/TestNetworkMenu1.unity
   - enabled: 1
     path: Assets/_Scenes/Tutorial.unity

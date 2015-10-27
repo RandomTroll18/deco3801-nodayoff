@@ -3,17 +3,12 @@ using System.Collections;
 
 public class MainLevelObjective4 : InteractiveObject {
 
+	bool escape = false;
+
 	void Update() {
 
 		if (Player.MyPlayer == null)
 			return;
-		/*
-		 * Alien doesn't need these interactables
-		 */
-		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
-			Destroy(this);
-			return;
-		}
 	}
 	
 	public override void TakeAction(int input){
@@ -21,8 +16,14 @@ public class MainLevelObjective4 : InteractiveObject {
 			Debug.Log("Inactive");
 			return;
 		}
+
+		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
+			ChatTest.Instance.AllChat(true, "ALIEN CAN'T ESCAPE");
+			return;
+		}
 		
 		if (!PrimaryO.GetObjective().Title.Equals(Object.FindObjectOfType<FourthObjectiveMain>().Title)) {
+			ChatTest.Instance.AllChat(true, "NO POWER");
 			Debug.Log("Wrong part of the story");
 			return;
 		}
@@ -40,14 +41,24 @@ public class MainLevelObjective4 : InteractiveObject {
 	}
 
 	public void InteractablSync() {
-		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
-		Application.LoadLevel("WinScreen");
+		escape = true;
+
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All);
 	}
 
 	[PunRPC]
 	void Sync(){
 		PhotonNetwork.Destroy(GetComponent<PhotonView>());
 		ChatTest.Instance.AllChat(false, "ONE ESCAPE POD LOST");
+		Debug.Log("sadas");
+
+		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER
+		    	&& GameObject.FindGameObjectsWithTag("player").Length <= 1) {
+			Application.LoadLevel("AlienLoseScreen");
+		}
+
+		if (escape)
+			Application.LoadLevel("WinScreen");
 	}
 
 }
