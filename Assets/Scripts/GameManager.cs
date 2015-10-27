@@ -76,7 +76,8 @@ public class GameManager : Photon.PunBehaviour {
 				}
 			}
 			if (!readyPlayers.Contains(networkPlayer)) { // Tell player to re-instantiate their model
-				if ((bool)(networkPlayer.customProperties["waiting"]) && !pendingInstantiation.Contains(networkPlayer)) {
+				if ((bool)(networkPlayer.customProperties["waiting"]) 
+						&& !pendingInstantiation.Contains(networkPlayer)) {
 					// Player has supposedly instantiated their player
 					Debug.Log(networkPlayer.name + " is waiting. Ask to re-instantiate their player");
 					networkingManager.gameObject.GetComponent<PhotonView>().RPC(

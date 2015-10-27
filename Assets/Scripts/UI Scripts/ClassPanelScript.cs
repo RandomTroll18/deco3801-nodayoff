@@ -280,6 +280,8 @@ public class ClassPanelScript : MonoBehaviour {
 	 * - GameObject master - The original player
 	 */
 	public void ResetToMaster(GameObject master) {
+		Player masterScript = master.GetComponent<Player>(); // The script of the player
+
 		/* Reset camera controller and movement controller */
 		movementController.ChangePlayerScript();
 		cameraController.ResetCamera();
@@ -289,7 +291,7 @@ public class ClassPanelScript : MonoBehaviour {
 		ClassTitle.text = master.GetComponent<Player>().GetPlayerClassObject().GetPlayerClassType(); // Reset class text
 
 		// Make inventory active
-		master.GetComponent<Player>().InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
+		masterScript.InventoryUI[0].GetComponent<InventoryUISlotScript>().Container.SetActive(true);
 		PrimaryAbilityButton.GetComponent<Button>().interactable = false; // Can't use primary ability
 		PrimaryAbilityText.text = "Cooling Down"; // Reset text
 
@@ -303,6 +305,17 @@ public class ClassPanelScript : MonoBehaviour {
 		master.GetComponent<MovementController>().enabled = true;
 		master.GetComponentInChildren<CameraController>().enabled = true;
 		master.GetComponentInChildren<Camera>().enabled = true;
+
+		// Set appropriate portrait
+		if (masterScript.GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) { // Alien
+			setClassTitleForAlien((AlienClass)masterScript.GetPlayerClassObject());
+			ClassPortrait.GetComponent<Image>().sprite = 
+				Resources.Load<Sprite>("Icons/Effects/alienmodeblack");
+		} else { // Human
+			ClassTitle.text = masterScript.GetPlayerClassObject().GetPlayerClassType();
+			ClassPortrait.GetComponent<Image>().sprite = 
+				Resources.Load<Sprite>("Icons/Class/Engineer/engportraitclear");
+		}
 	}
 
 	/**
@@ -343,6 +356,8 @@ public class ClassPanelScript : MonoBehaviour {
 			Debug.Log("Toggle to robot");
 			CurrentPlayer = robot;
 			ClassTitle.text = robotScript.GetPlayerClassObject().GetPlayerClassType();
+			ClassPortrait.GetComponent<Image>().sprite = 
+				Resources.Load<Sprite>("Icons/Class/Engineer/robot");
 			PrimaryAbilityText.text = "Toggle To Engineer";
 
 			// Set the context aware box to be in the idle context
@@ -370,10 +385,15 @@ public class ClassPanelScript : MonoBehaviour {
 			player.GetComponentInChildren<Camera>().enabled = true;
 
 			CurrentPlayer = player;
-			if (alienClass != null) // Alien
+			if (alienClass != null) { // Alien
 				setClassTitleForAlien(alienClass);
-			else 
+				ClassPortrait.GetComponent<Image>().sprite = 
+					Resources.Load<Sprite>("Icons/Effects/alienmodeblack");
+			} else {
 				ClassTitle.text = callingPlayer.GetPlayerClassObject().GetPlayerClassType();
+				ClassPortrait.GetComponent<Image>().sprite = 
+					Resources.Load<Sprite>("Icons/Class/Engineer/engportraitclear");
+			}
 			PrimaryAbilityText.text = "Toggle To Robot";
 
 			// Set the individual ui slots to be unselected and set the inventory panel to be inactive

@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: .75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -112,7 +112,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 898f5d78de24d3e43a03f752a00c49c2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: .75
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -181,7 +181,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: .75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -250,7 +250,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: .75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -325,8 +325,8 @@ MonoBehaviour:
   BGMusicSource: {fileID: 8252142}
   BGMute: 0
   EfxMute: 0
-  EfxVolume: 1
-  BGVolume: 1
+  EfxVolume: .75
+  BGVolume: .75
   BGMusicList:
   - {fileID: 8300000, guid: c22e385883c823c4485bc73774ed0a10, type: 3}
   - {fileID: 8300000, guid: f445349974d13b048844dfd3e83fd6e4, type: 3}
@@ -371,6 +371,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Volume
+      value: .75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EfxVolume
+      value: .75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: BGVolume
+      value: .75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
