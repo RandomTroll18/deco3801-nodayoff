@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,7 +10,8 @@ public class AlienPrimaryAbility : Ability {
 	Effect addAP; // The status effect for the alien - giving bonus AP
 	List<Effect> secondaryEffectRewards; // Effects that were awarded for completing secondary objectives
 	int initialNumberOfTurns; // The initial number of turns
-
+	const string materialPath = "AbilityMaterials/Alien/AlienModeMaterial"; // The alien mode material
+	List<AudioClip> transformEfx; // Transform sound effects
 	/**
 	 * Constructor
 	 * 
@@ -29,6 +31,12 @@ public class AlienPrimaryAbility : Ability {
 				"Alien Mode: Turn Into An Alien", "Icons/Effects/alienmodepurple", -1, false);
 
 		secondaryEffectRewards = new List<Effect>();
+
+		transformEfx = new List<AudioClip>();
+		transformEfx.Add(Resources.Load<AudioClip>("Audio/Sound Effects/Alien_transform"));
+		if (transformEfx.Count != 1) {
+			Debug.LogError("Invalid sound effect path for alien transforming");
+		}
 	}
 
 	/**
@@ -73,6 +81,9 @@ public class AlienPrimaryAbility : Ability {
 		owner.AttachTurnEffect(addAP);
 		foreach (Effect bonus in secondaryEffectRewards)
 			owner.AttachTurnEffect(bonus);
+		RemainingTurns = 2;
+
+		SoundManagerScript.Singleton.PlaySingle3D(transformEfx);
 	}
 	/**
 	 * Deactivate function
@@ -94,5 +105,15 @@ public class AlienPrimaryAbility : Ability {
 
 		newAP = Effect.CalculateAP();
 		addAP.SetValue(newAP);
+	}
+
+	public override void ReduceNumberOfTurns()
+	{
+		ClassPanelScript classPanelScript = ClassPanel.GetComponent<ClassPanelScript>(); // Class panel script
+
+		base.ReduceNumberOfTurns();
+		if (RemainingTurns == 0 && IsActive) { // Allow button to be pressed
+			classPanelScript.AlienPrimaryAbilityButton.GetComponent<Button>().interactable = true;
+		}
 	}
 }

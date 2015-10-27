@@ -4,12 +4,13 @@ using System.Collections;
 public class MaterialTurnEffect : Effect {
 
 	Material effectMaterial; // The material to be set from this effect
+	string materialPath; // Material path
 
 	/**
 	 * The constructor for a material effect
 	 * 
 	 * Arguments
-	 * - string materialPath - The path to the material of this effect
+	 * - string newMaterialPath - The path to the material of this effect
 	 * - string newDescription - The description of this turn effect
 	 * - string iconPath - The path to the icon (with the Resources folder as the root)
 	 * - int turnsActive - Number of turns active
@@ -17,10 +18,11 @@ public class MaterialTurnEffect : Effect {
 	 * - double itemEffectValue - The value to effect the item by
 	 * - bool applyPerTurnFlag - set this effect to be applied per turn or not
 	 */
-	public MaterialTurnEffect(string materialPath, string newDescription, string iconPath, int turnsActive, 
+	public MaterialTurnEffect(string newMaterialPath, string newDescription, string iconPath, int turnsActive, 
 			bool applyPerTurnFlag) {
 		SetBasicValues(newDescription, iconPath, turnsActive, applyPerTurnFlag);
-		effectMaterial = Resources.Load<Material>(materialPath);
+		effectMaterial = Resources.Load<Material>(newMaterialPath);
+		materialPath = newMaterialPath;
 		Type = TurnEffectType.MATERIALEFFECT;
 		Debug.Log("Material turn effect constructed");
 	}
@@ -47,6 +49,11 @@ public class MaterialTurnEffect : Effect {
 	public override Material GetMaterial()
 	{
 		return effectMaterial;
+	}
+
+	public override string GetMaterialPath()
+	{
+		return materialPath;
 	}
 
 	/* Override abstruct stuff so that compiler doesn't whine */

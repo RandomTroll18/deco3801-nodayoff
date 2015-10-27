@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
 	int stunTimer = 0; // The stun timer
 	bool isImmuneToStun; // Recod if the player is immune to stun
 	Light playerLight; // Player's light
-	Material playerMaterial; // The material of the player
+	string playerMaterialPath = "PlayerMaterials/Metal"; // Path to player material
 
 	/**
 	 * StartMe function for networking purposes
@@ -76,7 +76,6 @@ public class Player : MonoBehaviour {
 		noLongerActive = false;
 
 		isImmuneToStun = false;
-		playerMaterial = PlayerObject.GetComponentInChildren<Renderer>().material;
 	}
 
 	/*
@@ -398,7 +397,11 @@ public class Player : MonoBehaviour {
 		switch (toAdd.GetTurnEffectType()) { // Apply turn effects immediately if needed
 		case TurnEffectType.STATEFFECT: goto default; // Only apply stat effects in the next turn
 		case TurnEffectType.MATERIALEFFECT:
-			PlayerObject.GetComponentInChildren<Renderer>().material = toAdd.GetMaterial();
+			GetComponent<PhotonView>().RPC("SetNewMaterial", PhotonTargets.All, 
+					new object[] {
+						toAdd.GetMaterialPath()
+					}
+			);
 			break;
 		case TurnEffectType.ITEMEFFECT: // Apply item effects immediately
 			foreach (Item item in inventory) {
@@ -548,7 +551,7 @@ public class Player : MonoBehaviour {
 			}
 			break;
 		case TurnEffectType.MATERIALEFFECT: 
-			PlayerObject.GetComponentInChildren<Renderer>().material = playerMaterial; // Reassign material
+			GetComponent<PhotonView>().RPC("ResetMaterial", PhotonTargets.All, null);
 			break;
 		case TurnEffectType.COMPONENTEFFECT: // Need complex detaching actions
 			effect.ExtraDetachActions();
@@ -557,6 +560,30 @@ public class Player : MonoBehaviour {
 		}
 		effectPanelScript.RemoveTurnEffect(effect);
 		turnEffects.Remove(effect);
+	}
+
+	/**
+	 * RPC call for resetting player material
+	 */
+	[PunRPC]
+	public void ResetMaterial() {
+		PlayerObject.GetComponentInChildren<Renderer>().material = Resources.Load<Material>(playerMaterialPath);
+	}
+
+	/**
+	 * RPC call for changing material
+	 * 
+	 * Arguments
+	 * - string materialPath - The path to the material
+	 */
+	[PunRPC]
+	public void SetNewMaterial(string materialPath) {
+		Material newMaterial = Resources.Load<Material>(materialPath); // The material
+
+		if (newMaterial == null)
+			return;
+
+		PlayerObject.GetComponentInChildren<Renderer>().material = newMaterial;
 	}
 
 	/**
@@ -618,8 +645,13 @@ public class Player : MonoBehaviour {
 				break;
 			case TurnEffectType.MATERIALEFFECT:
 				// Only replace material if not already set
-				if (!PlayerObject.GetComponentInChildren<Renderer>().material.Equals(effect.GetMaterial()))
-					PlayerObject.GetComponentInChildren<Renderer>().material = effect.GetMaterial();
+				if (!PlayerObject.GetComponentInChildren<Renderer>().material.Equals(effect.GetMaterial())) {
+					GetComponent<PhotonView>().RPC("SetNewMaterial", PhotonTargets.All, 
+							new object[] {
+								effect.GetMaterialPath()
+							}
+					);
+				}
 				break;// Change material
 			case TurnEffectType.COMPONENTEFFECT: // Component effect. Handled by component
 				break;
@@ -959,11 +991,11 @@ public class Player : MonoBehaviour {
 		if (playerClass.GetPrimaryAbility() == null) 
 			return; // No ability
 
-		if (playerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
+		if (playerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien. Need to handle human ability
 			alienClass = (AlienClass)playerClass;
 			alienClass.GetHumanClass().GetPrimaryAbility().ReduceNumberOfTurns();
-		} else // Human
-			playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
+		}
+		playerClass.GetPrimaryAbility().ReduceNumberOfTurns();
 	}
 
 	/**

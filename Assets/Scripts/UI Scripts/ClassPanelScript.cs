@@ -44,7 +44,7 @@ public class ClassPanelScript : MonoBehaviour {
 		if (ownerClass.GetPrimaryAbility() == null) 
 			PrimaryAbilityText.text = "No name";
 		else { // Set button text and abilities
-			if (ownerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien
+			if (ownerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien. Need to account for alien ui
 				alienClass = (AlienClass)ownerClass;
 				setClassTitleForAlien(alienClass);
 				AlienPrimaryAbilityButton.SetActive(true);
@@ -53,11 +53,11 @@ public class ClassPanelScript : MonoBehaviour {
 
 				alienClass.GetHumanClass().GetPrimaryAbility().SetClassPanel(ClassPanel);
 				alienClass.GetHumanClass().GetPrimaryAbility().ExtraInitializing();
-			} else { // Ordinary human class
+			} else // Ordinary human class. Just set the appropriate text
 				PrimaryAbilityText.text = ownerClass.GetPrimaryAbility().GetAbilityName();
-				ownerClass.GetPrimaryAbility().SetClassPanel(ClassPanel);
-				ownerClass.GetPrimaryAbility().ExtraInitializing();
-			}
+
+			ownerClass.GetPrimaryAbility().SetClassPanel(ClassPanel);
+			ownerClass.GetPrimaryAbility().ExtraInitializing();
 		}
 		CurrentPlayer = Player.MyPlayer; // Current player variable for engineer class
 		/* Set portrait */
@@ -177,6 +177,7 @@ public class ClassPanelScript : MonoBehaviour {
 		if (!alienClass.GetPrimaryAbility().AbilityIsActive()) { // We are turning into an alien
 			alienAbility.Activate();
 			AlienPrimaryAbilityText.text = "Human Mode";
+			AlienPrimaryAbilityButton.GetComponent<Button>().interactable = false;
 		} else { // We are turning back into human
 			alienAbility.Deactivate();
 			AlienPrimaryAbilityText.text = alienAbility.GetAbilityName();

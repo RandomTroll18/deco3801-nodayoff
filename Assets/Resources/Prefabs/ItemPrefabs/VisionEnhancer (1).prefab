@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: Vision Enhancer
-  Image: {fileID: 21300000, guid: 447528bc0ce6a954eb5a1e2d2d88b6ed, type: 3}
+  Image: {fileID: 21300000, guid: 42e17bedd3834f340a7ddd5dbf9dfe22, type: 3}
   SoundEfx: []
   Amount: 1
 --- !u!114 &11484760
@@ -150,7 +150,12 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Image
+      value: 
+      objectReference: {fileID: 21300000, guid: 42e17bedd3834f340a7ddd5dbf9dfe22,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164434}
