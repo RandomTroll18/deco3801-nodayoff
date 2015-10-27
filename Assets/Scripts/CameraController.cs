@@ -98,9 +98,13 @@ public class CameraController : MonoBehaviour {
 		Rect recleft = new Rect(0, 0, GUISize, Screen.height);
 		Rect recright = new Rect(Screen.width - GUISize, 0, GUISize, Screen.height);
 
+		if (locked)
+			Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
+
 		/* Camera controlling input */
 		if (!locked) {
 			if (Input.GetKey("space")) {
+				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				ResetCamera();
 			}
 
@@ -163,6 +167,7 @@ public class CameraController : MonoBehaviour {
 			                       Time.deltaTime * rotation * RotationSpeed);
 
 			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
+				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = (transform.position - Target.position);
 				direction.y = 0;
 				direction.Normalize();
@@ -173,6 +178,7 @@ public class CameraController : MonoBehaviour {
 			}
 			
 			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) {
+				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = -(transform.position - Target.position);
 				direction.y = 0;
 				direction.Normalize();
@@ -183,6 +189,7 @@ public class CameraController : MonoBehaviour {
 			}
 			
 			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) {
+				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = (transform.position - Target.position);
 				float z = direction.z;
 				direction.z = direction.x;
@@ -197,6 +204,7 @@ public class CameraController : MonoBehaviour {
 			}
 			
 			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) {
+				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = (transform.position - Target.position);
 				float z = direction.z;
 				direction.z = direction.x;

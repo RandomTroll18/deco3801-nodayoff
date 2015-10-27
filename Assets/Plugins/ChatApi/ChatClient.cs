@@ -270,7 +270,7 @@ namespace ExitGames.Client.Photon.Chat
         /// <returns>False if the client is not yet ready to send messages.</returns>
         public bool PublishMessage(string channelName, object message)
         {
-            if (!this.CanChat)
+          if (!this.CanChat)
             {
                 this.listener.DebugReturn(DebugLevel.ERROR, "PublishMessage called while not connected to front end server.");
                 return false;
