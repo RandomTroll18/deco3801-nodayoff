@@ -16,6 +16,7 @@ public abstract class Ability {
 	protected bool IsActive = false; // Record if this ability is active
 	protected RangeType AbilityRangeType; // The range type of this ability
 	protected ActivationType AbilityActivationType; // The activation type of this ability
+	protected AbilityEnum AbilityIdentifier; // The enum representing what this ability is
 
 	/**
 	 * Set the Spawn AP Counter and text for a spawned object
@@ -67,6 +68,16 @@ public abstract class Ability {
 	 */
 	public bool AbilityIsActive() {
 		return IsActive;
+	}
+
+	/**
+	 * Get the ability identifier
+	 * 
+	 * Returns
+	 * - The ability identifier
+	 */
+	public AbilityEnum GetAbilityId() {
+		return AbilityIdentifier;
 	}
 
 	/**

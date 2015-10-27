@@ -210,16 +210,16 @@ public class ClassPanelScript : MonoBehaviour {
 		if (primaryAbility == null) return; // No abilities
 		else if (!primaryAbility.AbilityIsActive()) { 
 			// Only activate if ability hasn't been activated before
-			switch (primaryAbility.GetAbilityName()) { // Handle different kinds of abilities
-			case "Block-Buster": 
+			switch (primaryAbility.GetAbilityId()) { // Handle different kinds of abilities
+			case AbilityEnum.ENGABI:  // Engineer
 				activationTileController.GeneratorInterface(playerScript, primaryAbility);
 				break;
-			case "Stimulus Debris":
+			case AbilityEnum.MARABI: // Marine
 				primaryAbility.Activate();
 				PrimaryAbilityButton.GetComponent<Button>().interactable = false;
 				PrimaryAbilityText.text = "Currently Active";
 				break;
-			case "Big Brother": // Technician/Marine Primary Ability
+			case AbilityEnum.TECHABI: // Technician
 				primaryAbility.Activate();
 				if (primaryAbility.AbilityIsActive())
 					PrimaryAbilityText.text = "Exit Camera";
@@ -230,17 +230,17 @@ public class ClassPanelScript : MonoBehaviour {
 				break;
 			}
 		} else if (primaryAbility.AbilityIsActive()){ // Ability is active. Need to decide what ability this is
-			switch (primaryAbility.GetAbilityName()) {
-			case "Block-Buster": // Toggle players
+			switch (primaryAbility.GetAbilityId()) {
+			case AbilityEnum.ENGABI: // Toggle players
 				handleEngineerPrimaryAbility(player);
 				return;
-			case "Big Brother": // Toggle Hack Mode
+			case AbilityEnum.TECHABI: // Toggle Hack Mode
 				primaryAbility.Deactivate();
 				if (!primaryAbility.AbilityIsActive())
 					PrimaryAbilityText.text = "Big Brother";
 				return;
-			case "Stimulus Debris": goto default; // Ability is already activated
-			case "Traps": goto default; // out of scout traps
+			case AbilityEnum.MARABI: goto default; // Ability is already activated
+			case AbilityEnum.SCOABI: goto default; // out of scout traps
 			default: return; // Unknown action
 			}
 		}

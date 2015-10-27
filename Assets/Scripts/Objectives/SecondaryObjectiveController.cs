@@ -81,15 +81,22 @@ public class SecondaryObjectiveController : MonoBehaviour {
 
 		PopulatePanels();
 
+		Debug.LogWarning("Page: " + page);
+		Debug.Log("Number of pages in total: " + (Mathf.Ceil(objectives.Count / 2.0f) - 1));
+
 		if (page > START_PAGE) {
 			prevButton.enabled = true;
+			Debug.LogWarning("Enabling prev button");
 		} else {
 			prevButton.enabled = false;
+			Debug.LogWarning("Disabling prev button");
 		}
-		if (Mathf.Ceil(objectives.Count / 2.0f) - 1 == page) {
+		if (Mathf.Ceil(objectives.Count / 2.0f) - 1 >= page) {
 			nextButton.enabled = false;
+			Debug.LogWarning("Disabling next button");
 		} else {
 			nextButton.enabled = true;
+			Debug.LogWarning("Enabling next button");
 		}
 	}
 

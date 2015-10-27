@@ -6,6 +6,21 @@ using System.Collections;
  */
 
 /*
+ * Enum for abilities
+ * 
+ * ENGABI - Engineer ability
+ * TECHABI - Technician ability
+ * MARABI - Marine ability
+ * SCOABI - Scout Ability
+ */
+public enum AbilityEnum {
+	ENGABI,
+	TECHABI,
+	MARABI,
+	SCOABI
+}
+
+/*
  * Enum for stats
  * AP - Action Points
  * VISION - Range of Sight

@@ -580,11 +580,30 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
+	 * Set all the renderers in the list to the given material
+	 * 
+	 * Arguments
+	 * - Material materialToSet - The material to set
+	 * - List<Renderer> renderers - The renderers
+	 */
+	void setRenderersToMaterial(Material materialToSet, List<Renderer> renderers) {
+		foreach (Renderer singleRenderer in renderers)
+			singleRenderer.material = materialToSet;
+	}
+
+	/**
 	 * RPC call for resetting player material
 	 */
 	[PunRPC]
 	public void ResetMaterial() {
-		PlayerObject.GetComponentInChildren<Renderer>().material = Resources.Load<Material>(playerMaterialPath);
+		List<Renderer> renderers = new List<Renderer>(); // New list of renderers
+
+		renderers.AddRange(gameObject.GetComponents<Renderer>());
+		renderers.AddRange(gameObject.GetComponentsInChildren<Renderer>());
+
+		Debug.LogWarning("Renderer size: " + renderers.Count);
+
+		setRenderersToMaterial(Resources.Load<Material>(playerMaterialPath), renderers);
 	}
 
 	/**
@@ -596,11 +615,17 @@ public class Player : MonoBehaviour {
 	[PunRPC]
 	public void SetNewMaterial(string materialPath) {
 		Material newMaterial = Resources.Load<Material>(materialPath); // The material
+		List<Renderer> renderers = new List<Renderer>(); // New list of renderers
 
 		if (newMaterial == null)
 			return;
 
-		PlayerObject.GetComponentInChildren<Renderer>().material = newMaterial;
+		renderers.AddRange(gameObject.GetComponents<Renderer>());
+		renderers.AddRange(gameObject.GetComponentsInChildren<Renderer>());
+
+		Debug.LogWarning("Renderer size: " + renderers.Count);
+
+		setRenderersToMaterial(newMaterial, renderers);
 	}
 
 	/**

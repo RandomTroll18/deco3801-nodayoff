@@ -310,6 +310,8 @@ public class GameManager : Photon.PunBehaviour {
 
 		// Initialize player stats - AP and apply player effects
 		try { 
+			if (Player.MyPlayer == null)
+				Debug.LogWarning("Player is null");
 			Player p = Player.MyPlayer.GetComponent<Player>();
 			p.InitializeStats();
 			p.ApplyTurnEffects();
