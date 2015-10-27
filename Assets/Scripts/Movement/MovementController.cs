@@ -135,6 +135,10 @@ public class MovementController : MonoBehaviour {
 	}
 
 	void Update() {
+		if (moving == Moving.YES)
+			GetComponentInChildren<Animator>().SetBool("moving", true);
+		else
+			GetComponentInChildren<Animator>().SetBool("moving", false);
 		/* 
 		 * Note that right now this is shifting the transform but we could do it the physics way I 
 		 * just find the transform way easier.
@@ -201,8 +205,11 @@ public class MovementController : MonoBehaviour {
 		}
 
 		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
-			if (playerScript.GetStatValue(Stat.AP) < 0f || playerScript.GetStatValue(Stat.AP) > 0f)
+			if (playerScript.GetStatValue(Stat.AP) < 0f || playerScript.GetStatValue(Stat.AP) > 0f) {
+//				GetComponentInChildren<Animator>().SetBool("moving", true);
+				Debug.Log("true");
 				moving = Moving.YES;
+			}
 			return;
 		}
 
