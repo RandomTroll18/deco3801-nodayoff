@@ -147,8 +147,10 @@ public class MovementController : MonoBehaviour {
 		animators.AddRange(GetComponentsInChildren<Animator>());
 
 		if (animators.Count > 0) {
-			foreach (Animator animator in animators) 
+			foreach (Animator animator in animators) {
+				animator.StopPlayback();
 				animator.SetBool("moving", enableFlag);
+			}
 		}
 	}
 
