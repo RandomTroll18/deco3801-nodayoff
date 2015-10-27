@@ -6,7 +6,7 @@ public class ScoutPrimaryAbility : Ability {
 
 	string trapPrefab; // Prefab for a trap
 	int trapCount; // The number of traps that can be made
-	const int MAX_TRAPS = 3;
+	const int MAX_TRAPS = 10;
 
 	/**
 	 * Constructor
