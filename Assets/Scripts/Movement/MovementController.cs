@@ -55,7 +55,7 @@ public class MovementController : MonoBehaviour {
 	/* The path of tiles the player is moving with */
 	LinkedList<Tile> path;
 	/* The list of objects used to visualise the movement path */
-	LinkedList<Object> visualPath = new LinkedList<Object>();
+	LinkedList<GameObject> visualPath = new LinkedList<GameObject>();
 	/* Tile player has selected for movement */
 	Tile clickedTile;
 	CameraController camController;
@@ -164,6 +164,12 @@ public class MovementController : MonoBehaviour {
 			} else {
 				/* Moves the player */
 				float step = Speed * Time.deltaTime;
+
+				Vector3 targetPostition = new Vector3( visualPath.Last.Value.transform.position.x, 
+				                                      this.transform.position.y, 
+				                                      visualPath.Last.Value.transform.position.z ) ;
+				gameObject.transform.LookAt(targetPostition);
+
 				gameObject.transform.position = Vector3.MoveTowards(
 					gameObject.transform.position, 
 					Tile.TileMiddle(path.First.Value), 
@@ -223,9 +229,9 @@ public class MovementController : MonoBehaviour {
 		
 		while (dest != null && dest.Parent != null) {
 			if (dest.Depth > playerScript.GetStatValue(Stat.AP)) {
-				visualPath.AddLast(SpawnPathTile(dest, InvalidPathMarker));
+				visualPath.AddLast(SpawnPathTile(dest, InvalidPathMarker) as GameObject);
 			} else {
-				visualPath.AddLast(SpawnPathTile(dest, ValidPathMarker));
+				visualPath.AddLast(SpawnPathTile(dest, ValidPathMarker) as GameObject);
 			}
 			dest = dest.Parent;
 		}
@@ -257,7 +263,7 @@ public class MovementController : MonoBehaviour {
 		Vector3 tilePos = Tile.TileMiddle(pos);
 		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
-		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot));
+		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot) as GameObject);
 
 		ShowAPCost(pos);
 	}

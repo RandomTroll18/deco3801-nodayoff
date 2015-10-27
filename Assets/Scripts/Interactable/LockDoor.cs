@@ -35,16 +35,18 @@ public class LockDoor : InteractiveObject {
 	}
 	
 	public void InteractablSync() {
-		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All);
 	}
 	
 	[PunRPC]
 	void Sync() {
 		IsInactivated = true;
+		if (gameObject.GetComponent<DoorLight>() != null)
+			transform.GetChild(8).GetComponent<Light>().color = Color.red;
+		else
+			PhotonNetwork.Destroy(GetComponent<PhotonView>());
 		MController.RemoveInteractable(this.GetTile());
 
-//		transform.GetChild(8).GetComponent<Light>().color = Color.red;
-		Destroy(gameObject);
 	}
 	
 }
