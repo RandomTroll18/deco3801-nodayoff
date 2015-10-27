@@ -7,7 +7,6 @@ public class AlienPrimaryAbility : Ability {
 
 	Player owner; // The owner of this ability
 	Effect changeModel; // The Change model effect for this alien
-	Effect changeColour; // The material effect for this alien
 	Effect addAP; // The status effect for the alien - giving bonus AP
 	List<Effect> secondaryEffectRewards; // Effects that were awarded for completing secondary objectives
 	int initialNumberOfTurns; // The initial number of turns
@@ -28,10 +27,6 @@ public class AlienPrimaryAbility : Ability {
 		AbilityActivationType = ActivationType.SUPPORTIVE;
 
 		owner = player;
-
-		// Create turn effects
-		changeColour = new MaterialTurnEffect("AbilityMaterials/Alien/AlienModeMaterial", 
-				"Alien Mode: Turn Into An Alien", "Icons/Effects/alienmodepurple", -1, false);
 
 		/*
 		 * For the model, need to do many things, such as getting the game object of 
@@ -96,7 +91,6 @@ public class AlienPrimaryAbility : Ability {
 		addAP = new StatusTurnEffect(Stat.AP, extraAP, 0, "Alien: Increase AP", "Icons/Effects/bonusAPALIENpurple", 
 				-1, true);
 		addAP.TurnModificationDelegates = new Effect.TurnModifications(NewAPForEffect);
-		owner.AttachTurnEffect(changeColour);
 		owner.AttachTurnEffect(changeModel);
 		owner.AttachTurnEffect(addAP);
 		foreach (Effect bonus in secondaryEffectRewards)
@@ -111,7 +105,6 @@ public class AlienPrimaryAbility : Ability {
 	public override void Deactivate()
 	{
 		base.Deactivate();
-		owner.DetachTurnEffect(changeColour);
 		owner.DetachTurnEffect(changeModel);
 		owner.DetachTurnEffect(addAP);
 			foreach (Effect bonus in secondaryEffectRewards)
