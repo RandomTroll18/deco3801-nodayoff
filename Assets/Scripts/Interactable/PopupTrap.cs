@@ -17,9 +17,8 @@ public class PopupTrap : Trap {
 		// TODO: call card
 		if (PopupScript != null) {
 			PopupScript.Create();
-		} else {
-			if (DestroyTrap) TrapSync();
-		}
+		} 
+		if (DestroyTrap) TrapSync();
 
 	}
 

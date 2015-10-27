@@ -6,7 +6,7 @@ public class TutorialFinalObjective : PrimaryObjective {
 	void Start() {
 		Title = "Final Objective";
 		Description = 
-			"Find the others";
+			"Get into the elevator, try find the others";
 
 		foreach (GameObject objective in GameObject.FindGameObjectsWithTag("Trap")) {
 			if (objective.name == "Finish Trap") {
