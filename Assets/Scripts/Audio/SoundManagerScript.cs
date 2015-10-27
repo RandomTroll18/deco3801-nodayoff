@@ -49,6 +49,8 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - int end - End index
 	 */
 	public void PlayBGMusic(int start, int end) {
+		if (start > end || end >= BGMusicList.Count || start < 0)
+			return;
 		PlayBGMusic(BGMusicList[Random.Range(start, end + 1)]);
 	}
 
@@ -59,6 +61,8 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - List<AudioClip> bgList - List of bg music to play
 	 */
 	public void PlayBGMusic(List<AudioClip> bgList) {
+		if (bgList == null || bgList.Count <= 0)
+			return;
 		PlayBGMusic(bgList[Random.Range(0, bgList.Count)]);
 	}
 
@@ -72,7 +76,8 @@ public class SoundManagerScript : MonoBehaviour {
 		if (isBGMusicPlaying(bg)) { // Required bg is already being played
 			Debug.Log("BG given is already playing");
 			return;
-		}
+		} else if (bg == null)
+			return;
 		Debug.Log("It's not playing");
 		BGMusicSource.Stop();
 		BGMusicSource.clip = bg;
@@ -106,6 +111,9 @@ public class SoundManagerScript : MonoBehaviour {
 	public void PlaySingle(AudioClip clip) {
 		AudioSource toPlay = determineAvailableEfxSource(); // The effect source to play
 
+		if (clip == null)
+			return;
+
 		toPlay.clip = clip;
 		toPlay.spatialBlend = 0.0f; // Full spatial blend
 		toPlay.Play();
@@ -118,6 +126,9 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - List<AudioClip> efx - List of sound effects
 	 */
 	public void PlaySingle(List<AudioClip> efx) {
+		if (efx == null || efx.Count <= 0)
+			return;
+
 		PlaySingle(efx[Random.Range(0, efx.Count)]);
 	}
 
@@ -129,6 +140,9 @@ public class SoundManagerScript : MonoBehaviour {
 	 */
 	public void PlaySingle3D(AudioClip clip) {
 		AudioSource toPlay = determineAvailableEfxSource(); // The effect source to play
+
+		if (clip == null)
+			return;
 
 		toPlay.clip = clip;
 		toPlay.spatialBlend = 1.0f; // Full spatial blend
@@ -142,6 +156,9 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - List<AudioClip> efx - List of sound effects
 	 */
 	public void PlaySingle3D(List<AudioClip> efx) {
+		if (efx == null || efx.Count <= 0)
+			return;
+
 		PlaySingle3D(efx[Random.Range(0, efx.Count)]);
 	}
 
