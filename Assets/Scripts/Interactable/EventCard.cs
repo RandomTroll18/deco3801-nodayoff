@@ -72,10 +72,16 @@ public class EventCard : MonoBehaviour
 			target.onClick.AddListener(function);
 		}
 	} */
-	
+
+	public void ChangeTitle(string input)
+	{
+		GameObject Label = GameObject.FindGameObjectWithTag("ECTitle").gameObject;
+		Label.GetComponentInChildren<Text>().text = input;
+	}
+
 	public void ChangeText(string input)
 	{
-		GameObject Label = card.transform.GetChild(5).gameObject;
+		GameObject Label = GameObject.FindGameObjectWithTag("ECDesc").gameObject;
 		Label.GetComponentInChildren<Text>().text = input;
 	}
 

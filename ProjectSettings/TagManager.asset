@@ -42,6 +42,8 @@ TagManager:
   - Eng Secondary
   - Marine Secondary
   - Tech Secondary
+  - ECTitle
+  - ECDesc
   layers:
   - Default
   - TransparentFX

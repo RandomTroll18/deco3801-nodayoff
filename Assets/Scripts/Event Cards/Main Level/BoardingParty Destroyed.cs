@@ -8,7 +8,8 @@ public class BoardingPartyDestroyed : EventCard {
 		ListNumber = 1;
 		
 		this.ChangeButton (1, "OK");
-		this.ChangeImage("chopper");
+		this.ChangeImage("ui/events/alienboard");
+		this.ChangeTitle("Boarding Party");
 		this.ChangeText ("Boarding party destroyed.");
 		
 		SetCap();
