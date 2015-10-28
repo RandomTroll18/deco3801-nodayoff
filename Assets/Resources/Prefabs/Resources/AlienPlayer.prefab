@@ -44004,7 +44004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e994ec8778d309c49a842c6fe290fdf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 100
+  Speed: 10
   InvalidPathMarker: {fileID: 166940, guid: 6ff7ee860d077df4a8e0b8fbda8df941, type: 2}
   ValidPathMarker: {fileID: 117908, guid: eaf72b7f40c37734d9ee4a39bd21578a, type: 2}
   HighlightedTile: {fileID: 155234, guid: d12909909bee2ca4ea5338642e05a209, type: 2}
@@ -44871,6 +44871,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Speed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
