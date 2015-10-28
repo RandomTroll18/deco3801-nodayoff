@@ -619,13 +619,18 @@ public class Player : MonoBehaviour {
 	[PunRPC]
 	public void ResetMaterial() {
 		List<Renderer> renderers = new List<Renderer>(); // New list of renderers
+		Material defaultMaterial = Resources.Load<Material>(playerMaterialPath); // The default material
 
 		renderers.AddRange(gameObject.GetComponents<Renderer>());
 		renderers.AddRange(gameObject.GetComponentsInChildren<Renderer>());
 
 		Debug.LogWarning("Renderer size: " + renderers.Count);
 
-		setRenderersToMaterial(Resources.Load<Material>(playerMaterialPath), renderers);
+		if (defaultMaterial == null)
+			Debug.LogError("No default material");
+		else 
+			Debug.LogWarning("Default Material: " + defaultMaterial);
+		setRenderersToMaterial(defaultMaterial, renderers);
 	}
 
 	/**
