@@ -190,7 +190,32 @@ public class MovementController : MonoBehaviour {
 			} else {
 				/* Moves the player */
 				float step = Speed * Time.deltaTime;
-
+				if (visualPath == null) {
+					Debug.Log("Visual path is null");
+					ClearPath();
+					StopMoving();
+					return;
+				} else if (this.transform == null) {
+					Debug.Log("Transform is null, strangely");
+					ClearPath();
+					StopMoving();
+					return;
+				} else if (visualPath.Last == null) {
+					Debug.Log("Visual path last is null");
+					ClearPath();
+					StopMoving();
+					return;
+				} else if (visualPath.Last.Value == null) {
+					Debug.Log("Visual Path Last Value is null");
+					ClearPath();
+					StopMoving();
+					return;
+				} else if (visualPath.Last.Value.transform == null) {
+					Debug.Log("Visual Path Last Value transform is null");
+					ClearPath();
+					StopMoving();
+					return;
+				}
 				Vector3 targetPostition = new Vector3( visualPath.Last.Value.transform.position.x, 
 				                                      this.transform.position.y, 
 				                                      visualPath.Last.Value.transform.position.z ) ;
