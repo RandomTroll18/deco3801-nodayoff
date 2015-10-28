@@ -149,8 +149,9 @@ public class MovementController : MonoBehaviour {
 
 		if (animators.Count > 0) {
 			foreach (Animator animator in animators) {
-				animator.StopPlayback();
+				animator.enabled = false;
 				animator.SetBool("moving", enableFlag);
+				animator.enabled = true;
 			}
 		}
 	}

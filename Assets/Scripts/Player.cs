@@ -462,6 +462,7 @@ public class Player : MonoBehaviour {
 	 * Function handling collision with a trigger item
 	 */
 	void OnTriggerEnter(Collider other) {
+		Debug.Log("Colliding with something");
 		/*
 		 * Map things
 		 */
@@ -496,6 +497,7 @@ public class Player : MonoBehaviour {
 		InventoryUISlotScript uiSlotScript; // The ui slot script
 		Item item; // The item attached to a game object
 		if (other.gameObject.CompareTag("Item")) {
+			Debug.Log("Collided with item");
 			if (availableSpot == 8) 
 				return; // No more room
 			if (droppedItems.Contains(other.gameObject)) 
@@ -504,7 +506,7 @@ public class Player : MonoBehaviour {
 				return; // Don't do anything
 			// Get the ui slot script
 			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
-
+			Debug.Log("Attempting to pick up");
 			/* We collided with an item. Pick it up */
 			physicalItems[availableSpot] = other.gameObject;
 			item = other.GetComponent<Item>();
