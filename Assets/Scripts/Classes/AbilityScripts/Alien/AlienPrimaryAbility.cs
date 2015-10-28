@@ -87,10 +87,8 @@ public class AlienPrimaryAbility : Ability {
 		double extraAP; // The amount of AP to give to the alien
 
 		base.Activate();
-		extraAP = Effect.CalculateAP();
-		addAP = new StatusTurnEffect(Stat.AP, extraAP, 0, "Alien: Increase AP", "Icons/Effects/bonusAPALIENpurple", 
+		addAP = new StatusTurnEffect(Stat.AP, 10.0, 0, "Alien: Increase AP", "Icons/Effects/bonusAPALIENpurple", 
 				-1, true);
-		addAP.TurnModificationDelegates = new Effect.TurnModifications(NewAPForEffect);
 		owner.AttachTurnEffect(changeModel);
 		owner.AttachTurnEffect(addAP);
 		foreach (Effect bonus in secondaryEffectRewards)

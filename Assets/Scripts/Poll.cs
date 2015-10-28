@@ -77,10 +77,14 @@ public class Poll : MonoBehaviour {
 		GetComponent<PhotonView>().RPC("ClearCountRPC", PhotonTargets.All, number);
 
 	}
+
+	public List<int> GetData(int x) {
+		return BigList[x];
+	} 
 	
 	[PunRPC]
 	void ClearCountRPC(int number) {
-		Debug.Log("Clear count");
+		//Debug.Log("Clear count");
 		BigList[number] = new List<int>();
 	}
 

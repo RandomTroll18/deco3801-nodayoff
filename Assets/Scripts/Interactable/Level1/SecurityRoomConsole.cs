@@ -33,7 +33,6 @@ public class SecurityRoomConsole : InteractiveObject {
 		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>();
 		GameObject SRCGO = SRC.CreateCard();
 		this.CloseEvent();
-		
 	}
 
 	public void DoKill(int toKill) {
@@ -50,19 +49,17 @@ public class SecurityRoomConsole : InteractiveObject {
 			Debug.Log("Player object id: " + player.GetComponent<PhotonView>().ownerId);
 			if (player.GetComponent<PhotonView>().ownerId == toKill) { // Found the player
 				Debug.Log("Found player model");
-				if (Player.MyPlayer != null && !player.GetComponent<Player>().IsPlayerNoLongerActive()
-				    && GameManagerScript.gameObject != null)
-					GameManagerScript.SetInactivePlayer();
 				//PhotonNetwork.Destroy(player);
 				if (Player.MyPlayer.GetComponent<PhotonView>().ownerId == toKill) {
-					if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
+					Object.FindObjectOfType<ConnectionManager>().DisconnectClient();
+					if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() 
+							== Classes.BETRAYER) {
 						Application.LoadLevel("AlienLoseScreen");
 					} else {
 						Application.LoadLevel("GameOver");
 					}
 				}
 				Destroy(player);
-
 			}
 		}
 

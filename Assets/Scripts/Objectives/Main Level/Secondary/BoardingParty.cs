@@ -15,8 +15,7 @@ public class BoardingParty : SecondaryObjective {
 	void Start() {
 		Log();
 		teamObjective = true;
-
-		Object.FindObjectOfType<GameManager>().IncreaseRoundsLost(ROUNDS_LOST);
+		GetComponent<PhotonView>().RPC("IncreaseRoundsLost", PhotonTargets.All, ROUNDS_LOST);
 
 		Vector3 pos = Object.FindObjectOfType<GameManager>().BoardingSpawn;
 

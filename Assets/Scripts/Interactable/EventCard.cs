@@ -14,7 +14,7 @@ public class EventCard : MonoBehaviour
 	protected int VoteCap;
 	protected bool TeamEvent = false;
 	protected int ListNumber;
-
+	Poll Counter;
 	protected bool DebugOption = false;
 
 	// Use this for initialization
@@ -32,10 +32,25 @@ public class EventCard : MonoBehaviour
 
 	public GameObject CreateCard()
 	{
-		card = Instantiate(Resources.Load("EventCard")) as GameObject;
-		GameObject UI = GameObject.Find("Main_Canvas");
-		card.transform.SetParent(UI.transform, false);
-		ChangeCard();
+		Counter = GameObject.FindGameObjectWithTag("GameController").GetComponent<Poll>();
+		Counter.ClearCount(ListNumber);
+		Debug.Log("Clear Count: " + Counter.GetData(ListNumber).ToString());
+		bool placeholder = true;
+		foreach (Transform objectTransform in GameObject.Find("Main_Canvas").transform) {
+			if (objectTransform.name.Equals("EventCard(Clone)")) {
+				Debug.LogWarning("Found event card");
+				placeholder = false;
+				break;
+			}
+		}
+
+		if (placeholder) {
+			card = Instantiate(Resources.Load("EventCard")) as GameObject;
+			GameObject UI = GameObject.Find("Main_Canvas");
+			card.transform.SetParent(UI.transform, false);
+			ChangeCard();
+		}
+
 		return card;
 	}
 
@@ -106,15 +121,14 @@ public class EventCard : MonoBehaviour
 	public void SetCap() {
 
 		if (TeamEvent) {
-			GameManager GameManagerScript = Object.FindObjectOfType<GameManager>();
-			VoteCap = GameManagerScript.GetPlayersLeft();
+			//GameManager GameManagerScript = Object.FindObjectOfType<GameManager>();
+			VoteCap = PhotonNetwork.playerList.Length;
 		} else {
 			VoteCap = 1;
 		}
 	}
 
 	private void Vote(int playerNumber) {
-		Poll Counter = GameObject.FindGameObjectWithTag("GameController").GetComponent<Poll>();
 		Counter.AddToPoll(ListNumber, playerNumber);
 		ResolveCard(Counter, playerNumber);
 		Destroy(card);
@@ -132,6 +146,11 @@ public class EventCard : MonoBehaviour
 
 			if (placeholder != -1) {
 				CardEffect(placeholder);
+				ChatTest.Instance.GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, new object[] 
+				                                                 {"Event Successful"});
+			} else {
+				ChatTest.Instance.GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, new object[] 
+				                                                 {"Event Failed"});
 			}
 			counter.ClearCount(ListNumber);
 		}

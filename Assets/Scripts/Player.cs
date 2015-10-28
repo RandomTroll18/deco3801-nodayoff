@@ -296,6 +296,14 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	[PunRPC]
+	public void SetStealth(bool enableFlag, bool permanentFlag) {
+		if (Player.MyPlayer.GetComponent<Stealth>() != null) {
+			Player.MyPlayer.GetComponent<Stealth>().enabled = enableFlag;
+			Player.MyPlayer.GetComponent<Stealth>().Permanent = permanentFlag;
+		}
+	}
+
 
 	/**
 	 * Stun the player

@@ -82,4 +82,5 @@ MonoBehaviour:
   - ResetMaterial
   - SetNewMaterial
   - SetAttachedObjects
+  - SetStealth
   DisableAutoOpenWizard: 1

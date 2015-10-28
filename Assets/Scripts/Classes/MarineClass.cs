@@ -10,7 +10,7 @@ public class MarineClass : BaseClass {
 	 * - Player player - The calling player
 	 */
 	public MarineClass(Player player) : base(){
-
+		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
 		PrimaryAbility = new MarinePrimaryAbility(player);
 		ClassTypeEnum = Classes.MARINE;
 	}

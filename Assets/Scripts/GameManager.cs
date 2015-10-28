@@ -348,7 +348,7 @@ public class GameManager : Photon.PunBehaviour {
 		} else {
 			// Human
 			if (secondaries.transform.childCount < 3
-			    	&& Random.Range(0, 10) >= 7) {
+			    	&& Random.Range(0, 10) >= 9) {
 				SecondaryObjective.PickNewHumanObjective();
 			}
 		}

@@ -17,11 +17,15 @@ public class SkillSlider : MonoBehaviour {
 
 		GameObject player = Player.MyPlayer;
 		Player playerScript = player.GetComponent<Player>();
-
+		MarineClass a;
 		double multiplier;
 		if (skillCheck.ClassMultiplier != Stat.NOMULTIPLIER) {
+			Debug.Log("Multiplier exists");
 			multiplier = playerScript.GetPlayerClassObject().GetStat(skillCheck.ClassMultiplier);
+			Debug.Log("Multiplier: " + multiplier);
+			Debug.Log("Multiplier Type: " + EnumsToString.ConvertStatEnum(skillCheck.ClassMultiplier));
 		} else {
+			Debug.Log("Multiplier does not exist");
 			multiplier = 1;
 		}
 

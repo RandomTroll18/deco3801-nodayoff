@@ -49,8 +49,8 @@ public class ComponentTurnEffect : Effect {
 		case ComponentEffectType.STEALTH: // Stealth component
 			if (Player.MyPlayer.GetComponent<Stealth>() == null)
 				Player.MyPlayer.AddComponent<Stealth>(); // Add component
-			Player.MyPlayer.GetComponent<Stealth>().Permanent = true; 
-			Player.MyPlayer.GetComponent<Stealth>().enabled = true;
+			Player.MyPlayer.GetComponent<PhotonView>().RPC("SetStealth", PhotonTargets.All, 
+				                                               new object[] {true, true});
 			break;
 		case ComponentEffectType.TRAPDETECTOR: // Trap detector component
 			if (Player.MyPlayer.GetComponent<TrapDetectingComponent>() == null) {
@@ -80,8 +80,8 @@ public class ComponentTurnEffect : Effect {
 		case ComponentEffectType.STEALTH: // Stealth component
 			// Disable stealth
 			if (Player.MyPlayer.GetComponent<Stealth>() != null) {
-				Player.MyPlayer.GetComponent<Stealth>().enabled = false; 
-				Player.MyPlayer.GetComponent<Stealth>().Permanent = false;
+				Player.MyPlayer.GetComponent<PhotonView>().RPC("SetStealth", PhotonTargets.All, 
+						new object[] {false, false});
 			}
 			Player.MyPlayer.GetComponentInChildren<MeshRenderer>().enabled = true;
 			break;
