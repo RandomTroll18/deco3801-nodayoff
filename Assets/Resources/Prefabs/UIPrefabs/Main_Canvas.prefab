@@ -4074,7 +4074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: e931d23d515ca1046b7ffb44659cb0b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e20fb2c6eac1d24dbf77025c21aa676, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4532,18 +4532,19 @@ MonoBehaviour:
     engineer can deploy a robot to scout the map. The Engineer can go into drone mode
     to control their drone. The drone only has limited AP, cannot interact with the
     environment and only lasts a few rounds. The ability itself has a cooldown so
-    it can be reused.\n\r\nThe scout can deploy traps. These traps will be invisible
-    to all players, and whenever someone steps on a trap, they are stunned for several
-    rounds. Interacting with the environment is more expensive for the scout than
-    all other classes, but they have extra base AP.\r\n\r\nAfter the marine has activated
-    their ability, they have extra stun gun charges, resistance to stun guns and no
-    stun gun cooldown for several rounds. The marine can remove debris at a lower
-    costs than all other classes.\r\n\r\nThe alien has an additional ability that
-    allows them to go into alien mode. After activating alien mode, the alien has
-    a different physical appearance and extra status effects. These status effects
-    can be significant. However, alien mode cannot be deactivated until after the
-    next round. While in alien mode, the alien\u2019s appearance is changed and so
-    they should be careful not to be detected by other players."
+    it can be reused. The engineer can open doors faster than anyone else.\n\r\nThe
+    scout can deploy traps. These traps will be invisible to all players, and whenever
+    someone steps on a trap, they are stunned for several rounds. Interacting with
+    the environment is more expensive for the scout than all other classes, but they
+    have extra base AP.\r\n\r\nAfter the marine has activated their ability, they
+    have extra stun gun charges, resistance to stun guns and no stun gun cooldown
+    for several rounds. The marine can remove debris at a lower costs than all other
+    classes.\r\n\r\nThe alien has an additional ability that allows them to go into
+    alien mode. After activating alien mode, the alien has a different physical appearance
+    and extra status effects. These status effects can be significant. However, alien
+    mode cannot be deactivated until after the next round. While in alien mode, the
+    alien\u2019s appearance is changed and so they should be careful not to be detected
+    by other players."
 --- !u!114 &11407470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4653,7 +4654,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22402262}
   m_Direction: 2
   m_Value: 1
-  m_Size: .203017786
+  m_Size: .195217192
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14396,8 +14397,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22404072}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: .796982169}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: .799449682}
+  m_AnchorMax: {x: 1, y: .9909091}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: .5, y: .5}
@@ -14911,7 +14912,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22446846}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: .327503622}
+  m_AnchorMin: {x: 0, y: .341858208}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -16037,7 +16038,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -689.893555}
-  m_SizeDelta: {x: 0, y: 1379.78613}
+  m_SizeDelta: {x: 0, y: 1417.7323}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22442096
 RectTransform:
@@ -16211,8 +16212,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22489792}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: .43368721}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: .435102642}
+  m_AnchorMax: {x: 1, y: .989327371}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: .5, y: .5}
@@ -16354,7 +16355,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -70.9307251}
-  m_SizeDelta: {x: 0, y: 141.861389}
+  m_SizeDelta: {x: 0, y: 152.807373}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22448256
 RectTransform:
@@ -16603,7 +16604,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -137.845551}
-  m_SizeDelta: {x: 0, y: 275.691101}
+  m_SizeDelta: {x: 0, y: 289.55603}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22454658
 RectTransform:
@@ -17517,8 +17518,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22432110}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: .282670438}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: .287309498}
+  m_AnchorMax: {x: 1, y: .989327431}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: .5, y: .5}
@@ -17536,8 +17537,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -706.621826}
-  m_SizeDelta: {x: 0, y: 1413.24365}
+  m_AnchoredPosition: {x: 0, y: -743.053284}
+  m_SizeDelta: {x: 0, y: 1520.2937}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22483322
 RectTransform:
@@ -17810,8 +17811,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22427050}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: .793078005}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: .786822498}
+  m_AnchorMax: {x: 1, y: .989327669}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: .5, y: .5}
@@ -18053,7 +18054,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -104.388153}
-  m_SizeDelta: {x: 0, y: 175.318848}
+  m_SizeDelta: {x: 0, y: 186.994568}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22497184
 RectTransform:
