@@ -46,7 +46,7 @@ public class SecondaryObjective : Objective {
 		/*
 		 * Randomly pick the next secondary for this player
 		 */
-		int nextObjective = Random.Range(0, NUM_ALIEN_OBJECTIVES - 1);
+		int nextObjective = Random.Range(0, NUM_ALIEN_OBJECTIVES + 2);
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 		switch (nextObjective) {
 		case 0:
@@ -62,18 +62,32 @@ public class SecondaryObjective : Objective {
 			secondaries.AddComponent<AlienSecondaryOne>().StartMe();
 			break;
 		case 2:
-			if (AlienSecondarySeven.completed) {
+			if (secondaries.GetComponentInChildren<AlienSecondarySeven>() != null || AlienSecondarySeven.completed) {
 				return;
 			}
 
 			secondaries.AddComponent<AlienSecondarySeven>();
 			break;
 		case 3:
-			if (secondaries.GetComponentInChildren<AlienSecondaryOne>() != null) {
+			if (secondaries.GetComponentInChildren<AlienSecondaryFour>() != null) {
 				return;
 			}
 			
-			secondaries.AddComponent<AlienSecondaryFour>();
+			secondaries.AddComponent<AlienSecondaryFour>().StartMe();
+			break;
+		case 4:
+			if (secondaries.GetComponentInChildren<AlienSecondaryFour>() != null) {
+				return;
+			}
+			
+			secondaries.AddComponent<AlienSecondaryFour>().StartMe();
+			break;
+		case 5:
+			if (secondaries.GetComponentInChildren<AlienSecondaryFour>() != null) {
+				return;
+			}
+			
+			secondaries.AddComponent<AlienSecondaryFour>().StartMe();
 			break;
 		}
 	}

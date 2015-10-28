@@ -341,7 +341,7 @@ public class GameManager : Photon.PunBehaviour {
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
 			// Alien
-			if (secondaries.transform.childCount < 5
+			if (secondaries.transform.childCount < 8
 			    	&& Random.Range(0, 10) >= 7) {
 				SecondaryObjective.PickNewAlienObjective();
 			}
@@ -368,7 +368,7 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	void LoseGame() {
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Aliens win
-			Application.LoadLevel("WinScreen");
+			Application.LoadLevel("AlienWinScreen");
 		else // Humans lose
 			Application.LoadLevel("GameOver");
 	}
