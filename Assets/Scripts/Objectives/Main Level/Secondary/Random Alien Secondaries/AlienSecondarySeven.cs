@@ -55,12 +55,11 @@ public class AlienSecondarySeven : SecondaryObjective {
 		string message = "Alien has obtained an invisibility enhancement from " + 
 			interactable.GetComponent<Location>().ToString() + ". They are now invisible" +
 			" when in alien mode.";
-		string title = "Alien Activity";
+		string messageTitle = "Alien Activity";
 		string image = "ui/events/body";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
-		
-		int num = 0;
+			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, messageTitle, image);
+
 		GameObject pod1;
 		GameObject pod2;
 		// TODO: confirm this works

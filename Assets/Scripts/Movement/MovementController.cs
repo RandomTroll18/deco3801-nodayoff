@@ -61,7 +61,6 @@ public class MovementController : MonoBehaviour {
 	/* Tile player has selected for movement */
 	Tile clickedTile;
 	CameraController camController;
-	GameManager gameManager;
 	Player playerScript;
 	/* Whether debugging output is used */
 	bool debugging;
@@ -73,7 +72,6 @@ public class MovementController : MonoBehaviour {
 		debugging = false;
 		camController = GetComponentInChildren<CameraController>();
 		playerScript = gameObject.GetComponent<Player>();
-		gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 
 		// TODO: WASD well it would have to be directional arrows now
 		// Should behave like a mouse click at a fixed offset

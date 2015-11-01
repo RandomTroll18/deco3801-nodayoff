@@ -17,14 +17,14 @@ public class EngineerPrimaryAbility : Ability {
 	 * - Player newMaster - The player that spawned this robot
 	 */
 	public EngineerPrimaryAbility(Player newMaster) {
-		AbilityName = "Block" + StringMethodsScript.NEWLINE + "Buster";
-		Range = 2.0;
-		AbilityRangeType = RangeType.SQUARERANGE;
-		AbilityActivationType = ActivationType.SUPPORTIVE;
+		AbilityName = "Block" + StringMethodsScript.NEWLINE + "Buster"; // Name
+		Range = 2.0; // Range of 2 squares
+		AbilityRangeType = RangeType.SQUARERANGE; // Square form range
+		AbilityActivationType = ActivationType.SUPPORTIVE; // This is for support
 		robotPrefab = Resources.Load<GameObject>("Prefabs/AbilityPrefabs/Engineer/EngineerRobot");
 		master = newMaster;
 		coolDown = 5; // 5 turn cooldown
-		AbilityIdentifier = AbilityEnum.ENGABI;
+		AbilityIdentifier = AbilityEnum.ENGABI; // This is the engineer's ability
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class EngineerPrimaryAbility : Ability {
 	public override void Activate(Tile targetTile) {
 		base.Activate(targetTile);
 
-		// Set up references to stuff
+		/* Set up references to stuff */
 		robotPrefab.GetComponent<Player>().EffectBoxPanel = master.EffectBoxPanel;
 		robotPrefab.GetComponent<Player>().StunGunPrefab = master.StunGunPrefab;
 		robotPrefab.GetComponent<Player>().ClassToSet = "Engineer Robot";
@@ -66,24 +66,26 @@ public class EngineerPrimaryAbility : Ability {
 		robotPrefab.GetComponent<Player>().GameManagerObject = master.GameManagerObject;
 		robotPrefab.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
 
-		// Instantiate robot at correct position and get its reference
+		/* Instantiate robot at correct position and get its reference */
 		robotReference = PhotonNetwork.Instantiate(
 				"Prefabs/AbilityPrefabs/Engineer/EngineerRobot", 
 				Tile.TileMiddle(targetTile), 
 				Quaternion.identity, 
 				0
 		);
-		robotReference.SetActive(true);
-		robotReference.GetComponent<Transform>().position = Tile.TileMiddle(targetTile);
-		robotReference.GetComponentInChildren<Light>().enabled = true;
-		robotReference.GetComponent<Player>().PlayerObject = robotReference;
-		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight());
+		robotReference.SetActive(true); // Robot must now be visible
+		robotReference.GetComponent<Transform>().position = Tile.TileMiddle(targetTile); // Position robot
+		robotReference.GetComponentInChildren<Light>().enabled = true; // Enable robot's own light
+		robotReference.GetComponent<Player>().PlayerObject = robotReference; // Point to this robot
+		robotReference.GetComponent<Player>().SetPlayerLight(master.GetPlayerLight()); // Copy light values from eng
+
+		/* Start scripts */
 		robotReference.AddComponent<MovementController>().StartMe();
 		robotReference.GetComponentInChildren<CameraController>().StartMe();
 		robotReference.GetComponentInChildren<CameraController>().ResetCamera();
 		robotReference.GetComponent<Player>().StartMe(); // Initialize the player script of the robot
 
-		// Set class panel text to appropriate values
+		/* Set class panel text to appropriate values */
 		ClassPanel.GetComponent<ClassPanelScript>().SetPrimaryAbilityButtonText("Toggle To Robot");
 		ClassPanel.GetComponent<ClassPanelScript>().AttachSpawnedToCounter(robotReference);
 		RemainingTurns = 3; // Reset remaining turns
@@ -97,12 +99,9 @@ public class EngineerPrimaryAbility : Ability {
 	public override void ReduceNumberOfTurns() {
 		ClassPanelScript classPanelScript = ClassPanel.GetComponent<ClassPanelScript>(); // The class panel script
 
-		if (RemainingTurns != 0)
+		if (RemainingTurns != 0) // Only reduce the number of turns if we still have them
 			RemainingTurns--;
-		Debug.Log("Engineer ability remaining turns: " + RemainingTurns);
-		Debug.Log("Engineer ability active?: " + IsActive);
-		// Reset the robot's stats
-		if (robotReference != null) // Robot has been generated
+		if (robotReference != null) // Robot has been generated. Reset stats */
 			robotReference.GetComponent<Player>().InitializeStats();
 		if (RemainingTurns == 0) { 
 			if (IsActive) { // Reset ability to go to cooldown
@@ -110,12 +109,14 @@ public class EngineerPrimaryAbility : Ability {
 					// Reset class panel to refer to the master
 					classPanelScript.ResetToMaster(master.PlayerObject);
 					
-					// Destroy the robot and forget its existence
+					/* Destroy the robot and forget its existence */
 					PhotonNetwork.Destroy(robotReference);
 					Object.Destroy(robotReference);
 					robotReference = null;
 					RemainingTurns = coolDown;
 					IsActive = false;
+
+					/* Set the ability buttons and text*/
 					classPanelScript.PrimaryAbilityButton.GetComponent<Button>().interactable = false;
 					classPanelScript.PrimaryAbilityText.text = "Cooling Down";
 				}

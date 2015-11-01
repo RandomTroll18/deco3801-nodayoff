@@ -5,22 +5,20 @@ using System.Collections;
  * Use this as a generic card that does nothing and only has an OK button/
  */
 public class GenericCard : EventCard {
-	public string message;
-	public string title;
-	public string image;
+	public string Message; // The message on this event card
+	public string Title; // The message's title
+	public string Image; // The image for this event card
 
+	/** 
+	 * Change the current event card
+	 */
 	public override void ChangeCard(){
 
-		this.ChangeButton (1, "OK");
-		this.ChangeImage(image);
-		this.ChangeTitle(title);
-		this.ChangeText(message);
+		ChangeButton(1, "OK");
+		ChangeImage(Image);
+		ChangeTitle(Title);
+		ChangeText(Message);
 		
 		SetCap();
-		return;
-	}
-
-	public override void CardEffect(int highestVote){
-		// nothing
 	}
 }

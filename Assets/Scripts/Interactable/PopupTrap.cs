@@ -22,7 +22,7 @@ public class PopupTrap : Trap {
 
 	}
 
-	public virtual void TrapSync() {
+	public override void TrapSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
 	

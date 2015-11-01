@@ -17,7 +17,6 @@ public class SkillSlider : MonoBehaviour {
 
 		GameObject player = Player.MyPlayer;
 		Player playerScript = player.GetComponent<Player>();
-		MarineClass a;
 		double multiplier;
 		if (skillCheck.ClassMultiplier != Stat.NOMULTIPLIER) {
 			Debug.Log("Multiplier exists");

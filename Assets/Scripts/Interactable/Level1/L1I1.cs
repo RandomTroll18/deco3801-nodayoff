@@ -31,12 +31,12 @@ public class L1I1 : InteractiveObject {
 			IsInactivated = true;
 			PrimaryO.OnComplete();
 			if (DebugOption) Debug.Log("Opened");
-			this.CloseEvent();		
+			CloseEvent();		
 			EC1 Chopper = gameObject.AddComponent<EC1>();
-			GameObject ChopperUI = Chopper.CreateCard ();
+			Chopper.CreateCard ();
 		} else {
 			if (DebugOption) Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 
 		//TODO: Sync others in game... 

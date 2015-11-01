@@ -10,6 +10,8 @@ public class EngineerClass : BaseClass {
 	 * - The player object
 	 */
 	public EngineerClass(Player player) : base() {
+
+		/* The engineer is an expert in mechanical objectives, but average everywhere else */
 		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER] = 2.0;
 		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER] = 1.0;
 		Stats[Stat.SCOUTMULTIPLIER] = DefaultStats[Stat.SCOUTMULTIPLIER] = 1.0;

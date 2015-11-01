@@ -64,7 +64,7 @@ public class AlienPrimaryAbility : Ability {
 
 		if (secondaryEffectRewards.Contains(bonusEffect)) { // Need to handle this
 			switch (bonusEffect.GetTurnEffectType()) {
-			case TurnEffectType.STATEFFECT:
+			case TurnEffectType.STATEFFECT: // We are adding a stat effect bonus. Stacking it
 				existingIndex = secondaryEffectRewards.IndexOf(bonusEffect);
 				if (existingIndex < 0 || existingIndex > (secondaryEffectRewards.Count - 1))
 					throw new System.Exception("Unknown error with alien mode rewards");
@@ -84,16 +84,21 @@ public class AlienPrimaryAbility : Ability {
 	 */
 	public override void Activate()
 	{
-		double extraAP; // The amount of AP to give to the alien
+		base.Activate(); // Set this ability to be active
 
-		base.Activate();
+		/* Need to create a new instance of the added AP status effect */
 		addAP = new StatusTurnEffect(Stat.AP, 10.0, 0, "Alien: Increase AP", "Icons/Effects/bonusAPALIENpurple", 
 				-1, true);
+
+		/* Attach turn effects*/
 		owner.AttachTurnEffect(changeModel);
 		owner.AttachTurnEffect(addAP);
+
+		/* Attach bonus effects */
 		foreach (Effect bonus in secondaryEffectRewards)
 			owner.AttachTurnEffect(bonus);
-		RemainingTurns = 2;
+
+		RemainingTurns = 2; // Need to wait for 2 turns before deactivating alien mode
 
 		SoundManagerScript.Singleton.PlaySingle3D(transformEfx);
 	}
@@ -102,7 +107,9 @@ public class AlienPrimaryAbility : Ability {
 	 */
 	public override void Deactivate()
 	{
-		base.Deactivate();
+		base.Deactivate(); // Set this ability to be inactive
+
+		/* Detaching turn effects */
 		owner.DetachTurnEffect(changeModel);
 		owner.DetachTurnEffect(addAP);
 			foreach (Effect bonus in secondaryEffectRewards)
@@ -115,7 +122,7 @@ public class AlienPrimaryAbility : Ability {
 	public void NewAPForEffect() {
 		double newAP; // The new amount of AP to give to the alien
 
-		newAP = Effect.CalculateAP();
+		newAP = Effect.CalculateAP(); // Need to calculate the new amount of AP to give
 		addAP.SetValue(newAP);
 	}
 
@@ -123,9 +130,8 @@ public class AlienPrimaryAbility : Ability {
 	{
 		ClassPanelScript classPanelScript = ClassPanel.GetComponent<ClassPanelScript>(); // Class panel script
 
-		base.ReduceNumberOfTurns();
-		if (RemainingTurns == 0 && IsActive) { // Allow button to be pressed
+		base.ReduceNumberOfTurns(); // Just reduce number of turns first
+		if (RemainingTurns == 0 && IsActive) // Allow button to be pressed
 			classPanelScript.AlienPrimaryAbilityButton.GetComponent<Button>().interactable = true;
-		}
 	}
 }

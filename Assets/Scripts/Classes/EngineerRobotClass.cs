@@ -7,6 +7,7 @@ public class EngineerRobotClass : BaseClass {
 	 * Constructor
 	 */
 	public EngineerRobotClass() : base() {
+		/* Robot is like the engineer, except it can't do as much */
 		Stats[Stat.AP] = DefaultStats[Stat.AP] = 10.0; // Default AP is 10
 		Stats[Stat.VISION] = DefaultStats[Stat.VISION] = 2.0; // Vision of base class is a range of 2 units
 		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER] = 2.0;

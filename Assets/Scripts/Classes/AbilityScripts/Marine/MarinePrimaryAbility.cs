@@ -21,12 +21,12 @@ public class MarinePrimaryAbility : Ability {
 	public MarinePrimaryAbility(Player player) {
 		AbilityName = "Stimulus" + StringMethodsScript.NEWLINE + "Debris";
 		Range = 0.0; // No range
-		AbilityRangeType = RangeType.GLOBALTARGETRANGE;
-		AbilityActivationType = ActivationType.SUPPORTIVE;
+		AbilityRangeType = RangeType.GLOBALTARGETRANGE; // No range, so just set to global
+		AbilityActivationType = ActivationType.SUPPORTIVE; // Supportive activation
 		RemainingTurns = 3; // Only 3 remaining turns
 		coolDown = 3;
 		master = player;
-		AbilityIdentifier = AbilityEnum.MARABI;
+		AbilityIdentifier = AbilityEnum.MARABI; // This is the marine's ability
 	}
 
 	/**
@@ -35,14 +35,16 @@ public class MarinePrimaryAbility : Ability {
 	public override void Activate()
 	{
 		base.Activate();
-		// Create turn effects
+		/* Create turn effects */
 		materialEffect = new MaterialTurnEffect("AbilityMaterials/Marine/MarinePrimAbilityMaterial", 
 				"Stimulus Debris: Immune To Stun", "Icons/Effects/stunimmunitygreen", 2, false);
 		stunGunEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: Extra Stun Gun Charges", 
 		        "Icons/Effects/extrachargesgreen", 2, ItemTurnEffectType.EXTRAUSE, 3, false);
 		noCoolDownEffect = new ItemTurnEffect(typeof(StunGun), "Stimulus Debris: No Stun Gun Cool Down", 
 		        "Icons/Effects/stuninstantCDgreen", 2, ItemTurnEffectType.COOLDOWN, 1, false);
-		master.SetStunImmunity(true); // Player is now stunned
+		master.SetStunImmunity(true); // Player is now stun immune
+
+		/* Attach appropriate effects */
 		master.AttachTurnEffect(materialEffect);
 		master.AttachTurnEffect(stunGunEffect);
 		master.AttachTurnEffect(noCoolDownEffect);
@@ -56,9 +58,9 @@ public class MarinePrimaryAbility : Ability {
 	{
 		ClassPanelScript classPanelScript = ClassPanel.GetComponent<ClassPanelScript>(); // The class panel script
 
-		if (RemainingTurns != 0)
+		if (RemainingTurns != 0) // Only reduce number of turns if possible
 			RemainingTurns--;
-		Debug.Log("Marine ability remaining turns: " + RemainingTurns);
+
 		if (RemainingTurns == 0) {
 			if (IsActive) { // Reset ability to go to cooldown
 				master.SetStunImmunity(false); // No longer immune

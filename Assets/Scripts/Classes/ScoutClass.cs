@@ -10,6 +10,7 @@ public class ScoutClass : BaseClass {
 	 * - Player player - The player that belongs to this class
 	 */
 	public ScoutClass(Player player) : base() {
+		/* The scout has extra AP, but is not proficient in any area */
 		Stats[Stat.AP] = DefaultStats[Stat.AP] = 35.0; 
 		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER] = 0.5;
 		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER] = 0.5;

@@ -20,15 +20,15 @@ public class APCounterScript : MonoBehaviour {
 	 */
 	void Update() {
 		try {
-		Player playerScript = Owner.GetComponent<Player>();
-		if (playerScript == null) 
-			return; // Not a player
-		if (playerScript.IsSpawned) 
-			APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
-		else 
-			APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
+			Player playerScript = Owner.GetComponent<Player>();
+			if (playerScript == null) 
+				return; // Not a player
+			if (playerScript.IsSpawned) 
+				APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
+			else 
+				APCounterTextObject.text = "" + playerScript.GetStatValue(Stat.AP);
 		} 
-		catch (MissingReferenceException e) { // Handle Security System Kill state
+		catch (MissingReferenceException) { // Handle Security System Kill state
 			Application.LoadLevel("GameOver");
 		}
 	}

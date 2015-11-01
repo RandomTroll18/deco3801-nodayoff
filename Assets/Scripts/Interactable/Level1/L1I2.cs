@@ -46,7 +46,7 @@ public class L1I2 : InteractiveObject {
 	void Sync() {
 		IsInactivated = true;
 		ChangeRoundsPerTurn Nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
-		GameObject NastyUI = Nasty.CreateCard ();
+		Nasty.CreateCard();
 	}
 
 }

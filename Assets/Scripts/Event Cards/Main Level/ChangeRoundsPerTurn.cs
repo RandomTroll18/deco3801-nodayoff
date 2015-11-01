@@ -7,26 +7,21 @@ using UnityEngine.Events;
  * Increase the number of rounds lost per turn
  */
 public class ChangeRoundsPerTurn : EventCard {
-	public int roundsLost = 1;
+	public int RoundsLost = 1;
 
 
 	public override void ChangeCard(){
 		
 		ListNumber = 1;
 		
-		this.ChangeButton (1, "OK");
-		this.ChangeImage("UI/Events/alienboard");
-		this.ChangeTitle("Boarding Party");
-		this.ChangeText ("A Versipellis boarding party is destroying our ship from the inside. Stop" +
-			" them from destroying our ship.\n" +
-			"\n" +
+		ChangeButton (1, "OK");
+		ChangeImage("UI/Events/alienboard");
+		ChangeTitle("Boarding Party");
+		ChangeText ("A Versipellis boarding party is destroying our ship from the inside. Stop" +
+			" them from destroying our ship." + StringMethodsScript.NEWLINE + StringMethodsScript.NEWLINE + 
 			"An extra round is lost per turn until the boarding party is removed.");
 		
 		SetCap();
 		return;
 	}
-	
-	public override void CardEffect(int highestVote){
-	}
-	
 }

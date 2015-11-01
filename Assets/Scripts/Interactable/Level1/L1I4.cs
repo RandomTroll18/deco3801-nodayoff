@@ -28,13 +28,12 @@ public class L1I4 : InteractiveObject {
 		}
 
 		if (SpendAP(input, MinCost)) {
-			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
-			PrimaryO.OnComplete ();
+			PrimaryO.OnComplete();
 			Debug.Log ("Opened");
 			this.CloseEvent();
-			EC2 Biceps = gameObject.AddComponent<EC2> ();
-			GameObject BicepsUI = Biceps.CreateCard ();
+			EC2 Biceps = gameObject.AddComponent<EC2>();
+			Biceps.CreateCard();
 		} else {
 			Debug.Log("Failed");
 		}

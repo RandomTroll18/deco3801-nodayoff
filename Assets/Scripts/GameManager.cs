@@ -415,8 +415,8 @@ public class GameManager : Photon.PunBehaviour {
 
 		try {
 			door.GetComponent<Animator>().enabled = true;
-		} catch (MissingComponentException e) {
-
+		} catch (MissingComponentException) {
+			Debug.LogWarning("The door has no animator");
 		}
 		movController.UnblockTile(position);
 
@@ -458,9 +458,9 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	public void EventCardMessage(string message, string title, string image) {
 		GenericCard gc = gameObject.AddComponent<GenericCard>();
-		gc.image = image;
-		gc.title = title;
-		gc.message = message;
+		gc.Image = image;
+		gc.Title = title;
+		gc.Message = message;
 		gc.CreateCard();
 	}
 

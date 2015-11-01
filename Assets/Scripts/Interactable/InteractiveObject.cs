@@ -23,7 +23,6 @@ public class InteractiveObject : MonoBehaviour {
 	Text nameLabel;
 	Slider APSlider;
 	//public int APLimit;
-	Button button;
 	Tile position;
 
 	protected int MinCost;
@@ -52,9 +51,8 @@ public class InteractiveObject : MonoBehaviour {
 		IsInactivated = false;
 		MinCost = Cost;
 		panel = GameObject.FindGameObjectWithTag("SkillPanel");
-		nameLabel = panel.transform.FindChild("SkillCheckText").GetComponent<Text> ();
-		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider> ();
-		button = panel.transform.FindChild("Button").GetComponent<Button> ();
+		nameLabel = panel.transform.FindChild("SkillCheckText").GetComponent<Text>();
+		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider>();
 
 		//MController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
 		MController = g.GetPlayerControllers();

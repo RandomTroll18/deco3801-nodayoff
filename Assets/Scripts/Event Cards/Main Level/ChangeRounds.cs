@@ -8,21 +8,29 @@ public class ChangeRounds : EventCard {
 	/*
 	 * Change this before showing the event card if you want to change the number of rounds lost
 	 */
-	public int roundsLost = 1;
+	public int RoundsLost = 1;
 
+	/** 
+	 * Change the current event card
+	 */
 	public override void ChangeCard(){
 		
 		ListNumber = 1;
 		
-		this.ChangeButton (1, "OK");
-		this.ChangeImage("ui/events/explosion2");
-		this.ChangeTitle("Ship Sabotaged");
-		this.ChangeText ("The ship has been sabotaged. Rounds have been lost.");
+		ChangeButton (1, "OK");
+		ChangeImage("ui/events/explosion2");
+		ChangeTitle("Ship Sabotaged");
+		ChangeText ("The ship has been sabotaged. Rounds have been lost.");
 		
 		SetCap();
-		return;
 	}
-	
+
+	/**
+	 * Apply the effect attached to this card
+	 * 
+	 * Arguments
+	 * - int highestVote - Ignored
+	 */
 	public override void CardEffect(int highestVote){
 		Object.FindObjectOfType<GameManager>().RoundsLeftUntilLose -= 1;
 	}

@@ -18,13 +18,20 @@ public class EnumsToString : MonoBehaviour {
 	 */
 	public static string ConvertStatEnum(Stat enumToConvert) {
 		switch (enumToConvert) {
-		case Stat.AP: return "AP";
-		case Stat.VISION: return "VISION";
-		case Stat.ENGMULTIPLIER: return "ENGINEER MULTIPLIER";
-		case Stat.MARINEMULTIPLIER: return "MARINE MULTIPLIER";
-		case Stat.SCOUTMULTIPLIER: return "SCOUT MULTIPLIER";
-		case Stat.TECHMULTIPLIER: return "TECHNICIAN MULTIPLIER";
-		default: return "Unknown Stat";
+		case Stat.AP: 
+			return "AP";
+		case Stat.VISION: 
+			return "VISION";
+		case Stat.ENGMULTIPLIER: 
+			return "ENGINEER MULTIPLIER";
+		case Stat.MARINEMULTIPLIER: 
+			return "MARINE MULTIPLIER";
+		case Stat.SCOUTMULTIPLIER: 
+			return "SCOUT MULTIPLIER";
+		case Stat.TECHMULTIPLIER: 
+			return "TECHNICIAN MULTIPLIER";
+		default: 
+			return "Unknown Stat";
 		}
 	}
 
@@ -40,9 +47,12 @@ public class EnumsToString : MonoBehaviour {
 	 */
 	public static string ConvertContextEnum(Context enumToConvert) {
 		switch (enumToConvert) {
-		case Context.IDLE: return "IDLE";
-		case Context.INVENTORY: return "INVENTORY";
-		default: return "Unknown Context";
+		case Context.IDLE: 
+			return "IDLE";
+		case Context.INVENTORY: 
+			return "INVENTORY";
+		default: 
+			return "Unknown Context";
 		}
 	}
 
@@ -57,12 +67,18 @@ public class EnumsToString : MonoBehaviour {
 	 */
 	public static string ConvertActionCostEnum(ActionCost enumToConvert) {
 		switch (enumToConvert) {
-		case ActionCost.DOORS: return "DOORCOST";
-		case ActionCost.MOVEMENT: return "MOVEMENTCOST";
-		case ActionCost.REPAIR: return "REPAIRCOST";
-		case ActionCost.STRENGTH: return "STRENGTHCOST";
-		case ActionCost.TECH: return "TECHCOST";
-		default: return "Unknown Action Cost";
+		case ActionCost.DOORS: 
+			return "DOORCOST";
+		case ActionCost.MOVEMENT: 
+			return "MOVEMENTCOST";
+		case ActionCost.REPAIR: 
+			return "REPAIRCOST";
+		case ActionCost.STRENGTH: 
+			return "STRENGTHCOST";
+		case ActionCost.TECH: 
+			return "TECHCOST";
+		default: 
+			return "Unknown Action Cost";
 		}
 	}
 
@@ -77,10 +93,14 @@ public class EnumsToString : MonoBehaviour {
 	 */
 	public static string ConvertActivationTypeEnum(ActivationType enumToConvert) {
 		switch (enumToConvert) {
-		case ActivationType.OFFENSIVE: return "OFFENISVE";
-		case ActivationType.DEFENSIVE: return "DEFENSIVE";
-		case ActivationType.SUPPORTIVE: return "SUPPORTIVE";
-		default: return "Unknown Activation Type";
+		case ActivationType.OFFENSIVE: 
+			return "OFFENISVE";
+		case ActivationType.DEFENSIVE: 
+			return "DEFENSIVE";
+		case ActivationType.SUPPORTIVE: 
+			return "SUPPORTIVE";
+		default: 
+			return "Unknown Activation Type";
 		}
 	}
 
@@ -95,9 +115,12 @@ public class EnumsToString : MonoBehaviour {
 	 */
 	public static string ConvertRangeTypeEnum(RangeType enumToConvert) {
 		switch (enumToConvert) {
-		case RangeType.SQUARERANGE: return "SQUARE RANGE";
-		case RangeType.STRAIGHTLINERANGE: return "STRAIGHT LINE RANGE";
-		default: return "Unknown Range Type";
+		case RangeType.SQUARERANGE: 
+			return "SQUARE RANGE";
+		case RangeType.STRAIGHTLINERANGE: 
+			return "STRAIGHT LINE RANGE";
+		default: 
+			return "Unknown Range Type";
 		}
 	}
 }

@@ -31,7 +31,7 @@ public class SecurityRoomConsole : InteractiveObject {
 	[PunRPC]
 	void Sync(){
 		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>();
-		GameObject SRCGO = SRC.CreateCard();
+		SRC.CreateCard();
 		this.CloseEvent();
 	}
 
@@ -42,8 +42,7 @@ public class SecurityRoomConsole : InteractiveObject {
 	[PunRPC]
 	void Kill(int toKill){
 		Player.MyPlayer.GetComponentInChildren<SecurityRoomObjective>().OnComplete();
-		GameManager GameManagerScript = Object.FindObjectOfType<GameManager>();
-		this.SetInactive();
+		SetInactive();
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
 			Debug.Log("Finding disconnected player model");
 			Debug.Log("Player object id: " + player.GetComponent<PhotonView>().ownerId);
@@ -55,9 +54,8 @@ public class SecurityRoomConsole : InteractiveObject {
 					if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() 
 							== Classes.BETRAYER) {
 						Application.LoadLevel("AlienLoseScreen");
-					} else {
+					} else
 						Application.LoadLevel("GameOver");
-					}
 				}
 				Destroy(player);
 			}
@@ -67,9 +65,8 @@ public class SecurityRoomConsole : InteractiveObject {
 
 		try { 
 			Debug.Log("kill check"); // Not working... Checks are put else where
-			Player p = Player.MyPlayer.GetComponent<Player>();
 		} 
-		catch (MissingReferenceException e) { // Handle Security System Kill state
+		catch (MissingReferenceException) { // Handle Security System Kill state
 			Application.LoadLevel("GameOver");
 		}
 	}

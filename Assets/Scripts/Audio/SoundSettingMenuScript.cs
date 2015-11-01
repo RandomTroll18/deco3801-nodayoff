@@ -13,6 +13,7 @@ public class SoundSettingMenuScript : MonoBehaviour {
 		if (SoundManagerScript.Singleton == null) // Sound manager is null
 			return;
 
+		/* Get current volume and mute setting */
 		BGMuteToggle.isOn = SoundManagerScript.Singleton.BGMute;
 		EfxMuteToggle.isOn = SoundManagerScript.Singleton.EfxMute;
 		BGVolumeAdjuster.value = SoundManagerScript.Singleton.BGVolume;
@@ -23,6 +24,7 @@ public class SoundSettingMenuScript : MonoBehaviour {
 		if (SoundManagerScript.Singleton == null) // Sound manager is null
 			return;
 
+		/* Set current volume and mute setting */
 		SoundManagerScript.Singleton.BGMute = BGMuteToggle.isOn;
 		SoundManagerScript.Singleton.EfxMute = EfxMuteToggle.isOn;
 		SoundManagerScript.Singleton.BGVolume = BGVolumeAdjuster.value;

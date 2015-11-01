@@ -52,10 +52,8 @@ public class Trap : MonoBehaviour {
 	public virtual void Activated(Player p) {
 
 		EventCard test = gameObject.AddComponent<EventCard>();
-		GameObject UI = test.CreateCard();
+		test.CreateCard();
 		if (DebugOption) Debug.Log("Sorry Yugi, but you've triggered my trap card!");
-		//Destroy(this.gameObject);
-
 	}
 
 	public virtual void Activate() {

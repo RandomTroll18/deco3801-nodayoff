@@ -26,11 +26,7 @@ public class SecondObjectiveMain : PrimaryObjective {
 
 			Vector3 spawnPos = Tile.TileMiddle(Tile.TilePosition(spawnPoint.transform.position));
 
-			GameObject key = PhotonNetwork.Instantiate(
-				"Main Level Interactables/Key Card", 
-				spawnPos, 
-				Quaternion.identity, 
-				0);
+			PhotonNetwork.Instantiate("Main Level Interactables/Key Card", spawnPos, Quaternion.identity, 0);
 		}
 
 	}

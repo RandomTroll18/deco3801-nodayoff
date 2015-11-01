@@ -24,7 +24,11 @@ public enum AbilityEnum {
  * Enum for stats
  * AP - Action Points
  * VISION - Range of Sight
- * TECHMULTIPLIER
+ * TECHMULTIPLIER - The Tech interactable ap multiplier
+ * ENGMULTIPLIER - The Engineer interactable ap multiplier
+ * MARINEMULTIPLIER - The Marine interactable ap multiplier
+ * SCOUTMULTIPLIER - The Scout interactable ap multiplier
+ * NOMULTIPLIER - No ap multiplier
  */
 public enum Stat {
 	AP,

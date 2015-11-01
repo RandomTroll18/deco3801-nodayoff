@@ -5,65 +5,54 @@ using UnityEngine.Events;
 
 public class EventCard : MonoBehaviour
 {
+	protected GameObject Card; // The reference to this card
+	protected delegate void Function(int highestVote); // Delegate for effects
+	protected Function Resolve; // The function to be added as a delegate
+	protected int VoteCap; // The maximum amount of votes
+	protected bool TeamEvent = false; // Record if this event should be for the entire team or not
+	protected int ListNumber; // The current location in the poll
+	Poll Counter; // The Vote Counter
+	protected bool DebugOption = false; // Debug Option Mode
 
-	//public GameObject prefab;
 
-	protected GameObject card;
-	protected delegate void Function(int highestVote);
-	protected Function Resolve;
-	protected int VoteCap;
-	protected bool TeamEvent = false;
-	protected int ListNumber;
-	Poll Counter;
-	protected bool DebugOption = false;
-
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-	
-
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-
+	/**
+	 * Create the card
+	 */
 	public GameObject CreateCard()
 	{
 		Counter = GameObject.FindGameObjectWithTag("GameController").GetComponent<Poll>();
 		Counter.ClearCount(ListNumber);
-		Debug.Log("Clear Count: " + Counter.GetData(ListNumber).ToString());
 		bool placeholder = true;
 		foreach (Transform objectTransform in GameObject.Find("Main_Canvas").transform) {
 			if (objectTransform.name.Equals("EventCard(Clone)")) {
-				Debug.LogWarning("Found event card");
 				placeholder = false;
 				break;
 			}
 		}
 
-		if (placeholder) {
-			card = Instantiate(Resources.Load("EventCard")) as GameObject;
+		if (placeholder) { // An event card already exists
+			Card = Instantiate(Resources.Load("EventCard")) as GameObject;
 			GameObject UI = GameObject.Find("Main_Canvas");
-			card.transform.SetParent(UI.transform, false);
+			Card.transform.SetParent(UI.transform, false);
 			ChangeCard();
 		}
 
-		return card;
+		return Card;
 	}
 
+	/**
+	 * Change the card to its default values
+	 */
 	public virtual void ChangeCard()
 	{
-		this.ChangeButton(1, "hw");
-		this.ChangeText("LOREM IPSUM");
+		ChangeButton(1, "hw");
+		ChangeText("LOREM IPSUM");
 		return;
 	}
 
 	public void ChangeButton(int bNum, string input)
 	{
-		GameObject b = card.transform.GetChild(bNum-1).gameObject;
+		GameObject b = Card.transform.GetChild(bNum-1).gameObject;
 		b.SetActive(true);
 		b.GetComponentInChildren<Text>().text = input;
 		Button target = b.GetComponent<Button>();
@@ -110,7 +99,6 @@ public class EventCard : MonoBehaviour
 	void EventCardDestroy(GameObject go)
 	{
 		Destroy(go.transform.parent.gameObject);
-		GameObject Label = card.transform.GetChild(3).gameObject;
 	}
 
 	public void Close()
@@ -131,12 +119,12 @@ public class EventCard : MonoBehaviour
 	private void Vote(int playerNumber) {
 		Counter.AddToPoll(ListNumber, playerNumber);
 		ResolveCard(Counter, playerNumber);
-		Destroy(card);
+		Destroy(Card);
 	}
 
 	void Method(int number){
 		Vote(number);
-		Destroy(card);
+		Destroy(Card);
 	}
 
 	private void ResolveCard(Poll counter, int playerNumber) {
@@ -159,14 +147,4 @@ public class EventCard : MonoBehaviour
 	public virtual void CardEffect(int highestVote){
 		if (DebugOption) Debug.Log("Effect not set");
 	}
-	
-	/*
-	private void CheckKill(Poll counter, int player){
-		Debug.Log("Count now " + counter.CheckCount(ListNumber, player));
-		if (counter.CheckCount(ListNumber, player) == 2) {
-			Debug.Log("Kill player " + player);
-		}
-	}
-	*/
-
 }

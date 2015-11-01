@@ -8,7 +8,9 @@ public class SoundManagerScript : MonoBehaviour {
 	public AudioSource EfxSource1;
 	public AudioSource EfxSource2;
 	public AudioSource EfxSource3;
+
 	public AudioSource BGMusicSource; // BG Music Source
+
 	public bool BGMute; // Record if we need to mute bg music
 	public bool EfxMute; // Record if we need to mute efx
 	public float EfxVolume; // Volume for effects
@@ -21,11 +23,11 @@ public class SoundManagerScript : MonoBehaviour {
 	 * Awake function
 	 */
 	void Awake() {
-		if (Singleton == null)
+		if (Singleton == null) // Not instantiated yet
 			Singleton = this;
-		else if (Singleton != this)
+		else if (Singleton != this) // Can only have one
 			Destroy(gameObject);
-		DontDestroyOnLoad(gameObject);
+		DontDestroyOnLoad(gameObject); // Persist this object
 	}
 
 	/**
@@ -49,7 +51,7 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - int end - End index
 	 */
 	public void PlayBGMusic(int start, int end) {
-		if (start > end || end >= BGMusicList.Count || start < 0)
+		if (start > end || end >= BGMusicList.Count || start < 0) // Invalid range
 			return;
 		PlayBGMusic(BGMusicList[Random.Range(start, end + 1)]);
 	}
@@ -61,7 +63,7 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - List<AudioClip> bgList - List of bg music to play
 	 */
 	public void PlayBGMusic(List<AudioClip> bgList) {
-		if (bgList == null || bgList.Count <= 0)
+		if (bgList == null || bgList.Count <= 0) // No bg given
 			return;
 		PlayBGMusic(bgList[Random.Range(0, bgList.Count)]);
 	}
@@ -73,12 +75,10 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - AudioClip bg - The background music to play
 	 */
 	public void PlayBGMusic(AudioClip bg) {
-		if (isBGMusicPlaying(bg)) { // Required bg is already being played
-			Debug.Log("BG given is already playing");
+		if (isBGMusicPlaying(bg)) // Required bg is already being played
 			return;
-		} else if (bg == null)
+		else if (bg == null)
 			return;
-		Debug.Log("It's not playing");
 		BGMusicSource.Stop();
 		BGMusicSource.clip = bg;
 		BGMusicSource.Play();
@@ -98,7 +98,7 @@ public class SoundManagerScript : MonoBehaviour {
 				return EfxSource3;
 			} else // Choose EfxSource 2
 				return EfxSource2;
-		} else
+		} else // Choose EfxSource1
 			return EfxSource1;
 	}
 
@@ -111,11 +111,11 @@ public class SoundManagerScript : MonoBehaviour {
 	public void PlaySingle(AudioClip clip) {
 		AudioSource toPlay = determineAvailableEfxSource(); // The effect source to play
 
-		if (clip == null)
+		if (clip == null) // No audip clip given
 			return;
 
 		toPlay.clip = clip;
-		toPlay.spatialBlend = 0.0f; // Full spatial blend
+		toPlay.spatialBlend = 0.0f; // No spatial blend
 		toPlay.Play();
 	}
 
@@ -126,7 +126,7 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - List<AudioClip> efx - List of sound effects
 	 */
 	public void PlaySingle(List<AudioClip> efx) {
-		if (efx == null || efx.Count <= 0)
+		if (efx == null || efx.Count <= 0) // No sound effect given
 			return;
 
 		PlaySingle(efx[Random.Range(0, efx.Count)]);
@@ -141,7 +141,7 @@ public class SoundManagerScript : MonoBehaviour {
 	public void PlaySingle3D(AudioClip clip) {
 		AudioSource toPlay = determineAvailableEfxSource(); // The effect source to play
 
-		if (clip == null)
+		if (clip == null) // No clip given
 			return;
 
 		toPlay.clip = clip;
@@ -156,7 +156,7 @@ public class SoundManagerScript : MonoBehaviour {
 	 * - List<AudioClip> efx - List of sound effects
 	 */
 	public void PlaySingle3D(List<AudioClip> efx) {
-		if (efx == null || efx.Count <= 0)
+		if (efx == null || efx.Count <= 0) // No sound effects given
 			return;
 
 		PlaySingle3D(efx[Random.Range(0, efx.Count)]);

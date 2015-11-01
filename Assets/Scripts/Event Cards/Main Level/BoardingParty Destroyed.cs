@@ -3,20 +3,18 @@ using System.Collections;
 
 public class BoardingPartyDestroyed : EventCard {
 
+	/**
+	 * Change this card
+	 */
 	public override void ChangeCard(){
 		
 		ListNumber = 1;
 		
-		this.ChangeButton (1, "OK");
-		this.ChangeImage("ui/events/alienboard");
-		this.ChangeTitle("Boarding Party");
-		this.ChangeText ("Boarding party destroyed.");
+		ChangeButton (1, "OK");
+		ChangeImage("ui/events/alienboard");
+		ChangeTitle("Boarding Party");
+		ChangeText ("Boarding party destroyed.");
 		
 		SetCap();
-		return;
-	}
-	
-	public override void CardEffect(int highestVote){
-		// nothing
 	}
 }

@@ -14,6 +14,11 @@ public class AlienClass : BaseClass {
 	 * - Classes humanClassTypeToSet - The human class to set
 	 */
 	public AlienClass(Player player, Classes humanClassTypeToSet) : base() {
+
+		/*
+		 * The alien needs to be proficient in every area, but not as proficient 
+		 * as the human classes in their areas
+		 */
 		Stats[Stat.ENGMULTIPLIER] = DefaultStats[Stat.ENGMULTIPLIER] = 1.5;
 		Stats[Stat.MARINEMULTIPLIER] = DefaultStats[Stat.MARINEMULTIPLIER] = 1.5;
 		Stats[Stat.SCOUTMULTIPLIER] = DefaultStats[Stat.SCOUTMULTIPLIER] = 1.5;

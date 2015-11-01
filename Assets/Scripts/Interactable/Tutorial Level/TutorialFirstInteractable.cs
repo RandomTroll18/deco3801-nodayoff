@@ -38,8 +38,8 @@ public class TutorialFirstInteractable: InteractiveObject {
 	void Sync() {
 		try {
 			transform.GetChild(8).GetComponent<Light>().color = Color.red;
-		} catch (UnityException e){
-			
+		} catch (UnityException){
+			Debug.LogWarning("Exception caught when setting light");
 		}
 		IsInactivated = true;
 		MController.RemoveInteractable(this.GetTile());

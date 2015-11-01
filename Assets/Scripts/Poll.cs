@@ -42,11 +42,9 @@ public class Poll : MonoBehaviour {
 	public int ReturnHighestCount(int number, int cap){
 		List<int> a = BigList[number];
 		int tempCount = 0;
-		int temp = 0;
 
 		for (int x = 1; x < 5; x++)
 		{
-			temp = x;
 			tempCount = 0;
 			for (int i = 0; i < (a.Count - 1); i++)
 			{
