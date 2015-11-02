@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /**
  * Consumable for deployable surveillance cameras

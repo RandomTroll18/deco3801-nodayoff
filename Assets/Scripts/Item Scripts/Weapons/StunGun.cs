@@ -6,7 +6,7 @@ using System.Collections.Generic;
  * Class for a Stun Gun - Short Range Weapon
  */
 public class StunGun : ShortRangeWeapon {
-	const int STUN_DURATION = 2;
+	const int STUN_DURATION = 2; // The duration for stunning someone
 
 	/**
 	 * Stun Gun is simply a weapon that inflicts stun on the target.
@@ -56,6 +56,7 @@ public class StunGun : ShortRangeWeapon {
 	 */
 	public override void Activate(Tile targetTile) {
 		PhotonPlayer targetNetworkPlayer; // The targetted network player
+		Player target; // The target
 
 		if (CurrentNumberOfUses == 0) {
 			Debug.Log("Stun Gun has no more uses");
@@ -65,7 +66,8 @@ public class StunGun : ShortRangeWeapon {
 			return; // Still cooling down
 		}
 
-		Player target = Player.PlayerAtTile(targetTile);
+		target = Player.PlayerAtTile(targetTile);
+
 		if (target == null || target == Player.MyPlayer.GetComponent<Player>()) { // No target
 			Debug.Log("StunGun: No Target Found");
 			return;
@@ -74,68 +76,11 @@ public class StunGun : ShortRangeWeapon {
 		targetNetworkPlayer = target.GetComponent<PhotonView>().owner;
 		target.GetComponent<PhotonView>().RPC("Stun", targetNetworkPlayer, STUN_DURATION); // Found a valid target
 		target.GetComponent<PhotonView>().RPC("DisplayStunAnim", PhotonTargets.All, null);
-
 		CurrentNumberOfUses--;
 		if (CurrentNumberOfUses == 0) 
 			CoolDown = CoolDownSetting; // Set Cool Down
 	}
 
-	/**
-	 * Static function for showing the stun gun animation
-	 * 
-	 * Arguments
-	 * - float x - x coordinate
-	 * - float y - y coordinate
-	 * - float z - z coordinate
-	 */
-	public static void StaticShowEffect(float x, float y, float z) {
-		GameObject effectAnimation; // MVP purposes
-		
-		// Show where Stun Gun was activated - MVP purposes
-		Vector3 pos = new Vector3(x, y, z);
-		effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
-		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
-	}
-
-	/**
-	 * Static function for showing the stun gun animation
-	 * 
-	 * Arguments
-	 * - Vector3 animPos - The animation position
-	 */
-	public static void StaticShowEffect(Vector3 animPos) {
-		/* The animation */
-		GameObject effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", animPos, Quaternion.identity, 0);
-
-		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
-	}
-
-
-	/**
-	 * Show the stun gun animation
-	 * 
-	 * Arguments
-	 * - float x - x coordinate
-	 * - float y - y coordinate
-	 * - float z - z coordinate
-	 */
-	[PunRPC]
-	void ShowEffect(float x, float y, float z) {
-		GameObject effectAnimation; // MVP purposes
-
-		// Show where Stun Gun was activated - MVP purposes
-		Vector3 pos = new Vector3(x, y, z);
-		effectAnimation = PhotonNetwork.Instantiate("StunGunAnim", pos, Quaternion.identity, 0);
-		if (ActivateEfx.Count > 0 && SoundManagerScript.Singleton != null) { // Play sound effects
-			SoundManagerScript.Singleton.gameObject.transform.position = effectAnimation.transform.position;
-			SoundManagerScript.Singleton.PlaySingle3D(ActivateEfx);
-		}
-		effectAnimation.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-		Destroy(effectAnimation, 3f); // TODO: fix so the anim is destroyed for all clients
-	}
-	
 	/**
 	 * Override toString function
 	 * 

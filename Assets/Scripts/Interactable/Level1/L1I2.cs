@@ -3,49 +3,41 @@ using System.Collections;
 
 public class L1I2 : InteractiveObject {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	public override void TakeAction(int input){
 		
-		if (IsInactivated) {
-			Debug.Log ("Inactive");
+		if (IsInactivated) { // Not active. Don't activated
+			Debug.Log("Inactive");
 			return;
 		}
 		
-		if (!PrimaryO.GetObjective().Title.Equals(new SecondObjective().Title)) {
+		if (!PrimaryO.GetObjective().Title.Equals(new SecondObjective().Title)) { // Wrong objective
 			Debug.Log("Wrong part of the story");
 			return;
 		}
 
-		if (SpendAP(input, MinCost)) {
+		if (SpendAP(input, MinCost)) { // AP roll successful
 			InteractablSync();
-			PrimaryO.OnComplete ();
-			Debug.Log ("Opened");
-			this.CloseEvent();
-		} else {
+			PrimaryO.OnComplete();
+			Debug.Log("Opened");
+			CloseEvent();
+		} else // AP roll failed
 			Debug.Log("Failed");
-		}
-
-		//TODO: Class interaction
-
 	}
 
+	/**
+	 * Sync interactable with other players
+	 */
 	public void InteractablSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
-	
+
+	/**
+	 * RPC call for syncing with other players
+	 */
 	[PunRPC]
 	void Sync() {
+		ChangeRoundsPerTurn Nasty = gameObject.AddComponent<ChangeRoundsPerTurn>(); // Bad event
 		IsInactivated = true;
-		ChangeRoundsPerTurn Nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
 		Nasty.CreateCard();
 	}
 

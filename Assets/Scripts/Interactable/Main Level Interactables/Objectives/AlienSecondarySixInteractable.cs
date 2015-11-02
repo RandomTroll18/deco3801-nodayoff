@@ -5,7 +5,7 @@ public class AlienSecondarySixInteractable : InteractiveObject {
 
 	public override void StartMe() {
 		base.StartMe(Object.FindObjectOfType<GameManager>());
-		this.InstantInteract = true;
+		InstantInteract = true;
 	}
 	
 	public override void TakeAction(int input){
@@ -20,19 +20,14 @@ public class AlienSecondarySixInteractable : InteractiveObject {
 			IsInactivated = true;
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// The alien's secondary
 		AlienSecondarySix tmp = Player.MyPlayer.GetComponentInChildren<AlienSecondarySix>();
 		if (tmp != null)
 			tmp.OnComplete();

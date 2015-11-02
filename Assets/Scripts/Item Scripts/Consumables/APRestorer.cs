@@ -55,6 +55,33 @@ public class APRestorer : RecoveryConsumables {
 		}
 	}
 
+	/**
+	 * Overwrite toString function
+	 * 
+	 * Returns
+	 * - A string providing info on this item
+	 */
+	public override string ToString() {
+		string valueEffectString = "Value increase: "; // The values to affect stat by
+		string statString = "Stats affected: "; // The stats affected
+		
+		// The string to return. Start with the name
+		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
+		
+		// Next, add item description
+		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
+		
+		// Next, add the amount of this item
+		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
+		
+		valueEffectString += StringMethodsScript.NEWLINE + InstantEffects[Stat.AP][0] + ".";
+		statString += StringMethodsScript.NEWLINE + EnumsToString.ConvertStatEnum(Stat.AP) + ".";
+		
+		// Concatenate strings together and return the final string
+		toReturn += statString + StringMethodsScript.NEWLINE + valueEffectString + StringMethodsScript.NEWLINE;
+		return toReturn;
+	}
+
 	/* Override abstract functions so that compiler doesn't whine */
 	public override void Activate()
 	{
@@ -66,31 +93,5 @@ public class APRestorer : RecoveryConsumables {
 	{
 		throw new System.NotImplementedException();
 	}
-
-	/**
-	 * Overwrite toString function
-	 * 
-	 * Returns
-	 * - A string providing info on this item
-	 */
-	public override string ToString() {
-		string valueEffectString = "Value increase: "; // The values to affect stat by
-		string statString = "Stats affected: "; // The stats affected
-
-		// The string to return. Start with the name
-		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
-
-		// Next, add item description
-		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
-
-		// Next, add the amount of this item
-		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
-
-		valueEffectString += StringMethodsScript.NEWLINE + InstantEffects[Stat.AP][0] + ".";
-		statString += StringMethodsScript.NEWLINE + EnumsToString.ConvertStatEnum(Stat.AP) + ".";
-
-		// Concatenate strings together and return the final string
-		toReturn += statString + StringMethodsScript.NEWLINE + valueEffectString + StringMethodsScript.NEWLINE;
-		return toReturn;
-	}
+	
 }

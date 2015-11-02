@@ -13,8 +13,7 @@ public class ClassSelectPanelScript : MonoBehaviour, IPointerEnterHandler, IPoin
 	/* Images for effects */
 	Sprite nonGlow; 
 	Sprite glow;
-
-	// Use this for initialization
+	
 	void Start () {
 		switch (SpecifiedClass) {
 		case "Engineer":

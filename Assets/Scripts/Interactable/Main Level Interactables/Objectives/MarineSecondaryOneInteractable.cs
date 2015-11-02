@@ -27,7 +27,7 @@ public class MarineSecondaryOneInteractable : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// Marine secondary objective
 		MarineSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<MarineSecondaryOne>();
 		if (tmp != null)
 			tmp.OnComplete();

@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /**
  * Consumable for deployable stun turrets
  */
 public class DeployableStunTurret : SupportConsumables {
-
-	// Use this for initialization
+	
 	void Start () {
 		ItemDescription = "Deployable Stun Turrets For Your Automatic Stunning Needs";
 		InstantEffects = null;
@@ -23,7 +21,7 @@ public class DeployableStunTurret : SupportConsumables {
 	
 	public override void Activate(Tile targetTile)
 	{
-		GameObject instantiatedStunTurret;
+		GameObject instantiatedStunTurret; // The object instantiated
 		Vector3 instantiatePosition; // Where to instantiate
 		if (Amount == 0) // Out of turrets
 			return;

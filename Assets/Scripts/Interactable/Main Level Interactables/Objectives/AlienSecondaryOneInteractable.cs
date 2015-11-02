@@ -17,17 +17,17 @@ public class AlienSecondaryOneInteractable : InteractiveObject {
 		if (SpendAP(input, MinCost)) {
 			Sync();
 			IsInactivated = true;
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// Alien's secondary
 		AlienSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<AlienSecondaryOne>();
 		if (tmp != null)
 			tmp.OnComplete();

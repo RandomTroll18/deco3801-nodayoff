@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-/* Known bugs:
+/* 
+ * Known bugs:
  * The visual path is not reset when the end turn button is pressed.
  */ 
 
 /**
  * Controls the player's movement within the game.
  */
-using UnityEngine.UI;
-
-
 public class MovementController : MonoBehaviour {
 	enum Moving {
 		NO,			/* Player has not clicked a tile to move to */
@@ -68,44 +66,46 @@ public class MovementController : MonoBehaviour {
 	int cost;
 	
 	public void StartMe() {
+		BlockedTiles bt; // Blocked tiles
+		GameObject[] blockers; // Tile blockers
+		GameObject[] doors; // List of doors
+		List<GameObject> allBlockedTiles; // List of all blocked tiles
+		Tile t; // Generated tile
+		GameObject o; // Test for checking blocked tiles
+		Vector3 v ; // The position of the tile
+
 		SetPublicVariables();
 		debugging = false;
 		camController = GetComponentInChildren<CameraController>();
 		playerScript = gameObject.GetComponent<Player>();
-
-		// TODO: WASD well it would have to be directional arrows now
-		// Should behave like a mouse click at a fixed offset
-
 
 		// Initalises set of all blocked tiles
 		/*
 		 * IMPORTANT: if you make a tag type that you want to add to blockedTiles, use AddRange()
 		 * like I have here.
 		 */ 
-		GameObject[] blockers = GameObject.FindGameObjectsWithTag("Blocker");
-		GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
-		List<GameObject> allBlockedTiles = new List<GameObject>();
+		blockers = GameObject.FindGameObjectsWithTag("Blocker");
+		doors = GameObject.FindGameObjectsWithTag("Door");
+		allBlockedTiles = new List<GameObject>();
 		allBlockedTiles.AddRange(blockers);
 		allBlockedTiles.AddRange(doors);
 
 		allBlockedTiles.ForEach(delegate(GameObject blocker) {
-			BlockedTiles bt = blocker.GetComponent<BlockedTiles>();
+			bt = blocker.GetComponent<BlockedTiles>();
 
 			/* Not all blockers will have a BlockedTiles script (e.g. doors) */
-			if (bt == null) {
+			if (bt == null)
 				bt = new BlockedTiles();
-			} 
 
-			/* I like duplicate code :} */
 			for (int i = -bt.Down; i <= bt.Up; i++) {
-				Tile t = new Tile(
+				t = new Tile(
 					Tile.TilePosition(blocker.transform.position.x), 
 					Tile.TilePosition(blocker.transform.position.z) + i
 				);
 				blockedTiles.Add(t);
 			}
 			for (int i = -bt.Left; i <= bt.Right; i++) {
-				Tile t = new Tile(
+				t = new Tile(
 					Tile.TilePosition(blocker.transform.position.x) + i, 
 					Tile.TilePosition(blocker.transform.position.z)
 				);
@@ -117,14 +117,17 @@ public class MovementController : MonoBehaviour {
 		if (debugging) {
 			foreach (Tile tile in blockedTiles) {
 				Debug.Log(tile.X + " " + tile.Z);
-				GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				Vector3 v = Tile.TileMiddle(tile);
+				o = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				v = Tile.TileMiddle(tile);
 				o.transform.position = v;
 			}
 		}
 	
 	}
 
+	/**
+	 * Setting public variables in this script
+	 */
 	void SetPublicVariables() {
 		Speed = 10f;
 		InvalidPathMarker = Resources.Load("Invalid Path Marker") as GameObject;
@@ -154,7 +157,36 @@ public class MovementController : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Check for nulls when doing movement routine
+	 * 
+	 * Returns
+	 * - true if a null is detected. False otherwise
+	 */
+	bool checkForNulls() {
+		if (visualPath == null) {
+			Debug.Log("Visual path is null");
+			return true;
+		} else if (transform == null) {
+			Debug.Log("Transform is null, strangely");
+			return true;
+		} else if (visualPath.Last == null) {
+			Debug.Log("Visual path last is null");
+			return true;
+		} else if (visualPath.Last.Value == null) {
+			Debug.Log("Visual Path Last Value is null");
+			return true;
+		} else if (visualPath.Last.Value.transform == null) {
+			Debug.Log("Visual Path Last Value transform is null");
+			return true;
+		}
+		return false;
+	}
+
 	void Update() {
+		float step; // A step for moving the player
+		Vector3 targetPostition; // The position to move to
+
 		if (moving == Moving.YES)
 			setMovingAnimation(true);
 		else
@@ -170,7 +202,6 @@ public class MovementController : MonoBehaviour {
 			}
 
 			camController.LockCamera();
-			// TODO: let the player cancel their move
 			if (path.Count == 0) {
 				StopMoving();
 			} else if (gameObject.transform.position == Tile.TileMiddle(path.First.Value)) {
@@ -185,38 +216,16 @@ public class MovementController : MonoBehaviour {
 					ClearPath();
 					StopMoving();
 				}
-			} else {
-				/* Moves the player */
-				float step = Speed * Time.deltaTime;
-				if (visualPath == null) {
-					Debug.Log("Visual path is null");
-					ClearPath();
-					StopMoving();
-					return;
-				} else if (this.transform == null) {
-					Debug.Log("Transform is null, strangely");
-					ClearPath();
-					StopMoving();
-					return;
-				} else if (visualPath.Last == null) {
-					Debug.Log("Visual path last is null");
-					ClearPath();
-					StopMoving();
-					return;
-				} else if (visualPath.Last.Value == null) {
-					Debug.Log("Visual Path Last Value is null");
-					ClearPath();
-					StopMoving();
-					return;
-				} else if (visualPath.Last.Value.transform == null) {
-					Debug.Log("Visual Path Last Value transform is null");
+			} else { /* Moves the player */
+				step = Speed * Time.deltaTime;
+				if (checkForNulls()) { // Nulls detected in movement routine. Stop
 					ClearPath();
 					StopMoving();
 					return;
 				}
-				Vector3 targetPostition = new Vector3( visualPath.Last.Value.transform.position.x, 
-				                                      this.transform.position.y, 
-				                                      visualPath.Last.Value.transform.position.z ) ;
+
+				targetPostition = new Vector3(visualPath.Last.Value.transform.position.x, transform.position.y, 
+				                              visualPath.Last.Value.transform.position.z );
 				gameObject.transform.LookAt(targetPostition);
 
 				gameObject.transform.position = Vector3.MoveTowards(
@@ -229,6 +238,9 @@ public class MovementController : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Stop this player from moving
+	 */
 	void StopMoving() {
 		moving = Moving.NO;
 		camController.UnlockCamera();
@@ -251,6 +263,8 @@ public class MovementController : MonoBehaviour {
 	 * first time the player has clicked the goal or the second.
 	 */
 	public void RequestMovement(Tile goal) {
+		PathTile dest; // The destination tile
+
 		if (InteractiveTiles.Count >= 1) {
 			InteractiveTiles[0].CloseEvent();
 		}
@@ -260,25 +274,20 @@ public class MovementController : MonoBehaviour {
 		}
 
 		if (moving == Moving.POSSIBLY && goal.Equals(clickedTile)) {
-			if (playerScript.GetStatValue(Stat.AP) < 0f || playerScript.GetStatValue(Stat.AP) > 0f) {
-//				GetComponentInChildren<Animator>().SetBool("moving", true);
-				Debug.Log("true");
+			if (playerScript.GetStatValue(Stat.AP) < 0f || playerScript.GetStatValue(Stat.AP) > 0f)
 				moving = Moving.YES;
-			}
 			return;
 		}
 
-		if (moving == Moving.POSSIBLY) {
-			/* Clears all visual elements of selected path */
+		if (moving == Moving.POSSIBLY) { /* Clears all visual elements of selected path */
 			Destroy(GameObject.FindGameObjectWithTag("Highlighted Tile"));
 			ClearPath();
 		}
 
-		if (UseInteractable (goal, playerScript)) {
+		if (UseInteractable(goal)) // We interacted with an object
 			return;
-		}
 		
-		PathTile dest = FindPath(goal, false, false);
+		dest = FindPath(goal, false, false);
 
 		if (dest != null) {
 			cost = dest.Depth;
@@ -290,11 +299,10 @@ public class MovementController : MonoBehaviour {
 		}
 		
 		while (dest != null && dest.Parent != null) {
-			if (dest.Depth > playerScript.GetStatValue(Stat.AP)) {
+			if (dest.Depth > playerScript.GetStatValue(Stat.AP)) // Not enough AP to reach tile
 				visualPath.AddLast(SpawnPathTile(dest, InvalidPathMarker) as GameObject);
-			} else {
+			else // Enough AP to reach tile
 				visualPath.AddLast(SpawnPathTile(dest, ValidPathMarker) as GameObject);
-			}
 			dest = dest.Parent;
 		}
 	}
@@ -303,9 +311,8 @@ public class MovementController : MonoBehaviour {
 	 * Clearing the visual path
 	 */
 	public void ClearPath() {
-		foreach (Object obj in visualPath) {
+		foreach (Object obj in visualPath)
 			DestroyObject(obj);
-		}
 		visualPath.Clear();
 		if (Counter != null) {
 			Destroy(Counter);
@@ -313,29 +320,49 @@ public class MovementController : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Spawn a path tile
+	 * 
+	 * Arguments
+	 * - Tile pos - The position to spawn this path tile
+	 * - GameObject pathMarker - The type of tile to instantiate
+	 */
 	Object SpawnPathTile(Tile pos, GameObject pathMarker) {
-		// I could add direction to the spawned path. But maybe another day
-		Vector3 tilePos = Tile.TileMiddle(pos);
+		Vector3 tilePos = Tile.TileMiddle(pos); // The tile position
+		Quaternion tileRot = Quaternion.Euler(90, 0, 0); // The rotation of the tile
+
 		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
-		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		return Instantiate(pathMarker, tilePos, tileRot);
 	}
 
+	/**
+	 * Spawn a highlighted tile
+	 * 
+	 * Arguments
+	 * - Tile pos - The position to spawn this path tile
+	 */
 	void SpawnHighlightedTile(Tile pos) {
-		Vector3 tilePos = Tile.TileMiddle(pos);
+		Vector3 tilePos = Tile.TileMiddle(pos); // The position of the tile
+		Quaternion tileRot = Quaternion.Euler(90, 0, 0); // The rotation of the tile
 		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
-		Quaternion tileRot = Quaternion.Euler(90, 0, 0);
 		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot) as GameObject);
-
 		ShowAPCost(pos);
 	}
 
+	/**
+	 * Display the AP cost
+	 * 
+	 * Arguments
+	 * - Tile pos - The position where we spawned the path tile
+	 */
 	void ShowAPCost(Tile pos) {
-		Vector3 tilePos = Tile.TileMiddle(pos);
+		Vector3 tilePos = Tile.TileMiddle(pos); // The position of the tile
+
 		Counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
 		Counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
 		Counter.GetComponentInChildren<Text>().text = "value goes here";
-		Counter.transform.position = new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, transform.position.z);
+		Counter.transform.position = new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, 
+		                                         transform.position.z);
 		Counter.GetComponentInChildren<Text>().text = cost.ToString();
 	}
 
@@ -343,39 +370,42 @@ public class MovementController : MonoBehaviour {
 	 * Finds the shortest path from the player's position to the goal tile.
 	 * Note that this returns the path as a link list and the front of the list
 	 * is the end of the path.
+	 * 
+	 * Arguments
+	 * - Tile goal - The goal of the path
+	 * - bool allowBlockedGoal - Allow us to keep looking if the goal is blocked
+	 * - bool stealth - Ignore tiles if stealth is active - Ben I don't know about this
 	 */
-	PathTile FindPath(Tile goal, bool AllowBlockedGoal, bool stealth) {
-		HashSet<Tile> explored = new HashSet<Tile>();
-		if (goal != null && (AllowBlockedGoal || !blockedTiles.Contains(goal))) {
-			Queue<PathTile> q = new Queue<PathTile>();
+	PathTile FindPath(Tile goal, bool allowBlockedGoal, bool stealth) {
+		HashSet<Tile> explored = new HashSet<Tile>(); // The explored tiles
+		Tile neighbour; // The neighbour to a currently looked at tile
+		PathTile current; // The currently looked at tile
+		Queue<PathTile> q; // Queue of path tiles
+
+		if (goal != null && (allowBlockedGoal || !blockedTiles.Contains(goal))) {
+			q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
 			while (q.Count != 0) {
-				PathTile current = q.Dequeue();
-				if (current.Equals(goal)) {
+				current = q.Dequeue();
+				if (current.Equals(goal)) // Found the goal
 					return current;
-				}
-				/* I like duplicate code :} */
 				for (int z = 1; z >= -1; z -= 2) {
-					Tile neighbour = new Tile(current.X + 0, current.Z + z);
-					if (neighbour.Equals(goal)) {
+					neighbour = new Tile(current.X + 0, current.Z + z);
+					if (neighbour.Equals(goal)) // Goal is the neighbour
 						return new PathTile(current, neighbour);
-					}
-					if (stealth && new PathTile(current, neighbour).Depth > 10) {
+					if (stealth && new PathTile(current, neighbour).Depth > 10)
 						continue;
-					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
 					}
 				}
 				for (int x = 1; x >= -1; x -= 2) {
-					Tile neighbour = new Tile(current.X + x, current.Z + 0);
-					if (neighbour.Equals(goal)) {
+					neighbour = new Tile(current.X + x, current.Z + 0);
+					if (neighbour.Equals(goal)) // Neighbour is the goal
 						return new PathTile(current, neighbour);
-					}
-					if (stealth && new PathTile(current, neighbour).Depth > 10) {
+					if (stealth && new PathTile(current, neighbour).Depth > 10)
 						continue;
-					}
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
@@ -402,24 +432,28 @@ public class MovementController : MonoBehaviour {
 		Tile startTile = Tile.TilePosition(startPosition); // The starting tile
 		Tile endTile = Tile.TilePosition(endPosition); // The destination
 		HashSet<Tile> explored = new HashSet<Tile>(); // The set of explored tiles
+		Queue<PathTile> q; // Queue of path tiles
+		Tile neighbour; // Neighbouring tile
+		PathTile current; // The currently looked at tile
+
 		if (endTile != null && !blockedTiles.Contains(endTile)) {
-			Queue<PathTile> q = new Queue<PathTile>();
+			q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(startTile));
 			while (q.Count != 0) {
-				PathTile current = q.Dequeue();
+				current = q.Dequeue();
 				if (current.Equals(endTile)) {
 					pathFound = current;
 				}
 				/* I like duplicate code :} */
 				for (int z = 1; z >= -1; z -= 2) {
-					Tile neighbour = new Tile(current.X + 0, current.Z + z);
+					neighbour = new Tile(current.X + 0, current.Z + z);
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
 					}
 				}
 				for (int x = 1; x >= -1; x -= 2) {
-					Tile neighbour = new Tile(current.X + x, current.Z + 0);
+					neighbour = new Tile(current.X + x, current.Z + 0);
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
 						explored.Add(neighbour);
 						q.Enqueue(new PathTile(current, neighbour));
@@ -436,13 +470,13 @@ public class MovementController : MonoBehaviour {
 	 * Returns the distance between this player and another position. -1 if no path found
 	 */
 	public int TileDistance(Vector3 position, bool stealth) {
-		PathTile path = FindPath(Tile.TilePosition(position), true, stealth);
+		PathTile foundPath = FindPath(Tile.TilePosition(position), true, stealth);
 
-		if (path == null) {// No path found. Unknown
+		if (foundPath == null) { // No path found. Unknown
 			return 10000;
 		}
 		else { // Path found
-			return path.Depth;
+			return foundPath.Depth;
 		}
 	}
 
@@ -452,12 +486,16 @@ public class MovementController : MonoBehaviour {
 	
 	/**
 	 * Returns a backwards PathTile path as a LinkedList.
+	 * 
+	 * Arguments
+	 * - PathTile pathToReverse - The path to flip
 	 */
-	LinkedList<Tile> FlipPath(PathTile path) {
-		LinkedList<Tile> res = new LinkedList<Tile>();
-		while (path != null) {
-			res.AddFirst(new Tile(path.X, path.Z));
-			path = path.Parent;
+	LinkedList<Tile> FlipPath(PathTile pathToReverse) {
+		LinkedList<Tile> res = new LinkedList<Tile>(); // New list of tiles
+
+		while (pathToReverse != null) {
+			res.AddFirst(new Tile(pathToReverse.X, pathToReverse.Z));
+			pathToReverse = pathToReverse.Parent;
 		}
 		res.RemoveFirst(); // Don't need the original path position
 		return res;
@@ -469,42 +507,53 @@ public class MovementController : MonoBehaviour {
 	 * the map unless you delete it yourself. 
 	 */
 	public void UnblockTile(Tile tile) {
-		if (!blockedTiles.Contains(tile)) {
-//			Debug.LogWarning("You tried to unblock a tile that wasn't blocked. Did you want to do" +
-//				"this? FROM BEN");
-		} else {
+		GameObject o; // The game object used to test blocked tiles
+		Vector3 v; // The position of the tile we are unblocking
+
+		if (blockedTiles.Contains(tile)) {
 			if (debugging) {
-				GameObject o = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				Vector3 v = Tile.TileMiddle(tile);
+				o = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				v = Tile.TileMiddle(tile);
 				o.transform.position = v;
 			}
 			blockedTiles.Remove(tile);
 		}
 	}
 
+	/**
+	 * Block the given tile
+	 * 
+	 * Arguments
+	 * - Tile tile - The tile to block
+	 */
 	public void BlockTile(Tile tile) {
-		if (blockedTiles.Contains(tile)) {
+		if (blockedTiles.Contains(tile))
 			Debug.LogWarning("You tried to block a tile that was blocked. Did you want to do" +
 				"this? FROM BEN");
-		} else {
+		else
 			blockedTiles.Add(tile);
-		}
 	}
 
 	/*
 	 * Get Index of Interactable on a certain Tile.
+	 * 
+	 * Arguments
+	 * - Tile tile - The tile to find
 	 */
 	public int GetInteractable(Tile tile) {
 		for (int i = 0; i < InteractiveTiles.Count; i++) {
-			if (tile.Equals(InteractiveTiles[i].GetTile())) {
+			if (tile.Equals(InteractiveTiles[i].GetTile())) // We found the tile
 				return i;
-			}
 		}
 		return -1;
 	}
 
 	/*
 	 * Checks if player is Adjacent to tile. 
+	 * 
+	 * Arguments
+	 * - Tile tile - The tile to check for adjacency
+	 * - Player player - The player to check for adjacency
 	 */
 	public bool IsNear(Tile tile, Player player) {
 		if (player.PlayerPosition().Equals(new Tile(tile.X + 1, tile.Z)) || 
@@ -520,31 +569,46 @@ public class MovementController : MonoBehaviour {
 	 * Returns whether the given tile blocks movement.
 	 * 
 	 * These tiles include walls, doors, interactables + whatever else you want.
+	 * 
+	 * Arguments
+	 * - Tile tile - The tile to check
 	 */ 
 	public bool IsTileBlocked(Tile tile) {
 		return blockedTiles.Contains(tile);
 	}
 
+	/**
+	 * Add an interactable to the list of tiles
+	 * 
+	 * Arguments
+	 * - InteractiveObject toAdd - the interactive object to add
+	 */
 	public void AddInteractable(InteractiveObject toAdd) {
-		//c = i.GetComponent<InteractiveObject>();
 		InteractiveTiles.Add(toAdd);
 		blockedTiles.Add(toAdd.GetTile());
-//		Debug.Log("int added: " + ToAdd.GetTile().ToString());
-		// I can't see a reason why you need to call getTile() when this function exists:
-		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
-	
+
+	/**
+	 * Remove this interactable from the list of tiles
+	 * 
+	 * Arguments
+	 * - InteractiveObject toRemove - The interactive object to remove
+	 */
 	public void RemoveInteractable(InteractiveObject toRemove) {
-		//c = i.GetComponent<InteractiveObject>();
 		InteractiveTiles.Remove(toRemove);
 		blockedTiles.Remove(toRemove.GetTile());
 		Debug.Log("int Remove: " + toRemove.GetTile().ToString());
-		// I can't see a reason why you need to call getTile() when this function exists:
-		//blockedTiles.Add(Tile.TilePosition(i.transform.position));
 	}
 
+	/**
+	 * Remove the interactable on the given tile from the list of tiles
+	 * 
+	 * Arguments
+	 * - Tile toRemove - The tile that contains an interactable object
+	 */
 	public void RemoveInteractable(Tile toRemove) {
-		int index = GetInteractable(toRemove);
+		int index = GetInteractable(toRemove); // The index of the interactive object in the list
+
 		if (index == -1) {
 			Debug.Log("Can't find Tile");
 			return;
@@ -555,13 +619,18 @@ public class MovementController : MonoBehaviour {
 		Object.FindObjectOfType<GameManager>().OpenDoor(toRemove);
 	}
 
-	public bool UseInteractable(Tile goal, Player playerSCript) {
-		int index;
-		if (((index = this.GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) {
-			//Debug.Log ("Int clicked. Count of int is " + InteractiveTiles.Count());
+	/**
+	 * Use the interactable
+	 * 
+	 * Arguments
+	 * - Tile goal - The tile that contains the interactable
+	 */
+	public bool UseInteractable(Tile goal) {
+		int index; // The index of this tile in the list of interactable tiles
+
+		if (((index = GetInteractable(goal)) != -1) && IsNear(goal, playerScript)) { // Found the interactive tile
 			Debug.Log(index);
 			InteractiveTiles[index].Interact();
-			//Debug.Log(InteractiveTiles[index]);
 			return true;
 		}
 		return false;

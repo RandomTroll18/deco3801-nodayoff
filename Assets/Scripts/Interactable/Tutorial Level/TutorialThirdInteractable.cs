@@ -20,7 +20,7 @@ public class TutorialThirdInteractable : InteractiveObject {
 			InteractablSync();
 			PrimaryO.OnComplete ();
 			Debug.Log ("Opened");
-			this.CloseEvent();
+			CloseEvent();
 		} else {
 			Debug.Log("Failed");
 		}
@@ -35,7 +35,7 @@ public class TutorialThirdInteractable : InteractiveObject {
 	[PunRPC]
 	void Sync() {
 		IsInactivated = true;
-		MController.RemoveInteractable(this.GetTile());
+		MController.RemoveInteractable(GetTile());
 	}
 	
 }

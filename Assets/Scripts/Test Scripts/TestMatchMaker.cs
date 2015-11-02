@@ -13,15 +13,14 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	int alienIndex; // The index of the alien
 	int readyPlayers; // Number of players who have already picked their class
 	bool selectingClasses; // Selecting classes
-
-	// Use this for initialization
+	
 	void Start() {
 		PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
 				{"waiting", false}
-		});
+		}); // Player is not waiting for other players to pick their class
 		PhotonNetwork.ConnectUsingSettings("matchmaker.v1");
-		RoomNameLabel.text = "Room Name: " + RoomName;
-		PhotonNetwork.playerName = PlayerName;
+		RoomNameLabel.text = "Room Name: " + RoomName; // Display room name
+		PhotonNetwork.playerName = PlayerName; // Set player's name
 		selectingClasses = false;
 		readyPlayers = 0;
 	}
@@ -75,14 +74,10 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		if (!PhotonNetwork.player.isMasterClient || readyPlayers >= PhotonNetwork.playerList.Length)
 			return;
 
-		Debug.LogWarning("Sending a player to class select from match maker");
-
 		/* Send a player in match-maker to the class select screen */
 		while ((bool)PhotonNetwork.otherPlayers[randomIndex].customProperties["waiting"])
 			randomIndex = Random.Range(0, PhotonNetwork.otherPlayers.Length);
 
-		Debug.Log("Sending player at index: " + randomIndex);
-		Debug.Log("Sending player: " + PhotonNetwork.otherPlayers[randomIndex].name);
 		GetComponent<PhotonView>().RPC("LoadClassSelect", PhotonNetwork.otherPlayers[randomIndex], null);
 	}
 
@@ -90,7 +85,6 @@ public class TestMatchMaker : Photon.PunBehaviour {
 	 * Queue for selecting classes
 	 */
 	public void SelectingClassQueueing() {
-		Debug.Log("Selecting class queue");
 		int ready = 0; // Number of players who've picked their classes
 
 		/* Display text indicating how many players have picked their classes */
@@ -101,16 +95,10 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		ClassPickWaitText.GetComponent<Text>().text = 
 			"Waiting To Be Able To Pick Class. " + StringMethodsScript.NEWLINE
 			+ ready + " players have already picked their class";
-		if (!PhotonNetwork.isMasterClient) { // Not master client. Don't do anything
-			Debug.Log("Not master client");
+		if (!PhotonNetwork.isMasterClient) // Not master client. Don't do anything
 			return;
-		}
-		Debug.Log("We are the master client");
-		Debug.Log("Number of ready players: " + readyPlayers);
-		if (readyPlayers >= PhotonNetwork.playerList.Length) { // We're done here
-			Debug.Log("We are done here. Master client. Select your class");
+		if (readyPlayers >= PhotonNetwork.playerList.Length) // We're done here
 			LoadClassSelect();
-		}
 	}
 
 	void Update() {
@@ -119,8 +107,7 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		if (!PhotonNetwork.connectedAndReady) // Don't do anything. Not yet connected
 			return;
 
-		if (selectingClasses) {
-			Debug.Log("Going to selecting class queue");
+		if (selectingClasses) { // We are now selecting classes
 			SelectingClassQueueing();
 			return;
 		}
@@ -128,10 +115,11 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		if (PhotonNetwork.isMasterClient) // Print out alien index if master client
 			Debug.Log("Alien index: " + alienIndex);
 
+		// Update counter
 		PlayerCountLabel.text = "Number of Players: " + PhotonNetwork.playerList.Length.ToString();
 
 		if (PhotonNetwork.playerList.Length == 4 && playersAssigned()) { // Enough players and assigned correctly
-			Debug.Log("We have enough players!");
+			PhotonNetwork.room.open = false; // This room is now closed
 			if (string.IsNullOrEmpty(MainMenuScript.LevelToLoad)) {
 				Debug.Log("There is a level to load");
 				MainMenuScript.LevelToLoad = "Main Level";
@@ -189,6 +177,8 @@ public class TestMatchMaker : Photon.PunBehaviour {
 		}
 	}
 
+	/* Callbacks for Photon Plugin */
+	
 	public override void OnConnectedToPhoton()
 	{
 		Debug.Log("Connected to Photon");
@@ -202,13 +192,10 @@ public class TestMatchMaker : Photon.PunBehaviour {
 
 	public override void OnJoinedRoom()
 	{
-		Debug.Log("Joined room: " + PhotonNetwork.room.name);
 		RoomNameLabel.text = "Room Name: " + PhotonNetwork.room.name;
 		PhotonNetwork.playerName = PlayerName;
-		if (PhotonNetwork.isMasterClient) { // Calculate alien index
+		if (PhotonNetwork.isMasterClient) // Calculate alien index
 			alienIndex = Random.Range(0, 4);
-			Debug.Log("Alien is at index: " + alienIndex);
-		}
 	}
 	
 	public override void OnJoinedLobby()

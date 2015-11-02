@@ -17,17 +17,17 @@ public class ScoutSecondaryOneInteractable : InteractiveObject {
 		if (SpendAP(input, MinCost)) {
 			Sync();
 			IsInactivated = true;
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// Scout's secondary objective
 		ScoutSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<ScoutSecondaryOne>();
 		if (tmp != null)
 			tmp.OnComplete();

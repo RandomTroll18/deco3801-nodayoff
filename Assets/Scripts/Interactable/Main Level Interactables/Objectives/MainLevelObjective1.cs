@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MainLevelObjective1 : InteractiveObject {
-	public GameObject[] DoorsToUnlock;
+	public GameObject[] DoorsToUnlock; // The doors to unlock
 
 	public override void TakeAction(int input){
 		
@@ -21,10 +20,10 @@ public class MainLevelObjective1 : InteractiveObject {
 			IsInactivated = true;
 			PrimaryO.OnComplete();
 			Debug.Log("Opened");
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
@@ -69,7 +68,9 @@ public class MainLevelObjective1 : InteractiveObject {
 		}
 	}
 	
-	
+	/**
+	 * Give each player their secondary objectives
+	 */
 	void GiveSecondaryObjectives() {
 		Player p = Player.MyPlayer.GetComponent<Player>();
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
@@ -103,15 +104,6 @@ public class MainLevelObjective1 : InteractiveObject {
 		default: // Unknown
 			throw new System.NotSupportedException("Unknown secondary class objects");
 		}
-
-		/*
-		 * A nasty event for players to resolve
-		 */
-		secondaries.AddComponent<TeamExtraRounds>();
-//		ChangeRoundsPerTurn nasty = gameObject.AddComponent<ChangeRoundsPerTurn>();
-//		nasty.roundsLost = 1;
-//		GameObject NastyUI = nasty.CreateCard();
-//		Object.FindObjectOfType<GameManager>().BoardingSpawn 
-//			= GameObject.FindGameObjectWithTag("Boarding Party").transform.position;
+		secondaries.AddComponent<TeamExtraRounds>(); // Nasty event for players to resolve
 	}
 }

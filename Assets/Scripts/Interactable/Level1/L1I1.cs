@@ -3,54 +3,52 @@ using System.Collections;
 
 public class L1I1 : InteractiveObject {
 
-	public GameObject Door;
+	public GameObject Door; // The reference to the door object we are attached to
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 	public override void TakeAction(int input){
+		EC1 Chopper; // Random event card for testing purposes
 
-		if (IsInactivated) {
-			if (DebugOption) Debug.Log("Inactive");
+		if (IsInactivated) { // Not active.
+			if (DebugOption) 
+				Debug.Log("Inactive");
 			return;
 		}
 
-		if (!PrimaryO.GetObjective().Title.Equals(new FirstObjective().Title)) {
-			if (DebugOption) Debug.Log("Wrong part of the story");
+		if (!PrimaryO.GetObjective().Title.Equals(new FirstObjective().Title)) { // Wrong objective
+			if (DebugOption) 
+				Debug.Log("Wrong part of the story");
 			return;
 		}
 
-		if (SpendAP(input, MinCost)) {
+		if (SpendAP(input, MinCost)) { // AP roll succeeded
 			InteractablSync();
 			IsInactivated = true;
 			PrimaryO.OnComplete();
-			if (DebugOption) Debug.Log("Opened");
+			if (DebugOption) 
+				Debug.Log("Opened");
 			CloseEvent();		
-			EC1 Chopper = gameObject.AddComponent<EC1>();
-			Chopper.CreateCard ();
-		} else {
-			if (DebugOption) Debug.Log("Failed with " + input);
+			Chopper = gameObject.AddComponent<EC1>();
+			Chopper.CreateCard();
+		} else { // AP roll failed
+			if (DebugOption) 
+				Debug.Log("Failed with " + input);
 			CloseEvent();	
 		}
-
-		//TODO: Sync others in game... 
-		//TODO: Check game state if same??? do we need that?
-
 	}
 
+	/**
+	 * Sync interactable with other players
+	 */
 	public void InteractablSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
-	
+
+	/**
+	 * RPC call for syncing
+	 */
 	[PunRPC]
 	void Sync() {
-		//Destroy(Door);
 		MController.UnblockTile(Tile.TilePosition(Door.transform.position));
 		IsInactivated = true;
 	}

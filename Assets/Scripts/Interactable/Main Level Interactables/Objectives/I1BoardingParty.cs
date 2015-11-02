@@ -18,10 +18,10 @@ public class I1BoardingParty : InteractiveObject {
 			InteractablSync();
 			IsInactivated = true;
 			Debug.Log("Opened");
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
@@ -31,11 +31,12 @@ public class I1BoardingParty : InteractiveObject {
 
 	[PunRPC]
 	void Sync() {
+		BoardingPartyDestroyed notification; // The notification
 		Object.FindObjectOfType<GameManager>().DecreaseRoundsLost(BoardingParty.ROUNDS_LOST);
 		IsInactivated = true;
-		PhotonNetwork.Destroy(GetComponent<PhotonView>());
+		PhotonNetwork.Destroy(GetComponent<PhotonView>()); // Destroy this object's network syncer
 		Player.MyPlayer.GetComponentInChildren<BoardingParty>().OnComplete();
-		BoardingPartyDestroyed notification = gameObject.AddComponent<BoardingPartyDestroyed>();
+		notification = gameObject.AddComponent<BoardingPartyDestroyed>();
 		notification.CreateCard();
 	}
 }

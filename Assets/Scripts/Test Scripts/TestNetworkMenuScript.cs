@@ -17,7 +17,7 @@ public class TestNetworkMenuScript : MonoBehaviour {
 			ErrorMessageLabelField.text = "No name given";
 		else if (RoomInputField.text.Length == 0) 
 			ErrorMessageLabelField.text = "No room given";
-		else {
+		else { // All good. Load level
 			ErrorMessageLabelField.text = "All fields are good";
 			TestMatchMaker.PlayerName = NameInputField.text;
 			TestMatchMaker.RoomName = RoomInputField.text;

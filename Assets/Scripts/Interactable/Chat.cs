@@ -5,7 +5,11 @@ using ExitGames.Client.Photon.Chat;
 using UnityEngine;
 using AuthenticationValues = ExitGames.Client.Photon.Chat.AuthenticationValues;
 
-
+/**
+ * Chat class. Built-in
+ * 
+ * Ken. Give credit to the one who provided this code
+ */
 public class Chat : MonoBehaviour, IChatClientListener
 {
 	public string ChatAppId;                    // set in inspector. Your Chat AppId (don't mix it with Realtime/Turnbased Apps).

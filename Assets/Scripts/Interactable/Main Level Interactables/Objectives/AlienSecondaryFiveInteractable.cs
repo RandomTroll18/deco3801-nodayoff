@@ -5,7 +5,7 @@ public class AlienSecondaryFiveInteractable : InteractiveObject {
 
 	public override void StartMe() {
 		base.StartMe(Object.FindObjectOfType<GameManager>());
-		this.InstantInteract = true;
+		InstantInteract = true;
 	}
 
 	public override void TakeAction(int input){
@@ -20,14 +20,14 @@ public class AlienSecondaryFiveInteractable : InteractiveObject {
 			IsInactivated = true;
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// Alien's secondary
 		AlienSecondaryFive tmp = Player.MyPlayer.GetComponentInChildren<AlienSecondaryFive>();
 		if (tmp != null)
 			tmp.OnComplete();

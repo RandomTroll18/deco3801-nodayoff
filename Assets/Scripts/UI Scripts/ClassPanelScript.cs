@@ -41,7 +41,8 @@ public class ClassPanelScript : MonoBehaviour {
 		playerOwnerScript = Player.MyPlayer.GetComponent<Player>();
 		ownerClass = playerOwnerScript.GetPlayerClassObject();
 		ClassTitle.text = ownerClass.GetPlayerClassType();
-		if (ownerClass.GetPrimaryAbility() == null) 
+
+		if (ownerClass.GetPrimaryAbility() == null)  // No ability
 			PrimaryAbilityText.text = "No name";
 		else { // Set button text and abilities
 			if (ownerClass.GetClassTypeEnum() == Classes.BETRAYER) { // Alien. Need to account for alien ui
@@ -60,7 +61,6 @@ public class ClassPanelScript : MonoBehaviour {
 			ownerClass.GetPrimaryAbility().ExtraInitializing();
 		}
 		CurrentPlayer = Player.MyPlayer; // Current player variable for engineer class
-		/* Set portrait */
 		setPortraits(ownerClass);
 	}
 

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 public class MainCanvasButton : MonoBehaviour {
-	
+
+	/* Game objects for various buttons and texts */
 	public GameObject Text1;
 	public GameObject Text2;
 	public GameObject Text3;
@@ -12,9 +13,6 @@ public class MainCanvasButton : MonoBehaviour {
 	public GameObject TutorialMenu;
 	public GameObject EscMenu;
 	public GameObject SettingMenu;
-	/* public GameObject text7;
-	public GameObject text8;
-	public GameObject testText; */
 
 	/* The states for camera controllers */
 	bool playerCameraControllerState;
@@ -22,15 +20,18 @@ public class MainCanvasButton : MonoBehaviour {
 	bool stateSaved; // Record if state was saved
 
 
-	// Use this for initialization
+	/**
+	 * Initialize this object
+	 */
 	public void StartMe() {
-		//EscMenu.SetActive (false);
 		hideAll();
 		ChangeTab(1);
 	}
 
+	/**
+	 * Hide all game objects
+	 */
 	void hideAll() {
-
 		Text1.SetActive(false);
 		Text2.SetActive(false);
 		Text3.SetActive(false);
@@ -38,18 +39,12 @@ public class MainCanvasButton : MonoBehaviour {
 		Text5.SetActive(false);
 		Text6.SetActive(false);
 		Text7.SetActive(false);
-
-		/*
-		text7.SetActive (false);
-		text8.SetActive (false);
-		*/
 	}
 	
-	// Update is called once per frame
+
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Escape)) {
+		if (Input.GetKeyDown(KeyCode.Escape)) // Escape was pressed. Determine what action to do
 			Back();
-		}
 	}
 
 	/**
@@ -89,22 +84,24 @@ public class MainCanvasButton : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Toggle menus depending on state
+	 */
 	public void Back() {
-		if (EscMenu.activeInHierarchy){
+		if (EscMenu.activeInHierarchy){ // Esc Menu is active. Toggle it
 			Toggle(EscMenu);
 			toggleCameraControllers(true);
-		} else {
+		} else { // It's not active, need to determine what menu it is
 			toggleCameraControllers(false);
-			if (TutorialMenu.activeInHierarchy) {
+			if (TutorialMenu.activeInHierarchy) { // Tutorial menu is currently open
 				Toggle(TutorialMenu);
 				ChangeTab(1);
-				Toggle(EscMenu);  //Re-open Esc
-			} else if(SettingMenu.activeInHierarchy) {
+				Toggle(EscMenu);  // Re-open Esc
+			} else if(SettingMenu.activeInHierarchy) { // Sound settings menu is currently open
 				Toggle(SettingMenu);
-				Toggle(EscMenu); //Re-open Esc
-			} else {
+				Toggle(EscMenu); // Re-open Esc
+			} else // Just re-open esc menu
 				Toggle(EscMenu);
-			}
 		}
 	}
 

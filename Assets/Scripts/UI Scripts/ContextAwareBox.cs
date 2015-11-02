@@ -23,7 +23,7 @@ public class ContextAwareBox : MonoBehaviour {
 	 * - Create onclick listeners for buttons
 	 */
 	public void StartMe() {
-		Player playerScript = Player.MyPlayer.GetComponent<Player>();
+		Player playerScript = Player.MyPlayer.GetComponent<Player>(); // The player's script
 
 		SetContextToIdle();
 		InventoryContextPanel[2].GetComponent<Button>().onClick.AddListener(
@@ -44,12 +44,11 @@ public class ContextAwareBox : MonoBehaviour {
 	public void SetContextToInventory(Item item) {
 		if (currentContext != Context.INVENTORY) 
 			currentContext = Context.INVENTORY;
-		// First, set the inventory context panel to active
-		InventoryContextPanel[0].SetActive(true);
 
+		InventoryContextPanel[0].SetActive(true); // First, set the inventory context panel to active
 		attachedObject = item; // Next attach item
 
-		// Next, set the text
+		/* Next, set the text */
 		if (attachedObject == null) { // No item given
 			InventoryContextPanel[1].GetComponent<Text>().text = "No Item In Slot" + StringMethodsScript.NEWLINE;
 			/* Change text position */

@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class InvisibilityDetectingComponent : MonoBehaviour {
 
 	public int Range; // The range
-	
-	// Update is called once per frame
+
 	void Update () {
 		List<GameObject> gameObjectsFound = new List<GameObject>(); // List of game objects
 		/* Check each player, trap and item */

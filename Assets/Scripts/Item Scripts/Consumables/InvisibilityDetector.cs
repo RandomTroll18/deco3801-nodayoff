@@ -56,6 +56,15 @@ public class InvisibilityDetector : SupportConsumables {
 			}
 		}
 	}
+
+	public override string ToString()
+	{
+		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
+		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
+		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
+		
+		return toReturn;
+	}
 	
 	/* Pacify compiler */
 	public override void Activate(Tile targetTile)
@@ -68,12 +77,5 @@ public class InvisibilityDetector : SupportConsumables {
 		throw new System.NotImplementedException();
 	}
 	
-	public override string ToString()
-	{
-		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
-		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
-		toReturn += "Amount: " + Amount + StringMethodsScript.NEWLINE;
-		
-		return toReturn;
-	}
+
 }

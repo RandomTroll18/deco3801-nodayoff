@@ -22,7 +22,7 @@ public class MainLevelObjective3 : InteractiveObject {
 			Debug.Log("Opened");
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 	}
 	
@@ -32,8 +32,10 @@ public class MainLevelObjective3 : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
+		GameObject secondaries; // The alien's secondaries
 		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
-			GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+			// This is the alien
+			secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 			secondaries.AddComponent<AlienSecondaryFive>().StartMe();
 		}
 		

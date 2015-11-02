@@ -5,7 +5,7 @@ public class TeamRoundsInteractable : InteractiveObject {
 
 	public override void StartMe() {
 		base.StartMe(Object.FindObjectOfType<GameManager>());
-		this.InstantInteract = true;
+		InstantInteract = true;
 	}
 	
 	public override void TakeAction(int input){
@@ -20,7 +20,7 @@ public class TeamRoundsInteractable : InteractiveObject {
 			IsInactivated = true;
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
@@ -31,7 +31,7 @@ public class TeamRoundsInteractable : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// The extra round objective
 		TeamExtraRounds tmp = Player.MyPlayer.GetComponentInChildren<TeamExtraRounds>();
 		if (tmp != null)
 			tmp.Progress();

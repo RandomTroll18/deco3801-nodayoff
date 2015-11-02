@@ -4,18 +4,8 @@ using System.Collections;
 public class TutorialFourthInteractable : InteractiveObject {
 
 	
-	public GameObject Door;
-	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	
+	public GameObject Door; // The door to unlock
+
 	public override void TakeAction(int input){
 		
 		if (IsInactivated) {
@@ -40,10 +30,6 @@ public class TutorialFourthInteractable : InteractiveObject {
 			PlayFailureEfx();
 			Debug.Log("Failed");
 		}
-		
-		//TODO: Class 
-		//TODO: Fix To not destroy door, and fix to destroy Interactable
-		
 	}
 
 	public void InteractablSync() {

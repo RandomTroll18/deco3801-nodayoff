@@ -27,22 +27,6 @@ public class Pistol : ShortRangeWeapon {
 		CoolDownSetting = 1; // This item can only be used once per turn
 	}
 
-	/* Override abstract functions so that compiler doesn't whine */
-	public override void StartAfterInstantiate()
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public override void Activate()
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public override void Activate(Tile targetTile)
-	{
-		throw new System.NotImplementedException();
-	}
-
 	/**
 	 * Override toString function
 	 * 
@@ -58,16 +42,32 @@ public class Pistol : ShortRangeWeapon {
 		
 		// Next, add the amount of damage this weapon does
 		toReturn += "Damage: " + Damage + StringMethodsScript.NEWLINE;
-
+		
 		// Next, add the range of this weapon
 		toReturn += "Range: " + Range + StringMethodsScript.NEWLINE;
-
+		
 		// Next, add the number of rounds left and return the final string
 		toReturn += "Rounds Left: " + Rounds + StringMethodsScript.NEWLINE;
-
+		
 		// Next, add the number of turns this item can be used at a time
 		toReturn += "Cool Down Turns: " + CoolDownSetting + StringMethodsScript.NEWLINE;
-
+		
 		return toReturn;
+	}
+
+	/* Override abstract functions so that compiler doesn't whine */
+	public override void StartAfterInstantiate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Activate()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Activate(Tile targetTile)
+	{
+		throw new System.NotImplementedException();
 	}
 }

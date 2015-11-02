@@ -1,21 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SecurityRoomConsole : InteractiveObject {
-	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 	
 	public override void TakeAction(int input){
 		
-		if (IsInactivated) {
+		if (IsInactivated) { // Don't activate this object. It's inactive
 			Debug.Log ("Inactive");
 			return;
 		}
@@ -24,37 +14,45 @@ public class SecurityRoomConsole : InteractiveObject {
 
 	}
 
+	/**
+	 * Sync this object with other players
+	 */
 	public void InteractableSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
-	
+
+	/**
+	 * RPC call for syncing with other players
+	 */
 	[PunRPC]
 	void Sync(){
-		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>();
+		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>(); // The security room event card
 		SRC.CreateCard();
-		this.CloseEvent();
+		CloseEvent();
 	}
 
+	/**
+	 * Kill the player that was voted to be killed
+	 */
 	public void DoKill(int toKill) {
 		GetComponent<PhotonView>().RPC("Kill", PhotonTargets.All, toKill);
 	}
-	
+
+	/**
+	 * RPC call for killing the player
+	 */
 	[PunRPC]
 	void Kill(int toKill){
 		Player.MyPlayer.GetComponentInChildren<SecurityRoomObjective>().OnComplete();
 		SetInactive();
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
-			Debug.Log("Finding disconnected player model");
-			Debug.Log("Player object id: " + player.GetComponent<PhotonView>().ownerId);
 			if (player.GetComponent<PhotonView>().ownerId == toKill) { // Found the player
-				Debug.Log("Found player model");
-				//PhotonNetwork.Destroy(player);
-				if (Player.MyPlayer.GetComponent<PhotonView>().ownerId == toKill) {
+				if (Player.MyPlayer.GetComponent<PhotonView>().ownerId == toKill) { // This is the player to kill
 					Object.FindObjectOfType<ConnectionManager>().DisconnectClient();
 					if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() 
-							== Classes.BETRAYER) {
+							== Classes.BETRAYER) { // Alien was killed. Alien lost
 						Application.LoadLevel("AlienLoseScreen");
-					} else
+					} else // Human lost
 						Application.LoadLevel("GameOver");
 				}
 				Destroy(player);

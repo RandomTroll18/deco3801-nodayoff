@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class AlienSecondaryThreeInteractable : InteractiveObject {
 
@@ -18,17 +16,17 @@ public class AlienSecondaryThreeInteractable : InteractiveObject {
 		if (SpendAP(input, MinCost)) {
 			Sync();
 			IsInactivated = true;
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 		
 	}
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// The alien's secondary
 		AlienSecondaryThree tmp = Player.MyPlayer.GetComponentInChildren<AlienSecondaryThree>();
 		if (tmp != null)
 			tmp.OnComplete();

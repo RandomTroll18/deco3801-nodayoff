@@ -10,8 +10,7 @@ using System.Collections.Generic;
 public class Stealth : MonoBehaviour {
 
 	public bool Permanent = false; // Record if the stealth applied is permanent or vision binding only
-
-	// Update is called once per frame
+	
 	void Update() {
 		if (!Permanent) // Not permanent. Just hide if not within range
 			hideFromOthers();

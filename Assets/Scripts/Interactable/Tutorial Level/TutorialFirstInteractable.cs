@@ -16,18 +16,13 @@ public class TutorialFirstInteractable: InteractiveObject {
 		}
 		
 		if (SpendAP(input, MinCost)) {
-			//MController.RemoveInteractable(this.GetTile());
 			PrimaryO.OnComplete();
 			InteractablSync();
 			Debug.Log ("Opened");
-			this.CloseEvent();
+			CloseEvent();
 		} else {
 			Debug.Log("Failed");
 		}
-		
-		//TODO: Class 
-		//TODO: Fix To not destroy door, and fix to destroy Interactable
-		
 	}
 
 	public void InteractablSync() {
@@ -42,7 +37,7 @@ public class TutorialFirstInteractable: InteractiveObject {
 			Debug.LogWarning("Exception caught when setting light");
 		}
 		IsInactivated = true;
-		MController.RemoveInteractable(this.GetTile());
+		MController.RemoveInteractable(GetTile());
 	}
 
 }

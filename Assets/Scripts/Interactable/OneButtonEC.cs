@@ -3,14 +3,8 @@ using System.Collections;
 
 public class OneButtonEC : EventCard {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
+	/**
+	 * Ken. Delete this if we aren't using this
+	 */
 
 }

@@ -57,6 +57,30 @@ public class StealthApplicator : ShortRangeWeapon {
 	}
 
 	/**
+	 * Override toString function
+	 * 
+	 * Returns
+	 * - A string providing info on this item
+	 */
+	public override string ToString() {
+		// The string to return. Start with the name
+		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
+		
+		// Next, add item description
+		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
+		
+		// Next, add the range of this weapon
+		toReturn += "Range: " + Range + StringMethodsScript.NEWLINE;
+		
+		// Next, add the number of turns this item can be used at a time
+		toReturn += "Cool Down Turns: " + CoolDownSetting + StringMethodsScript.NEWLINE;
+		toReturn += "Rounds Left For Cooling Down: " + CoolDown + StringMethodsScript.NEWLINE;
+		
+		return toReturn;
+	}
+
+
+	/**
 	 * Need to override cool down reducer for enabling/disabling components
 	 */
 	public override void ReduceCoolDown()
@@ -79,28 +103,4 @@ public class StealthApplicator : ShortRangeWeapon {
 	{
 		throw new System.NotImplementedException();
 	}
-
-	/**
-	 * Override toString function
-	 * 
-	 * Returns
-	 * - A string providing info on this item
-	 */
-	public override string ToString() {
-		// The string to return. Start with the name
-		string toReturn = "Item Name: " + ItemName + StringMethodsScript.NEWLINE;
-		
-		// Next, add item description
-		toReturn += "Description: " + ItemDescription + StringMethodsScript.NEWLINE;
-
-		// Next, add the range of this weapon
-		toReturn += "Range: " + Range + StringMethodsScript.NEWLINE;
-		
-		// Next, add the number of turns this item can be used at a time
-		toReturn += "Cool Down Turns: " + CoolDownSetting + StringMethodsScript.NEWLINE;
-		toReturn += "Rounds Left For Cooling Down: " + CoolDown + StringMethodsScript.NEWLINE;
-		
-		return toReturn;
-	}
-	
 }

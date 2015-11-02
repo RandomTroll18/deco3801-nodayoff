@@ -67,11 +67,8 @@ public class InventoryUISlotScript : MonoBehaviour {
 		if (uiSlotImage == null || contextBoxScript == null || containerScript == null) 
 			return; // Do nothing
 		item = itemToInsert;
-		// Update icon to be the item's icon
-		UiSlot.GetComponent<Image>().sprite = item.Image;
-//		Debug.Log ("Item inserted: " + item);
-		// If the slot is selected, update inventory context
-		if (selected) 
+		UiSlot.GetComponent<Image>().sprite = item.Image; // Update icon to be the item's icon
+		if (selected)  // Update inventory context
 			contextBoxScript.SetContextToInventory(item);
 	}
 
@@ -83,8 +80,7 @@ public class InventoryUISlotScript : MonoBehaviour {
 			return; // Do nothing
 		item = null;
 		UiSlot.GetComponent<Image>().sprite = DefaultIcon;
-		// If the slot is selected, update inventory context
-		if (selected) 
+		if (selected) // Update inventory context
 			contextBoxScript.SetContextToInventory(item);
 	}
 

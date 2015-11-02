@@ -16,7 +16,7 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	public Tile() {
 		;
 	}
-	
+
 	public override bool Equals(object obj) {
 		if (!(obj is Tile)) {
 			return false;
@@ -84,9 +84,12 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	
 	/*
 	 * Returns the middle Vector3 position of a tile.
+	 * 
+	 * Arguments
+	 * - Tile t - The tile we are looking at
 	 */
 	public static Vector3 TileMiddle(Tile t) {
-		Vector3 res = new Vector3(t.X * 2, 0, t.Z * 2);
+		Vector3 res = new Vector3(t.X * 2, 0, t.Z * 2); // The actual position of the tile t
 		return res;
 	}
 
@@ -94,11 +97,13 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 	 * Converts the mouse's current position to a Tile.
 	 * 
 	 * If you're unsure about what the LayerMask does, ask Ben or try something.
+	 * 
+	 * LayerMask layerMask - A mask to indicate whether we clicked on UI or not
 	 */
 	public static Tile MouseToTile(LayerMask layerMask) {
-		Tile goal = null;
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit;
+		Tile goal = null; // The tile we clicked on
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // The position of the mouse click
+		RaycastHit hit; // Detect if the mouse clicked on something
 
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
 			goal = new Tile();
@@ -108,7 +113,7 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 
 		return goal;
 	}
-
+	
 	public static object TileDistance(Tile t1, Tile t2) {
 		throw new System.NotImplementedException();
 	}

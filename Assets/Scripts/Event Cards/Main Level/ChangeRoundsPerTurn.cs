@@ -9,7 +9,9 @@ using UnityEngine.Events;
 public class ChangeRoundsPerTurn : EventCard {
 	public int RoundsLost = 1;
 
-
+	/** 
+	 * Change the current event card
+	 */
 	public override void ChangeCard(){
 		
 		ListNumber = 1;

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NetworkingManager : Photon.PunBehaviour {
 	
-	SpawnPoint[] spawnPoints;
+	SpawnPoint[] spawnPoints; // The list of spawn points
 
 	/*
 	 * This is like a main() function for our level. It's possible some other classes could use
@@ -65,6 +65,9 @@ public class NetworkingManager : Photon.PunBehaviour {
 		}
 	}
 
+	/**
+	 * Start connecting
+	 */
 	void Connect() {
 		Debug.Log("Connect");
 		PhotonNetwork.autoJoinLobby = true;
@@ -98,11 +101,16 @@ public class NetworkingManager : Photon.PunBehaviour {
 		SpawnMyPlayer();
 	}
 
+	/**
+	 * Spawn the player and initialize all required objects
+	 */
 	void SpawnMyPlayer() {
 		AlienClass alienClassContainer; // Container for the alien class
 		Player playerScript; // The player script
-		SpawnPoint spawn = spawnPoints[0]; // TODO: pick spawn point based on class
-		GameObject myPlayer = null;
+		SpawnPoint spawn = spawnPoints[0]; // The spawn point for this player
+		GameObject myPlayer; // The reference to the player's object
+		GameObject gm; // The game manager
+		Classes pClass; // The class of the player
 
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien
 			myPlayer = PhotonNetwork.Instantiate(
@@ -127,12 +135,12 @@ public class NetworkingManager : Photon.PunBehaviour {
 		myPlayer.GetComponentInChildren<Camera>().enabled = true;
 		myPlayer.GetComponentInChildren<CameraController>().enabled = true;
 
-		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
+		/* Initialize Game Manger */
+		gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();
 
-		Classes pClass;
-
+		/* Initialize player script and pick spawn point */
 		playerScript = myPlayer.GetComponent<Player>();
 		playerScript.enabled = true;
 		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
@@ -154,11 +162,13 @@ public class NetworkingManager : Photon.PunBehaviour {
 			}
 		}
 		myPlayer.transform.position = spawn.transform.position;
-
 		myPlayer.GetComponent<Player>().GenerateStunGun();
 		myPlayer.GetComponent<Player>().InstantiateStartingItems();
 	}
 
+	/**
+	 * Handle automatic GUI
+	 */
 	void OnGUI() {
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 	}

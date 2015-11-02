@@ -3,36 +3,25 @@ using System.Collections;
 
 public class LockDoor : InteractiveObject {
 	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	
 	public override void TakeAction(int input){
 		
 		if (IsInactivated) {
-			if (DebugOption) Debug.Log ("Inactive");
+			if (DebugOption) 
+				Debug.Log("Inactive");
 			return;
 		}
 		
 		if (SpendAP(input, MinCost)) {
-			//MController.RemoveInteractable(this.GetTile());
 			InteractablSync();
-			if (DebugOption) Debug.Log ("Opened");
-			this.CloseEvent();
+			if (DebugOption) 
+				Debug.Log("Opened");
+			CloseEvent();
 		} else {
 			PlayFailureEfx();
-			if (DebugOption) Debug.Log("Failed");
+			if (DebugOption) 
+				Debug.Log("Failed");
 		}
-		
-		//TODO: Class 
-		//TODO: Fix To not destroy door, and fix to destroy Interactable
-		
+
 	}
 	
 	public void InteractablSync() {
@@ -43,11 +32,11 @@ public class LockDoor : InteractiveObject {
 	void Sync() {
 		PlaySuccessEfx();
 		IsInactivated = true;
-		if (gameObject.GetComponent<DoorLight>() != null)
+		if (gameObject.GetComponent<DoorLight>() != null) // No light script
 			transform.GetChild(8).GetComponent<Light>().color = Color.red;
-		else
+		else // Destroy the network syncer
 			PhotonNetwork.Destroy(GetComponent<PhotonView>());
-		MController.RemoveInteractable(this.GetTile());
+		MController.RemoveInteractable(GetTile());
 
 	}
 	

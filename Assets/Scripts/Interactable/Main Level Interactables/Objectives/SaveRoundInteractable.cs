@@ -30,6 +30,7 @@ public class SaveRoundInteractable : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
+		// The secondary objective for getting additional rounds
 		SaveRounds tmp = Player.MyPlayer.GetComponentInChildren<SaveRounds>();
 		if (tmp != null)
 			tmp.OnComplete();

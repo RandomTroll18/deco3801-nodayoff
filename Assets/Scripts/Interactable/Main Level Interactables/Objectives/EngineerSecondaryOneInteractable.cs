@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EngineerSecondaryOneInteractable : InteractiveObject {
 
@@ -27,11 +26,11 @@ public class EngineerSecondaryOneInteractable : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// The engineer's secondary objective
 		EngineerSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<EngineerSecondaryOne>();
-		if (tmp != null)
+		if (tmp != null) // The player is the engineer.
 			tmp.OnComplete();
-		else
+		else // The player is not the engineer
 			Debug.Log("Player does not have this objective");
 	}
 }

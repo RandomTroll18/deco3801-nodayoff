@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 /**
  * This is an abstract class which should be inherited 
  * by all items in the game.
  */
-using System.Collections.Generic;
-
-
 public abstract class Item : MonoBehaviour {
 
 	public string ItemName; // The name of this item

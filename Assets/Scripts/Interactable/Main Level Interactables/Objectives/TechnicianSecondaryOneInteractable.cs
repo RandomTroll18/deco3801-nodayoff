@@ -27,7 +27,7 @@ public class TechnicianSecondaryOneInteractable : InteractiveObject {
 	
 	[PunRPC]
 	void Sync() {
-		// activate objective
+		// Tech secondary objective
 		TechnicianSecondaryOne tmp = Player.MyPlayer.GetComponentInChildren<TechnicianSecondaryOne>();
 		if (tmp != null)
 			tmp.OnComplete();

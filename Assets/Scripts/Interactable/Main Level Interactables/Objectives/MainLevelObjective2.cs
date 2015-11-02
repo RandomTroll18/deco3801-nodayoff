@@ -2,8 +2,11 @@
 using System.Collections;
 
 public class MainLevelObjective2 : InteractiveObject {
-	public GameObject[] DoorsToUnlock;
+	public GameObject[] DoorsToUnlock; // The doors to unlock
 
+	/**
+	 * Initialize this object as soon as it appears
+	 */
 	void Start() {
 		StartMe();
 		DoorsToUnlock = new GameObject[2];
@@ -30,7 +33,7 @@ public class MainLevelObjective2 : InteractiveObject {
 			Debug.Log("Opened");
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 
 	}
@@ -41,10 +44,10 @@ public class MainLevelObjective2 : InteractiveObject {
 	
 	[PunRPC]
 	void Sync(){
-		foreach (GameObject door in DoorsToUnlock) {
+		foreach (GameObject door in DoorsToUnlock) { // Open the doors
 			Object.FindObjectOfType<GameManager>()
 				.OpenDoor(Tile.TilePosition(door.transform.position));
 		}
-		PhotonNetwork.Destroy(GetComponent<PhotonView>());
+		PhotonNetwork.Destroy(GetComponent<PhotonView>()); // Remove this objective's syncer
 	}
 }

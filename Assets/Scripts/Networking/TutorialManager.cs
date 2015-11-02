@@ -4,7 +4,7 @@ using System.Collections;
 public class TutorialManager : Photon.PunBehaviour {
 
 
-	SpawnPoint[] spawnPoints;
+	SpawnPoint[] spawnPoints; // The spawn points
 	
 	/*
 	 * This is like a main() function for our level. It's possible some other classes could use
@@ -100,7 +100,9 @@ public class TutorialManager : Photon.PunBehaviour {
 	void SpawnMyPlayer() {
 		AlienClass alienClassContainer; // Container for the alien class
 		Player playerScript; // The player script
-		SpawnPoint spawn = spawnPoints[0]; // TODO: pick spawn point based on class
+		SpawnPoint spawn = spawnPoints[0]; // Spawn point
+		GameObject gm; // The game manager
+		Classes pClass; // The class of the player
 		GameObject myPlayer = PhotonNetwork.Instantiate(
 			"Player", 
 			spawn.transform.position, 
@@ -117,13 +119,13 @@ public class TutorialManager : Photon.PunBehaviour {
 		myPlayer.GetComponentInChildren<Light>().enabled = true;
 		myPlayer.GetComponentInChildren<Camera>().enabled = true;
 		myPlayer.GetComponentInChildren<CameraController>().enabled = true;
-		
-		GameObject gm =  Object.FindObjectOfType<GameManager>().gameObject;
+
+		/* Initialize Game Manager */
+		gm =  Object.FindObjectOfType<GameManager>().gameObject;
 		gm.GetComponent<PhotonView>().RPC("AddPlayer", PhotonTargets.AllBuffered, null);
 		Object.FindObjectOfType<GameManager>().StartMe();
-		
-		Classes pClass;
-		
+
+		/* Enable player script and select spawn point */
 		playerScript = myPlayer.GetComponent<Player>();
 		playerScript.enabled = true;
 		switch (playerScript.GetPlayerClassObject().GetClassTypeEnum()) {
@@ -148,7 +150,10 @@ public class TutorialManager : Photon.PunBehaviour {
 		
 		myPlayer.GetComponent<Player>().GenerateStunGun();
 	}
-	
+
+	/**
+	 * Handle automatic GUI text
+	 */
 	void OnGUI() {
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 	}

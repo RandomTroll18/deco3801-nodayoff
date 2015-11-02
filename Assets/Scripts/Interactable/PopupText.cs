@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.Events;
 
 public class PopupText : Popup {
 
-	public string text;
+	public string TextToSet; // The text to set
 	
 	public override void ChangeContent() {
-		GameObject b = PopupGameObject.transform.GetChild(0).gameObject;
-		b.GetComponent<Text>().text = text;
+		GameObject b = PopupGameObject.transform.GetChild(0).gameObject; // The button to change
+		b.GetComponent<Text>().text = TextToSet;
 	}
 }

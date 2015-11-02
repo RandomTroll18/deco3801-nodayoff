@@ -1,51 +1,56 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Collections;
 
-//class representing Interactive Objects
+/**
+ * Super class for all interactive object scripts
+ */
 public class InteractiveObject : MonoBehaviour {
     
-	//check if player is interacting with object
-	//public bool IsInteracting = false;
-	public string StringInput;
-	public int Cost;
-	public Stat ClassMultiplier;
+	public string StringInput; // The string given to this interactive object
+	public int Cost; // The cost for this interactive object 
+	public Stat ClassMultiplier; // The class multiplier we are currently looking at
+	public bool InstantInteract; // Record whether or not this object should activate without spending AP
+	public bool DebugOption = false; // Debug option
 
 	/* Succeed and failure sound effets */
 	public List<AudioClip> SuccessEfx;
 	public List<AudioClip> FailEfx;
-
-	//the UICanvas
-	//NOTE: Will there be problems with Blocking and Unblocking a tile with multiple players since each player uses their own MoveController???
-	GameObject player;
-	GameObject panel;
-	Text nameLabel;
-	Slider APSlider;
-	//public int APLimit;
-	Tile position;
-
-	protected int MinCost;
-	protected Player PlayerScript;
-	protected bool IsInactivated;
-	protected PrimaryObjectiveController PrimaryO;
-	protected MovementController MController;
-	public bool InstantInteract;
 	
-	public bool DebugOption = false;
+	GameObject player; // The current player we are focusing on
+	GameObject panel; // The panel we are attached to
+	Text nameLabel; // The name object of this interactive object
+	Slider APSlider; // The AP slider
+	Tile position; // The position of the interactive object
 
+	protected int MinCost; // The minimum cost to complete this object
+	protected Player PlayerScript; // The player script of the player we are tracking
+	protected bool IsInactivated; // Record if this object is not activated
+	protected PrimaryObjectiveController PrimaryO; // The Primary Objective Controller
+	protected MovementController MController; // The movement controller script of the player
+
+	/**
+	 * Initialize this interactive object
+	 */
 	public virtual void StartMe() {
 		ClassMultiplier = Stat.NOMULTIPLIER;
 		StartMe(Object.FindObjectOfType<GameManager>());
 	}
 
+	/**
+	 * Overload for intializing this interactive object. 
+	 * 
+	 * Arguments
+	 * - GameManager g - The game manager script
+	 */
 	public void StartMe(GameManager g) {
 
-		if (DebugOption) Debug.Log("Started");
+		if (DebugOption) 
+			Debug.Log("Started");
 
-		this.position = new Tile(
-			Tile.TilePosition(this.transform.position.x), 
-			Tile.TilePosition(this.transform.position.z)
+		position = new Tile(
+			Tile.TilePosition(transform.position.x), 
+			Tile.TilePosition(transform.position.z)
 		);
 
 		IsInactivated = false;
@@ -54,17 +59,16 @@ public class InteractiveObject : MonoBehaviour {
 		nameLabel = panel.transform.FindChild("SkillCheckText").GetComponent<Text>();
 		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider>();
 
-		//MController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MovementController>();
 		MController = g.GetPlayerControllers();
-		//MController = Player.MyPlayer.GetComponent<MovementController>();
 		player = GameObject.Find ("Player");
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
-			.GetComponent<PrimaryObjectiveController> ();
+			.GetComponent<PrimaryObjectiveController>();
 		player = Player.MyPlayer; 
 		PlayerScript = player.GetComponent<Player>();
 		MController.AddInteractable(this);
 
-		if (DebugOption) Debug.Log(this.position.ToString());		
+		if (DebugOption) 
+			Debug.Log(position.ToString());		
 	}
 
 	/**
@@ -79,18 +83,19 @@ public class InteractiveObject : MonoBehaviour {
 	}
 	
 	public void Interact() {
-		if (DebugOption) Debug.Log ("Interacted with " + this.name + " at " + this.position.ToString());
+		string classText = ""; // The string representing the player's class
+
+		if (DebugOption) 
+			Debug.Log("Interacted with " + name + " at " + position.ToString());
 
 		Object.FindObjectOfType<SkillCheck>().SetMultiplierAndCost(ClassMultiplier, Cost);
 
-		if (PlayerScript.IsSpawned) 
-			return; // A spawned player cannot interact with this object
+		if (PlayerScript.IsSpawned) // A spawned player cannot interact with this object
+			return; 
 		else if (IsInactivated) // Already activated
 			return;
 
-
-		string classText = "";
-		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER)) {
+		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER)) { // Class exists
 			switch (ClassMultiplier) {
 			case Stat.MARINEMULTIPLIER:
 				classText = ": Marine";
@@ -101,90 +106,121 @@ public class InteractiveObject : MonoBehaviour {
 			case Stat.TECHMULTIPLIER:
 				classText = ": Technician";
 				break;
-			default:
+			default: // No class
 				classText = "";
 				break;
 			}
 
 		}
 		
-		// TODO: Figure whats wrong with code below & add toggle Panel
-		// TODO: Change text
 		nameLabel.text = StringInput + " (" + MinCost + classText + ")";
-		// TODO: Change Button function
 		panel.GetComponent<SkillCheck>().SetCurrent(this);
-		// TODO: Change Slider properties
 		APSlider.value = 0;
-		//APSlider.maxValue = this.APLimit;
-		if (InstantInteract)
+
+		if (InstantInteract) // Immediately take the action
 			TakeAction(0);
-		else
+		else // Start an event
 			OpenEvent();
 		return;
 	}
 
+	/**
+	 * Handle the spending of AP
+	 * 
+	 * Arguments
+	 * - int input - The AP being spent
+	 * - int cost - The cost for this Interactive Object
+	 */
 	public bool SpendAP(int input, int cost) {
-		double Multiplier = 1;
-		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER))
-			Multiplier = PlayerScript.GetPlayerClassObject().GetStat(ClassMultiplier);
+		double multiplier = 1; // The multiplier
+		int multipliedAP, rng; // The multiplied AP and the amount of AP applied to this interactable
 
-		int actualAP = 
-			(int) Mathf.Floor(
-			(float)(PlayerScript.GetStatValue(Stat.AP) * (float) input / 100f)
-			);
+		if (!ClassMultiplier.Equals(Stat.NOMULTIPLIER))
+			multiplier = PlayerScript.GetPlayerClassObject().GetStat(ClassMultiplier);
+
+		int actualAP = (int)Mathf.Floor((float)(PlayerScript.GetStatValue(Stat.AP) * (float) input / 100f));
 
 		PlayerScript.ReduceStatValue(Stat.AP, actualAP);
 
-		int multipliedAP = 
-			(int) Mathf.Floor(
-			(float) actualAP * (float)Multiplier
-			); // TODO: add character class element
+		/* Calculate the real amount of AP spent and determine the true  */
+		multipliedAP = (int) Mathf.Floor((float) actualAP * (float)multiplier);
+		rng = Random.Range(1, multipliedAP);
 
-		int rng = Random.Range(1, multipliedAP);
+		if (DebugOption) 
+			Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
 
-		if (DebugOption) Debug.Log("Rolled " + rng + " when used: " + actualAP + "(" + multipliedAP + ")");
-
-		//CloseEvent();
-		if (rng >= cost)
+		if (rng >= cost) // AP roll succeeded
 			return true;
-		else {
+		else { // Failed
 			ChatTest.Instance.AllChat(true, "FAILED");
 			return false;
 		}
 	}
 
+	/**
+	 * Actions to take when closing the event
+	 */
 	public void CloseEvent(){
-		if (DebugOption) Debug.Log ("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		if (DebugOption) 
+			Debug.Log("Close Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		// Move panel out of the UI
 		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-9999, (float)37.5);
 	}
 
-	public void OpenEvent(){
-		if (DebugOption) Debug.Log ("Open Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+	/**
+	 * Actions to take when initiating this event
+	 */
+	public void OpenEvent() {
+		if (DebugOption) 
+			Debug.Log("Open Panel " + panel.GetComponent<RectTransform>().anchoredPosition.ToString());
+		// Move panel into the UI
 		panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((float)-683, (float)37.5);
 	}
 
-	
-	public virtual void TakeAction(int input){
+	/**
+	 * Execute the action in this interactable
+	 * 
+	 * Arguments
+	 * - int input - Ken. I don't know what this is for :P
+	 */
+	public virtual void TakeAction(int input) {
 
 	}
 
-	public Tile GetTile(){
-		return this.position;
+	/**
+	 * Get the position of this interactive object
+	 */
+	public Tile GetTile() {
+		return position;
 	}
 
-	public void Open(Tile t){
+	/**
+	 * Unblock/Open this interactive object to allow players to 
+	 * move in it
+	 */
+	public void Open(Tile t) {
 		MController.UnblockTile(t);
 	}
 
-	public void Close(Tile t){
+	/**
+	 * Block/Close this interactive object, preventing 
+	 * players from moving in it
+	 */
+	public void Close(Tile t) {
 		MController.BlockTile(t);
 	}
 
-	public void SetInactive(){
+	/**
+	 * Set this interactive object is inactive
+	 */
+	public void SetInactive() {
 		IsInactivated = true;
 	}
 
-	public void SetActive(){
+	/**
+	 * Set this interactabe to be active
+	 */
+	public void SetActive() {
 		IsInactivated = false;
 	}
 
@@ -207,36 +243,6 @@ public class InteractiveObject : MonoBehaviour {
 			SoundManagerScript.Singleton.PlaySingle3D(FailEfx);
 		}
 	}
-
-	/*
-	public void TargetOpen(){
-		foreach (GameObject Target in Targets) {
-			Tile t = new Tile (
-				Tile.TilePosition (Target.transform.position.x), 
-				Tile.TilePosition (Target.transform.position.z)
-			);
-			MController.UnblockTile (t);
-		}
-	} 
-
-	public void TargetClose(){
-		foreach (GameObject Target in Targets) {
-			Tile t = new Tile(
-				Tile.TilePosition(Target.transform.position.x), 
-				Tile.TilePosition(Target.transform.position.z)
-			);
-			MController.BlockTile(t);
-		}
-	}
-
-	public void TargetDestroy(){
-		foreach (GameObject Target in Targets) {
-			Destroy(Target);
-		}
-		IsInactivated = true;
-	}
-	*/
-
-
+	
 }
 

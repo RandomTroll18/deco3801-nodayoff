@@ -8,17 +8,15 @@ public class PopupTrap : Trap {
 	public Popup PopupScript;
 
 	public override void TrapToDo(Collision col) {
-		if (col.gameObject.name == "Player(Clone)") {
+		if (col.gameObject.name == "Player(Clone)") // Activated by player
 			Activate();
-		}
 	}
 
 	public override void Activate(){
-		// TODO: call card
-		if (PopupScript != null) {
+		if (PopupScript != null) // Create popup script
 			PopupScript.Create();
-		} 
-		if (DestroyTrap) TrapSync();
+		if (DestroyTrap) // Trap is destroyed. Sync
+			TrapSync();
 
 	}
 
@@ -28,7 +26,7 @@ public class PopupTrap : Trap {
 	
 	[PunRPC]
 	void Sync() {
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 
 

@@ -7,10 +7,8 @@ public class InventoryUIScript : MonoBehaviour {
 
 	public GameObject ContextAwareBox; // Context aware box
 
-	// The script of the currently selected ui slot
-	InventoryUISlotScript currentSelected;
-	// The script of the context aware box
-	ContextAwareBox contextBoxScript;
+	InventoryUISlotScript currentSelected; // The script of the currently selected ui slot
+	ContextAwareBox contextBoxScript; // The script of the context aware box
 
 	/**
 	 * Starting function
@@ -30,22 +28,20 @@ public class InventoryUIScript : MonoBehaviour {
 	 * - GameObject newSelected - The newly selected slot
 	 */
 	public void SetSelected(GameObject newSelected) {
-		// The script of the newly selected slot
 		InventoryUISlotScript newSelectedScript = 
-				newSelected.GetComponent<InventoryUISlotScript>();
+			newSelected.GetComponent<InventoryUISlotScript>(); // The script of the newly selected slot
 		Item attachedItem = newSelectedScript.GetItem(); // Item attached to the ui slot
 		int selected = newSelectedScript.ToggleSelected();  // Result of toggling ui slot
-		if (selected == -1) {
+		if (selected == -1)
 			return;// Error in initialization of ui slot
-		} else if (selected == 0) { // Nothing is selected
+		else if (selected == 0) { // Nothing is selected
 			contextBoxScript.SetContextToIdle(); // Set to idle context
 			currentSelected = null;
 			return;
 		}
-		if (IsSlotSelected()) { // A slot was selected 
+		if (IsSlotSelected()) // A slot was selected 
 			currentSelected.ToggleSelected();
-		}
-		// Set/update context to inventory context
+		/* Set/update context to inventory context */
 		contextBoxScript.SetContextToInventory(attachedItem);
 		currentSelected = newSelectedScript;
 	}

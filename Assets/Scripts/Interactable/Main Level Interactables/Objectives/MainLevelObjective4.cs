@@ -3,13 +3,7 @@ using System.Collections;
 
 public class MainLevelObjective4 : InteractiveObject {
 
-	bool escape = false;
-
-	void Update() {
-
-		if (Player.MyPlayer == null)
-			return;
-	}
+	bool escape = false; // Record if this player escaped or not
 	
 	public override void TakeAction(int input){
 		if (IsInactivated) {
@@ -33,10 +27,10 @@ public class MainLevelObjective4 : InteractiveObject {
 			IsInactivated = true;
 			PrimaryO.OnComplete();
 			Debug.Log("Opened");
-			this.CloseEvent();		
+			CloseEvent();		
 		} else {
 			Debug.Log("Failed with " + input);
-			this.CloseEvent();	
+			CloseEvent();	
 		}
 	}
 
@@ -50,14 +44,14 @@ public class MainLevelObjective4 : InteractiveObject {
 	void Sync(){
 		PhotonNetwork.Destroy(GetComponent<PhotonView>());
 		ChatTest.Instance.AllChat(false, "ONE ESCAPE POD LOST");
-		Debug.Log("sadas");
 
 		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER
-		    	&& GameObject.FindGameObjectsWithTag("player").Length <= 1) {
+		    	&& GameObject.FindGameObjectsWithTag("Player").Length <= 1) {
+			// No more humans. Alien lost
 			Application.LoadLevel("AlienLoseScreen");
 		}
 
-		if (escape)
+		if (escape) // Alien won
 			Application.LoadLevel("WinScreen");
 	}
 

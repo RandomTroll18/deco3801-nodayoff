@@ -18,7 +18,7 @@ public class TutorialSecondInteractable : Trap {
 
 	[PunRPC]
 	void Sync() {
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 	
 }
