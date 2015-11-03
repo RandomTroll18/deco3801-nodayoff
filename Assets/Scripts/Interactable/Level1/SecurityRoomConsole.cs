@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/*
+ * Security Room Console
+ * Interactable used for players to vote kill a particular player
+ */
 public class SecurityRoomConsole : InteractiveObject {
 
 	

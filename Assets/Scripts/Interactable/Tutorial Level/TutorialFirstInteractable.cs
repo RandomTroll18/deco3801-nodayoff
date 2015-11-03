@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * First Tutorial Objective - Locked Door Interactable
+ */
 public class TutorialFirstInteractable: InteractiveObject {
 
 	public override void TakeAction(int input){

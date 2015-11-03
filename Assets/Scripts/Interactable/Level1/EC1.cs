@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
+/*
+ * Level 1 Event Card 1: Example Event - Change Rounds:
+ */
 public class EC1 : EventCard {
 	
 	public override void ChangeCard(){

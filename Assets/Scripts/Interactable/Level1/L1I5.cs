@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/*
+ * Level 1 Interactable 5 - Skill Panel Interactable (Completes Objective)
+ */
 public class L1I5 : InteractiveObject {
 
 	public override void TakeAction(int input){

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Level 1 Event Card 2: Example Event Card 2 - Marine Event Card
+ */
 public class EC2 : EventCard {
 	
 	public override void ChangeCard(){

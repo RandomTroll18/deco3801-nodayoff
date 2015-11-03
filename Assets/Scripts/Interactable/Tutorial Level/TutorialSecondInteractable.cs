@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Second Tutorial Objective - Pickup Tutorial Trap
+ */
 public class TutorialSecondInteractable : Trap {
 
 

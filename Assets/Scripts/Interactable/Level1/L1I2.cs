@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/*
+ * Level 1 Interactable 2 - Nasty Event Interactable (Completes Objective)
+ */
 public class L1I2 : InteractiveObject {
 
 	public override void TakeAction(int input){

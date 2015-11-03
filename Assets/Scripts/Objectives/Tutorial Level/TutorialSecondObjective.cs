@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+/*
+ * Second Tutorial Objective - Picking up item
+ */
 public class TutorialSecondObjective : PrimaryObjective {
 	
 	void Start() {

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Fourth Tutorial Interactable - Advantageous class multiplier door
+ */
 public class TutorialFourthInteractable : InteractiveObject {
 
 	

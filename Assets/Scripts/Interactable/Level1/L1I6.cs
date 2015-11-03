@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Level 1 Interactable 6 - Empty Interactable (Completes Objective)
+ */
 public class L1I6 : InteractiveObject {
 	 
 	public override void TakeAction(int input){

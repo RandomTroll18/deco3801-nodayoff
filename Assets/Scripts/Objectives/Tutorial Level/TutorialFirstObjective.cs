@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/*
+ * First Tutorial Objective - Interacting with Doors
+ */
 public class TutorialFirstObjective : PrimaryObjective {
 	
 	void Start() {

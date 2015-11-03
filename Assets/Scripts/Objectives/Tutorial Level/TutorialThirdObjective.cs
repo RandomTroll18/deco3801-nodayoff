@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/*
+ * Third Tutorial Objective - Interactable with Skill Panel, Neutral Class multiplier
+ */
 public class TutorialThirdObjective : PrimaryObjective {
 	
 	void Start() {

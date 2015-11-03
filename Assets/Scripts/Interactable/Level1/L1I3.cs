@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/*
+ * Level 1 Interactable 3 - Skill Panel Interactable (Completes Objective)
+ */
 public class L1I3 : InteractiveObject {
 
 	public override void TakeAction(int input){

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Fourth Tutorial Objective - Advantageous class multiplier
+ */
 public class TutorialFinalInteractable : Trap {
 	
 	

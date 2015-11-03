@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Third Tutorial Objective - Neutral class multiplier interactable
+ */
 public class TutorialThirdInteractable : InteractiveObject {
 	
 	public override void TakeAction(int input){

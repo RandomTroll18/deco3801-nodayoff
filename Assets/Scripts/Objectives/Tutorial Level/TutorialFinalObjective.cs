@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Final Tutorial Objective - Final Objective: Elevator
+ */
 public class TutorialFinalObjective : PrimaryObjective {
 
 	void Start() {

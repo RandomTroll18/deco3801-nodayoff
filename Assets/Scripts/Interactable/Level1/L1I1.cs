@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Level 1 Interactable 1 - Event Card + Door Interactable (Completes Objective)
+ */
 public class L1I1 : InteractiveObject {
 
 	public GameObject Door; // The reference to the door object we are attached to
