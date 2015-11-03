@@ -34,8 +34,15 @@ using UnityEngine.Events;
 /// Note: 
 /// Don't forget to call ChatClient.Service(). Might later on be integrated into PUN but for now don't forget.
 /// </remarks>
+/// <credit>
+/// Code is taken from Photon Unity Networking ChatGui demo and editted and changed to fit our application.
+/// </credit>
 public class ChatTest : MonoBehaviour, IChatClientListener
 {
+	// Chat update static variables
+	static float FilScreenWidth = 0.328125f;
+	static float FilScreenHeight = 0.141666667f;
+
 	public string ChatAppId;                    // set in inspector. Your Chat AppId (don't mix it with Realtime/Turnbased Apps).
 	public string[] ChannelsToJoinOnConnect;    // set in inspector. Demo channels to join automatically.
 	public int HistoryLengthToFetch;            // set in inspector. Up to a certain degree, previously sent messages can be fetched for context.
@@ -138,35 +145,42 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			}
 		}
 	}
-	
+
+	/**
+	 * Handle Chat scaling 
+	 */
 	public void Update()
 	{
 		if (this.chatClient != null)
 		{
-			this.chatClient.Service();  // make sure to call this regularly! it limits effort internally, so calling often is ok!
+			this.chatClient.Service();  
+			// make sure to call this regularly! it limits effort internally, so calling often is ok!
 		}
 
-		float FilScreenWidth = 630f / 1920f;
 		float rectWidth = FilScreenWidth * Screen.width;
-		float FilScreenHeight = 153f / 1080f;
 		float rectHeight = FilScreenHeight * Screen.height;
-		float rectX = (15f / 1920f) * Screen.width;
-		float rectY = (900f / 1080f) * Screen.height;
 
-		float whRatio = 153f/630f;
-		float hwRatio = 630f/153f;
+		float rectX = 0.0078125f * Screen.width;
+		float rectY = 0.833333333f * Screen.height;
+
+		float whRatio = 0.24285714285f;
 
 		// Check if height is wrong
 		if (rectHeight > (rectWidth * whRatio)) {
+			rectY = rectY + (rectHeight - (rectWidth * whRatio));
 			rectHeight = (rectWidth * whRatio);
 		} else {
+			float hwRatio = 4.11764705882f;
 			rectWidth = (rectHeight * hwRatio);
 		}
 
 		GuiRect = new Rect(rectX,rectY,rectWidth,rectHeight);
 
 	}
-	
+
+	/**
+	 * Initialize ChatGUI
+	 */
 	public void OnGUI()
 	{
 		if (!this.IsVisible)
@@ -175,11 +189,14 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		}
 		
 		GUI.skin.label.wordWrap = true;
-		//GUI.skin.button.richText = true;      // this allows toolbar buttons to have bold/colored text. nice to indicate new msgs
-		//GUILayout.Button("<b>lala</b>");      // as richText, html tags could be in text
+		// GUI.skin.button.richText = true;      
+		// this allows toolbar buttons to have bold/colored text. nice to indicate new msgs
+		// GUILayout.Button("<b>lala</b>");      
+		// as richText, html tags could be in text
 		
 		
-		if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return))
+		if (Event.current.type == EventType.KeyDown && 
+		    (Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return))
 		{
 			if ("ChatInput".Equals(GUI.GetNameOfFocusedControl()))
 			{
@@ -215,7 +232,8 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 				int channelIndex = channels.IndexOf(this.selectedChannelName);
 				this.selectedChannelIndex = (channelIndex >= 0) ? channelIndex : 0;
 				
-				this.selectedChannelIndex = GUILayout.Toolbar(this.selectedChannelIndex, channels.ToArray(), GUILayout.ExpandWidth(false));
+				this.selectedChannelIndex = GUILayout.Toolbar(
+					this.selectedChannelIndex, channels.ToArray(), GUILayout.ExpandWidth(false));
 				this.scrollPos = GUILayout.BeginScrollView(this.scrollPos);
 				
 				this.doingPrivateChat = (this.selectedChannelIndex >= countOfPublicChannels);
@@ -254,7 +272,8 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		{
 			GUILayout.Label("to:", GUILayout.ExpandWidth(false));
 			GUI.SetNextControlName("WhisperTo");
-			this.userIdInput = GUILayout.TextField(this.userIdInput, GUILayout.MinWidth(100), GUILayout.ExpandWidth(false));
+			this.userIdInput = GUILayout.TextField(
+				this.userIdInput, GUILayout.MinWidth(100), GUILayout.ExpandWidth(false));
 			string focussed = GUI.GetNameOfFocusedControl();
 			if (focussed.Equals("WhisperTo"))
 			{
@@ -278,7 +297,10 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		GUILayout.EndHorizontal();
 		GUILayout.EndArea();
 	}
-	
+
+	/**
+	 * Handle Message sending on GUI
+	 */
 	private void GuiSendsMsg()
 	{
 		if (string.IsNullOrEmpty(this.inputLine))
@@ -298,7 +320,9 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			if (tokens[0].Equals("\\state"))
 			{
 				int newState = int.Parse(tokens[1]);
-				this.chatClient.SetOnlineStatus(newState, new string[] { "i am state " + newState });  // this is how you set your own state and (any) message
+				this.chatClient.SetOnlineStatus(newState, new string[] {
+					"i am state " + newState 
+				});  // this is how you set your own state and (any) message
 			}
 			else if (tokens[0].Equals("\\subscribe") && !string.IsNullOrEmpty(tokens[1]))
 			{
@@ -357,6 +381,13 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		GUI.FocusControl("");
 	}
 
+	/**
+	 * Overload for intializing this interactive object. 
+	 * 
+	 * Arguments
+	 * - boolean big - True: Big message display, Small: In chat box display
+	 * - string input - message
+	 */
 	public void AllChat(bool big, string input) {
 		if (big) {
 			Big(input);
@@ -364,12 +395,24 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			Small(input);
 		}
 	}
-	
+
+	/**
+	 * Handle in chat box all chat message
+	 * 
+	 * Arguments
+	 * - string input - message
+	 */
 	[PunRPC]
 	void Small(string input) {
 		this.selectedChannel.Add("GAME", input);
 	}
 
+	/**
+	 * Handle all chat message display
+	 * 
+	 * Arguments
+	 * - string input - message
+	 */
 	[PunRPC]
 	public void Big(string input) {
 		GetComponent<AudioSource>().Play();
@@ -391,7 +434,10 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			Debug.LogError("no channel for help");
 		}
 	}
-	
+
+	/**
+	 * Handle channels initialization
+	 */
 	public void OnConnected()
 	{
 		if (this.ChannelsToJoinOnConnect != null && this.ChannelsToJoinOnConnect.Length > 0)
@@ -399,42 +445,70 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			this.chatClient.Subscribe(this.ChannelsToJoinOnConnect, this.HistoryLengthToFetch);
 		}
 		
-		this.chatClient.AddFriends(new string[] {"tobi", "ilya"});          // Add some users to the server-list to get their status updates
-		this.chatClient.SetOnlineStatus(ChatUserStatus.Online);             // You can set your online state (without a mesage).
+		this.chatClient.AddFriends(new string[] {"tobi", "ilya"});          
+		// Add some users to the server-list to get their status updates
+		this.chatClient.SetOnlineStatus(ChatUserStatus.Online);             
+		// You can set your online state (without a mesage).
 	}
-	
+
+	/**
+	 * Debug message
+	 * 
+	 * Arguments
+	 * - DebugLevel level - Debug level
+	 * - string message - debug message
+	 */
 	public void DebugReturn(DebugLevel level, string message)
 	{
-//		Debug.Log(message);
+		//		Debug.Log(message);
 	}
-	
+
+	/**
+	 * Handle chat disconnect
+	 */
 	public void OnDisconnected()
 	{
 	}
-	
-	public void OnChatStateChange(ChatState state)
-	{
-		// use OnConnected() and OnDisconnected()
-		// this method might become more useful in the future, when more complex states are being used.
-	}
-	
+
+	/**
+	 * Subscribe to channels
+	 * 
+	 * Arguments
+	 * - string[] channels - list of channels
+	 * - bool[] results - list of channel status
+	 */
 	public void OnSubscribed(string[] channels, bool[] results)
 	{
 		
-		// this demo can automatically send a "hi" to subscribed channels. in a game you usually only send user's input!!
+		// demo can automatically send a "hi" to subscribed channels. in a game you usually only send user's input!
 		if (this.DemoPublishOnSubscribe)
 		{
 			foreach (string channel in channels)
 			{
-				this.chatClient.PublishMessage(channel, "says 'hi' in OnSubscribed(). "); // you don't HAVE to send a msg on join but you could.
+				this.chatClient.PublishMessage(channel, "says 'hi' in OnSubscribed(). "); 
+				// you don't HAVE to send a msg on join but you could.
 			}
 		}
 	}
-	
+
+	/**
+	 * Unsubscribe to channels
+	 * 
+	 * Arguments
+	 * - string channel - channel
+	 */
 	public void OnUnsubscribed(string[] channels)
 	{
 	}
-	
+
+	/**
+	 * Retrieve message
+	 * 
+	 * Arguments
+	 * - string channelName - channel
+	 * - string[] senders - list of senders
+	 * - string[] messages - list of messages
+	 */
 	public void OnGetMessages(string channelName, string[] senders, object[] messages)
 	{
 		GetComponent<AudioSource>().Play();
@@ -443,13 +517,31 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 			this.scrollPos.y = float.MaxValue;
 		}
 	}
-	
+
+	/**
+	 * Handle sending of private message
+	 * 
+	 * Arguments
+	 * - string sender - sender
+	 * - object message - message object
+	 * - string channelName - channel
+	 */
 	public void OnPrivateMessage(string sender, object message, string channelName)
 	{
 		// as the ChatClient is buffering the messages for you, this GUI doesn't need to do anything here
-		// you also get messages that you sent yourself. in that case, the channelName is determinded by the target of your msg
+		// you also get messages that you sent yourself. 
+		// in that case, the channelName is determinded by the target of your msg
 	}
-	
+
+	/**
+	 * Handle status updates
+	 * 
+	 * Arguments
+	 * - string user - user
+	 * - int status - status
+	 * - bool gotMessage - if message is retrieved
+	 * - object message - message object
+	 */
 	public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
 	{
 		// this is how you get status updates of friends.
@@ -463,5 +555,17 @@ public class ChatTest : MonoBehaviour, IChatClientListener
 		}
 		
 		Debug.LogWarning("status: " + string.Format("{0} is {1}. Msg:{2}", user, status, message));
+	}
+
+	/**
+	 * Change chat state
+	 * 
+	 * Arguments
+	 * - ChatState state - state
+	 */
+	public void OnChatStateChange(ChatState state)
+	{
+		// use OnConnected() and OnDisconnected()
+		// this method might become more useful in the future, when more complex states are being used.
 	}
 }

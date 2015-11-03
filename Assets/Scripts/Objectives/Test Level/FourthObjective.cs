@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FourthObjective : PrimaryObjective {
 	public FourthObjective() {
+		// Initializing Fourth Objectives variables
 		Title = "Fourth Objective";
 		Description = 
 			"Fourth objective description";

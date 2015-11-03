@@ -9,16 +9,17 @@ using UnityEngine.Events;
 public class ExampleCard : EventCard {
 	
 	public override void ChangeCard(){
-		
-		ListNumber = 1;
-		
+
+		ListNumber = 1; // Poll vote list ID
+
+		// Intitializing event card characteristics
 		ChangeButton(1, "DESTROY");
 		ChangeButton(2, "EXPLOSIONS");
 		ChangeButton(3, "RAINBOWS");
 		ChangeImage("chopper");
 		ChangeText("Didn't want to stray from the format I already had. So I put this OP, Not castable, Wrong Contexted Hearthstone card within another card.");
 		
-		SetCap();
+		SetCap(); // Set vote cap
 	}
 	
 	public override void CardEffect(int highestVote){
@@ -30,7 +31,7 @@ public class ExampleCard : EventCard {
 		} else if (highestVote == 1)
 			Debug.Log("RIP");
 		else
-			Debug.Log("It's not suppose to get here. Value is: " + highestVote);
+			Debug.Log("It's not suppose to get here. Value is: " + highestVote); // Handle error case
 	}
 	
 }

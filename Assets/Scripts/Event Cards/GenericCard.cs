@@ -26,6 +26,13 @@ public class GenericCard : EventCard {
 		SetCap();
 	}
 
+	/** 
+	 * Change the current event card.
+	 * 
+	 * - string message - Card Description
+	 * - string title - Card Title
+	 * - string image - Card Image path
+	 */
 	public void ChangeContent(string message, string title, string image) {
 		this.message = message;
 		this.title = title;

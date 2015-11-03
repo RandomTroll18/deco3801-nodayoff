@@ -48,24 +48,24 @@ public class InteractiveObject : MonoBehaviour {
 		if (DebugOption) 
 			Debug.Log("Started");
 
+
+		// Initialize variables
 		position = new Tile(
 			Tile.TilePosition(transform.position.x), 
 			Tile.TilePosition(transform.position.z)
-		);
-
-		IsInactivated = false;
-		MinCost = Cost;
-		panel = GameObject.FindGameObjectWithTag("SkillPanel");
-		nameLabel = panel.transform.FindChild("SkillCheckText").GetComponent<Text>();
-		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider>();
-
-		MController = g.GetPlayerControllers();
-		player = GameObject.Find ("Player");
+		); // Interactive object position tile
+		IsInactivated = false;  // Interactive object activated value
+		MinCost = Cost; // Interactive object cost value
+		panel = GameObject.FindGameObjectWithTag("SkillPanel"); // Reference to skill panel
+		nameLabel = panel.transform.FindChild("SkillCheckText").GetComponent<Text>(); // Skill panel text
+		APSlider = panel.transform.FindChild("Slider").GetComponent<Slider>(); // Skill panel slider
+		MController = g.GetPlayerControllers(); // Game movenment controller
+		//player = GameObject.Find ("Player"); // Player gameobject
 		PrimaryO = GameObject.FindGameObjectWithTag ("Objective UI")
-			.GetComponent<PrimaryObjectiveController>();
-		player = Player.MyPlayer; 
-		PlayerScript = player.GetComponent<Player>();
-		MController.AddInteractable(this);
+			.GetComponent<PrimaryObjectiveController>(); // Primary Objective script
+		player = Player.MyPlayer; // Player gameobject
+		PlayerScript = player.GetComponent<Player>(); // Player script
+		MController.AddInteractable(this); // Add interactable to Movement controller
 
 		if (DebugOption) 
 			Debug.Log(position.ToString());		
@@ -78,10 +78,13 @@ public class InteractiveObject : MonoBehaviour {
 	 * - GameObject playerObject - The game object of the player
 	 */
 	public void ChangeTrackedPlayer(GameObject playerObject) {
-		player = playerObject;
-		PlayerScript = playerObject.GetComponent<Player>();
+		player = playerObject; // Changing tracked player
+		PlayerScript = playerObject.GetComponent<Player>(); // Changing tracked player script
 	}
-	
+
+	/**
+	 * Handling the player interacting with an Interactive Object
+	 */
 	public void Interact() {
 		string classText = ""; // The string representing the player's class
 
@@ -181,7 +184,7 @@ public class InteractiveObject : MonoBehaviour {
 	 * Execute the action in this interactable
 	 * 
 	 * Arguments
-	 * - int input - Ken. I don't know what this is for :P
+	 * - int input - AP invested
 	 */
 	public virtual void TakeAction(int input) {
 

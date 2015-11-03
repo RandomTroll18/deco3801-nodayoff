@@ -23,7 +23,10 @@ public class PopupTrap : Trap {
 	public override void TrapSync() {
 		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
 	}
-	
+
+	/**
+	 * Handle syncronizing destorying of gameobject
+	 */
 	[PunRPC]
 	void Sync() {
 		Destroy(gameObject);
