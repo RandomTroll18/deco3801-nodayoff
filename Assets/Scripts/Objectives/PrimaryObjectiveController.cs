@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+ * Controls the primary objective UI
+ */
 public class PrimaryObjectiveController : MonoBehaviour {
 	public GameObject HumanObjectivePanel; // Human objective panel for the alien
 	public GameObject SecondaryLocationButton;
@@ -13,6 +16,8 @@ public class PrimaryObjectiveController : MonoBehaviour {
 	// Use this for initialization
 	public void StartMe() {
 		Objective firstObjective = null;
+
+		/* First objective depends on the level being played */
 		switch (Application.loadedLevelName) {
 		case "Main Level":
 			Debug.Log("Load Main Level 1st Objective");
@@ -31,6 +36,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 			Debug.LogError("Scene name is unknown");
 			break;
 		}
+
 		firstObjective.InitializeObjective();
 		ChangeObjective(firstObjective);
 		cam = Camera.main.GetComponent<CameraController>();
@@ -44,7 +50,6 @@ public class PrimaryObjectiveController : MonoBehaviour {
 
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Alien
 			Debug.Log("Setting text of alien objectives");
-
 			transform.Find("Title").GetComponent<Text>().text = "Human Objective: " + objective.Title;
 			transform.Find("Description").GetComponent<Text>().text = objective.Description;
 		} else { // Human
@@ -55,8 +60,7 @@ public class PrimaryObjectiveController : MonoBehaviour {
 			transform.Find("Description").GetComponent<Text>().text = objective.Description;
 	
 		}
-		// In centre (0,-85,0)
-		// To right (70,-85,0)
+
 		Debug.Log("Objective title: " + transform.Find("Title").GetComponent<Text>().text);
 		Debug.Log("Objective desc: " + transform.Find("Description").GetComponent<Text>().text);
 

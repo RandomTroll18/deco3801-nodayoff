@@ -95,10 +95,6 @@ public class Tile : IComparer<Tile>, IEqualityComparer<Tile> {
 
 	/**
 	 * Converts the mouse's current position to a Tile.
-	 * 
-	 * If you're unsure about what the LayerMask does, ask Ben or try something.
-	 * 
-	 * LayerMask layerMask - A mask to indicate whether we clicked on UI or not
 	 */
 	public static Tile MouseToTile(LayerMask layerMask) {
 		Tile goal = null; // The tile we clicked on

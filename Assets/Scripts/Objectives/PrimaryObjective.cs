@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Objectives shown in the panel to the right. These should be mandatory objectives to win.
+ */
 public abstract class PrimaryObjective : Objective {
 	protected Objective NextObjective;
-	/* Doors can be optional which probably means there could be a PrimaryObjective subclass called 
-	 * PrimaryObjectiveWithDoor but I think this way is better
-	 */
-	protected Tile Door;
+	protected Tile Door; /* Door to open. Doors can be optional */
 
 	public override void OnComplete() {
 		GameObject UI = GameObject.FindGameObjectWithTag("Objective UI");

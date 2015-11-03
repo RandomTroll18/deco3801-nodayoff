@@ -3,8 +3,6 @@ using System.Collections;
 
 /**
  * Base class for all objectives.
- * 
- * Primary objectives are just Objectives.
  */
 public abstract class Objective : MonoBehaviour {
 	protected string title;

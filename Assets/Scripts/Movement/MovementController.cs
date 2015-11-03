@@ -2,11 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/* 
- * Known bugs:
- * The visual path is not reset when the end turn button is pressed.
- */ 
-
 /**
  * Controls the player's movement within the game.
  */
@@ -49,10 +44,9 @@ public class MovementController : MonoBehaviour {
 
 	HashSet<Tile> blockedTiles = new HashSet<Tile>(new Tile());
 	List<InteractiveObject> InteractiveTiles = new List<InteractiveObject>();
-
 	/* Player's "moving" status */
 	Moving moving = Moving.NO;
-	/* The path of tiles the player is moving with */
+	/* The path of tiles the player is moving across */
 	LinkedList<Tile> path;
 	/* The list of objects used to visualise the movement path */
 	LinkedList<GameObject> visualPath = new LinkedList<GameObject>();
@@ -71,15 +65,12 @@ public class MovementController : MonoBehaviour {
 		GameObject[] doors; // List of doors
 		List<GameObject> allBlockedTiles; // List of all blocked tiles
 		Tile t; // Generated tile
-		GameObject o; // Test for checking blocked tiles
-		Vector3 v ; // The position of the tile
 
 		SetPublicVariables();
 		debugging = false;
 		camController = GetComponentInChildren<CameraController>();
 		playerScript = gameObject.GetComponent<Player>();
 
-		// Initalises set of all blocked tiles
 		/*
 		 * IMPORTANT: if you make a tag type that you want to add to blockedTiles, use AddRange()
 		 * like I have here.
@@ -113,6 +104,8 @@ public class MovementController : MonoBehaviour {
 			}
 		});
 
+		GameObject o;
+		Vector3 v ;
 		/* Checks if blockedTiles is correct */
 		if (debugging) {
 			foreach (Tile tile in blockedTiles) {
@@ -191,10 +184,7 @@ public class MovementController : MonoBehaviour {
 			setMovingAnimation(true);
 		else
 			setMovingAnimation(false);
-		/* 
-		 * Note that right now this is shifting the transform but we could do it the physics way I 
-		 * just find the transform way easier.
-		 */
+
 		if (moving == Moving.YES) {
 			if (Counter != null) {
 				Destroy(Counter);
@@ -205,6 +195,10 @@ public class MovementController : MonoBehaviour {
 			if (path.Count == 0) {
 				StopMoving();
 			} else if (gameObject.transform.position == Tile.TileMiddle(path.First.Value)) {
+				/*
+				 * The next tile in the movement path has just been reached.
+				 */
+
 				path.RemoveFirst();
 				if (visualPath.Count > 0) { // Most of the time this condition is true
 					DestroyObject(visualPath.Last.Value);
@@ -216,16 +210,18 @@ public class MovementController : MonoBehaviour {
 					ClearPath();
 					StopMoving();
 				}
-			} else { /* Moves the player */
+			} else { 
 				step = Speed * Time.deltaTime;
+
 				if (checkForNulls()) { // Nulls detected in movement routine. Stop
 					ClearPath();
 					StopMoving();
 					return;
 				}
 
-				targetPostition = new Vector3(visualPath.Last.Value.transform.position.x, transform.position.y, 
-				                              visualPath.Last.Value.transform.position.z );
+				/* Look towards movement direction */
+				targetPostition = new Vector3(visualPath.Last.Value.transform.position.x, 
+				        transform.position.y, visualPath.Last.Value.transform.position.z );
 				gameObject.transform.LookAt(targetPostition);
 
 				gameObject.transform.position = Vector3.MoveTowards(
@@ -233,6 +229,7 @@ public class MovementController : MonoBehaviour {
 					Tile.TileMiddle(path.First.Value), 
 					step
 				);
+
 				camController.ResetCamera();
 			}
 		}
@@ -258,9 +255,9 @@ public class MovementController : MonoBehaviour {
 	}
 
 	/**
-	 * This does one of two things: visualises the player's movement choice or it confirms
+	 * This does one of two things: visualises the player's movement choice, or it confirms
 	 * and moves a player's movement choice. Which one is chosen depends on whether this is the
-	 * first time the player has clicked the goal or the second.
+	 * first time the player has clicked the goal tile or the second time.
 	 */
 	public void RequestMovement(Tile goal) {
 		PathTile dest; // The destination tile
@@ -329,9 +326,9 @@ public class MovementController : MonoBehaviour {
 	 */
 	Object SpawnPathTile(Tile pos, GameObject pathMarker) {
 		Vector3 tilePos = Tile.TileMiddle(pos); // The tile position
+		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
 		Quaternion tileRot = Quaternion.Euler(90, 0, 0); // The rotation of the tile
 
-		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
 		return Instantiate(pathMarker, tilePos, tileRot);
 	}
 
@@ -343,8 +340,9 @@ public class MovementController : MonoBehaviour {
 	 */
 	void SpawnHighlightedTile(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos); // The position of the tile
-		Quaternion tileRot = Quaternion.Euler(90, 0, 0); // The rotation of the tile
 		tilePos.y = tilePos.y - HIGHLIGHTED_TILE_ELEVATION;
+		Quaternion tileRot = Quaternion.Euler(90, 0, 0); // The rotation of the tile
+
 		visualPath.AddLast(Instantiate(HighlightedTile, tilePos, tileRot) as GameObject);
 		ShowAPCost(pos);
 	}
@@ -361,8 +359,8 @@ public class MovementController : MonoBehaviour {
 		Counter = Instantiate(APCounter, tilePos, Quaternion.identity) as GameObject;
 		Counter.transform.SetParent(GameObject.Find("Player UI").transform, true);
 		Counter.GetComponentInChildren<Text>().text = "value goes here";
-		Counter.transform.position = new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, 
-		                                         transform.position.z);
+		Counter.transform.position = new Vector3(Input.mousePosition.x + 50f, 
+		        Input.mousePosition.y + 50f, transform.position.z);
 		Counter.GetComponentInChildren<Text>().text = cost.ToString();
 	}
 
@@ -374,7 +372,8 @@ public class MovementController : MonoBehaviour {
 	 * Arguments
 	 * - Tile goal - The goal of the path
 	 * - bool allowBlockedGoal - Allow us to keep looking if the goal is blocked
-	 * - bool stealth - Ignore tiles if stealth is active - Ben I don't know about this
+	 * - bool stealth - Stops finding a path if the distance is too far. Used by Stealth objects
+	 * as an performance improvement.
 	 */
 	PathTile FindPath(Tile goal, bool allowBlockedGoal, bool stealth) {
 		HashSet<Tile> explored = new HashSet<Tile>(); // The explored tiles
@@ -382,6 +381,7 @@ public class MovementController : MonoBehaviour {
 		PathTile current; // The currently looked at tile
 		Queue<PathTile> q; // Queue of path tiles
 
+		/* Breadth first search */
 		if (goal != null && (allowBlockedGoal || !blockedTiles.Contains(goal))) {
 			q = new Queue<PathTile>();
 			q.Enqueue(new PathTile(playerScript.PlayerPosition()));
@@ -444,7 +444,6 @@ public class MovementController : MonoBehaviour {
 				if (current.Equals(endTile)) {
 					pathFound = current;
 				}
-				/* I like duplicate code :} */
 				for (int z = 1; z >= -1; z -= 2) {
 					neighbour = new Tile(current.X + 0, current.Z + z);
 					if (!blockedTiles.Contains(neighbour) && !explored.Contains(neighbour)) {
@@ -497,13 +496,14 @@ public class MovementController : MonoBehaviour {
 			res.AddFirst(new Tile(pathToReverse.X, pathToReverse.Z));
 			pathToReverse = pathToReverse.Parent;
 		}
+
 		res.RemoveFirst(); // Don't need the original path position
 		return res;
 	}
 
 	/**
 	 * Sets the given tile to no longer be blocking. This means the movement path could now go 
-	 * through that tile. NOTE: your blocker will still appear on
+	 * through that tile. NOTE: your blocker visuals (e.g. a wall) will still appear on
 	 * the map unless you delete it yourself. 
 	 */
 	public void UnblockTile(Tile tile) {

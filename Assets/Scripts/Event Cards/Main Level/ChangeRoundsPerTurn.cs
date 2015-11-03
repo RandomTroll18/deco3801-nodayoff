@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 
 /*
- * Increase the number of rounds lost per turn
+ * Increase the number of rounds lost per turn.
  */
 public class ChangeRoundsPerTurn : EventCard {
 	public int RoundsLost = 1;
