@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class GameManager : Photon.PunBehaviour {
 
-	public Vector3 BoardingSpawn;
-	public int RoundsLeftUntilLose;
+	public Vector3 BoardingSpawn; // The spawn point of the boarding party
+	public int RoundsLeftUntilLose; // The rounds left before humans lose
 	public int InitialNumberOfTurns; // The initial number of turns
-	public GameObject[] OpenedDoors;
+	public GameObject[] OpenedDoors; // The opened doors
 	public Text RemainingTurnsText; // The text counter for the remaining turns
-	public List<Tile> UnlockedTiles = new List<Tile>();
+	public List<Tile> UnlockedTiles = new List<Tile>(); // The tiles we have unlocked
 
 	/*
 	 * Remember whether the current turn is a valid turn. 
@@ -25,8 +25,8 @@ public class GameManager : Photon.PunBehaviour {
 	bool validTurn;
 	bool loaded = false; // Record if all players have been loaded
 
-	int numPlayers;
-	int roundsLost = 1;
+	int numPlayers; // The number of players in the game
+	int roundsLost = 1; // The number of rounds we lose every ending of a turn
 	int playersLeft; // The number of players still active
 	Dictionary<Tile, GameObject> doors = new Dictionary<Tile, GameObject>(); // The doors
 	MovementController movController; // Movement controller script
@@ -42,36 +42,25 @@ public class GameManager : Photon.PunBehaviour {
 	 * Wait for other players to join before starting the game
 	 */
 	void waitForPlayers() {
-		// Player models that have been instantiated
-		HashSet<GameObject> playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player")); 
+		HashSet<GameObject> playerModels; // Player models that have been instantiated
 		if (Application.loadedLevelName != "Tutorial")
 		instantiatedCanvas.GetComponentInChildren<Text>().text = 
 				"Waiting for " + (PhotonNetwork.playerList.Length - readyPlayers.Count) + " players to finish loading";
-		/* Get player models */
+
+		// Get player models
 		playerModels = new HashSet<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
-		Debug.Log("Number of ready players: " + readyPlayers.Count);
-		Debug.Log("Number of instantiated player models: " + playerModels.Count);
-		Debug.Log("Number of photon players: " + PhotonNetwork.playerList.Length);
-
 		foreach (PhotonPlayer networkPlayer in PhotonNetwork.playerList) { // Check every player
-			if (networkPlayer == PhotonNetwork.player) {
-				Debug.Log("Looking at current player. Skip");
+			if (networkPlayer == PhotonNetwork.player) // We aren't looking at ourselves
 				continue; // We know for sure that we've instantiated our player model
-			} else if (readyPlayers.Contains(networkPlayer)) {
-				Debug.Log(networkPlayer.name + " is ready. Skip");
+			else if (readyPlayers.Contains(networkPlayer)) // This player is already ready
 				continue; // This player has already instantiated their player model
-			} else if (pendingInstantiation.Contains(networkPlayer))
-				Debug.Log(networkPlayer.name + " is processing the RPC request. Skip");
 
 			foreach (GameObject playerModel in playerModels) { // Look at all the player models
-				if (playerModel.GetComponent<PhotonView>().ownerId == networkPlayer.ID) { 
-					Debug.Log(networkPlayer.name + " is ready");
+				if (playerModel.GetComponent<PhotonView>().ownerId == networkPlayer.ID) { // This player is ready
 					readyPlayers.Add(networkPlayer); // We can see the player's model
-					if (pendingInstantiation.Contains(networkPlayer)) {
-						Debug.Log("Pending player (" + networkPlayer.name + ") has loaded");
+					if (pendingInstantiation.Contains(networkPlayer)) // This was a pending player
 						pendingInstantiation.Remove(networkPlayer);
-					}
 					break;
 				}
 			}
@@ -79,21 +68,17 @@ public class GameManager : Photon.PunBehaviour {
 				if ((bool)(networkPlayer.customProperties["waiting"]) 
 						&& !pendingInstantiation.Contains(networkPlayer)) {
 					// Player has supposedly instantiated their player
-					Debug.Log(networkPlayer.name + " is waiting. Ask to re-instantiate their player");
 					networkingManager.gameObject.GetComponent<PhotonView>().RPC(
 							"RequestInitializingOfPlayer",
 							networkPlayer,
 							new object[] {PhotonNetwork.player}
 					);
-					pendingInstantiation.Add(networkPlayer);
-				} else
-					Debug.Log(networkPlayer.name + " is still selecting their class");
-			} else
-				Debug.Log(networkPlayer.name + " has already loaded");
+					pendingInstantiation.Add(networkPlayer); // We are pending this player to spawn their model
+				}
+			}
 		}
 
-		if (readyPlayers.Count >= PhotonNetwork.playerList.Length) {
-			Debug.Log("All players have been loaded");
+		if (readyPlayers.Count >= PhotonNetwork.playerList.Length) { // All players have loaded
 			loaded = true;
 			Destroy(instantiatedCanvas);
 		}
@@ -116,32 +101,24 @@ public class GameManager : Photon.PunBehaviour {
 		GameObject instantiatedPlayer; // The instantiated player
 		PhotonView instantiatedView; // The instantiated view
 
-		Debug.LogError("Received RPC response to instantiate a player model for: " + trueOwner.name);
-		Debug.LogError("Received RPC response to instantiate a player model with id of: " + trueViewId);
 		/* Instantiate the player and change the ownership */
 		instantiatedPlayer = Instantiate(playerObject);
 		instantiatedView = instantiatedPlayer.GetComponent<PhotonView>();
-
-		Debug.LogError("Is view enabled: " + instantiatedView.enabled);
 		instantiatedPlayer.transform.position = positionToSpawn;
 		instantiatedPlayer.transform.rotation = rotationToSpawn;
 		instantiatedView.TransferOwnership(trueOwner);
 		instantiatedView.ownerId = trueOwnerId;
 		instantiatedView.viewID = trueViewId;
 		instantiatedView.enabled = true;
-
-		Debug.LogError("Instantiated player for: " + trueOwner.name + ", owner is: " + instantiatedView.owner.name);
-		Debug.LogError("New owner id: " + instantiatedView.ownerId);
-		Debug.LogError("New view id: " + instantiatedView.viewID);
 	}
 
 	/*
-	 * From now on, it's safer to replace Start with StartMe in all your classes and to 
-	 * call StartMe in StartScripts
+	 * Start this script
 	 */
 	public void StartMe() {
 		StartPlaying();
-		// Set custom properties for ourselves
+
+		/* Set ourselves to be waiting for other players to join */
 		PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() {
 				{"waiting", true}
 		});
@@ -186,19 +163,21 @@ public class GameManager : Photon.PunBehaviour {
 		Debug.LogWarning("Sending a player to class select from game manager");
 	}
 
+	/**
+	 * RPC call for adding a player to the current game
+	 */
 	[PunRPC]
 	public void AddPlayer() {
 		numPlayers++;
 		playersLeft++;
-		Debug.Log("Player list size: " + playersLeft);
 		playersLeft = PhotonNetwork.playerList.Length;
-		Debug.Log("Player list size (after checking photon): " + playersLeft);
 	}
 
 	void StartScripts() {
 		PlayerClass classOfPlayer; // The player's class
 		AlienClass alienClass; // The alien's class
 
+		/* Start the player */
 		Player.MyPlayer.GetComponent<Player>().StartMe();
 		Player.MyPlayer.GetComponent<MovementController>().StartMe();
 		Player.MyPlayer.GetComponentInChildren<CameraController>().StartMe();
@@ -208,20 +187,17 @@ public class GameManager : Photon.PunBehaviour {
 		Player.MyPlayer.GetComponent<Player>().enabled = true;
 		Player.MyPlayer.GetComponent<Player>().IsSpawned = false; // This isn't spawned
 		Player.MyPlayer.GetComponent<BoxCollider>().enabled = true;
+
+		/* Start everything else */
 		Object.FindObjectOfType<Poll>().StartMe();
 		Object.FindObjectOfType<MainCanvasButton>().StartMe();
 		Object.FindObjectOfType<ContextAwareBox>().StartMe();
 		Object.FindObjectOfType<InventoryUIScript>().StartMe();
-		/*
-		 * This is how you call StartMe for classes that aren't singletons
-		 */
-		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>()) {
-			Debug.Log("Start inventory ui slots");
+
+		foreach (InventoryUISlotScript script in Object.FindObjectsOfType<InventoryUISlotScript>())
 			script.StartMe();
-		}
 		
 		Object.FindObjectOfType<ChatTest>().StartMe();
-		// TODO: Before initializing the class panel, need to check if the player is an alien
 		classOfPlayer = Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject();
 		if (classOfPlayer.GetClassTypeEnum() == Classes.BETRAYER) { // Alien class
 			alienClass = (AlienClass)classOfPlayer;
@@ -238,13 +214,8 @@ public class GameManager : Photon.PunBehaviour {
 
 	public void StartPlaying() {
 		StartScripts();
+		movController = Player.MyPlayer.GetComponent<MovementController>(); // Get movement controller
 
-		/*
-		 * This is where the old Start() started
-		 */
-		movController = Player.MyPlayer.GetComponent<MovementController>();
-
-		//TODO : Still in thinking of a better way to do it. -Ken
 		foreach (InteractiveObject script in Object.FindObjectsOfType<InteractiveObject>())
 			script.StartMe(this);
 		foreach (Trap script in Object.FindObjectsOfType<Trap>())
@@ -253,25 +224,27 @@ public class GameManager : Photon.PunBehaviour {
 		InitalizeDoors();
 		TurnOnLighting();
 		validTurn = false;
-		//		Debug.Log("Valid turn is: " + validTurn + " by default");
-		//		Debug.Log("Number of players left: " + playersLeft);
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 
 		enabled = true; // Turns on the Update() function
 	}
 
+	/**
+	 * Initialize all the doors
+	 */
 	void InitalizeDoors() {
-		foreach (GameObject door in GameObject.FindGameObjectsWithTag("Door")) {
+		foreach (GameObject door in GameObject.FindGameObjectsWithTag("Door")) // Add a door to the list of doors
 			doors.Add(Tile.TilePosition(door.transform.position), door);
-		}
 
 		foreach (GameObject openDoor in OpenedDoors) {
-			if (openDoor != null) {
+			if (openDoor != null) // Open the door
 				OpenDoor(Tile.TilePosition(openDoor.transform.position));
-			}
 		}
 	}
 
+	/**
+	 * Turn on the light objects
+	 */
 	void TurnOnLighting() {
 		Color color;
 		Color.TryParseHexString("161616FF", out color);
@@ -292,26 +265,20 @@ public class GameManager : Photon.PunBehaviour {
 	void Update() {
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
 		if (!loaded) // Wait for other players to join first
-			if (Application.loadedLevelName != "Tutorial") {
+			if (Application.loadedLevelName != "Tutorial") // This is the main level. Wait
 				waitForPlayers();
-			} else {
+			else // Tutorial
 				loaded = true;
-			}
 		if (validTurn) {
-			if (playersLeft <= 0) { // No more active players
+			if (playersLeft <= 0) // No more active players
 				validTurn = false;
-			}
 			return;
 		}
 
-		//Debug.Log ("Invalid turn. Game Manager doing stuff");
-		//playersLeft = numPlayers; Doesn't take into account players disconnected mid-game
 		playersLeft = PhotonNetwork.playerList.Length; // Need to check photons list of players, not models
 
-		// Initialize player stats - AP and apply player effects
+		/* Initialize player stats - AP and apply player effects */
 		try { 
-			if (Player.MyPlayer == null)
-				Debug.LogWarning("Player is null");
 			Player p = Player.MyPlayer.GetComponent<Player>();
 			p.InitializeStats();
 			p.ApplyTurnEffects();
@@ -323,12 +290,10 @@ public class GameManager : Photon.PunBehaviour {
 			Application.LoadLevel("GameOver");
 		}
 
-
 		GiveSecondary();
-
 		RoundsLeftUntilLose -= roundsLost;
 		RemainingTurnsText.text = "Rounds Remaining: " + RoundsLeftUntilLose;
-		if (RoundsLeftUntilLose <= 0)
+		if (RoundsLeftUntilLose <= 0) // Lost the game
 			GetComponent<PhotonView>().RPC("LoseGame", PhotonTargets.All, null);
 
 		validTurn = true;
@@ -338,19 +303,17 @@ public class GameManager : Photon.PunBehaviour {
 	 * Has a small chance to give a secondary out
 	 */
 	void GiveSecondary() {
-		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject; // Secondaries
 		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER) {
 			// Alien
 			if (secondaries.transform.childCount < 8
-			    	&& Random.Range(0, 10) >= 7) {
+			    	&& Random.Range(0, 10) >= 7) // Pick random alien objective
 				SecondaryObjective.PickNewAlienObjective();
-			}
 		} else {
 			// Human
 			if (secondaries.transform.childCount < 3
-			    	&& Random.Range(0, 10) >= 9) {
+			    	&& Random.Range(0, 10) >= 9) // Pick random human objective
 				SecondaryObjective.PickNewHumanObjective();
-			}
 		}
 	}
 
@@ -365,6 +328,9 @@ public class GameManager : Photon.PunBehaviour {
 		RoundsLeftUntilLose += addedTurns;
 	}
 
+	/**
+	 * RPC call for losing the game
+	 */
 	[PunRPC]
 	void LoseGame() {
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Aliens win
@@ -390,7 +356,6 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	public void SetActivePlayer() {
 		playersLeft++;
-		Debug.Log("Players left (after setting to active): " + playersLeft);
 	}
 
 	/**
@@ -399,7 +364,6 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	public void SetInactivePlayer() {
 		playersLeft--;
-		Debug.Log("Players left (after setting to inactive): " + playersLeft);
 	}
 
 	/**
@@ -407,7 +371,7 @@ public class GameManager : Photon.PunBehaviour {
 	 * no longer block that tile.
 	 */
 	public void OpenDoor(Tile position) {
-		GameObject door;
+		GameObject door; // The door to open
 		if (!doors.TryGetValue(position, out door)) {
 			Debug.LogWarning("You tried to open a door that doesn't exist on that tile. BEN");
 			return;
@@ -423,38 +387,66 @@ public class GameManager : Photon.PunBehaviour {
 		UnlockedTiles.Add(position);
 	}
 
+	/**
+	 * Get the movement controller of the current player
+	 */
 	public MovementController GetPlayerControllers(){
 		return movController;
 	}
 
 	/*
 	 * Increases the number of rounds lost after a turn.
+	 * 
+	 * Arguments
+	 * - int newRoundsLost - The additional rounds we've lost
 	 */
 	[PunRPC]
 	public void IncreaseRoundsLost(int newRoundsLost) {
-		this.roundsLost += newRoundsLost;
+		roundsLost += newRoundsLost;
 	}
 
 	/*
 	 * Decreases the number of rounds lost after a turn.
+	 * 
+	 * Arguments
+	 * - int newRoundsLost - The number of rounds we gain per ending of a turn
 	 */
 	[PunRPC]
 	public void DecreaseRoundsLost(int newRoundsLost) {
-		this.roundsLost -= newRoundsLost;
+		roundsLost -= newRoundsLost;
 	}
 
+	/**
+	 * Get the number of players left in the game
+	 */
 	public int GetPlayersLeft() {
 		return playersLeft;
 	}
 
+	/**
+	 * RPC call for spawning the boarding party
+	 * 
+	 * Arguments
+	 * - Vector3 spawn - The position of the spawn point
+	 */
 	[PunRPC]
 	public void SpawnBoardingParty(Vector3 spawn) {
-		BoardingSpawn = spawn;
+		// The secondary objectives of the current player
 		GameObject secondaries 
 			= Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
+
+		BoardingSpawn = spawn;
 		secondaries.AddComponent<BoardingParty>();
 	}
 
+	/**
+	 * Set event card
+	 * 
+	 * Arguments
+	 * - string message - The message to give
+	 * - string title - The title of the event card
+	 * - string image - The path to the event card image
+	 */
 	[PunRPC]
 	public void EventCardMessage(string message, string title, string image) {
 		GenericCard gc = gameObject.AddComponent<GenericCard>();
@@ -462,8 +454,14 @@ public class GameManager : Photon.PunBehaviour {
 		gc.CreateCard();
 	}
 
+	/**
+	 * Increase the number of rounds left in the game
+	 * 
+	 * Arguments
+	 * - int extraRounds - The additional rounds
+	 */
 	[PunRPC]
 	public void IncreaseRounds(int extraRounds) {
-		this.RoundsLeftUntilLose += extraRounds;
+		RoundsLeftUntilLose += extraRounds;
 	}
 }

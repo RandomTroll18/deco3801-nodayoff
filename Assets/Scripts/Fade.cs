@@ -6,19 +6,13 @@ using UnityEngine.Events;
 
 public class Fade : MonoBehaviour {
 	
-	public float FadeSpeed = 1.5f;
-
-	// Use this for initialization
-	void Start () {
-	}
+	public float FadeSpeed = 1.5f; // The speed of the fade
 	
-	// Update is called once per frame
 	void Update () {
-		Text text = this.gameObject.GetComponent<Text>();
+		Text text = gameObject.GetComponent<Text>(); // The text to fade
 		text.color = Color.Lerp(text.color, Color.clear, FadeSpeed * Time.deltaTime);
-		if (text.color.a < 0.1f) {
-			Destroy(this.gameObject);
-		}
+		if (text.color.a < 0.1f) // Destroy the attached object
+			Destroy(gameObject);
 	}
 
 

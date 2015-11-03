@@ -49,9 +49,8 @@ public class Player : MonoBehaviour {
 	public void StartMe() {
 		GameObject secondaries = Player.MyPlayer.transform.FindChild("SecondaryObjectives").gameObject;
 
-		if (Application.loadedLevelName != "Tutorial") {
+		if (Application.loadedLevelName != "Tutorial") // Add security room objective
 			secondaries.AddComponent<SecurityRoomObjective>();
-		}
 
 		SetPublicVariables();
 		GatherScripts();
@@ -61,9 +60,7 @@ public class Player : MonoBehaviour {
 				playerLight = child.GetComponent<Light>();
 		}
 
-		//this.rb = GetComponent<Rigidbody>();
 		initializeInventory();
-
 		droppedItems = new List<GameObject>();
 
 		if (!IsSpawned && ChosenClass != null) 
@@ -84,11 +81,12 @@ public class Player : MonoBehaviour {
 	}
 
 	/*
-	 * I put this hear since NetworkManager moves the player after its StartMe() is called.
+	 * Generate the stun gun for this player
 	 */
 	public void GenerateStunGun() {
-		GameObject stunGunObject;
-		if (StunGunPrefab != null && !IsSpawned) {
+		GameObject stunGunObject; // The stun gun object
+
+		if (StunGunPrefab != null && !IsSpawned) { // Proper player
 			stunGunObject = Instantiate(StunGunPrefab);
 			stunGunObject.transform.position = new Vector3(
 					transformComponent.position.x, 
@@ -98,10 +96,8 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	/*
-	 * This is a really bad thing to do since it's so hard to understand why this needs to be done.
-	 * Understand that players need to be instantiated from a script, because of PUN, and so we 
-	 * can't assign public variables from the scene within the editor.
+	/**
+	 * Setting public variables. For use with networking
 	 */
 	void SetPublicVariables() {
 		GameManagerObject = Object.FindObjectOfType<GameManager>().gameObject;
@@ -118,19 +114,23 @@ public class Player : MonoBehaviour {
 		EffectBoxPanel = GameObject.Find("EffectBoxPanel");
 		StunGunPrefab = Resources.Load("StunGun") as GameObject;
 		PlayerObject = gameObject;
-		if (ClassToSet != null)
+		if (ClassToSet != null) // No class. Assume Technician
 			ClassToSet = "Technician";
 	}
 
 	/*
-	 * Returns the Player at the given tile or null if no player is at that tile.
-	 * If multiple players are on a tile, just returns one of those players.
+	 * Gets the player on the given tile
+	 * 
+	 * Arguments
+	 * - Tile tile - The tile to look at
+	 * 
+	 * Returns
+	 * - The script of the player at tile. Null otherwise
 	 */
 	public static Player PlayerAtTile(Tile tile) {
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
-			if (Tile.TilePosition(p.transform.position).Equals(tile)) {
+			if (Tile.TilePosition(p.transform.position).Equals(tile)) // Found a player
 				return p.GetComponent<Player>();
-			}
 		}
 		
 		return null;
@@ -163,15 +163,10 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
-	 * Update function. Needs to be done:
-	 * - if we are in an invalid turn, reset values to default
-	 * - if we are in a valid turn and we are active, 
-	 * apply turn effects (if not activated yet) and allow movement
-	 * - if we are in a valid turn but we are not active, don't 
-	 * allow movement
+	 * Update function. Called every frame
 	 */
 	void Update() {
-		UnlblockUnlockedTiles();
+		UnblockUnlockedTiles();
 		UpdateVision();
 		if (!gameManagerScript.IsValidTurn()) {
 			turnEffectsApplied = false;
@@ -196,7 +191,10 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	void UnlblockUnlockedTiles() {
+	/**
+	 * Unblock tiles that have been unlocked through objectives/skill checks
+	 */
+	void UnblockUnlockedTiles() {
 		foreach (Tile tile in gameManagerScript.UnlockedTiles) {
 			if (tile != null && GetComponent<MovementController>() != null)
 				GetComponent<MovementController>().UnblockTile(tile);
@@ -219,6 +217,7 @@ public class Player : MonoBehaviour {
 	public void InstantiateStartingItems() {
 		GameObject startingItem; // The starting item
 		AlienClass alienClass; // Alien class container
+
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.blue) { // Human
 			switch (playerClass.GetClassTypeEnum()) {
 			case Classes.BETRAYER: goto default;
@@ -296,6 +295,13 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * RPC call for setting the stealth of this player
+	 * 
+	 * Arguments
+	 * - bool enableFlag - Used to indicate whether stealth is enabled or not
+	 * - bool permanentFlag - Used to indicate whether stealth is permanent or not
+	 */
 	[PunRPC]
 	public void SetStealth(bool enableFlag, bool permanentFlag) {
 		if (Player.MyPlayer.GetComponent<Stealth>() != null) {
@@ -319,8 +325,7 @@ public class Player : MonoBehaviour {
 		if (stunTimer < 0) // Invalid stun timer
 			stunTimer = 0;
 		stunTimer += timer;
-		if (SoundManagerScript.Singleton != null) {
-			// Move sound manager to this player
+		if (SoundManagerScript.Singleton != null) { // Play sound effect
 			SoundManagerScript.Singleton.gameObject.transform.position = gameObject.transform.position;
 			SoundManagerScript.Singleton.PlaySingle3D(StunEfx);
 		}
@@ -335,7 +340,7 @@ public class Player : MonoBehaviour {
 
 		stunAnim = Instantiate<GameObject>(Resources.Load<GameObject>("StunGunAnim"));
 		stunAnim.transform.position = transform.position;
-		if (stunAnim == null)
+		if (stunAnim == null) // No stun animation
 			throw new System.ArgumentException("Invalid prefab path");
 		Destroy(stunAnim, 3f);
 	}
@@ -451,7 +456,6 @@ public class Player : MonoBehaviour {
 			break;
 		default: break; // Don't do anything
 		}
-		Debug.Log("Turn effect number of turns: " + toAdd.TurnsRemaining());
 		turnEffects.Add(toAdd);
 		effectPanelScript.AddTurnEffect(toAdd);
 	}
@@ -470,12 +474,11 @@ public class Player : MonoBehaviour {
 	 * Function handling collision with a trigger item
 	 */
 	void OnTriggerEnter(Collider other) {
-		Debug.Log("Colliding with something");
-		/*
-		 * Map things
-		 */
-		CameraController cm = GetComponentInChildren<CameraController>();
-		switch (other.gameObject.name) {
+		CameraController cm = GetComponentInChildren<CameraController>(); // The camera controller
+		InventoryUISlotScript uiSlotScript; // The ui slot script
+		Item item; // The item attached to a game object
+
+		switch (other.gameObject.name) { // Set the location of this player
 		case "Cargo":
 			cm.Location = Locations.CARGO_BAY;
 			break;
@@ -502,19 +505,17 @@ public class Player : MonoBehaviour {
 			break;
 		}
 
-		InventoryUISlotScript uiSlotScript; // The ui slot script
-		Item item; // The item attached to a game object
-		if (other.gameObject.CompareTag("Item")) {
-			Debug.Log("Collided with item");
+		if (other.gameObject.CompareTag("Item")) { // Collided with an item
 			if (availableSpot == 8) 
 				return; // No more room
 			if (droppedItems.Contains(other.gameObject)) 
 				return; // Just recently dropped
 			if (InventoryUI == null || InventoryUI.Length == 0) 
 				return; // Don't do anything
+
 			// Get the ui slot script
 			uiSlotScript = InventoryUI[availableSpot].GetComponent<InventoryUISlotScript>();
-			Debug.Log("Attempting to pick up");
+
 			/* We collided with an item. Pick it up */
 			physicalItems[availableSpot] = other.gameObject;
 			item = other.GetComponent<Item>();
@@ -524,7 +525,7 @@ public class Player : MonoBehaviour {
 			/* Make objects disappear */
 			if (other.gameObject.GetComponent<PhotonView>() == null) // No Photon View
 				other.gameObject.SetActive(false);
-			else {
+			else { // Make object disappear
 				other.gameObject.GetComponent<PhotonView>().RPC(
 					"SetActive", 
 					PhotonTargets.All, 
@@ -533,7 +534,8 @@ public class Player : MonoBehaviour {
 			}
 
 			// Get turn effects if they exist
-			if (item.GetTurnEffects() != null) AttachTurnEffects(item.GetTurnEffects());
+			if (item.GetTurnEffects() != null) 
+				AttachTurnEffects(item.GetTurnEffects());
 
 			// Apply effects to item on pickup
 			applyItemEffect(item);
@@ -546,14 +548,11 @@ public class Player : MonoBehaviour {
 			}
 
 			// Increment to the next available spot
-			while (availableSpot != 8 && inventory[availableSpot] != null) {
+			while (availableSpot != 8 && inventory[availableSpot] != null)
 				availableSpot++;
-			}
-		} else if (other.gameObject.CompareTag("Trap")) {
-
+		} else if (other.gameObject.CompareTag("Trap")) { // Collided with a trap
 			Trap TrapObject = other.GetComponent<Trap>();
 			TrapObject.Activated(this);
-
 		}
 	}
 
@@ -565,8 +564,10 @@ public class Player : MonoBehaviour {
 	 */
 	void applyItemEffect(Item itemToAffect) {
 		foreach (Effect effect in turnEffects) {
-			if (!effect.GetTurnEffectType().Equals(TurnEffectType.ITEMEFFECT)) continue;
-			if (!itemToAffect.GetType().Equals(effect.GetAffectedItemType())) continue;
+			if (!effect.GetTurnEffectType().Equals(TurnEffectType.ITEMEFFECT)) // Not an item effect
+				continue;
+			if (!itemToAffect.GetType().Equals(effect.GetAffectedItemType())) // Not the effected item
+				continue;
 		}
 	}
 
@@ -588,11 +589,12 @@ public class Player : MonoBehaviour {
 		case TurnEffectType.ITEMEFFECT: // Need to reset affected items
 			foreach (Item item in inventory) {
 				if (item != null && item.GetType().Equals(effect.GetAffectedItemType())) { 
-					// Reset item cool down and turn settings
+					/* Reset item cool down and turn settings */
 					item.ResetCoolDown();
 					item.ResetCoolDownSetting();
 					item.ResetUsePerTurn();
-					if (item.RemainingCoolDownTurns() == 0) item.ReduceCoolDown();
+					if (item.RemainingCoolDownTurns() == 0)  // Reduce the cool down of the item to be sure
+						item.ReduceCoolDown();
 				}
 			}
 			break;
@@ -632,12 +634,6 @@ public class Player : MonoBehaviour {
 		renderers.AddRange(gameObject.GetComponents<Renderer>());
 		renderers.AddRange(gameObject.GetComponentsInChildren<Renderer>());
 
-		Debug.LogWarning("Renderer size: " + renderers.Count);
-
-		if (defaultMaterial == null)
-			Debug.LogError("No default material");
-		else 
-			Debug.LogWarning("Default Material: " + defaultMaterial);
 		setRenderersToMaterial(defaultMaterial, renderers);
 	}
 
@@ -657,8 +653,6 @@ public class Player : MonoBehaviour {
 
 		renderers.AddRange(gameObject.GetComponents<Renderer>());
 		renderers.AddRange(gameObject.GetComponentsInChildren<Renderer>());
-
-		Debug.LogWarning("Renderer size: " + renderers.Count);
 
 		setRenderersToMaterial(newMaterial, renderers);
 	}
@@ -800,9 +794,8 @@ public class Player : MonoBehaviour {
 	 */
 	public void SetStatValue(Stat playerStat, double value) {
 		stats[playerStat] = value;
-		if (stats[playerStat] <= 0.0) {
+		if (stats[playerStat] <= 0.0) // Set stat to 0. Can't be negative
 			stats[playerStat] = 0.0;
-		}
 
 		/*
 		 * Add any constraint checking to this switch
@@ -810,11 +803,8 @@ public class Player : MonoBehaviour {
 		switch(playerStat) {
 		case Stat.AP: goto default;
 		case Stat.VISION:
-			if (value < 1 || value > 3) {
-				Debug.LogError("You tried to change the vision stat to a value outside it's range" +
-			                   "of 1-3. Setting vision value to 2.");
+			if (value < 1 || value > 3) // Invalid value for vision. Set to default
 				stats[Stat.VISION] = 2;
-			}
 			UpdateVision();
 			break;
 		default: break; // Do nothing yet
@@ -841,45 +831,33 @@ public class Player : MonoBehaviour {
 		return playerLight;
 	}
 
+	/**
+	 * Update the light around this player based on any 
+	 * effects/items the player has
+	 */
 	void UpdateVision() {
-		int visionDistance = 2;
-		int distanceToCharacter; // The distance to a character
 		if (playerLight == null) // No light exists
 			return;
 		if (stats[Stat.VISION] <= 1f && stats[Stat.VISION] >= 1f)
 			playerLight.intensity = 1f;
-		else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f) {
+		else if (stats[Stat.VISION] <= 2f && stats[Stat.VISION] >= 2f)
 			playerLight.intensity = 2.3f;
-			visionDistance = 4;
-		} else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f) {
+		else if (stats[Stat.VISION] <= 3f && stats[Stat.VISION] >= 3f)
 			playerLight.intensity = 4f;
-			visionDistance = 8;
-		}
-
-		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player")) {
-			if (p.Equals(gameObject))
-				continue;
-			distanceToCharacter = DistanceToTile(Tile.TilePosition(p.transform.position));
-
-			if (distanceToCharacter == -1) // No path found
-				continue;
-
-			if (distanceToCharacter <= visionDistance) {
-//				p.GetComponentInChildren<MeshRenderer>().enabled = true;
-				// TODO
-			} else {
-//				p.GetComponentInChildren<MeshRenderer>().enabled = false;
-				// TODO
-			}
-		}
 	}
 
+	/**
+	 * Get the distance (in terms of tiles) that this player can see
+	 * 
+	 * Returns
+	 * - The number of tiles the player can see
+	 */
 	public int GetVisionDistance() {
-		if (stats[Stat.VISION] >= 0.9 && stats[Stat.VISION] <= 1.1) {
+		if (stats[Stat.VISION] >= 0.9 && stats[Stat.VISION] <= 1.1)
 			return 2;
-		} else if (stats[Stat.VISION] >= 1.9 && stats[Stat.VISION] <= 2.1) {
+		else if (stats[Stat.VISION] >= 1.9 && stats[Stat.VISION] <= 2.1)
 			return 4;
-		} else if (stats[Stat.VISION] >= 2.9 && stats[Stat.VISION] <= 3.1) {
+		else if (stats[Stat.VISION] >= 2.9 && stats[Stat.VISION] <= 3.1) {
 			Debug.Log("6");
 			return 6;
 		} else {
@@ -905,9 +883,15 @@ public class Player : MonoBehaviour {
 		instantiatedCamera.SetActive(false);
 	}
 
-	/* 
+	/**
 	 * Returns the distance between this player and a tile.
-	 * second param is for stealth optimisation
+	 * 
+	 * Arguments
+	 * - Tile tile - The tile to look at
+	 * - bool stealth - Indicate if stealth needs to be taken into account. For optimisation
+	 * 
+	 * Returns
+	 * - The number of tiles this player can see from their position
 	 */
 	public int DistanceToTile(Tile tile, bool stealth = false) {
 		return GetComponent<MovementController>().TileDistance(tile, stealth);
@@ -961,7 +945,7 @@ public class Player : MonoBehaviour {
 				physicalItems[itemIndex].transform.position = 
 					new Vector3(transformComponent.position.x, (float)0.0, 
 					            transformComponent.position.z);
-			} else {
+			} else { // Set this player to be active
 				physicalItems[itemIndex].GetComponent<PhotonView>().RPC(
 					"SetActive", 
 					PhotonTargets.All, 
@@ -1024,7 +1008,7 @@ public class Player : MonoBehaviour {
 	 * - -1 otherwise
 	 */
 	int getIndex(object itemToGet) {
-		for (int i = 0; i < 8; ++i) {
+		for (int i = 0; i < 8; ++i) { // Check each item
 			if (inventory[i] == null) 
 				continue; // Nothing here
 			else if (inventory[i].Equals(itemToGet)) 
@@ -1051,7 +1035,7 @@ public class Player : MonoBehaviour {
 		if (turnEffectsApplied) 
 			return;
 
-		for (int i = 0; i < turnEffects.Count; ++i) {
+		for (int i = 0; i < turnEffects.Count; ++i) { // Check each turn effect
 			currentEffect = turnEffects[i];
 			applyTurnEffect(turnEffects[i]);
 			if (!turnEffects.Contains(currentEffect)) 
@@ -1087,6 +1071,12 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Get the tile position of this player
+	 * 
+	 * Returns
+	 * - The position of this player in a tile
+	 */
 	public Tile PlayerPosition() {
 		Tile pos = new Tile();
 		pos.X = Tile.TilePosition(transform.position.x);

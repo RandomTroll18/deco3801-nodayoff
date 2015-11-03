@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * Enum for the different locations in the map
+ */
 public enum Locations {
 	BRDIGE,
 	CARGO_BAY,
@@ -15,7 +18,7 @@ public enum Locations {
 
 public class Location : MonoBehaviour {
 
-	public Locations MyLocation;
+	public Locations MyLocation; // The location of the current player
 
 	public override string ToString() {
 		switch (MyLocation) {

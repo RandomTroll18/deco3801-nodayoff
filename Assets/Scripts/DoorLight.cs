@@ -3,15 +3,15 @@ using System.Collections;
 
 public class DoorLight : MonoBehaviour {
 
-	Light doorLight;
-	Animator animator;
-	LockDoor doorLock;
+	Light doorLight; // The light at the door
+	Animator animator; // The animator for the door
+	LockDoor doorLock; // The lock of the door
 
 	void Start () {
 		doorLock = GetComponent<LockDoor>();
 		doorLight = GetComponentInChildren<Light>();
 		animator = GetComponent<Animator>();
-		if (doorLight == null)
+		if (doorLight == null) // No light at the door
 			Debug.LogError(gameObject.name + " has no door light!");
 	}
 	
@@ -19,16 +19,16 @@ public class DoorLight : MonoBehaviour {
 		if (doorLight == null)
 			return; // No door light
 
-		if (!animator.enabled) {
+		if (!animator.enabled) { // The animator is not enabled. Locked
 			if (doorLock == null) {
 				doorLight.color = Color.red;
 				return;
 			}
 
-			if (doorLock.Cost == 1000) {
+			if (doorLock.Cost == 1000) // Just set the light to yellow for unopenable doors
 				doorLight.color = Color.yellow;
-			} else {
-				switch (doorLock.ClassMultiplier) {
+			else {
+				switch (doorLock.ClassMultiplier) { // Need to specify what class can efficiently open the door
 				case Stat.NOMULTIPLIER:
 					doorLight.color = Color.red;
 					break;
@@ -48,8 +48,7 @@ public class DoorLight : MonoBehaviour {
 					break;
 				}
 			}
-		} else {
+		} else // The door is open
 			doorLight.color = Color.green;
-		}
 	}
 }
