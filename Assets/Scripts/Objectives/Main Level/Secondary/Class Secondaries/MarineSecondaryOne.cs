@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Marine activates a console to get their stun turret. Refer to the stun turret prefab for more.
+ */
 public class MarineSecondaryOne : SecondaryObjective {
 
 	public override void InitializeObjective()

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Technician activates a console to get more cameras
+ */
 public class TechnicianSecondaryOne : SecondaryObjective {
 
 	public override void InitializeObjective() {
@@ -29,7 +32,7 @@ public class TechnicianSecondaryOne : SecondaryObjective {
 			Player.MyPlayer.transform.position, 
 			Quaternion.identity, 
 			0
-			);
+		);
 		Destroy(this);
 		base.OnComplete();
 	}

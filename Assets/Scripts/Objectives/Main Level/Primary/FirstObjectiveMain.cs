@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Players need to activate console in the power room.
+ */
 public class FirstObjectiveMain : PrimaryObjective {
 
 	public override void InitializeObjective()
@@ -21,7 +24,6 @@ public class FirstObjectiveMain : PrimaryObjective {
 		}
 
 		NextObjective = Object.FindObjectOfType<SecondObjectiveMain>();
-//		Door = Tile.TilePosition(-10f, -4.3f);
 	}
 
 	public override void OnComplete() {

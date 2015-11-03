@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Engineer activates a console to give themselves no cooldown on their bot
+ */
 public class EngineerSecondaryOne : SecondaryObjective {
 
 	public override void InitializeObjective()

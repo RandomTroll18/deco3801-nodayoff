@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Alien needs to go to a console to get invisibility
+ */
 public class AlienSecondarySeven : SecondaryObjective {
 	public static bool completed = false;
 
@@ -19,7 +22,7 @@ public class AlienSecondarySeven : SecondaryObjective {
 
 		
 		interactable 
-			= objective.AddComponent<AlienSecondarySevenInteractable>();
+				= objective.AddComponent<AlienSecondarySevenInteractable>();
 		interactable.InstantInteract = true;
 		interactable.StartMe();
 

@@ -56,6 +56,12 @@ public abstract class Objective : MonoBehaviour {
 		}
 	}
 
+	/*
+	 * Code to be executed when the objective completes. Use this as an RPC call if you want
+	 * a team objective to complete itself. Note that many objectives have an interactable and
+	 * sometimes their oncomplete functionality is handled in that interactable. These interactables
+	 * should be named similarly to their associated objectives.
+	 */
 	[PunRPC]
 	public abstract void OnComplete();
 }

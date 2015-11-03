@@ -12,6 +12,9 @@ public class SecondaryObjective : Objective {
 	protected bool teamObjective;
 	static List<GameObject> takenObjectives = new List<GameObject>();
 
+	/*
+	 * All subclasses should call this so tell the user they have a new objective
+	 */
 	protected void Log() {
 		ChatTest.Instance.AllChat(true, "NEW SECONDARY");
 		Debug.Log("a");

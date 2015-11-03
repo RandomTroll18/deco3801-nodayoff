@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ * 2nd part to the objective that lets the alien destroy escape pods.
+ */
 public class AlienSecondarySix : SecondaryObjective {
 	List<AlienSecondarySixInteractable> interactables = new List<AlienSecondarySixInteractable>();
 
@@ -15,7 +18,7 @@ public class AlienSecondarySix : SecondaryObjective {
 
 		foreach (GameObject objective in objectives) {
 			AlienSecondarySixInteractable interactable 
-				= objective.AddComponent<AlienSecondarySixInteractable>();
+					= objective.AddComponent<AlienSecondarySixInteractable>();
 			interactable.InstantInteract = true;
 			interactable.StartMe();
 			interactables.Add(interactable);
@@ -30,11 +33,13 @@ public class AlienSecondarySix : SecondaryObjective {
 		string messageTitle = "Alien Activity";
 		string image = "ui/events/explosion2";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, messageTitle, image);
-		
+				.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, messageTitle, image);
+
+		/*
+		 * Figure out which pair of pods needs to blow up
+		 */
 		GameObject pod1;
 		GameObject pod2;
-		// TODO: confirm this works
 		if (gameObject.name.Equals("EscapePod 3") || gameObject.name.Equals("EscapePod 4")) {
 			pod1 = GameObject.Find("EscapePod 3");
 			pod2 = GameObject.Find("EscapePod 4");

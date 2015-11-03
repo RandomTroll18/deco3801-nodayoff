@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Scout activates a console to get extra vision
+ */
 public class ScoutSecondaryOne : SecondaryObjective {
 
 	Effect visionEffect; // The vision effect

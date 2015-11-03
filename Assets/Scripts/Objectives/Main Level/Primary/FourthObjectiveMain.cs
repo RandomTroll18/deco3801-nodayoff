@@ -3,7 +3,7 @@ using System.Collections;
 
 /*
  * Getting to one escape pod. There are 4 escape pods and each can only hold one player. So if an
- * escape pod is lost, one human must lose.
+ * escape pod is lost, one human must lose. This functionality is handled in their interactable code
  */
 public class FourthObjectiveMain : PrimaryObjective {
 

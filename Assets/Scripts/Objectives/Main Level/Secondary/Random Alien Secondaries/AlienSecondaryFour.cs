@@ -12,6 +12,9 @@ public class AlienSecondaryFour : SecondaryObjective {
 	static List<GameObject> usedSpawns = new List<GameObject>();
 
 	GameObject PickBoardingParty() {
+		/*
+		 * Don't want this objective to be at the same location as another
+		 */
 		GameObject[] spawns = GameObject.FindGameObjectsWithTag("Boarding Party");
 		int spawn = -1;
 		for (int i = 0; i < spawns.Length; i++) {
@@ -22,13 +25,13 @@ public class AlienSecondaryFour : SecondaryObjective {
 		}
 		if (spawn == -1)
 			return null;
-		Debug.Log("boarding spawn :" + spawn);
 		return spawns[spawn];
 	}
 
 	// Use this for initialization
 	public void StartMe() {
 		Log();
+
 		GameObject objective = PickAlienObjective();
 		Title = "Assist Allies";
 		Description = "A Versipellis boarding party is at the ready. Shutdown the ship's defenses" +
@@ -45,17 +48,17 @@ public class AlienSecondaryFour : SecondaryObjective {
 		if (spawn == null)
 			Destroy(this);
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("SpawnBoardingParty", PhotonTargets.All, spawn.transform.position);
+				.GetComponent<PhotonView>().RPC("SpawnBoardingParty", PhotonTargets.All, spawn.transform.position);
 		Destroy(this);
 
 		string message = "Alien has shutdown the ship's defenses in " + 
 			interactable.GetComponent<Location>().MyLocation.ToString() + ". A Versipellis boarding" +
-				" party is lurking somewhere. Find and destroy them before they destroy the ship.\n" +
-				"Whilst the boarding part is alive, an extra round is lost per turn.";
+			" party is lurking somewhere. Find and destroy them before they destroy the ship.\n" +
+			"Whilst the boarding part is alive, an extra round is lost per turn.";
 		string title = "Alien Activity";
 		string image = "ui/events/alienboard";
 		Object.FindObjectOfType<GameManager>()
-			.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
+				.GetComponent<PhotonView>().RPC("EventCardMessage", PhotonTargets.All, message, title, image);
 		
 		Destroy(interactable);
 	}
