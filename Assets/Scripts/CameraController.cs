@@ -7,19 +7,22 @@ public class CameraController : MonoBehaviour {
 
 	public GameObject GameManagerObject; // The game manager object
 	public GameObject ContextAwareBox; // The context aware box
-	public GameObject TileHighlight;
-	GameManager gameManagerScript; // The game manager script
-	public float RotationSpeed;
-	public Transform Target;
-	public float ZoomSpeed;
-	public Locations Location;
-	public float CamSpeed;
-	/* The distance the mouse pointer needs to be from the edge before the 
+	public GameObject TileHighlight; // Highlighted Tile to generate
+	public float RotationSpeed; // Camera rotation speed
+	public Transform Target; // The character that this camera controller belongs to
+	public float ZoomSpeed; // Speed of zooming in and out
+	public Locations Location; // Location of the player in the map
+	public float CamSpeed; // The speed of panning the camera
+	/* 
+	 * The distance the mouse pointer needs to be from the edge before the 
 	 * screen moves.
 	 */
 	public float GUISize;
-	public LayerMask LayerMask;
+	public LayerMask LayerMask; // Layer mask to filter certain game objects
 
+	/*
+	 * Images for the different map locations
+	 */
 	Image leftWing;
 	Image rightWing;
 	Image leftGun;
@@ -28,6 +31,10 @@ public class CameraController : MonoBehaviour {
 	Image quarters;
 	Image cargo;
 	Image bridge;
+
+	/*
+	 * Boundaries
+	 */
 	const float MAX_Z = 120f;
 	const float MIN_Z = -55f;
 	const float MAX_X = 86f;
@@ -35,29 +42,23 @@ public class CameraController : MonoBehaviour {
 	const float MAX_Y = 25f;
 	const float MIN_Y = 12.25f;
 	Vector3 offset;
-	//Player playerScript;
 	MovementController movController;
 	ActivationTileController actController; // Activation Controller script
 	/* Whether the player can control the camera */
-	bool locked = false;
+	bool locked = false; // Lock the camera from moving
 	bool IsTargetConfirmation = false; // Record if we are just confirming our target
-	Quaternion initialRotation;
-
-	Tile destination = null;
-	Vector3 start;
-	float speed = 25.0F;
-	float startTime;
-	float journeyLength;
+	Quaternion initialRotation; // Initial rotation of camera
+	Tile destination = null; // The destination to snap the camera to
+	Vector3 start; // Starting position of the camera
+	float speed = 25.0F; // The speed of snapping the camera to a location
+	float startTime; // The starting time of the camera's movement
+	float journeyLength; // The straight-line distance to the destination
 
 	public void StartMe() {
 		SetPublicVariables();
-		//playerScript = Player.GetComponent<Player>();
 		movController = GetComponentInParent<MovementController>();
 		actController = ContextAwareBox.GetComponent<ActivationTileController>();
-
 		ResetOffset();
-		//this.gameManagerScript = this.gameManagerObject.GetComponent<GameManager>();
-
 		initialRotation = transform.rotation;
 
 	}
@@ -80,7 +81,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (destination != null) {
+		if (destination != null) { // We are snapping the camera to a location
 			float distCovered = (Time.time - startTime) * speed;
 			float fracJourney = distCovered / journeyLength;
 			Vector3 dest = Tile.TileMiddle(destination);
@@ -92,29 +93,28 @@ public class CameraController : MonoBehaviour {
 			}
 		}
 
-		// Camera moving with mouse
+		/* We are just moving the camera normally */
+
+		/* Rectangles for camera movement */
 		Rect recdown = new Rect(0, 0, Screen.width, GUISize);
 		Rect recup = new Rect(0, Screen.height - GUISize, Screen.width, GUISize);
 		Rect recleft = new Rect(0, 0, GUISize, Screen.height);
 		Rect recright = new Rect(Screen.width - GUISize, 0, GUISize, Screen.height);
 
-		if (locked)
+		if (locked) // Destroy the AP Counter
 			Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 
-		/* Camera controlling input */
-		if (!locked) {
-			if (Input.GetKey("space")) {
+		if (!locked) { /* Player is moving the camera */
+			if (Input.GetKey("space")) { // Snap the camera to the player
 				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				ResetCamera();
 			}
-
-			// Camera zoom
-			float zoom = -Input.GetAxis("Mouse ScrollWheel");
-			Vector3 pos = transform.position;
+			/* Player is probably panning, rotating or zooming the camera */
+			float zoom = -Input.GetAxis("Mouse ScrollWheel"); // The amount of zoom
+			Vector3 pos = transform.position; // Current position of the camera
 			pos.y += zoom * Time.deltaTime * ZoomSpeed;
 			pos.y = Mathf.Clamp(pos.y, MIN_Y, MAX_Y + 0.01f);
 			transform.position = pos;
-			
 
 			/*
 			 * Change to map if zoomed out too far
@@ -146,7 +146,7 @@ public class CameraController : MonoBehaviour {
 					power.enabled = true;
 					break;
 				}
-			} else { // Don't need to do anything
+			} else { // Hide the map
 				if (leftWing != null)
 					leftWing.enabled = false;
 				if (rightWing != null)
@@ -165,38 +165,27 @@ public class CameraController : MonoBehaviour {
 					bridge.enabled = false;
 			}
 
-
-			/*
-			 * Don't let curious people zoom in too close
-			 */
-
-			float rotation = Input.GetAxis("Rotate");
+			float rotation = Input.GetAxis("Rotate"); // The amount to rotate
 			transform.RotateAround(Target.position, Vector3.up, 
 			                       Time.deltaTime * rotation * RotationSpeed);
 
-			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) {
+			if (Input.GetKey("s") || recdown.Contains(Input.mousePosition)) { // Pan the camera downwards
 				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = (transform.position - Target.position);
 				direction.y = 0;
 				direction.Normalize();
-
-//				Debug.Log("Direction pressing s: " + direction.ToString());
-//					Debug.Log(transform.position.z);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
 			
-			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) {
+			if (Input.GetKey("w") || recup.Contains(Input.mousePosition)) { // Pan the camera up
 				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = -(transform.position - Target.position);
 				direction.y = 0;
 				direction.Normalize();
-
-//				Debug.Log("Direction pressing w: " + direction.ToString());
-//					Debug.Log(transform.position.z);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
 			
-			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) {
+			if (Input.GetKey("a") || recleft.Contains(Input.mousePosition)) { // Pan the camera left
 				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = (transform.position - Target.position);
 				float z = direction.z;
@@ -205,13 +194,10 @@ public class CameraController : MonoBehaviour {
 				direction = -direction;
 				direction.y = 0;
 				direction.Normalize();
-
-//				Debug.Log("Direction pressing a: " + direction.ToString());
-//				Debug.Log(transform.position.x);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
 			
-			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) {
+			if (Input.GetKey("d") || recright.Contains(Input.mousePosition)) { // Pan the camera right
 				Destroy(gameObject.transform.parent.GetComponentInChildren<MovementController>().Counter);
 				Vector3 direction = (transform.position - Target.position);
 				float z = direction.z;
@@ -219,34 +205,28 @@ public class CameraController : MonoBehaviour {
 				direction.x = -z;
 				direction.y = 0;
 				direction.Normalize();
-
-//				Debug.Log("Direction pressing d: " + direction.ToString());
-//					Debug.Log(transform.position.x);
 				transform.Translate(direction * CamSpeed, Space.World);
 			}
 
 			Clamp();
 		}
 
-
-		// Mouse click detection
+		/* The user clicked on something */
 		if (Input.GetMouseButtonUp(0) && !GetComponentInParent<Player>().IsPlayerNoLongerActive()) {
-			if (!EventSystem.current.IsPointerOverGameObject()) {
+			if (!EventSystem.current.IsPointerOverGameObject()) { // Mouse is not over a game object. Attempt to move
 				Tile goal = Tile.MouseToTile((LayerMask));
-//				Debug.Log("Clicked tile at: " + Tile.TileMiddle(goal).ToString());
 				if (actController.ActivationTiles().Contains(goal)) {
 					movController.ClearPath();
 
-					if (!IsTargetConfirmation) {
+					if (!IsTargetConfirmation) { // The user is activating an item/ability. Need to confirm target
 						actController.InitiateTargetConfirmation(goal); // Confirm target
 						IsTargetConfirmation = true;
-					}
-					else {
+					} else { // Activate the item/ability
 						actController.Activate(goal); // Activate the item
 						IsTargetConfirmation = false;
 					}
 
-				} else if (goal != null) {
+				} else if (goal != null) { // Stop item/ability activation
 					actController.DestroyActivationTiles(); // Stop targetting
 					IsTargetConfirmation = false;
 					movController.RequestMovement(goal);
@@ -255,6 +235,9 @@ public class CameraController : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Set the camera's position in between two values
+	 */
 	void Clamp() {
 		transform.position = new Vector3(Mathf.Clamp(transform.position.x, MIN_X, MAX_X),
 		                                 transform.position.y,
@@ -262,24 +245,29 @@ public class CameraController : MonoBehaviour {
 	}
 
 	/*
-	 * This needs to be called since Player can change in the middle of a 
-	 * game
+	 * Change the offset for the camera
 	 */ 
 	void ResetOffset() {
 		offset = transform.position - transform.parent.position;
 		offset = new Vector3(0, offset.y, offset.z);
 	}
 
+	/**
+	 * Lock the camera
+	 */
 	public void LockCamera() {
 		locked = true;
 	}
 
+	/**
+	 * Unlock the camera
+	 */
 	public void UnlockCamera() {
 		locked = false;
 	}
 
 	/*
-	 * Call this when the player moves.
+	 * Reset the camera
 	 */
 	public void ResetCamera() {
 		transform.position = transform.parent.position + offset;
@@ -288,6 +276,9 @@ public class CameraController : MonoBehaviour {
 
 	/**
 	 * Moves the camera to the given location.
+	 * 
+	 * Arguments
+	 * - Tile location - The location to move the camera to
 	 */
 	public void MoveCamera(Tile location) {
 		if (!locked) {
@@ -301,7 +292,12 @@ public class CameraController : MonoBehaviour {
 		}
 	}
 
-
+	/**
+	 * Generate a highlighted tile at the given position
+	 * 
+	 * Arguments
+	 * - Tile pos - The position to generate the higlighted tile on
+	 */
 	public void HighlightTile(Tile pos) {
 		Vector3 tilePos = Tile.TileMiddle(pos);
 		tilePos.y = tilePos.y - 0.49f;

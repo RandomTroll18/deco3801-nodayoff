@@ -6,6 +6,9 @@ using System.Collections;
  */
 public class Destroy : MonoBehaviour {
 
+	/**
+	 * RPC call for destroying an object's photon view
+	 */
 	[PunRPC]
 	public void PhotonDestroy() {
 		PhotonNetwork.Destroy(GetComponent<PhotonView>());
