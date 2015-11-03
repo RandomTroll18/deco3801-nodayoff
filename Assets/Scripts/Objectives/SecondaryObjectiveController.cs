@@ -3,28 +3,20 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+/*
+ * Controls the UI for secondary objectives
+ */
 public class SecondaryObjectiveController : MonoBehaviour {
 	public GameObject LocationButton1;
 	public GameObject LocationButton2;
 
-	int page;
+	int page; // Current page shown
 	Button nextButton;
 	Button prevButton;
 	List<SecondaryObjective> objectives = new List<SecondaryObjective>();
 	const int START_PAGE = 0;
 	GameObject panel1;
 	GameObject panel2;
-
-	void Start() {
-//		nextButton = GameObject.Find("Next Objectives Button").GetComponent<Button>();
-//		prevButton = GameObject.Find("Previous Objectives Button").GetComponent<Button>();
-//		panel1 = GameObject.Find("Secondary 1");
-//		panel2 = GameObject.Find("Secondary 2");
-	}
-
-	void Update() {
-
-	}
 
 	/*
 	 * You can think of this as being the Start function
@@ -61,8 +53,7 @@ public class SecondaryObjectiveController : MonoBehaviour {
 			if (i > objectives.Count - 1 || i < 0) {
 				return;
 			}
-			// figure out which panel this is
-			GameObject panel = i % 2 == 0 ? panel1 : panel2;
+			GameObject panel = i % 2 == 0 ? panel1 : panel2; // figure out which panel this is
 
 			// set panel title, description and goto button using objectives[i]
 			panel.transform.Find("Title").GetComponent<Text>().text = objectives[i].Title;

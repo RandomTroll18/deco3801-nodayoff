@@ -458,9 +458,7 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	public void EventCardMessage(string message, string title, string image) {
 		GenericCard gc = gameObject.AddComponent<GenericCard>();
-		gc.Image = image;
-		gc.Title = title;
-		gc.Message = message;
+		gc.ChangeContent(image, title, message);
 		gc.CreateCard();
 	}
 
