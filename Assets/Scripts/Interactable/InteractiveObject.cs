@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 /**
- * Super class for all interactive object scripts
+ * A base class that other Interactable Object will extend. Handles how Interactable 
+ * Objects are initialized.
  */
 public class InteractiveObject : MonoBehaviour {
     

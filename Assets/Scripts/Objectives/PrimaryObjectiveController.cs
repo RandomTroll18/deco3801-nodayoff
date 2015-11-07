@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 /*
- * Controls the primary objective UI
+ * Contains objective UI event handlers. Also provides a central location where other scripts 
+ * can request objective-related functionality (e.g. changing the objective).
  */
 public class PrimaryObjectiveController : MonoBehaviour {
 	public GameObject HumanObjectivePanel; // Human objective panel for the alien

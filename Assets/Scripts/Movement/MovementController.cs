@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /**
- * Controls the player's movement within the game.
+ * Moves the player during each Update(); Receives player requests for movement and progresses 
+ * their movement state; and shows any visuals related to movement.
  */
 public class MovementController : MonoBehaviour {
 	enum Moving {

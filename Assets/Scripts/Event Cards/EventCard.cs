@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.Events;
 
 /**
- * Super class for all event cards
+ * A base class that other Event Card will extend. Used to create Event Card prefab into Player UI.
  */
 public class EventCard : MonoBehaviour
 {
