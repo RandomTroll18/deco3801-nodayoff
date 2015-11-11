@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Summons a boarding party in a random location for players to remove
+ */
 public class BoardingParty : SecondaryObjective {
 	public const int ROUNDS_LOST = 1;
 
@@ -17,6 +20,9 @@ public class BoardingParty : SecondaryObjective {
 		teamObjective = true;
 		GetComponent<PhotonView>().RPC("IncreaseRoundsLost", PhotonTargets.All, ROUNDS_LOST);
 
+		/*
+		 * This is a variable used to sync the random spawn location
+		 */
 		Vector3 pos = Object.FindObjectOfType<GameManager>().BoardingSpawn;
 
 
