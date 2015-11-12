@@ -39,3 +39,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/Tutorial.unity
   - enabled: 1
     path: Assets/_Scenes/OptionMenu.unity
+  - enabled: 1
+    path: Assets/Prototype/AlienPartialWinScreen.unity
+  - enabled: 1
+    path: Assets/Prototype/AlienDeathScreen.unity
+  - enabled: 1
+    path: Assets/Prototype/PartialWinScreen.unity

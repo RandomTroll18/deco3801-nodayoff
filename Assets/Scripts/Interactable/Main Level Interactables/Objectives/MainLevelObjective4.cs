@@ -37,22 +37,67 @@ public class MainLevelObjective4 : InteractiveObject {
 	public void InteractablSync() {
 		escape = true;
 
-		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All);
+		GetComponent<PhotonView>().RPC("Sync", PhotonTargets.All, null);
+	}
+
+	/**
+	 * Invoke the alien's game over screen
+	 */
+	[PunRPC]
+	public void AlienGameOver() {
+		ChatTest.Instance.Big("ALIEN GAME OVER");
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Alien lost
+			Application.LoadLevel("AlienLoseScreen");
 	}
 
 	[PunRPC]
-	void Sync(){
-		PhotonNetwork.Destroy(GetComponent<PhotonView>());
+	public void Sync() {
+		Debug.LogError("Syncing escape pod");
 		ChatTest.Instance.AllChat(false, "ONE ESCAPE POD LOST");
+		Object.FindObjectOfType<GameManager>().GetComponent<PhotonView>().RPC("PlayerEscaped", PhotonTargets.All, null);
 
 		if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() == Classes.BETRAYER
 		    	&& GameObject.FindGameObjectsWithTag("Player").Length <= 1) {
-			// No more humans. Alien lost
-			Application.LoadLevel("AlienLoseScreen");
+			Application.LoadLevel("AlienLoseScreen"); // No more humans. Alien lost
 		}
 
-		if (escape) // Alien won
-			Application.LoadLevel("WinScreen");
+		if (escape) { // Human won
+			if (PhotonNetwork.playerList.Length <= 2) // No more humans. Alien lost
+				GetComponent<PhotonView>().RPC("AlienGameOver", PhotonTargets.All, null);
+			Object.FindObjectOfType<ConnectionManager>().DisconnectClient();
+			if (Object.FindObjectOfType<GameManager>().HasPlayerDied()) // A human has died 
+				Application.LoadLevel("PartialWinScreen");
+			else // No player has died yet
+				Application.LoadLevel("WinScreen");
+		}
+		PhotonNetwork.Destroy(gameObject);
+		ChatTest.Instance.AllChat(true, "REMAINING PODS: " + getPodsRemaining());
+	}
+
+	/**
+	 * Get the number of escape pods remaining
+	 * 
+	 * Returns
+	 * - The number of pods left to activate
+	 */
+	int getPodsRemaining() {
+		/* The escape pods */
+		GameObject pod1 = GameObject.Find("EscapePod 1");
+		GameObject pod2 = GameObject.Find("EscapePod 2");
+		GameObject pod3 = GameObject.Find("EscapePod 3");
+		GameObject pod4 = GameObject.Find("EscapePod 4");
+		int podCount = 0; // The number of pods
+
+		if (pod1 != null)
+			podCount++;
+		if (pod2 != null)
+			podCount++;
+		if (pod3 != null)
+			podCount++;
+		if (pod4 != null)
+			podCount++;
+
+		return podCount;
 	}
 
 }

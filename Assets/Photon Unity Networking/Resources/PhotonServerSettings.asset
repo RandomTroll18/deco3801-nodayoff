@@ -83,4 +83,8 @@ MonoBehaviour:
   - SetNewMaterial
   - SetAttachedObjects
   - SetStealth
+  - AlienGameOver
+  - PlayerEscaped
+  - PlayerDied
+  - TestRPC
   DisableAutoOpenWizard: 1

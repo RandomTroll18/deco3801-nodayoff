@@ -6,7 +6,7 @@ using System.Collections.Generic;
  * A base class that other Interactable Object will extend. Handles how Interactable 
  * Objects are initialized.
  */
-public class InteractiveObject : MonoBehaviour {
+public class InteractiveObject : Photon.PunBehaviour {
     
 	public string StringInput; // The string given to this interactive object
 	public int Cost; // The cost for this interactive object 

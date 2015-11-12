@@ -42,8 +42,7 @@ public class EndTurnButtonScript : MonoBehaviour {
 		Player playerScript = playerOwner.GetComponent<Player>(); // The script of the player
 		if (!playerScript.IsPlayerNoLongerActive()) {
 			playerScript.SetInActivity(true);
-			GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", 
-			                                                 PhotonTargets.All, null);
+			GameManagerObject.GetComponent<PhotonView>().RPC("SetInactivePlayer", PhotonTargets.All, null);
 		} else { // Player is trying to activate their turn again
 			playerScript.SetInActivity(false);
 			GameManagerObject.GetComponent<PhotonView>().RPC("SetActivePlayer", PhotonTargets.All, null);

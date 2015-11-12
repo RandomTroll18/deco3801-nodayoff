@@ -11,6 +11,8 @@ public class GameManager : Photon.PunBehaviour {
 	public GameObject[] OpenedDoors; // The opened doors
 	public Text RemainingTurnsText; // The text counter for the remaining turns
 	public List<Tile> UnlockedTiles = new List<Tile>(); // The tiles we have unlocked
+	int playersEscaped = 0; // Record the number of players that escaped
+	bool playersKilled = false; // Record if a human player has been killed
 
 	/*
 	 * Remember whether the current turn is a valid turn. 
@@ -147,8 +149,10 @@ public class GameManager : Photon.PunBehaviour {
 	 */
 	[PunRPC]
 	public void DestroyDisconnectedPlayerModel(int ownerId) {
+		Debug.LogError("Destroying Disconnected Player Model");
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
 			if (player.GetComponent<PhotonView>().ownerId == ownerId) { // Found the player
+				Debug.LogWarning("Game Manager: Found disconnected player model");
 				Destroy(player);
 				return;
 			}
@@ -318,6 +322,46 @@ public class GameManager : Photon.PunBehaviour {
 	}
 
 	/**
+	 * Return if a player was killed
+	 * 
+	 * Returns
+	 * - true if a player was killed (using security system). false otherwise
+	 */
+	public bool HasPlayerDied() {
+		return playersKilled;
+	}
+
+	/**
+	 * Return the number of players that escaped
+	 * 
+	 * Returns
+	 * - the number of players that escaped (3 players)
+	 */
+	public int HasPlayerEscaped() {
+		return playersEscaped;
+	}
+
+	/**
+	 * RPC call for recording if a player has died
+	 */
+	[PunRPC]
+	public void PlayerDied() {
+		Debug.LogError("A player has died");
+		Debug.LogWarning("Still connected?: " + PhotonNetwork.connected);
+		playersKilled = true;
+	}
+
+	/**
+	 * RPC call for recording if a player has escaped
+	 */
+	[PunRPC]
+	public void PlayerEscaped() {
+		Debug.LogError("A player has escaped");
+		Debug.LogWarning("Still connected?: " + PhotonNetwork.connected);
+		playersEscaped++;
+	}
+
+	/**
 	 * Increase number of turns remaining
 	 * 
 	 * Arguments
@@ -334,12 +378,13 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	void LoseGame() {
 		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Handle alien win
-			if (GameObject.FindGameObjectsWithTag("Player").Length <= 1) // Alien lost
+			if (playersEscaped >= 3) // Alien Lost
 				Application.LoadLevel("AlienLoseScreen");
-			else
+			else if (playersEscaped >= 1 && playersEscaped < 3)// Alien Partial Win
+				Application.LoadLevel("AlienPartialWinScreen");
+			else if (playersEscaped <= 0) // Alien Win
 				Application.LoadLevel("AlienWinScreen");
-		}
-		else // Humans lose
+		} else // Humans lose
 			Application.LoadLevel("GameOver");
 	}
 
@@ -360,6 +405,7 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	public void SetActivePlayer() {
 		playersLeft++;
+		Debug.LogError("Setting active player. New number of players left: " + playersLeft);
 	}
 
 	/**
@@ -368,6 +414,7 @@ public class GameManager : Photon.PunBehaviour {
 	[PunRPC]
 	public void SetInactivePlayer() {
 		playersLeft--;
+		Debug.LogError("Setting inactive player. New number of players left: " + playersLeft);
 	}
 
 	/**

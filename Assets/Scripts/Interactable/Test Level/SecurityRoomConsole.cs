@@ -29,7 +29,7 @@ public class SecurityRoomConsole : InteractiveObject {
 	 * RPC call for syncing with other players
 	 */
 	[PunRPC]
-	void Sync(){
+	public void Sync(){
 		SecurityRoomCard SRC = gameObject.AddComponent<SecurityRoomCard>(); // The security room event card
 		SRC.CreateCard();
 		CloseEvent();
@@ -46,23 +46,42 @@ public class SecurityRoomConsole : InteractiveObject {
 	 * RPC call for killing the player
 	 */
 	[PunRPC]
-	void Kill(int toKill){
+	public void Kill(int toKill){
+		GameObject foundPlayer = null; // The player model
+
+		Debug.LogError("Killing a player");
 		Player.MyPlayer.GetComponentInChildren<SecurityRoomObjective>().OnComplete();
 		SetInactive();
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) {
-			if (player.GetComponent<PhotonView>().ownerId == toKill) { // Found the player
-				if (Player.MyPlayer.GetComponent<PhotonView>().ownerId == toKill) { // This is the player to kill
-					Object.FindObjectOfType<ConnectionManager>().DisconnectClient();
-					if (Player.MyPlayer.GetComponent<Player>().GetPlayerClassObject().GetClassTypeEnum() 
-							== Classes.BETRAYER) { // Alien was killed. Alien lost
-						Application.LoadLevel("AlienLoseScreen");
-					} else // Human lost
-						Application.LoadLevel("GameOver");
-				}
-				Destroy(player);
+			if (player.GetComponent<PhotonView>().ownerId == toKill) { // Found the player model
+				foundPlayer = player;
+				break;
 			}
 		}
-
+		if (foundPlayer != null) { // Found our player
+			foreach (PhotonPlayer networkPlayer in PhotonNetwork.playerList) {
+				if (networkPlayer.ID == foundPlayer.GetComponent<PhotonView>().owner.ID) { // Found the network player
+					if (networkPlayer.GetTeam() == PunTeams.Team.blue) { // Human was killed
+						Debug.LogError("A human was killed");
+						if (PhotonNetwork.player.ID == networkPlayer.ID) { // This is the killed player
+							Object.FindObjectOfType<GameManager>().GetComponent<PhotonView>().RPC("PlayerDied", 
+							                                                                      PhotonTargets.All, 
+							                                                                      null);
+							Object.FindObjectOfType<ConnectionManager>().DisconnectClient();
+							Application.LoadLevel("GameOver");
+						} else // This is a surviving player
+							Object.FindObjectOfType<GameManager>().PlayerDied();
+					} else { // Alien was killed
+						Debug.LogError("Alien was killed. Alien lost");
+						if (PhotonNetwork.player.ID == networkPlayer.ID) { // This is the killed player
+							Object.FindObjectOfType<ConnectionManager>().DisconnectClient();
+							Application.LoadLevel("AlienDeathScreen");
+						}
+					}
+					break;
+				}
+			}
+		}
 		Debug.Log("Killed " + toKill);
 
 		try { 
