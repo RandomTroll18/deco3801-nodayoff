@@ -902,8 +902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: Each class have a unique abilities. Try them out. They're located on the left
-    side of the screen above chat.
+  TextToSet: 
 --- !u!114 &66497356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,8 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 66497355}
-  text: The end round button is located at the top of the screen. There is a limited
-    amount of rounds each game, so use them wisely.
+  TextToSet: 
 --- !u!114 &66497357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,8 +928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 66497356}
-  text: At the start of each round, each player has a limited amount of AP. This will
-    be restored when all player ends the round or with items.
+  TextToSet: 
 --- !u!114 &66497358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,7 +941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 66497357}
-  text: To interact with an object, move next to it and click to interact.
+  TextToSet: 
 --- !u!1 &90162437
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,8 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: You just picked up AP restore. To use it click on it in your inventory and
-    click activate. AP restores can also be dropped.
+  TextToSet: 
 --- !u!114 &90162440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1737,6 +1733,22 @@ Prefab:
       propertyPath: GameManagerObject
       value: 
       objectReference: {fileID: 183795046}
+    - target: {fileID: 11450514, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2055558994}
+    - target: {fileID: 11450514, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450514, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 2055558999}
+    - target: {fileID: 11450514, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: DisconnectClient
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
   m_IsPrefabParent: 0
@@ -3997,10 +4009,10 @@ MonoBehaviour:
   StringInput: 
   Cost: 3
   ClassMultiplier: 2
-  SuccessEfx: []
-  FailEfx: []
   InstantInteract: 0
   DebugOption: 0
+  SuccessEfx: []
+  FailEfx: []
   Door: {fileID: 1675064502}
 --- !u!4 &310842557 stripped
 Transform:
@@ -4888,7 +4900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: To complete the game, all objectives must be complete.
+  TextToSet: 
 --- !u!114 &354798556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5471,10 +5483,10 @@ MonoBehaviour:
   StringInput: Need power to unlock
   Cost: 0
   ClassMultiplier: 6
-  SuccessEfx: []
-  FailEfx: []
   InstantInteract: 1
   DebugOption: 0
+  SuccessEfx: []
+  FailEfx: []
 --- !u!114 &371840212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11301,9 +11313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: Move over the item to pick up an item. Click on an item to show what can be
-    done with them. Seems like there are more then one item in this room that might
-    be of use.
+  TextToSet: 
 --- !u!114 &871077277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11989,7 +11999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: The light above the door will become green when unlocked
+  TextToSet: 
 --- !u!114 &931580838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17120,9 +17130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: Interacting with some doors will require AP. To have a chance to open the
-    door, AP used have to be more then the threshold which is displayed on the panel
-    to the left.
+  TextToSet: 
 --- !u!114 &1297577660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22435,10 +22443,10 @@ MonoBehaviour:
   StringInput: Broken Door
   Cost: 5
   ClassMultiplier: 6
-  SuccessEfx: []
-  FailEfx: []
   InstantInteract: 0
   DebugOption: 1
+  SuccessEfx: []
+  FailEfx: []
 --- !u!114 &1639746320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27990,8 +27998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  text: Some interactables have AP multiplier. This can make interactables harder
-    or easier to interact with depending on your class.
+  TextToSet: 
 --- !u!114 &2047453104
 MonoBehaviour:
   m_ObjectHideFlags: 0

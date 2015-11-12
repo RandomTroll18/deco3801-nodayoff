@@ -80,9 +80,12 @@ public class NetworkingManager : Photon.PunBehaviour {
 	}
 
 	void OnPhotonRandomJoinFailed() {
-		RoomOptions roomOptions = new RoomOptions() { 
-			maxPlayers = 4 
-		}; // Options for the room we are creating
+		RoomOptions roomOptions; // Options for the room we are creating
+		if (Application.loadedLevelName.Equals("Tutorial")) { // Tutorial level
+			roomOptions = new RoomOptions() { maxPlayers = 1 };
+			Debug.LogWarning("tutorial level");
+		} else // Main Level
+			roomOptions = new RoomOptions() { maxPlayers = 4 };
 		Debug.Log("OnPhotonRandomJoinFailed");
 		PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
 	}
@@ -93,11 +96,14 @@ public class NetworkingManager : Photon.PunBehaviour {
 
 	public override void OnJoinedRoom() {
 		Debug.Log("OnJoinedRoom. Player ID: " + PhotonNetwork.player.ID);
-		/* Test. Randomly assign player to be an alien */
-		if (Random.Range(1, 5) == 4) // Player must be an alien
-			PhotonNetwork.player.SetTeam(PunTeams.Team.red);
-		else // Player must be a human
+		if (Application.loadedLevelName.Equals("Tutorial")) // Tutorial level
 			PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
+		else { // Main Level
+			if (Random.Range(1, 5) == 4) // Player must be an alien
+				PhotonNetwork.player.SetTeam(PunTeams.Team.red);
+			else // Player must be a human
+				PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
+		}
 		SpawnMyPlayer();
 	}
 
