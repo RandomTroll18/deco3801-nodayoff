@@ -165,14 +165,15 @@ public class EventCard : MonoBehaviour
 		if (counter.CheckPoll(ListNumber, VoteCap)) { // All players have voted
 			Debug.Log("Hit vote count");
 			placeholder = counter.ReturnHighestCount(ListNumber, VoteCap);
-
-			if (placeholder != -1) { // Enough votes. Execute the effect of this event card
-				CardEffect(placeholder);
-				ChatTest.Instance.GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, new object[] 
-				                                                 {"Event Successful"});
-			} else // Not enough votes
-				ChatTest.Instance.GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, new object[] 
-				                                                 {"Event Failed"});
+			if (TeamEvent) {
+				if (placeholder != -1) { // Enough votes. Execute the effect of this event card
+					CardEffect(placeholder);
+					ChatTest.Instance.GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, new object[] 
+					                                                 {"Event Successful"});
+				} else // Not enough votes
+					ChatTest.Instance.GetComponent<PhotonView>().RPC("Big", PhotonTargets.All, new object[] 
+					                                                 {"Event Failed"});
+			}
 			counter.ClearCount(ListNumber); // Need to clear the vote counter
 		}
 	}
