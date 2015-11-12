@@ -333,8 +333,12 @@ public class GameManager : Photon.PunBehaviour {
 	 */
 	[PunRPC]
 	void LoseGame() {
-		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Aliens win
-			Application.LoadLevel("AlienWinScreen");
+		if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) { // Handle alien win
+			if (GameObject.FindGameObjectsWithTag("Player").Length <= 1) // Alien lost
+				Application.LoadLevel("AlienLoseScreen");
+			else
+				Application.LoadLevel("AlienWinScreen");
+		}
 		else // Humans lose
 			Application.LoadLevel("GameOver");
 	}

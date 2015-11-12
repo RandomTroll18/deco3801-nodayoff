@@ -47,6 +47,13 @@ public class ConnectionManager : Photon.PunBehaviour {
 					    PhotonTargets.All, 
 						new object[] {player.GetComponent<PhotonView>().ownerId}
 					);
+					if (GameObject.FindGameObjectsWithTag("Player").Length <= 1) {
+						// You are alone. Send player to appropriate game over screen
+						if (PhotonNetwork.player.GetTeam() == PunTeams.Team.red) // Handle alien win
+							Application.LoadLevel("AlienWinScreen");
+						else
+							Application.LoadLevel("WinScreen");
+					}
 				}
 				return;
 			}
