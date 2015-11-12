@@ -902,7 +902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: To interact with an object, move next to it and click to interact.
 --- !u!114 &66497356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,7 +915,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 66497355}
-  TextToSet: 
+  TextToSet: At the start of each round, each player has a limited amount of AP. This
+    will be restored when all player ends the round or with items.
 --- !u!114 &66497357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,7 +929,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 66497356}
-  TextToSet: 
+  TextToSet: The end round button is located at the top of the screen. There is a
+    limited amount of rounds each game, so use them wisely.
 --- !u!114 &66497358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,7 +943,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 66497357}
-  TextToSet: 
+  TextToSet: Each class have a unique abilities. Try them out. They're located on
+    the left side of the screen above chat.
 --- !u!1 &90162437
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +991,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: You just picked up AP restore. To use it click on it in your inventory
+    and click activate. AP restores can also be dropped.
 --- !u!114 &90162440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1707,11 +1711,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22423588, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22476096, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11414380, guid: 7303fe0916c6272419ed13d87f047651, type: 2}
       propertyPath: viewIdField
@@ -4900,7 +4904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: To complete the game, all objectives must be complete.
 --- !u!114 &354798556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11313,7 +11317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: Move over the item to pick up an item. Click on an item to show what
+    can be done with them. Seems like there are more then one item in this room that
+    might be of use.
 --- !u!114 &871077277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11999,7 +12005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: The light above the door will become green when unlocked
 --- !u!114 &931580838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17130,7 +17136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: Interacting with some doors will require AP. To have a chance to open
+    the door, AP used have to be more then the threshold which is displayed on the
+    panel to the left.
 --- !u!114 &1297577660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27998,7 +28006,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextPopup: {fileID: 0}
-  TextToSet: 
+  TextToSet: Some interactables have AP multiplier. This can make interactables harder
+    or easier to interact with depending on your class.
 --- !u!114 &2047453104
 MonoBehaviour:
   m_ObjectHideFlags: 0
